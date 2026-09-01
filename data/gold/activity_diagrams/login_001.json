@@ -1,0 +1,200 @@
+{
+  "title": "Login Activity",
+  "nodes": [
+    {
+      "id": "N1",
+      "type": "initial",
+      "label": "Start",
+      "requirement_ids": [],
+      "metadata": {}
+    },
+    {
+      "id": "N2",
+      "type": "action",
+      "label": "Enter username and password",
+      "requirement_ids": [
+        "R1"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "N3",
+      "type": "action",
+      "label": "Validate credentials",
+      "requirement_ids": [
+        "R2"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "N4",
+      "type": "decision",
+      "label": "Credentials valid?",
+      "requirement_ids": [
+        "R3",
+        "R4"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "N5",
+      "type": "action",
+      "label": "Open customer dashboard",
+      "requirement_ids": [
+        "R3"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "N6",
+      "type": "action",
+      "label": "Display error message",
+      "requirement_ids": [
+        "R4"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "N7",
+      "type": "decision",
+      "label": "Three failed attempts?",
+      "requirement_ids": [
+        "R5"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "N8",
+      "type": "action",
+      "label": "Lock account",
+      "requirement_ids": [
+        "R5"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "N9",
+      "type": "final",
+      "label": "End",
+      "requirement_ids": [
+        "R5"
+      ],
+      "metadata": {}
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "source": "N1",
+      "target": "N2",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R1"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E2",
+      "source": "N2",
+      "target": "N3",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R2"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E3",
+      "source": "N3",
+      "target": "N4",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R3",
+        "R4"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E4",
+      "source": "N4",
+      "target": "N5",
+      "type": "control",
+      "guard": "[valid]",
+      "requirement_ids": [
+        "R3"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E5",
+      "source": "N4",
+      "target": "N6",
+      "type": "control",
+      "guard": "[invalid]",
+      "requirement_ids": [
+        "R4"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E6",
+      "source": "N5",
+      "target": "N9",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R3"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E7",
+      "source": "N6",
+      "target": "N7",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R4",
+        "R5"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E8",
+      "source": "N7",
+      "target": "N8",
+      "type": "control",
+      "guard": "[three failed attempts]",
+      "requirement_ids": [
+        "R5"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E9",
+      "source": "N8",
+      "target": "N9",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R5"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "E10",
+      "source": "N7",
+      "target": "N2",
+      "type": "control",
+      "guard": "[fewer than three]",
+      "requirement_ids": [
+        "R4",
+        "R5"
+      ],
+      "metadata": {}
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+The customer enters a username and password. The system validates the credentials.
+If the credentials are valid, the system opens the customer dashboard.
+If the credentials are invalid, the system displays an error message and allows the customer to retry.
+After three failed attempts, the system locks the account and ends the process.

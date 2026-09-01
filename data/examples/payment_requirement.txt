@@ -1,0 +1,5 @@
+A customer submits payment details. The system validates the payment information.
+If validation fails, the system asks the customer to correct the information and retry.
+If validation succeeds, the system processes the payment.
+The payment may succeed or fail. On success, the system sends a payment confirmation.
+On failure, the system displays a payment failure message and ends the transaction.

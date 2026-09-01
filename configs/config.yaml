@@ -1,0 +1,16 @@
+pipeline:
+  max_iterations: 3
+  stop_if_no_new_defects: true
+
+rendering:
+  output_format: plantuml
+  theme: plain
+
+validation:
+  allow_multiple_initial: false
+  require_final: true
+  require_reachability: true
+  max_node_count_warning: 60
+
+evaluation:
+  label_similarity_threshold: 0.55
