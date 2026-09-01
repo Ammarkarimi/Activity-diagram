@@ -1,0 +1,48 @@
+rules:
+  - id: SYNTAX-001
+    category: SYNTAX
+    description: Diagram IR must be serializable and contain valid node/edge records.
+
+  - id: STRUCT-001
+    category: STRUCTURAL
+    description: Diagram should have one initial node for the research profile.
+
+  - id: STRUCT-002
+    category: STRUCTURAL
+    description: Diagram should contain at least one final node.
+
+  - id: STRUCT-003
+    category: STRUCTURAL
+    description: All nodes should be reachable from an initial node.
+
+  - id: STRUCT-004
+    category: STRUCTURAL
+    description: Edges must reference existing nodes.
+
+  - id: DECISION-001
+    category: DECISION
+    description: Decision nodes should have at least two outgoing guarded branches.
+
+  - id: DECISION-002
+    category: DECISION
+    description: Guards on decision outgoing edges should not be empty.
+
+  - id: FLOW-001
+    category: CONTROL_FLOW
+    description: Non-final action nodes should not be dead ends.
+
+  - id: CONCURRENCY-001
+    category: CONCURRENCY
+    description: Forks and joins should have plausible branch structure.
+
+  - id: TERM-001
+    category: TERMINATION
+    description: At least one path from an initial node should reach a final node.
+
+  - id: COVERAGE-001
+    category: REQUIREMENT_COVERAGE
+    description: Every atomic requirement should map to one or more diagram elements.
+
+  - id: HALL-001
+    category: HALLUCINATION
+    description: Generated actions should be supported by at least one requirement id where possible.

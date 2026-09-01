@@ -1,0 +1,10 @@
+default:
+  model: gpt-5.6-luna
+
+agents:
+  requirement: gpt-5.6-luna
+  planning: gpt-5.6-luna
+  generator: gpt-5.6-luna
+  reviewer: gpt-5.6-luna
+  repair: gpt-5.6-luna
+  feedback: gpt-5.6-luna
