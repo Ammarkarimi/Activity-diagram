@@ -1,0 +1,32 @@
+@startuml
+title CTS processing activity diagram
+
+start
+
+:Receive instruction from trade client serve / UI;
+fork
+:Analyze incoming instructions;
+:Divide instructions into kinds;
+:Match instructions under specified prescripts;
+:Provide interfaces to send messages to other modules;
+:Produce new messages after dealing with UI instructions;
+:Send produced new messages to network message promulgating;
+stop
+fork again
+:Provide easy terminal-user operations via mouse and keyboard;
+stop
+fork again
+:Authorize system manager access to CTS information;
+stop
+fork again
+:Maintainers diagnose system crash cause;
+:Maintainers fix system crash;
+:Maintainers modify program for new requirements;
+stop
+fork again
+:Accommodate frequent instruction operations and heavy transfer;
+:Use strategies to overcome crash under overload;
+stop
+end fork
+
+@enduml

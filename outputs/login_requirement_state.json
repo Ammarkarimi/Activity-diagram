@@ -1,0 +1,797 @@
+{
+  "sample_id": "login_requirement",
+  "requirement_text": "The customer enters a username and password. The system validates the credentials.\nIf the credentials are valid, the system opens the customer dashboard.\nIf the credentials are invalid, the system displays an error message and allows the customer to retry.\nAfter three failed attempts, the system locks the account and ends the process.\n",
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "The customer enters a username and password.",
+      "type": "ACTION",
+      "actors": [
+        "customer"
+      ],
+      "actions": [
+        "enters username",
+        "enters password"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The customer enters a username and password."
+    },
+    {
+      "id": "R2",
+      "text": "The system validates the credentials.",
+      "type": "ACTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "validates credentials"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "The system validates the credentials."
+    },
+    {
+      "id": "R3",
+      "text": "If the credentials are valid, the system opens the customer dashboard.",
+      "type": "DECISION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "opens customer dashboard"
+      ],
+      "conditions": [
+        "credentials are valid"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "If the credentials are valid, the system opens the customer dashboard."
+    },
+    {
+      "id": "R4",
+      "text": "If the credentials are invalid, the system displays an error message and allows the customer to retry.",
+      "type": "EXCEPTION",
+      "actors": [
+        "system",
+        "customer"
+      ],
+      "actions": [
+        "displays error message",
+        "allows retry"
+      ],
+      "conditions": [
+        "credentials are invalid"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "If the credentials are invalid, the system displays an error message and allows the customer to retry."
+    },
+    {
+      "id": "R5",
+      "text": "After three failed attempts, the system locks the account and ends the process.",
+      "type": "TERMINATION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "locks account",
+        "ends process"
+      ],
+      "conditions": [
+        "three failed attempts have occurred"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "After three failed attempts, the system locks the account and ends the process."
+    }
+  ],
+  "requirement_matrix": {
+    "items": [
+      {
+        "requirement_id": "R1",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Customer input of username and password initiates the login flow.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R2",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "System validation follows credential entry.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Valid credentials lead to opening the customer dashboard.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Invalid credentials lead to an error message and retry opportunity.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R5",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Three failed attempts trigger account lock and process termination.",
+        "confidence": 0.95
+      }
+    ]
+  },
+  "plan": {
+    "objective": "Login flow with credential validation, retry on invalid credentials, account lock after three failed attempts, and dashboard access on success.",
+    "nodes": [
+      {
+        "temp_id": "N1",
+        "node_type": "initial",
+        "label": "Start",
+        "requirement_ids": []
+      },
+      {
+        "temp_id": "N2",
+        "node_type": "action",
+        "label": "Customer enters username and password",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "temp_id": "N3",
+        "node_type": "action",
+        "label": "System validates the credentials",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "temp_id": "N4",
+        "node_type": "decision",
+        "label": "Credentials valid?",
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "temp_id": "N5",
+        "node_type": "action",
+        "label": "Open customer dashboard",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "temp_id": "N6",
+        "node_type": "action",
+        "label": "Display error message and allow retry",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "temp_id": "N7",
+        "node_type": "decision",
+        "label": "Three failed attempts reached?",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "temp_id": "N8",
+        "node_type": "action",
+        "label": "Lock account",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "temp_id": "N9",
+        "node_type": "final",
+        "label": "End process",
+        "requirement_ids": [
+          "R5"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "N1",
+        "target": "N2",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "source": "N2",
+        "target": "N3",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "source": "N3",
+        "target": "N4",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "source": "N4",
+        "target": "N5",
+        "guard": "[credentials are valid]",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "source": "N4",
+        "target": "N6",
+        "guard": "[credentials are invalid]",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "source": "N5",
+        "target": "N9",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "source": "N6",
+        "target": "N7",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "source": "N7",
+        "target": "N8",
+        "guard": "[three failed attempts have occurred]",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "source": "N7",
+        "target": "N2",
+        "guard": "[three failed attempts have not occurred]",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "source": "N8",
+        "target": "N9",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R5"
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "decision_id": "D1",
+        "condition": "Credentials are valid",
+        "branch_ids": [
+          "B1",
+          "B2"
+        ],
+        "guards": [
+          "[credentials are valid]",
+          "[credentials are invalid]"
+        ]
+      },
+      {
+        "decision_id": "D2",
+        "condition": "Three failed attempts have occurred",
+        "branch_ids": [
+          "B3",
+          "B4"
+        ],
+        "guards": [
+          "[three failed attempts have occurred]",
+          "[three failed attempts have not occurred]"
+        ]
+      }
+    ],
+    "loops": [
+      {
+        "loop_id": "L1",
+        "condition": "Retry login while credentials remain invalid and failed attempts are fewer than three",
+        "entry_node": "N6",
+        "body_nodes": [
+          "N2",
+          "N3",
+          "N4",
+          "N6",
+          "N7"
+        ],
+        "exit_node": "N9",
+        "continue_guard": "[three failed attempts have not occurred]",
+        "exit_guard": "[three failed attempts have occurred]"
+      }
+    ],
+    "concurrency": [],
+    "exceptions": [
+      {
+        "exception_id": "E1",
+        "trigger": "Invalid credentials",
+        "handler_node_id": "N6",
+        "requirement_ids": [
+          "R4"
+        ]
+      }
+    ],
+    "decision_strategy": [
+      "Use a binary decision after credential validation: valid credentials proceed to dashboard; invalid credentials proceed to error and retry.",
+      "Use a second decision after each invalid attempt to determine whether the third failed attempt has been reached."
+    ],
+    "concurrency_strategy": [],
+    "exception_strategy": [
+      "Treat invalid credentials as the exception/alternate path that displays an error message and permits retry.",
+      "After the third failed attempt, route to account lock and termination."
+    ],
+    "termination_strategy": [
+      "Terminate normally after opening the customer dashboard.",
+      "Terminate abnormally after locking the account on the third failed attempt."
+    ],
+    "traceability": {
+      "items": [
+        {
+          "requirement_id": "R1",
+          "diagram_node_ids": [
+            "N2"
+          ],
+          "diagram_edge_ids": [
+            "N1->N2"
+          ],
+          "evidence": "Customer input of username and password initiates the login flow.",
+          "confidence": 0.94
+        },
+        {
+          "requirement_id": "R2",
+          "diagram_node_ids": [
+            "N3"
+          ],
+          "diagram_edge_ids": [
+            "N2->N3",
+            "N3->N4"
+          ],
+          "evidence": "System validation follows credential entry.",
+          "confidence": 0.96
+        },
+        {
+          "requirement_id": "R3",
+          "diagram_node_ids": [
+            "N4",
+            "N5"
+          ],
+          "diagram_edge_ids": [
+            "N4->N5",
+            "N5->N9"
+          ],
+          "evidence": "Valid credentials lead to opening the customer dashboard.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R4",
+          "diagram_node_ids": [
+            "N4",
+            "N6",
+            "N7"
+          ],
+          "diagram_edge_ids": [
+            "N4->N6",
+            "N6->N7",
+            "N7->N2"
+          ],
+          "evidence": "Invalid credentials lead to an error message and retry opportunity.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R5",
+          "diagram_node_ids": [
+            "N7",
+            "N8",
+            "N9"
+          ],
+          "diagram_edge_ids": [
+            "N7->N8",
+            "N8->N9"
+          ],
+          "evidence": "Three failed attempts trigger account lock and process termination.",
+          "confidence": 0.95
+        }
+      ]
+    }
+  },
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Customer enters username and password",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "System validates the credentials",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "decision",
+        "label": "Credentials valid?",
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Open customer dashboard",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Display error message and allow retry",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "decision",
+        "label": "Three failed attempts reached?",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Lock account",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "final",
+        "label": "End process",
+        "requirement_ids": [
+          "R5"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": "[credentials are valid]",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N4",
+        "target": "N6",
+        "type": "control",
+        "guard": "[credentials are invalid]",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N5",
+        "target": "N9",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": "[three failed attempts have occurred]",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N7",
+        "target": "N2",
+        "type": "control",
+        "guard": "[three failed attempts have not occurred]",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N8",
+        "target": "N9",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R5"
+        ]
+      }
+    ],
+    "title": "Login flow with credential validation, retry on invalid credentials, account lock after three failed attempts, and dashboard access on success."
+  },
+  "validation": {
+    "passed": true,
+    "score": 1.0,
+    "defects": [],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "FLOW-001": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 0,
+      "HALL-001": 0
+    },
+    "summary": "0 defect(s) detected."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers the main login, validation, success, invalid, retry, and lockout flow, but it contains a semantic termination error and one requirement coverage issue around the invalid-attempt retry cycle.",
+    "semantic_score": 0.72,
+    "defects": [
+      {
+        "id": "D1",
+        "category": "TERMINATION",
+        "severity": "HIGH",
+        "description": "The success path reaches the final node immediately after opening the customer dashboard, but the requirement says the process ends only after the account lock condition on three failed attempts. The diagram therefore terminates the overall process too early on a valid login path rather than ending only after the lockout branch as required.",
+        "node_ids": [
+          "N5",
+          "N9"
+        ],
+        "edge_ids": [
+          "E6"
+        ],
+        "requirement_ids": [
+          "R3",
+          "R5"
+        ],
+        "evidence": "R3 requires that valid credentials open the customer dashboard. R5 specifically states that after three failed attempts, the system locks the account and ends the process. The current final node is reached from the success branch, not from the lockout branch.",
+        "suggested_action": "Remove the direct transition from the dashboard action to the final node, or otherwise ensure the final node is only reached from the lockout branch if the intended semantics are that the process ends there."
+      },
+      {
+        "id": "D2",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "MEDIUM",
+        "description": "The invalid-credentials branch does not explicitly model a retry loop that permits repeated attempts after each failure. While there is a transition from the invalid branch to the failed-attempt decision, the retry behavior is not clearly represented as the customer re-entering credentials after an error message, which is required before the three-failure termination can occur.",
+        "node_ids": [
+          "N6",
+          "N7",
+          "N2"
+        ],
+        "edge_ids": [
+          "E7",
+          "E9"
+        ],
+        "requirement_ids": [
+          "R4",
+          "R5"
+        ],
+        "evidence": "R4 requires that invalid credentials display an error message and allow the customer to retry. R5 requires termination only after three failed attempts, implying repeated credential-entry attempts. The current flow jumps from the error message to a failed-attempt decision and then back to the initial entry action, but the retry cycle is not semantically explicit.",
+        "suggested_action": "Model the retry loop so that after the error message the customer can re-enter username and password and the system revalidates them, continuing until either success or the third failed attempt lockout condition is reached."
+      }
+    ],
+    "strengths": [
+      "Clear separation of valid and invalid credential handling.",
+      "Account lockout and termination are represented as a distinct branch.",
+      "All core requirements R1-R5 have some corresponding diagram elements."
+    ],
+    "missing_requirements": [
+      "Explicit retry loop after invalid credentials before the third failure threshold is reached."
+    ],
+    "unsupported_behaviors": [
+      "Ending the overall process immediately after a successful dashboard open."
+    ]
+  },
+  "defects": [
+    {
+      "id": "D1",
+      "category": "TERMINATION",
+      "severity": "HIGH",
+      "description": "The success path reaches the final node immediately after opening the customer dashboard, but the requirement says the process ends only after the account lock condition on three failed attempts. The diagram therefore terminates the overall process too early on a valid login path rather than ending only after the lockout branch as required.",
+      "node_ids": [
+        "N5",
+        "N9"
+      ],
+      "edge_ids": [
+        "E6"
+      ],
+      "requirement_ids": [
+        "R3",
+        "R5"
+      ],
+      "evidence": "R3 requires that valid credentials open the customer dashboard. R5 specifically states that after three failed attempts, the system locks the account and ends the process. The current final node is reached from the success branch, not from the lockout branch.",
+      "suggested_action": "Remove the direct transition from the dashboard action to the final node, or otherwise ensure the final node is only reached from the lockout branch if the intended semantics are that the process ends there."
+    },
+    {
+      "id": "D2",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "The invalid-credentials branch does not explicitly model a retry loop that permits repeated attempts after each failure. While there is a transition from the invalid branch to the failed-attempt decision, the retry behavior is not clearly represented as the customer re-entering credentials after an error message, which is required before the three-failure termination can occur.",
+      "node_ids": [
+        "N6",
+        "N7",
+        "N2"
+      ],
+      "edge_ids": [
+        "E7",
+        "E9"
+      ],
+      "requirement_ids": [
+        "R4",
+        "R5"
+      ],
+      "evidence": "R4 requires that invalid credentials display an error message and allow the customer to retry. R5 requires termination only after three failed attempts, implying repeated credential-entry attempts. The current flow jumps from the error message to a failed-attempt decision and then back to the initial entry action, but the retry cycle is not semantically explicit.",
+      "suggested_action": "Model the retry loop so that after the error message the customer can re-enter username and password and the system revalidates them, continuing until either success or the third failed attempt lockout condition is reached."
+    }
+  ],
+  "repair_history": [
+    {
+      "iteration": 0,
+      "repair_type": "minimal_fix",
+      "changed": true,
+      "accepted": true,
+      "before_score": 48.0,
+      "after_score": 58.22222222222223,
+      "score_delta": 10.222222222222229,
+      "changes": [
+        "Removed the direct control flow from 'Open customer dashboard' to the final node so the process no longer terminates immediately after a successful login.",
+        "Preserved the lockout branch as the terminating path through 'Lock account' to 'End process'."
+      ],
+      "rationale": "The supplied defect was that the overall process ended on the success path instead of only after the three-failed-attempts lockout branch. The minimal repair is to remove the premature success-to-final transition while keeping all requirements and the existing retry/lockout structure intact.",
+      "defect_ids": [
+        "PLANTUML-0",
+        "D1"
+      ],
+      "defect_categories": [
+        "SYNTAX",
+        "TERMINATION"
+      ]
+    },
+    {
+      "iteration": 1,
+      "repair_type": "minimal_fix",
+      "changed": true,
+      "accepted": false,
+      "before_score": 42.22222222222223,
+      "after_score": 26.66666666666667,
+      "score_delta": -15.555555555555557,
+      "changes": [
+        "Redirected the retry flow so the invalid-credentials branch returns to the credential entry step, enabling a new username/password entry and validation cycle before reassessing failed attempts.",
+        "Kept all existing requirements and nodes intact; preserved the three-failed-attempts lockout path and dashboard success path."
+      ],
+      "rationale": "The only structural defect was that the retry path skipped re-entry and re-validation, preventing an actual second attempt. By routing the retry back to the credential entry step, the loop now models repeated attempts while preserving the existing success and lockout behavior with the smallest possible change.",
+      "defect_ids": [
+        "PLANTUML-1",
+        "D1"
+      ],
+      "defect_categories": [
+        "SYNTAX",
+        "CONTROL_FLOW"
+      ]
+    }
+  ],
+  "iteration": 1,
+  "final_plantuml": "@startuml\ntitle Login flow with credential validation, retry on invalid credentials, account lock after three failed attempts, and dashboard access on success.\n\nstart\n\n:Customer enters username and password;\n:System validates the credentials;\nrepeat\nrepeat while (credentials are invalid) is (true)\n:Open customer dashboard;\n\nstop\n\n@enduml",
+  "metrics": {
+    "render": {
+      "source": "outputs\\login_requirement.puml",
+      "rendered": false
+    },
+    "best_iteration": 0,
+    "best_score": 48.0,
+    "repair_iterations": 2,
+    "final_defect_count": 2,
+    "initial_requirement_count": 5
+  }
+}

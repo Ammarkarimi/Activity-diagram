@@ -1,0 +1,14 @@
+@startuml
+title Login flow with credential validation, retry on invalid credentials, account lock after three failed attempts, and dashboard access on success.
+
+start
+
+:Customer enters username and password;
+:System validates the credentials;
+repeat
+repeat while (credentials are invalid) is (true)
+:Open customer dashboard;
+
+stop
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+title CDN Peering Lifecycle
+
+start
+
+:Publish resource and service information to Service Registry;
+if (Is peering initiation needed due to hotspot or exceptional load, including expected and unexpected load increases?) then (hotspot/exceptional load with expected and unexpected load increases)
+:Send initialization request to mediator;
+:Mediator obtains resource/access info from SR and policy info from PR and generates service requirements;
+if (Are service requirements acceptable under provider policy?) then (acceptable)
+:Pass service requirements to local Peering Agent;
+if (Do preexisting peering policies or arrangements exist?) then (preexisting policies exist)
+:Return preexisting peering policies and proceed with long-term peering arrangement;
+:Establish peering arrangement;
+:Configure CDN peering protocols and advertise CDN configuration information;
+:Exchange content availability information and support request redirection to an optimal peer;
+:Deploy and administer functional policies; exchange accounting information for billing;
+repeat
+repeat while (arrangement remains valid and beneficial) is (true)
+:Disband or re-arrange peering arrangement through renegotiation;
+else (no preexisting policies exist)
+:Perform short-term negotiation and inter-PA communication to discover external resources;
+repeat
+repeat while (insufficient resources acquired) is (true)
+endif
+else (rejected)
+endif
+else (no)
+:Replicate content on-demand from origin server and store it for future use;
+:Ensure delivery of content to end-users based on negotiated policies;
+:Determine delegable resources and delegation conditions with mediator and reserve/provision resources for SLAs;
+:Measure, report, and disseminate load information hierarchically;
+endif
+
+stop
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+title CTS Activity Flow
+
+start
+
+:Receive instructions from trade client serve;
+:Analyze incoming instructions;
+:Divide instructions into kinds;
+:Match instructions under specific prescripts;
+if (Determine instruction type) then (buy instruction)
+:Save buy instruction;
+:Match buy instructions with same stock id;
+if (Buy matching result) then (matched stock exists)
+:Make trade by matching for buy;
+:Modify matched instruction information for buy;
+:Give out successful trade information;
+:Save trade information;
+else (no matched stock exists)
+:Handle no matched stock;
+endif
+else (sell instruction)
+:Save sell instruction;
+:Match sell instructions with same stock id;
+if (Sell matching result) then (matched stock exists)
+:Make trade by matching for sell;
+:Modify matched instruction information for sell;
+else (no matched stock exists)
+endif
+endif
+else (cancel instruction)
+:Save cancel instruction;
+:Cancel correlative instruction;
+else (query request)
+:Send query to CTS;
+:Implement query;
+:Structuralize queried data;
+:Send data to release;
+
+stop
+
+@enduml

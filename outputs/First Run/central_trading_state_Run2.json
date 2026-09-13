@@ -1,0 +1,2003 @@
+{
+  "sample_id": "central_trading",
+  "requirement_text": "Functional Requirement\n\n1.1 Goals and objectives\nThe central trading system (CTS) is to complete the trading of stock. It analyses the instructions that enter the central trading system and divides them into several kinds of instructions. System will make a match between them under specifically prescripts. Also central trading system provides some interfaces to send messages to other modules.\n1.2 System Context\nThe CTS is just a subsystem of the whole stock trading system (STS) system. There are mainly six subsystems involved, stock account operation, financing account operation, trade client serve, network message promulgating, central trading system and trading system manage. Communications exist among these subsystems which complicates the relationships between subsystems. The CTS receive instructions from trade client serve. Then the CTS produce new messages which to be sent to network message promulgating after deal with the instructions from trade client serve. Also the system manager is authorization to access the information in CTS.\n1.3 Potential Users’ Specification\nThere are mainly two kinds of users. The CTS provides the terminal users easy Operations that are confined to a series of mouse clicks and keyboard, which compared to other systems are really much simplified. However, for another user, things are different .the maintainers of this CTS must be familiar with java programming and the socket. When the system crashes down, they can find the cause and fix it. When new requirements should be supported, they can modify the program to make it fit. As the instruction is frequently operated in CTS such as fetch, deal with, repeal and so on, the CTS is heavily transferred. The program must take this into consideration. The maintainers of CTS should have good strategies to overcome crash of the system when overhead exceeds the capacity of it.\n\nUse case Scenarios\n\nUse-case: Buy stock\nPrimary actor:\tTransaction User Interface\nGoal in context: To fulfill the buy transaction\nPreconditions:\tCustomer has successfully logged into UI and submit the buy information\nTrigger\tThe ‘buy’ button on UI been clicked\nScenario:\n1.   transaction user interface: give the buy instruction\n2.   central trading system: save the buy instruction\n3.   central  trading  system:  match  the  instructions  with  the same stock id\n4.   central trading system: make a trade by matching\n5.   central trading system: modify the information of matched instructions\nException:\n1.    all the operations have been suspended\n2.    some trade exceptions come up\n3.    no matched stock with the buy instruction\nChannel to actor: Via transaction user interface\nSecondary actors: Trading System Management\nChannels to secondary actors: Via central trading system interface\nOpen issues: \n1.    Should the trade information  return to Transaction  User\nInterface immediately when the deal is done?\n2.    Should  the  failure  of  trade  return  to  Transaction  User\nInterface the next day?\n3.    If exception happens, is exception log needed?\n4.    security issue\n\nUse-case: Sell stock\nPrimary actor: Transaction User Interface\nGoal in context: To fulfill the sell transaction\nPreconditions: Customer has successfully logged into UI and submit the sell information\nTrigger: The ‘sell’ button on UI been clicked\nScenario:\n1.   transaction user interface: give the sell instruction\n2.   central trading system: save the sell instruction\n3.   central  trading  system:  match  the  instructions  with  the same stock id\n4.   central trading system: make a trade by matching\n5.   central trading system: modify the information of matched instructions\nException:\n1.   all the operations have been suspended\n2.   some deal exceptions come up\n3.   no matched stock with the buy instruction\nChannel to actor: Via transaction user interface\nSecondary actors: Trading System Management\nChannels to secondary actors: Via central trading system interface\nOpen issues:\n1.   Should  the trade information  return  to Transaction  User\nInterface immediately when the deal is done?\n2.   Should  the  failure  of  trade  return  to  Transaction  User\nInterface the next day?\n3.   If exception happens, is exception log needed?\n4.   security issue\n\nUse-case: Cancel trading instruction\nPrimary actor:\tTransaction User Interface\nGoal in context: To fulfill the cancel transaction\nPreconditions: Customer  has  successfully  logged  into  UI  and  submit  the cancel information\nTrigger: The ‘cancel’ button on UI been clicked\nScenario:\n1.   transaction user interface: give the cancel instruction\n2.   central trading system: save the cancel instruction\n3.   central trading system: cancel the correlative instruction\nException:\n1.   all the operations have been suspended\n2.   the instruction concerned has been implemented\n3.   no matched instruction to be cancelled\nChannel to actor: Via transaction user interface\nSecondary actors: Trading System Management\nChannels to secondary actors: Via central trading system interface\nOpen issues:\n1.    Is it necessary to return the status of cancel transaction?\n2.    If exception happens, is exception log needed?\n3.    security issue\n\n\nUse-case: Save trade information\nPrimary actor: Security Account Management\nGoal in context: To save all successful trade information\nPreconditions:\tThe  correlative   trade  transactions   have  been   successfully conducted\nTrigger: Any trade transaction been conducted\nScenario:\n1.   central  trading  system:   give  out  the  successful   trade information\n2.   security account management: save the trade information\nException:\n1.   all the operations have been suspended\n2.    no matched stock with the buy instruction\nChannel to actor: Via central trading system interface\nSecondary actors: Trading System Management\nChannels to secondary actors: Via central trading system interface\nOpen issues:\n1.    If exception happens, is exception log needed?\n2.   Will  we  develop  a  media  (ie.  Web  page)  where  any customer can look up the latest trade records which have been saved?\n3.    security issue\n\n\nUse-case: Query trade information\nPrimary actor:\tTrading Information Release\nGoal in context: To   query   the   trading   information   which   needed   to   be statistically analyzed and released on a web site\nPreconditions: Central Trading System deal transactions well\nTrigger: Trading Information Release System send a query\nScenario:\n1.   trading information release system: send a query\n2.   central trading system: implement the query\n3.   central trading system: structuralize the queried data\n4.   central trading system: send the data to release\nException:\n1.   all the operations have been suspended\n2.   the query is invalid\n3.    no matched data\nChannel to actor: Via central trading system interface\nSecondary actors: Trading System Management\nChannels to secondary actors: Via central trading system interface\nOpen issues\t\n1.    If exception happens, is exception log needed?\n2.    How frequent the release system is to send a query?\n3.    Do we need a warning if any query failed?\n4.    security issue",
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "The central trading system shall complete stock trading.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "complete stock trading"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The central trading system (CTS) is to complete the trading of stock."
+    },
+    {
+      "id": "R2",
+      "text": "The central trading system shall analyze instructions that enter the system.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "analyze instructions"
+      ],
+      "conditions": [
+        "instructions enter the central trading system"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It analyses the instructions that enter the central trading system and divides them into several kinds of instructions."
+    },
+    {
+      "id": "R3",
+      "text": "The central trading system shall divide incoming instructions into several kinds of instructions.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "divide instructions into kinds"
+      ],
+      "conditions": [
+        "instructions have been analyzed"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "It analyses the instructions that enter the central trading system and divides them into several kinds of instructions."
+    },
+    {
+      "id": "R4",
+      "text": "The central trading system shall match instructions according to specified rules or prescripts.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "match instructions"
+      ],
+      "conditions": [
+        "instructions are divided into kinds"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R3"
+      ],
+      "source_sentence": "System will make a match between them under specifically prescripts."
+    },
+    {
+      "id": "R5",
+      "text": "The central trading system shall provide interfaces to send messages to other modules.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "provide interfaces",
+        "send messages to other modules"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Also central trading system provides some interfaces to send messages to other modules."
+    },
+    {
+      "id": "R6",
+      "text": "The central trading system shall receive instructions from the trade client service.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System",
+        "Trade Client Service"
+      ],
+      "actions": [
+        "receive instructions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The CTS receive instructions from trade client serve."
+    },
+    {
+      "id": "R7",
+      "text": "The central trading system shall produce new messages after processing instructions from the trade client service.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "produce new messages"
+      ],
+      "conditions": [
+        "instructions from trade client service have been processed"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R6"
+      ],
+      "source_sentence": "Then the CTS produce new messages which to be sent to network message promulgating after deal with the instructions from trade client serve."
+    },
+    {
+      "id": "R8",
+      "text": "The central trading system shall send produced messages to the network message promulgating subsystem.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System",
+        "Network Message Promulgating"
+      ],
+      "actions": [
+        "send messages"
+      ],
+      "conditions": [
+        "new messages have been produced"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R7"
+      ],
+      "source_sentence": "Then the CTS produce new messages which to be sent to network message promulgating after deal with the instructions from trade client serve."
+    },
+    {
+      "id": "R9",
+      "text": "The system manager shall be authorized to access information in the central trading system.",
+      "type": "ACTOR",
+      "actors": [
+        "System Manager",
+        "Central Trading System"
+      ],
+      "actions": [
+        "access information"
+      ],
+      "conditions": [
+        "authorization granted"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Also the system manager is authorization to access the information in CTS."
+    },
+    {
+      "id": "R10",
+      "text": "The transaction user interface shall provide a buy instruction when the buy button is clicked.",
+      "type": "ACTION",
+      "actors": [
+        "Transaction User Interface"
+      ],
+      "actions": [
+        "give buy instruction"
+      ],
+      "conditions": [
+        "buy button on UI is clicked"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. transaction user interface: give the buy instruction"
+    },
+    {
+      "id": "R11",
+      "text": "The central trading system shall save the buy instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "save buy instruction"
+      ],
+      "conditions": [
+        "buy instruction is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R10"
+      ],
+      "source_sentence": "2. central trading system: save the buy instruction"
+    },
+    {
+      "id": "R12",
+      "text": "The central trading system shall match buy instructions with other instructions having the same stock id.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "match instructions"
+      ],
+      "conditions": [
+        "buy instruction is saved"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R11"
+      ],
+      "source_sentence": "3. central trading system: match the instructions with the same stock id"
+    },
+    {
+      "id": "R13",
+      "text": "The central trading system shall make a trade by matching instructions.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "make a trade"
+      ],
+      "conditions": [
+        "matching is successful"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R12"
+      ],
+      "source_sentence": "4. central trading system: make a trade by matching"
+    },
+    {
+      "id": "R14",
+      "text": "The central trading system shall modify the information of matched instructions.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "modify information of matched instructions"
+      ],
+      "conditions": [
+        "a trade has been made by matching"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "5. central trading system: modify the information of matched instructions"
+    },
+    {
+      "id": "R15",
+      "text": "The sell-stock scenario shall follow the same processing steps as the buy-stock scenario, replacing buy with sell where applicable.",
+      "type": "OTHER",
+      "actors": [
+        "Transaction User Interface",
+        "Central Trading System"
+      ],
+      "actions": [
+        "give sell instruction",
+        "save sell instruction",
+        "match instructions",
+        "make a trade",
+        "modify information of matched instructions"
+      ],
+      "conditions": [
+        "sell button on UI is clicked"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14"
+      ],
+      "source_sentence": "Use-case: Sell stock ... 1. transaction user interface: give the sell instruction 2. central trading system: save the sell instruction 3. central trading system: match the instructions with the same stock id 4. central trading system: make a trade by matching 5. central trading system: modify the information of matched instructions"
+    },
+    {
+      "id": "R16",
+      "text": "The transaction user interface shall provide a cancel instruction when the cancel button is clicked.",
+      "type": "ACTION",
+      "actors": [
+        "Transaction User Interface"
+      ],
+      "actions": [
+        "give cancel instruction"
+      ],
+      "conditions": [
+        "cancel button on UI is clicked"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. transaction user interface: give the cancel instruction"
+    },
+    {
+      "id": "R17",
+      "text": "The central trading system shall save the cancel instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "save cancel instruction"
+      ],
+      "conditions": [
+        "cancel instruction is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R16"
+      ],
+      "source_sentence": "2. central trading system: save the cancel instruction"
+    },
+    {
+      "id": "R18",
+      "text": "The central trading system shall cancel the correlative instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "cancel correlative instruction"
+      ],
+      "conditions": [
+        "cancel instruction is saved"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R17"
+      ],
+      "source_sentence": "3. central trading system: cancel the correlative instruction"
+    },
+    {
+      "id": "R19",
+      "text": "The central trading system shall provide successful trade information to the security account management subsystem.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System",
+        "Security Account Management"
+      ],
+      "actions": [
+        "give out successful trade information"
+      ],
+      "conditions": [
+        "correlative trade transactions have been successfully conducted"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. central trading system: give out the successful trade information"
+    },
+    {
+      "id": "R20",
+      "text": "The security account management subsystem shall save trade information.",
+      "type": "ACTION",
+      "actors": [
+        "Security Account Management"
+      ],
+      "actions": [
+        "save trade information"
+      ],
+      "conditions": [
+        "successful trade information is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "2. security account management: save the trade information"
+    },
+    {
+      "id": "R21",
+      "text": "The trading information release system shall send a query to the central trading system.",
+      "type": "ACTION",
+      "actors": [
+        "Trading Information Release System"
+      ],
+      "actions": [
+        "send query"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. trading information release system: send a query"
+    },
+    {
+      "id": "R22",
+      "text": "The central trading system shall implement the query from the trading information release system.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "implement query"
+      ],
+      "conditions": [
+        "query is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R21"
+      ],
+      "source_sentence": "2. central trading system: implement the query"
+    },
+    {
+      "id": "R23",
+      "text": "The central trading system shall structuralize the queried data.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "structuralize queried data"
+      ],
+      "conditions": [
+        "query has been implemented"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R22"
+      ],
+      "source_sentence": "3. central trading system: structuralize the queried data"
+    },
+    {
+      "id": "R24",
+      "text": "The central trading system shall send the queried data to the release system.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System",
+        "Trading Information Release System"
+      ],
+      "actions": [
+        "send data to release"
+      ],
+      "conditions": [
+        "queried data has been structuralized"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R23"
+      ],
+      "source_sentence": "4. central trading system: send the data to release"
+    }
+  ],
+  "requirement_matrix": {
+    "items": [
+      {
+        "requirement_id": "R1",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Goal statement for CTS",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R2",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Instruction analysis described in goals/objectives",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Instruction classification described in goals/objectives",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Matching under specific prescripts",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R5",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Interfaces to other modules",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R6",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "CTS receives instructions from trade client serve",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R7",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "CTS produces new messages after dealing with instructions",
+        "confidence": 0.91
+      },
+      {
+        "requirement_id": "R8",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Messages sent to network message promulgating",
+        "confidence": 0.91
+      },
+      {
+        "requirement_id": "R9",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "System manager authorization to access CTS information",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R10",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Buy use case step 1",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R11",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Buy use case step 2",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R12",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Buy use case step 3",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R13",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Buy use case step 4",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R14",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Buy use case step 5",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R15",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Sell use case mirrors buy use case",
+        "confidence": 0.86
+      },
+      {
+        "requirement_id": "R16",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Cancel use case step 1",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R17",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Cancel use case step 2",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R18",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Cancel use case step 3",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R19",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Save trade information use case step 1",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R20",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Save trade information use case step 2",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R21",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Query trade information use case step 1",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R22",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Query trade information use case step 2",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R23",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Query trade information use case step 3",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R24",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Query trade information use case step 4",
+        "confidence": 0.98
+      }
+    ]
+  },
+  "plan": {
+    "objective": "Model the central trading system (CTS) activity flow for receiving and processing trade-related instructions, including buy, sell, cancel, save-trade-info, and query-trade-info interactions, with decisions for instruction type and exceptional conditions.",
+    "nodes": [
+      {
+        "temp_id": "N0",
+        "node_type": "initial",
+        "label": "Instruction received by CTS",
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "temp_id": "N1",
+        "node_type": "action",
+        "label": "Analyze incoming instruction",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "temp_id": "N2",
+        "node_type": "action",
+        "label": "Classify instruction into kind",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "temp_id": "N3",
+        "node_type": "decision",
+        "label": "Select instruction type",
+        "requirement_ids": [
+          "R3",
+          "R10",
+          "R16",
+          "R21"
+        ]
+      },
+      {
+        "temp_id": "N4",
+        "node_type": "action",
+        "label": "Process buy instruction",
+        "requirement_ids": [
+          "R10",
+          "R11",
+          "R12",
+          "R13",
+          "R14"
+        ]
+      },
+      {
+        "temp_id": "N5",
+        "node_type": "action",
+        "label": "Process sell instruction",
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "temp_id": "N6",
+        "node_type": "action",
+        "label": "Process cancel instruction",
+        "requirement_ids": [
+          "R16",
+          "R17",
+          "R18"
+        ]
+      },
+      {
+        "temp_id": "N7",
+        "node_type": "action",
+        "label": "Process query instruction",
+        "requirement_ids": [
+          "R21",
+          "R22",
+          "R23",
+          "R24"
+        ]
+      },
+      {
+        "temp_id": "N8",
+        "node_type": "action",
+        "label": "Save successful trade information",
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "temp_id": "N9",
+        "node_type": "action",
+        "label": "Send produced message to network message promulgating subsystem",
+        "requirement_ids": [
+          "R7",
+          "R8"
+        ]
+      },
+      {
+        "temp_id": "N10",
+        "node_type": "final",
+        "label": "End CTS processing",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "temp_id": "N11",
+        "node_type": "decision",
+        "label": "Check whether matching succeeds",
+        "requirement_ids": [
+          "R4",
+          "R12",
+          "R13",
+          "R18",
+          "R22"
+        ]
+      },
+      {
+        "temp_id": "N12",
+        "node_type": "action",
+        "label": "Match instructions by stock id and prescripts",
+        "requirement_ids": [
+          "R4",
+          "R12"
+        ]
+      },
+      {
+        "temp_id": "N13",
+        "node_type": "action",
+        "label": "Make trade by matching",
+        "requirement_ids": [
+          "R13",
+          "R15"
+        ]
+      },
+      {
+        "temp_id": "N14",
+        "node_type": "action",
+        "label": "Modify matched instruction information",
+        "requirement_ids": [
+          "R14",
+          "R15"
+        ]
+      },
+      {
+        "temp_id": "N15",
+        "node_type": "action",
+        "label": "Cancel correlative instruction",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "temp_id": "N16",
+        "node_type": "action",
+        "label": "Implement query",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "temp_id": "N17",
+        "node_type": "action",
+        "label": "Structuralize queried data",
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "temp_id": "N18",
+        "node_type": "action",
+        "label": "Send queried data to release system",
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "temp_id": "N19",
+        "node_type": "action",
+        "label": "Provide interface to other modules",
+        "requirement_ids": [
+          "R5"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "N0",
+        "target": "N1",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "source": "N1",
+        "target": "N2",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R2",
+          "R3"
+        ]
+      },
+      {
+        "source": "N2",
+        "target": "N3",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "source": "N3",
+        "target": "N4",
+        "guard": "buy instruction",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "source": "N3",
+        "target": "N5",
+        "guard": "sell instruction",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "source": "N3",
+        "target": "N6",
+        "guard": "cancel instruction",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R16"
+        ]
+      },
+      {
+        "source": "N3",
+        "target": "N7",
+        "guard": "query instruction",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R21"
+        ]
+      },
+      {
+        "source": "N4",
+        "target": "N12",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R11",
+          "R12"
+        ]
+      },
+      {
+        "source": "N5",
+        "target": "N12",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "source": "N12",
+        "target": "N11",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R4",
+          "R12"
+        ]
+      },
+      {
+        "source": "N11",
+        "target": "N13",
+        "guard": "matching succeeds",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R13"
+        ]
+      },
+      {
+        "source": "N11",
+        "target": "N10",
+        "guard": "no matched stock",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R12"
+        ]
+      },
+      {
+        "source": "N13",
+        "target": "N14",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R14"
+        ]
+      },
+      {
+        "source": "N14",
+        "target": "N8",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "source": "N6",
+        "target": "N15",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R17",
+          "R18"
+        ]
+      },
+      {
+        "source": "N15",
+        "target": "N10",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "source": "N7",
+        "target": "N16",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "source": "N16",
+        "target": "N17",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "source": "N17",
+        "target": "N18",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "source": "N8",
+        "target": "N19",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "source": "N18",
+        "target": "N19",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R24",
+          "R5"
+        ]
+      },
+      {
+        "source": "N19",
+        "target": "N9",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R5",
+          "R7",
+          "R8"
+        ]
+      },
+      {
+        "source": "N9",
+        "target": "N10",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R1"
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "decision_id": "D1",
+        "condition": "Instruction type received by CTS",
+        "branch_ids": [
+          "B1",
+          "B2",
+          "B3",
+          "B4"
+        ],
+        "guards": [
+          "buy instruction",
+          "sell instruction",
+          "cancel instruction",
+          "query instruction"
+        ]
+      },
+      {
+        "decision_id": "D2",
+        "condition": "Whether matching succeeds for the instruction",
+        "branch_ids": [
+          "B5",
+          "B6"
+        ],
+        "guards": [
+          "matching succeeds",
+          "no matched stock"
+        ]
+      }
+    ],
+    "loops": [],
+    "concurrency": [],
+    "exceptions": [
+      {
+        "exception_id": "E1",
+        "trigger": "all the operations have been suspended",
+        "handler_node_id": "N10",
+        "requirement_ids": [
+          "R10",
+          "R11",
+          "R12",
+          "R13",
+          "R14",
+          "R16",
+          "R17",
+          "R18",
+          "R19",
+          "R20",
+          "R21",
+          "R22",
+          "R23",
+          "R24"
+        ]
+      },
+      {
+        "exception_id": "E2",
+        "trigger": "some trade exceptions come up",
+        "handler_node_id": "N10",
+        "requirement_ids": [
+          "R13",
+          "R14"
+        ]
+      },
+      {
+        "exception_id": "E3",
+        "trigger": "the instruction concerned has been implemented",
+        "handler_node_id": "N10",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "exception_id": "E4",
+        "trigger": "the query is invalid",
+        "handler_node_id": "N10",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "exception_id": "E5",
+        "trigger": "no matched data",
+        "handler_node_id": "N10",
+        "requirement_ids": [
+          "R23",
+          "R24"
+        ]
+      }
+    ],
+    "decision_strategy": [
+      "Route each incoming instruction by type: buy, sell, cancel, or query.",
+      "For buy and sell instructions, perform matching by stock id and specified prescripts before attempting trade.",
+      "If matching succeeds, execute the trade and then update matched instruction information.",
+      "If no matched stock is found, terminate the flow for that instruction path without performing trade modification.",
+      "For cancel instructions, save the instruction first and then cancel the correlated instruction.",
+      "For query instructions, implement the query, structuralize the result, and send the data to the release system."
+    ],
+    "concurrency_strategy": [
+      "No explicit parallel behavior is stated in the requirements; model processing as sequential flows only."
+    ],
+    "exception_strategy": [
+      "Represent suspended operations as a terminating exception path because the requirements do not specify recovery behavior.",
+      "Represent trade exceptions and invalid/no-match conditions as exception-triggered termination because no alternate handling is defined.",
+      "Do not invent logging, user notification timing, or retry behavior because these are open issues, not requirements."
+    ],
+    "termination_strategy": [
+      "Terminate after successful message transmission to the network message promulgating subsystem.",
+      "Terminate after a no-match or invalid-query outcome because no further behavior is specified.",
+      "Terminate after exception conditions because the requirements do not specify recovery or continuation."
+    ],
+    "traceability": {
+      "items": [
+        {
+          "requirement_id": "R1",
+          "diagram_node_ids": [
+            "N10"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "CTS completes stock trading; represented by the overall activity ending after processing paths.",
+          "confidence": 0.88
+        },
+        {
+          "requirement_id": "R2",
+          "diagram_node_ids": [
+            "N1"
+          ],
+          "diagram_edge_ids": [
+            "N0",
+            "N1"
+          ],
+          "evidence": "CTS analyzes incoming instructions.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R3",
+          "diagram_node_ids": [
+            "N2",
+            "N3"
+          ],
+          "diagram_edge_ids": [
+            "N1",
+            "N2"
+          ],
+          "evidence": "CTS divides analyzed instructions into kinds and routes by type.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R4",
+          "diagram_node_ids": [
+            "N12",
+            "N11"
+          ],
+          "diagram_edge_ids": [
+            "N12",
+            "N11"
+          ],
+          "evidence": "Matching according to prescripts is modeled as the matching action and success decision.",
+          "confidence": 0.96
+        },
+        {
+          "requirement_id": "R5",
+          "diagram_node_ids": [
+            "N19"
+          ],
+          "diagram_edge_ids": [
+            "N19",
+            "N9"
+          ],
+          "evidence": "CTS provides interfaces and sends messages to other modules.",
+          "confidence": 0.96
+        },
+        {
+          "requirement_id": "R6",
+          "diagram_node_ids": [
+            "N0"
+          ],
+          "diagram_edge_ids": [
+            "N0",
+            "N1"
+          ],
+          "evidence": "CTS receives instructions from trade client service.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R7",
+          "diagram_node_ids": [
+            "N9"
+          ],
+          "diagram_edge_ids": [
+            "N19",
+            "N9"
+          ],
+          "evidence": "CTS produces new messages after processing instructions.",
+          "confidence": 0.95
+        },
+        {
+          "requirement_id": "R8",
+          "diagram_node_ids": [
+            "N9"
+          ],
+          "diagram_edge_ids": [
+            "N19",
+            "N9"
+          ],
+          "evidence": "Produced messages are sent to the network message promulgating subsystem.",
+          "confidence": 0.95
+        },
+        {
+          "requirement_id": "R9",
+          "diagram_node_ids": [],
+          "diagram_edge_ids": [],
+          "evidence": "Authorization to access CTS information is a context/security statement, not an activity step in the use cases.",
+          "confidence": 0.7
+        },
+        {
+          "requirement_id": "R10",
+          "diagram_node_ids": [
+            "N4"
+          ],
+          "diagram_edge_ids": [
+            "N3",
+            "N4"
+          ],
+          "evidence": "Buy button triggers giving a buy instruction.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R11",
+          "diagram_node_ids": [
+            "N4"
+          ],
+          "diagram_edge_ids": [
+            "N4",
+            "N12"
+          ],
+          "evidence": "CTS saves the buy instruction.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R12",
+          "diagram_node_ids": [
+            "N12",
+            "N11"
+          ],
+          "diagram_edge_ids": [
+            "N4",
+            "N12",
+            "N12",
+            "N11"
+          ],
+          "evidence": "CTS matches buy instructions with same stock id.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R13",
+          "diagram_node_ids": [
+            "N13"
+          ],
+          "diagram_edge_ids": [
+            "N11",
+            "N13"
+          ],
+          "evidence": "CTS makes a trade by matching.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R14",
+          "diagram_node_ids": [
+            "N14"
+          ],
+          "diagram_edge_ids": [
+            "N13",
+            "N14"
+          ],
+          "evidence": "CTS modifies matched instruction information.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R15",
+          "diagram_node_ids": [
+            "N5"
+          ],
+          "diagram_edge_ids": [
+            "N3",
+            "N5"
+          ],
+          "evidence": "Sell stock follows the same steps as buy with sell instruction path.",
+          "confidence": 0.94
+        },
+        {
+          "requirement_id": "R16",
+          "diagram_node_ids": [
+            "N6"
+          ],
+          "diagram_edge_ids": [
+            "N3",
+            "N6"
+          ],
+          "evidence": "Cancel button triggers giving a cancel instruction.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R17",
+          "diagram_node_ids": [
+            "N6"
+          ],
+          "diagram_edge_ids": [
+            "N6",
+            "N15"
+          ],
+          "evidence": "CTS saves the cancel instruction.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R18",
+          "diagram_node_ids": [
+            "N15"
+          ],
+          "diagram_edge_ids": [
+            "N15",
+            "N10"
+          ],
+          "evidence": "CTS cancels the correlative instruction.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R19",
+          "diagram_node_ids": [
+            "N8"
+          ],
+          "diagram_edge_ids": [
+            "N14",
+            "N8"
+          ],
+          "evidence": "CTS provides successful trade information to security account management.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R20",
+          "diagram_node_ids": [
+            "N8"
+          ],
+          "diagram_edge_ids": [
+            "N14",
+            "N8"
+          ],
+          "evidence": "Security account management saves trade information.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R21",
+          "diagram_node_ids": [
+            "N7"
+          ],
+          "diagram_edge_ids": [
+            "N3",
+            "N7"
+          ],
+          "evidence": "Trading information release system sends a query.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R22",
+          "diagram_node_ids": [
+            "N16"
+          ],
+          "diagram_edge_ids": [
+            "N7",
+            "N16"
+          ],
+          "evidence": "CTS implements the query.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R23",
+          "diagram_node_ids": [
+            "N17"
+          ],
+          "diagram_edge_ids": [
+            "N16",
+            "N17"
+          ],
+          "evidence": "CTS structuralizes queried data.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R24",
+          "diagram_node_ids": [
+            "N18"
+          ],
+          "diagram_edge_ids": [
+            "N17",
+            "N18"
+          ],
+          "evidence": "CTS sends queried data to the release system.",
+          "confidence": 0.99
+        }
+      ]
+    }
+  },
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N0",
+        "type": "initial",
+        "label": "Instruction received by CTS",
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "id": "N1",
+        "type": "action",
+        "label": "Analyze incoming instruction",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Classify instruction into kind",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "decision",
+        "label": "Select instruction type",
+        "requirement_ids": [
+          "R3",
+          "R10",
+          "R16",
+          "R21"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Process buy instruction",
+        "requirement_ids": [
+          "R10",
+          "R11",
+          "R12",
+          "R13",
+          "R14"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Process sell instruction",
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Process cancel instruction",
+        "requirement_ids": [
+          "R16",
+          "R17",
+          "R18"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "action",
+        "label": "Process query instruction",
+        "requirement_ids": [
+          "R21",
+          "R22",
+          "R23",
+          "R24"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Save successful trade information",
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Send produced message to network message promulgating subsystem",
+        "requirement_ids": [
+          "R7",
+          "R8"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "final",
+        "label": "End CTS processing",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "id": "N11",
+        "type": "decision",
+        "label": "Check whether matching succeeds",
+        "requirement_ids": [
+          "R4",
+          "R12",
+          "R13",
+          "R18",
+          "R22"
+        ]
+      },
+      {
+        "id": "N12",
+        "type": "action",
+        "label": "Match instructions by stock id and prescripts",
+        "requirement_ids": [
+          "R4",
+          "R12"
+        ]
+      },
+      {
+        "id": "N13",
+        "type": "action",
+        "label": "Make trade by matching",
+        "requirement_ids": [
+          "R13",
+          "R15"
+        ]
+      },
+      {
+        "id": "N14",
+        "type": "action",
+        "label": "Modify matched instruction information",
+        "requirement_ids": [
+          "R14",
+          "R15"
+        ]
+      },
+      {
+        "id": "N15",
+        "type": "action",
+        "label": "Cancel correlative instruction",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "N16",
+        "type": "action",
+        "label": "Implement query",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "id": "N17",
+        "type": "action",
+        "label": "Structuralize queried data",
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "id": "N18",
+        "type": "action",
+        "label": "Send queried data to release system",
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "id": "N19",
+        "type": "action",
+        "label": "Provide interface to other modules",
+        "requirement_ids": [
+          "R5"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E0",
+        "source": "N0",
+        "target": "N1",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R2",
+          "R3"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": "buy instruction",
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N3",
+        "target": "N5",
+        "type": "control",
+        "guard": "sell instruction",
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N3",
+        "target": "N6",
+        "type": "control",
+        "guard": "cancel instruction",
+        "requirement_ids": [
+          "R16"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N3",
+        "target": "N7",
+        "type": "control",
+        "guard": "query instruction",
+        "requirement_ids": [
+          "R21"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N4",
+        "target": "N12",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R11",
+          "R12"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N5",
+        "target": "N12",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N12",
+        "target": "N11",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R4",
+          "R12"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N11",
+        "target": "N13",
+        "type": "control",
+        "guard": "matching succeeds",
+        "requirement_ids": [
+          "R13"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N11",
+        "target": "N10",
+        "type": "control",
+        "guard": "no matched stock",
+        "requirement_ids": [
+          "R12"
+        ]
+      },
+      {
+        "id": "E12",
+        "source": "N13",
+        "target": "N14",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R14"
+        ]
+      },
+      {
+        "id": "E13",
+        "source": "N14",
+        "target": "N8",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "id": "E14",
+        "source": "N6",
+        "target": "N15",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R17",
+          "R18"
+        ]
+      },
+      {
+        "id": "E15",
+        "source": "N15",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "E16",
+        "source": "N7",
+        "target": "N16",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "id": "E17",
+        "source": "N16",
+        "target": "N17",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "id": "E18",
+        "source": "N17",
+        "target": "N18",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "id": "E19",
+        "source": "N8",
+        "target": "N19",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "id": "E20",
+        "source": "N18",
+        "target": "N19",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R24",
+          "R5"
+        ]
+      },
+      {
+        "id": "E21",
+        "source": "N19",
+        "target": "N9",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R5",
+          "R7",
+          "R8"
+        ]
+      },
+      {
+        "id": "E22",
+        "source": "N9",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R1"
+        ]
+      }
+    ],
+    "title": "CTS trade instruction processing"
+  },
+  "validation": {
+    "passed": false,
+    "score": 0.9767441860465116,
+    "defects": [
+      {
+        "id": "D-COV-R9",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R9 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R9"
+        ],
+        "evidence": "The system manager shall be authorized to access information in the central trading system.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      }
+    ],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "FLOW-001": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 1,
+      "HALL-001": 0
+    },
+    "summary": "1 defect(s) detected."
+  },
+  "review": {
+    "overall_assessment": "The diagram captures the main CTS instruction-processing flow and most use cases, but it still has a few semantic gaps and one likely control-flow issue relative to the requirements. The largest omission is the unresolved system-manager access requirement. The buy/sell/cancel/query paths are otherwise mostly represented.",
+    "semantic_score": 0.84,
+    "defects": [
+      {
+        "id": "D-COV-R9",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R9 is not represented in the activity flow: there is no activity or branch for the system manager being authorized to access information in CTS.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R9"
+        ],
+        "evidence": "'Also the system manager is authorization to access the information in CTS.'",
+        "suggested_action": "Add an activity or separate access branch for authorized system-manager access to CTS information, and connect it to the diagram."
+      }
+    ],
+    "strengths": [
+      "Core CTS instruction intake, analysis, classification, and routing are modeled.",
+      "Buy, sell, cancel, and query use-case steps are largely covered.",
+      "Successful trade information saving and message forwarding are included.",
+      "The diagram reflects the shared buy/sell processing structure specified in the requirements."
+    ],
+    "missing_requirements": [
+      "R9: system manager authorization to access CTS information."
+    ],
+    "unsupported_behaviors": []
+  },
+  "defects": [
+    {
+      "id": "D-COV-R9",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R9 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R9"
+      ],
+      "evidence": "The system manager shall be authorized to access information in the central trading system.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R9",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R9 is not represented in the activity flow: there is no activity or branch for the system manager being authorized to access information in CTS.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R9"
+      ],
+      "evidence": "'Also the system manager is authorization to access the information in CTS.'",
+      "suggested_action": "Add an activity or separate access branch for authorized system-manager access to CTS information, and connect it to the diagram."
+    }
+  ],
+  "repair_history": [
+    {
+      "iteration": 0,
+      "repair_type": "minimal",
+      "changed": true,
+      "accepted": true,
+      "before_score": 42.837209302325576,
+      "after_score": 71.0,
+      "score_delta": 28.162790697674424,
+      "changes": [
+        "Added a dedicated system-manager access branch to represent authorized access to CTS information (R9).",
+        "Adjusted the diagram to include this new branch without removing existing behavior; preserved all existing nodes/edges and requirement traces."
+      ],
+      "rationale": "The only functional defect was missing coverage for R9. I added the smallest possible structural change: one action node for authorized system-manager access and a guarded branch from the initial instruction flow to that node, then connected it to the existing end state. All prior nodes, edges, and requirement IDs were preserved, and the diagram still has exactly one initial node and at least one final node.",
+      "defect_ids": [
+        "PLANTUML-0",
+        "D-COV-R9"
+      ],
+      "defect_categories": [
+        "SYNTAX",
+        "REQUIREMENT_COVERAGE"
+      ]
+    },
+    {
+      "iteration": 1,
+      "repair_type": "structural_fix",
+      "changed": true,
+      "accepted": false,
+      "before_score": 35.0,
+      "after_score": 29.72727272727272,
+      "score_delta": -5.2727272727272805,
+      "changes": [
+        "Changed N0 from a branching source into a single-entry initial flow by removing the manager-access outgoing path from the main CTS processing start.",
+        "Isolated the system-manager authorization access path from the trading termination sequence by removing edges E23 and E24 from the main flow.",
+        "Preserved all trading, query, save-trade, and message-sending behavior and requirement traces."
+      ],
+      "rationale": "The diagram failed compilation because the initial node N0 had multiple outgoing edges while not being a decision/fork. The manager-access branch also incorrectly terminated on the common final node, implying it was part of normal trading completion. The repair makes the minimum structural change by removing only the defective manager-access route from the main flow while preserving the rest of the CTS trading workflow and all remaining requirement traces. The resulting diagram has exactly one initial node and at least one final node, with all decision nodes retaining explicit guards.",
+      "defect_ids": [
+        "COMPILER-1",
+        "D5"
+      ],
+      "defect_categories": [
+        "SYNTAX",
+        "TERMINATION"
+      ]
+    }
+  ],
+  "iteration": 1,
+  "final_plantuml": "@startuml\ntitle CTS trade instruction processing\n\nstart\n\n:Analyze incoming instruction;\n:Classify instruction into kind;\nif (Select instruction type) then (buy instruction)\n:Process buy instruction;\n:Match instructions by stock id and prescripts;\nif (Check whether matching succeeds) then (matching succeeds)\n:Make trade by matching;\n:Modify matched instruction information;\n:Save successful trade information;\n:Provide interface to other modules;\n:Send produced message to network message promulgating subsystem;\nelse (no matched stock)\nendif\nelse (sell instruction)\n:Process sell instruction;\nendif\nelse (cancel instruction)\n:Process cancel instruction;\n:Cancel correlative instruction;\nelse (query instruction)\n:Process query instruction;\n:Implement query;\n:Structuralize queried data;\n:Send queried data to release system;\n\nstop\n\n@enduml",
+  "metrics": {
+    "render": {
+      "source": "outputs\\central_trading.puml",
+      "rendered": false
+    },
+    "best_iteration": 0,
+    "best_score": 42.837209302325576,
+    "repair_iterations": 2,
+    "final_defect_count": 2,
+    "initial_requirement_count": 24
+  }
+}

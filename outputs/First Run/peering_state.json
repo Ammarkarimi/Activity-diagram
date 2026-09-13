@@ -1,0 +1,2304 @@
+{
+  "sample_id": "peering",
+  "requirement_text": "Functional Requirements\n\n2.1 Product Perspective\nCDN peering allows different CDN providers to share resources in order to provide larger scale and/or reach to each participant than they could not achieve otherwise. It is formed by a set of autonomous CDNs, which cooperate through a mechanism that provides facilities and infrastructure for cooperation in order to virtualize multiple providers. It is expected that an effective peering arrangement between CDNs would require multiple steps to occur.\n\n1. Initiation: A CDN’s reach and scale is limited by its ability to handle peak load, cost of equipment, scalable infrastructure, and/or demand for the increased coverage of its infrastructure. Peering allows a particular CDN to achieve larger scale/reach through resource sharing with other CDN(s). It is triggered by an initialization request sent to the mediator under exceptional circumstances, e.g. flash crowds, when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs). The triggering condition must consider the expected and unexpected load increases in the initiating CDN. \n\n2. Negotiated relationship: The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship. In the business domain, this relationship (most likely) would take the form of a legal document which describes the expected level of services from the involving parties such as storage requirements, the required rate of transfer, cost of services; the expected duration of receiving service, penalties for service violations, and other preconditions such as the initiating CDN’s preference to gain resources at a particular region. Negotiated relationships can also be established through means non-technical terms (financial statement) or technical terms (SLAs). Thus, negotiated relationships must specify the interactions among entities including service administration, coordination and disband (or re-arrangement) of internetworked CDNs. In the CDN peering architecture, the mediator instance obtains the resource and access information from the Service Registry (SR), whilst SLAs and other policies from the Policy Repository (PR). The mediator instance on the primary CDN’s behalf generates its service requirements based on the current circumstance and SLA requirements of its customer(s). Therefore, divergent policies are allowed that specify the information that can be shared during interaction through providing a certain level of visibility to preserve privacy.\n\n3. Resource discovery: Once the initiating CDN identifies its roles and activities through the created negotiated relationships for coordination and cooperation between CDNs, the next step is to choose potential CDNs to peer with. The mediator instance passes the service requirements to the local PA to discover external resources from peers. The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs. If there are any preexisting peering arrangements (for a long term scenario) then these will be returned at this point. Otherwise, it carries out short term negotiations with the Peering Agent (PA) identified peering targets.\n\n4. CDN peering protocols: The next step is to configure the ‘CDN peering’ protocols at the conduit of the respective CDNs in order to technically support the terms and policies implicitly specified through the negotiated relationships. This step includes advertising the configurations (topology aspects, geographical proximity, capability, performance, etc.) of enlisted CDNs through inter-PA communication. On establishment of a peering arrangement, these protocols also allow participating CDNs to exchange information regarding the content availability and assists to redirect requests to an optimal peer. Request-redirection in a peering arrangement depends on the content distribution and request-routing policies (specified in the CDN peering protocols) associated with the content as well as the specific algorithms and\nmethods used for directing these requests.\n\n5. Operational management: When the primary CDN acquires sufficient resources from the peers to meet its SLA with the customer, the new peering arrangement becomes operational. Hence, necessary functional policies are deployed and administered in an effective way. Once a peering arrangement is established, all participating parties cooperate in the execution of common goal(s). Peering also enables the CDNs to exchange accounting information to perform billing based on the negotiated relationships. If no CDN is interested in such peering, peering arrangement creation through re-negotiation is resumed by tuning the negotiated relationships with reconsidered service requirements.\n\n6. Disband or re-arrangement: An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions.\n\n\n2.2 Product Features\nThe software infrastructure enabling peering between CDNs can be featured with the following major\ngoals:\n Development and validation of peering and manage the complexity of content delivery across Web servers of multiple CDNs that scale across the globe.\n Decrease cost of Web access, increase QoS through reduced latency, reduce server load, and bandwidth consumption (by a particular CDN server), thus improving the performance of content delivery.\n Assists an existing CDN to alleviate congestions by detecting and handling short-term load spikes (i.e. flash crowds) effectively. The operations performed by the product components [3] assist to realize the above goals.\nComponent-wise major functions are noted below. The functions of the Web server(s) and its constituents are as follows,\n A Web server replicates content on-demand from the origin server and stores it for future use.\n In the event of Web hotspot, it initiates request to trigger peering.\n The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs.\n The policy agent is responsible (in conjunction with the mediator) for determining which resources can be delegated and under what conditions (policies) delegation is permitted.\n The SLA-allocator performs the provisioning and reservation of Web server’s resources (e.g. CPU, bandwidth, storage etc.) to satisfy both local and delegated SLAs, and ensures that the terms of the SLAs are enforced.\n The Web servers’ underlying algorithms perform on-demand caching, content selection, and routing between servers. The Mediator performs the following major functions,\n It generates service requirements as the basis for negotiated relationships.\n It passes the service requirements to the PA.\n It works in conjunction with its local PA to discover external resources and to negotiate with other CDNs.\n Once a peering arrangement is established, it controls what portion of the Web traffic (i.e. end-user requests) is redirected to the Web servers of the peering CDNs, which content is replicated there, how the replication decision is taken, and which replication policies are being used.\n It ensures that the participating entities are able to adapt to changing circumstances (agility) and are able to achieve their objectives in a dynamic and uncertain environment (resilience) The main functions of the Service Registry are as follows,\n It encapsulates the resource and service information for each CDN.\n It helps in discovering local resources through enabling the Web servers of CDN providers to register and publish their resource, service and policy details.\n In the face of traffic surges, it supplies any necessary local resource information to the mediator.\n When a new peering arrangement is established, an instance of the service registry is created that encapsulates all local and delegated external CDN resources. The Policy Repository is used to perform the following functions,\n It virtualizes all of the policies within a peering arrangement including PWS, P M , and P Peering (i.e. Web server-specific policies, mediator policies, peering policies), along with any delegated policies for resources as a result of the peering arrangement. \n It provides a set of rules to the mediator to administer, manage, and control access to the resources in a peering arrangement.\n It returns existing peering policies to the PA during the establishment of long-term peering arrangements. \nA Peering Agent carries out the following major functions,\n It acts as a policy-driven resource discovery module for establishing negotiations.\n It exchanges policy, resource information, and service requirements with external PAs.\n It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them. \nThe operations performed by the components of the CDN peering is driven by semi-autonomous logic that ensures content is served reliably through content replication, request-routing and redirection whilst maintaining constant awareness of the health (e.g. load information) of participants. These major architectural features of the CDN peering are briefly described in the following: \n Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data. Thus, content replication is featured through extending it to participating servers from the peers in a given peering arrangement, subject to the available resources they contribute.\n Load distribution is performed by measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach, where current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway (i.e. mediator, PA and policy repository as a single conceptual entity) in a periodic or threshold-based manner. The gateways of participating CDNs then communicate aggregated load information describing the load of their constituent servers. \n Request assignment and redirection is performed at multiple levels – at the DNS, at the gateways to local clusters, and also (redirection) between servers in a cluster. Therefore, end-users can be assigned via DNS (by the peering agents of participating CDNs updating their DNS records regularly) and also via redirection at the CDN gateway when appropriate.\n\nUse case Scenarios\n\n3.1  Service Registration\n\nThis feature is associated with the registration of resource and service information of each CDN to its SR\n3.1.1 Actors\n\nWS: Publishes its resource and service information to the SR.\n\nSR: Registers available local resources at the CDN provider and updates them. Mediator: Collects up-to-date resource information from SR.\n3.1.2 Trigger\n\nService registration is triggered when either one  of the following occurs: (a) resources are  available   as  a  provider   starts  operating;   (b)  previously   registered   resource information needs to be updated; (c) available local resource information is required in the event of traffic surges; and (d) local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement.\n\n3.1.3 Preconditions\n\nAvailable  local  resources  of a CDN  provider  are detected  along  with  their  service information  such  as CPU,  storage,  upload  and download  rate, etc. These  resources could be provisioned and reserved to satisfy SLAs.\n\n3.1.4 Postconditions\n\nResources are registered in the service registry and being updated in a regular basis.\n \n\n3.1.5 Stimulus/Response  Sequences\n\n1. Each CDN Web server publishes resource and service information.\n\n2. If it is a new resource, its service information  is registered  in the SR with a new resource ID. Resource ID counter is incremented.\n\n3. Else, resource information in SR is updated in a regular basis.\n\n4. In the face of traffic surges,  information  on available  local resources  along with their IDs is supplied to the Mediator.\n\n5.  Local  and  delegated  external  resource  information  is  encapsulated  in  the  SR\ninstance in the established peering arrangement.\n3.1.6 Exceptions\n\nIf a resource  fails, its service information  is removed  from SR and the resource  ID\ncounter is decremented.\n\n3.1.7 Functional Requirements\n\nREQ-1: The format for service information description is defined\n\nREQ-2: The interaction protocol between Web Server-SR, SR-mediator is defined. REQ-3: Resource provisioning, delegation and reservation policies are in place. REQ-4: There is an established norm that any resource failure will be reported REQ-5: The interaction protocol between Web Server-SR, SR-mediator is defined.\n\n3.2  Request Initiation to Trigger Peering\n\nThis feature relates to the initialization  of peering between  CDNs.\n\n3.2.1 Actors\n\nEnd-user: Requests for content.\n\nMediator: Receives initiation request from WS to trigger peering.\n\n3.2.2 Trigger\n\nIt  is  invoked  when  a  (primary)  CDN  realizes  that  it  cannot  handle  a  part  of  the workload   on   its   WS(s).   The   triggering   condition   considers   the   expected   and unexpected load increases in the initiating (primary) CDN.\n \n\n3.2.3 Preconditions\n\nExceptional circumstances  such as flash crowds have occurred to place unanticipated load on CDN WSs.\n\n3.2.4 Postconditions\n\nAn initialization request is sent to the mediator to trigger peering.\n\n3.2.5 Stimulus/Response  Sequences\n\n1. End users request for content from CDN WSs.\n\n2. Flash crowds occurred due to a sudden burst in traffic.\n\n3. Hotspot is generated and provider is unable to handle excess load on its WSs.\n\n4. WS sends initialization request to the mediator to trigger peering.\n\n3.2.6 Exceptions\n\nIf  the  user  requests  experience   service  timeout  (threshold),   initiation  request  is cancelled.\n\n3.2.7 Functional Requirements\n\nREQ-1: Malicious requests are detected and rejected.\n\nREQ-2: Web servers have already replicated necessary content.\n\nREQ-3: Both anticipated and unanticipated user requests (traffic) are considered. REQ-4: The format of the initiation request is defined.\n\n3.3  Mediator Invokes Creation of Negotiated Relationship\n\nOn receipt of the initialization  request to trigger peering, the mediator of the primary CDN invokes negotiation.\n\n3.3.1 Actors\n\nSR: Sends resource and access information.\n\nPR: Sends policy information for establishing negotiated relationships.\n \n\nPA: Receives service requirements from the mediator.\n\n3.3.2 Trigger\n\nUpon  receiving  the  initialization  request  to trigger  peering,  the  mediator  generates service requirements and passes it to local PA.\n\n3.3.3 Preconditions\n\nInitialization request is received.\n\n3.3.4 Postconditions\n\nService requirements are generated and they are sent to the local PA.\n\n3.3.5 Stimulus/Response  Sequences\n\n1. An initialization request to activate peering is received by the mediator.\n\n2. The mediator  instance  obtains  resource  and access  information  from the SR and policy information from PR to establish negotiation.\n\n3. The mediator generates service requirements.\n\n4.  If  the  service  requirements  are  acceptable  according  to  the  provider’s  policy, mediator passes it to the local PA.\n\n5. Else, reject user requests.\n\n3.3.6 Exceptions\n\nIf  the  user  requests  can  not  be  accepted  according  the  provider  policies,  service requirements are not passed to the local PA.\n\n3.3.7 Functional Requirements\n\nREQ-1: The format of service requirements is defined.\n\nREQ-2: Mediator-SR, mediator-PR, mediator-PA interaction protocols are defined. REQ-3: Mediator works in conjunction with the PA to establish negotiation.\n\n3.4  Resource Discovery through PA\n\nThe  PA  of a given  primary  CDN  negotiates  with  PAs  of the peers  to perform  external  resource discovery. \n\n3.4.1 Actors\n\nExternal PA: Negotiates with the PA of the primary CDN. PR: Receives negotiated policies from the local PA.\n3.4.2 Trigger\n\nLocal PA communicates with the PAs of peers to discover external resources.\n\n3.4.3 Preconditions\n\nService requirements are received from the mediator.\n\n3.4.4 Postconditions\n\nNegotiation  is performed  and a peering arrangement  is established  through inter-PA\ncommunications.\n\n3.4.5 Stimulus/Response  Sequences\n\n1. Local PA receives service requirements from the mediator.\n \n\n2.  If  any  peering  policies  exist,  they  are  returned  to  establish  long-term  peering arrangement.\n\n3. Else, short-term negotiation is performed.\n\n4. Local  PA  in conjunction  with  the  mediator  interacts  with  external  PAs  through inter-PA communication protocol.\n\n5. External resources are discovered and negotiation is performed with selected CDN\npeers.\n\n6. If sufficient resources are acquired, a peering arrangement is established\n\n7.  Else,  mediator  re-evaluates  service  requirements  and  sends  to  the  local  PA  to perform re-negotiation\n\n3.4.6 Exceptions\n\nIf  the  user  requests  can  not  be  accepted  according  the  provider  policies,  service requirements are not passed to the local PA.\n\n3.4.7 Functional Requirements\n\nREQ-1: Interaction protocols between PAs are identified. REQ-2: Malicious requests are identified and acted upon.\nREQ-3: There are existing policies for long-term peering arrangement. REQ-4: There is procedure to perform short-term negotiation.\n\n3.5  Operational Management\n\nThis feature is responsible  for the inter-CDN  protocol configuration,  resource initialization  and for ensuring effective operations of the established peering arrangement.\n\n3.5.1 Actors\n\nExternal PA: Exchanges configurations and content availability information, and accepts requests to an optimal peer.\n\nPR: Assists in enforcing negotiated policies.\n\n3.5.2 Trigger\n\nOnce policies  are negotiated  and a peering  arrangement  is established,  PAs interact each other in the execution of common goal(s).\n\n3.5.3 Preconditions\n\nA peering arrangement is established.\n\n3.5.4 Postconditions\n\nNecessary functions policies are deployed and administration for effective operations.\n\n3.5.5 Stimulus/Response  Sequences\n\n1. Once a peering arrangement is established, the initiating primary CDN through its local PA advertise configuration information to technically support the negotiated relationships between enlisted CDNs.\n\n2. PAs exchange content availability and load information to identify an optimal peer to handle user requests.\n\n3. Request is redirected to an optimal peer’s Web server.\n\n4.  PAs  exchange  accounting  information  to  perform  billing  based  on  negotiated relationships.\n\n5. The policy repository instance in the established peering arrangement assists in the deployment, administration and enforcement of the functional policies.\n \n\nIf a peered CDN provider refuses to accept user requests, a given peering arrangement ceases.\n\n3.5.7 Functional Requirements\n\nREQ-1: Negotiation is established between selected CDN peers.\n\nREQ-2: Primary CDN has already acquired sufficient external resources. REQ-3: Malicious requests are identified and acted upon.\nREQ-3: Functional policies are identified and deployed.\n\nREQ-4: Effective content delivery is ensured through SLA satisfaction.\n\n3.6  Disband or Re-arrangement\n\nThere could be circumstances  under which a given peering arrangement  may need to disband or re- arranges itself.\n\n3.6.1 Actors\n\nExternal PA: Interactions with local PA of the primary CDN.\n\n3.6.2 Trigger\n\nAny of the termination condition holds.\n\n3.6.3 Preconditions\n\nThere is an established peering arrangement.\n\n3.6.4 Postconditions\n\nA given peering arrangement is disband or it is re-arranged.\n\n3.6.5 Stimulus/Response  Sequences\n\n1. A given peering arrangement is currently in operation and peers are cooperating for effective content delivery.\n\n2. If any of the termination condition holds, the local PA disbands or re-arranges the peering arrangement.\n\n3.6.6 Exceptions\n\nIf there are exceptional circumstances such as natural disaster, theft, etc. for which any peer is unable to honor the negotiated relationships, a given peering arrangement is not disband or re-arranged and SLA conditions are bypassed.\n\n3.6.7 Functional Requirements\n\nREQ-1: Policies identifying the consequences of SLA violation are defined. REQ-2: Policies are in place to perform renegotiation for problem resolution.\nREQ-3: Administrative policies are deployed for operations in a peering arrangement.",
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "A CDN shall allow peering initiation when it cannot handle part of the workload on its Web servers under exceptional circumstances, considering expected and unexpected load increases.",
+      "type": "ACTION",
+      "actors": [
+        "CDN",
+        "Web Server",
+        "Mediator"
+      ],
+      "actions": [
+        "trigger peering initiation",
+        "send initialization request to the mediator"
+      ],
+      "conditions": [
+        "exceptional circumstances occur",
+        "the primary CDN cannot handle part of the workload",
+        "expected and unexpected load increases are considered"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "service requirements are generated later",
+        "negotiation may follow initiation"
+      ],
+      "source_sentence": "It is triggered by an initialization request sent to the mediator under exceptional circumstances, e.g. flash crowds, when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs). The triggering condition must consider the expected and unexpected load increases in the initiating CDN."
+    },
+    {
+      "id": "R2",
+      "text": "The mediator shall receive an initialization request from the Web server to trigger peering.",
+      "type": "ACTION",
+      "actors": [
+        "Web Server",
+        "Mediator"
+      ],
+      "actions": [
+        "send initialization request",
+        "receive initialization request"
+      ],
+      "conditions": [
+        "peering is being triggered"
+      ],
+      "exceptions": [
+        "service timeout may cancel the initiation request"
+      ],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "WS sends initialization request to the mediator to trigger peering."
+    },
+    {
+      "id": "R3",
+      "text": "A negotiated relationship shall be created to specify service expectations, operational interactions, and privacy-related information sharing among peering CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator",
+        "CDN",
+        "Service Registry",
+        "Policy Repository",
+        "Peering Agent"
+      ],
+      "actions": [
+        "create negotiated relationship",
+        "specify expected level of services",
+        "specify interactions among entities",
+        "obtain resource and access information",
+        "obtain policies",
+        "generate service requirements",
+        "allow divergent policies"
+      ],
+      "conditions": [
+        "a CDN intends to interconnect with other CDNs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "resource and access information from SR",
+        "policy information from PR",
+        "service requirements generation"
+      ],
+      "source_sentence": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship."
+    },
+    {
+      "id": "R4",
+      "text": "The mediator shall obtain resource and access information from the Service Registry and policy information from the Policy Repository, then generate service requirements based on current circumstances and customer SLA requirements.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator",
+        "Service Registry",
+        "Policy Repository"
+      ],
+      "actions": [
+        "obtain resource and access information",
+        "obtain policy information",
+        "generate service requirements"
+      ],
+      "conditions": [
+        "peering negotiation is being established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "service registration data",
+        "customer SLA requirements"
+      ],
+      "source_sentence": "In the CDN peering architecture, the mediator instance obtains the resource and access information from the Service Registry (SR), whilst SLAs and other policies from the Policy Repository (PR). The mediator instance on the primary CDN’s behalf generates its service requirements based on the current circumstance and SLA requirements of its customer(s)."
+    },
+    {
+      "id": "R5",
+      "text": "The mediator shall pass service requirements to the local Peering Agent for external resource discovery when the requirements are acceptable under provider policy.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator",
+        "Peering Agent"
+      ],
+      "actions": [
+        "pass service requirements to local PA"
+      ],
+      "conditions": [
+        "service requirements are acceptable according to the provider’s policy"
+      ],
+      "exceptions": [
+        "if the user requests cannot be accepted according to the provider policies, service requirements are not passed to the local PA"
+      ],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "If the service requirements are acceptable according to the provider’s policy, mediator passes it to the local PA."
+    },
+    {
+      "id": "R6",
+      "text": "The Peering Agent shall discover external resources from peers using the received service requirements and may perform short-term negotiation when no preexisting peering arrangement exists.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent",
+        "External PA",
+        "Mediator"
+      ],
+      "actions": [
+        "discover external resources",
+        "predict peer performance",
+        "perform short-term negotiation",
+        "interact through inter-PA communication"
+      ],
+      "conditions": [
+        "service requirements are received from the mediator",
+        "peer CDNs are being evaluated"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R5"
+      ],
+      "source_sentence": "The mediator instance passes the service requirements to the local PA to discover external resources from peers. The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs. If there are any preexisting peering arrangements (for a long term scenario) then these will be returned at this point. Otherwise, it carries out short term negotiations with the Peering Agent (PA) identified peering targets."
+    },
+    {
+      "id": "R7",
+      "text": "The CDN peering protocols shall be configured at the conduit of the respective CDNs to technically support the negotiated relationships and to advertise CDN configuration information through inter-PA communication.",
+      "type": "ACTION",
+      "actors": [
+        "CDN",
+        "Peering Agent",
+        "Mediator"
+      ],
+      "actions": [
+        "configure peering protocols",
+        "advertise configuration information",
+        "communicate through inter-PA communication"
+      ],
+      "conditions": [
+        "a negotiated relationship exists"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R3"
+      ],
+      "source_sentence": "The next step is to configure the ‘CDN peering’ protocols at the conduit of the respective CDNs in order to technically support the terms and policies implicitly specified through the negotiated relationships. This step includes advertising the configurations ... through inter-PA communication."
+    },
+    {
+      "id": "R8",
+      "text": "Participating CDNs shall exchange content availability information and support request redirection to an optimal peer based on content distribution and request-routing policies.",
+      "type": "ACTION",
+      "actors": [
+        "Participating CDNs",
+        "Peering Agent",
+        "Web Server"
+      ],
+      "actions": [
+        "exchange information regarding content availability",
+        "redirect requests to an optimal peer"
+      ],
+      "conditions": [
+        "a peering arrangement has been established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R7"
+      ],
+      "source_sentence": "On establishment of a peering arrangement, these protocols also allow participating CDNs to exchange information regarding the content availability and assists to redirect requests to an optimal peer."
+    },
+    {
+      "id": "R9",
+      "text": "When the primary CDN acquires sufficient resources from peers to meet its SLA, the peering arrangement shall become operational and functional policies shall be deployed and administered.",
+      "type": "ACTION",
+      "actors": [
+        "Primary CDN",
+        "Peers",
+        "Policy Repository"
+      ],
+      "actions": [
+        "become operational",
+        "deploy functional policies",
+        "administer policies"
+      ],
+      "conditions": [
+        "sufficient resources are acquired",
+        "the SLA can be met"
+      ],
+      "exceptions": [
+        "if no CDN is interested in such peering, arrangement creation through re-negotiation is resumed"
+      ],
+      "dependencies": [
+        "R6",
+        "R7"
+      ],
+      "source_sentence": "When the primary CDN acquires sufficient resources from the peers to meet its SLA with the customer, the new peering arrangement becomes operational. Hence, necessary functional policies are deployed and administered in an effective way."
+    },
+    {
+      "id": "R10",
+      "text": "Participating CDNs shall cooperate in executing common goals and exchange accounting information for billing based on the negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "Participating CDNs"
+      ],
+      "actions": [
+        "cooperate in execution of common goals",
+        "exchange accounting information",
+        "perform billing"
+      ],
+      "conditions": [
+        "a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R9"
+      ],
+      "source_sentence": "Once a peering arrangement is established, all participating parties cooperate in the execution of common goal(s). Peering also enables the CDNs to exchange accounting information to perform billing based on the negotiated relationships."
+    },
+    {
+      "id": "R11",
+      "text": "An existing peering arrangement shall disband or re-arrange itself when the forming circumstances no longer hold, peering is no longer beneficial, additional load requires expansion, or participants are not meeting their agreed contributions.",
+      "type": "DECISION",
+      "actors": [
+        "Primary CDN",
+        "Participating CDNs",
+        "Peering Agent"
+      ],
+      "actions": [
+        "disband peering arrangement",
+        "re-arrange peering arrangement"
+      ],
+      "conditions": [
+        "the arrangement no longer remains beneficial or valid",
+        "additional load must be handled",
+        "agreed contributions are not met"
+      ],
+      "exceptions": [
+        "exceptional circumstances such as natural disaster or theft may prevent disband/re-arrangement and bypass SLA conditions"
+      ],
+      "dependencies": [
+        "an established peering arrangement"
+      ],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself ... if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial ... (c) ... expanded further ... additional load; or (d) participating CDNs are not meeting their agreed upon contributions."
+    },
+    {
+      "id": "R12",
+      "text": "A Web server shall replicate content on-demand from the origin server and store it for future use.",
+      "type": "ACTION",
+      "actors": [
+        "Web Server",
+        "Origin Server"
+      ],
+      "actions": [
+        "replicate content on-demand",
+        "store content for future use"
+      ],
+      "conditions": [
+        "content is requested or needed"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A Web server replicates content on-demand from the origin server and stores it for future use."
+    },
+    {
+      "id": "R13",
+      "text": "A Web server shall initiate a request to trigger peering when a Web hotspot occurs.",
+      "type": "ACTION",
+      "actors": [
+        "Web Server"
+      ],
+      "actions": [
+        "initiate request to trigger peering"
+      ],
+      "conditions": [
+        "a Web hotspot occurs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "In the event of Web hotspot, it initiates request to trigger peering."
+    },
+    {
+      "id": "R14",
+      "text": "The Web services host shall ensure delivery of content to end-users based on negotiated policies with other CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "Web Services Host",
+        "End-user",
+        "Other CDNs"
+      ],
+      "actions": [
+        "ensure delivery of content"
+      ],
+      "conditions": [
+        "content is being served to end-users",
+        "negotiated policies exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "negotiated policies"
+      ],
+      "source_sentence": "The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs."
+    },
+    {
+      "id": "R15",
+      "text": "The policy agent shall determine which resources can be delegated and under what conditions delegation is permitted, in conjunction with the mediator.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Agent",
+        "Mediator"
+      ],
+      "actions": [
+        "determine delegable resources",
+        "determine delegation conditions"
+      ],
+      "conditions": [
+        "resource delegation decisions are needed"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "mediator involvement"
+      ],
+      "source_sentence": "the policy agent is responsible (in conjunction with the mediator) for determining which resources can be delegated and under what conditions (policies) delegation is permitted."
+    },
+    {
+      "id": "R16",
+      "text": "The SLA-allocator shall provision and reserve Web server resources to satisfy local and delegated SLAs and enforce the SLA terms.",
+      "type": "ACTION",
+      "actors": [
+        "SLA-Allocator",
+        "Web Server"
+      ],
+      "actions": [
+        "provision resources",
+        "reserve resources",
+        "enforce SLA terms"
+      ],
+      "conditions": [
+        "local and delegated SLAs must be satisfied"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The SLA-allocator performs the provisioning and reservation of Web server’s resources ... to satisfy both local and delegated SLAs, and ensures that the terms of the SLAs are enforced."
+    },
+    {
+      "id": "R17",
+      "text": "The underlying Web server algorithms shall perform on-demand caching, content selection, and routing between servers.",
+      "type": "ACTION",
+      "actors": [
+        "Web Server"
+      ],
+      "actions": [
+        "perform on-demand caching",
+        "perform content selection",
+        "route between servers"
+      ],
+      "conditions": [
+        "content delivery operations are being performed"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Web servers’ underlying algorithms perform on-demand caching, content selection, and routing between servers."
+    },
+    {
+      "id": "R18",
+      "text": "The Service Registry shall encapsulate resource and service information for each CDN, support local resource discovery, and supply local resource information to the mediator during traffic surges.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry",
+        "Mediator",
+        "Web Server"
+      ],
+      "actions": [
+        "encapsulate resource and service information",
+        "enable resource registration and publication",
+        "supply local resource information to the mediator"
+      ],
+      "conditions": [
+        "resources are available",
+        "traffic surges occur",
+        "a peering arrangement may be established"
+      ],
+      "exceptions": [
+        "if a resource fails, its service information is removed and the resource ID counter is decremented"
+      ],
+      "dependencies": [
+        "resource registration"
+      ],
+      "source_sentence": "It encapsulates the resource and service information for each CDN. It helps in discovering local resources ... In the face of traffic surges, it supplies any necessary local resource information to the mediator."
+    },
+    {
+      "id": "R19",
+      "text": "The Policy Repository shall virtualize policies within a peering arrangement and provide rules to the mediator for administering, managing, and controlling access to peering resources.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Repository",
+        "Mediator"
+      ],
+      "actions": [
+        "virtualize policies",
+        "provide rules to the mediator"
+      ],
+      "conditions": [
+        "a peering arrangement exists"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It virtualizes all of the policies within a peering arrangement ... It provides a set of rules to the mediator to administer, manage, and control access to the resources in a peering arrangement."
+    },
+    {
+      "id": "R20",
+      "text": "The Peering Agent shall act as a policy-driven resource discovery module, exchange policy/resource/service information with external PAs, and serve as a conduit for negotiations with other peers.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent",
+        "External PA",
+        "Mediator"
+      ],
+      "actions": [
+        "act as a policy-driven resource discovery module",
+        "exchange policy information",
+        "exchange resource information",
+        "exchange service requirements",
+        "establish negotiations"
+      ],
+      "conditions": [
+        "negotiations are being established"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A Peering Agent carries out the following major functions, It acts as a policy-driven resource discovery module for establishing negotiations. It exchanges policy, resource information, and service requirements with external PAs. It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them."
+    },
+    {
+      "id": "R21",
+      "text": "Content replication shall use a cooperative pull-based approach in which participating CDNs assist one another in serving data, subject to contributed resources.",
+      "type": "ACTION",
+      "actors": [
+        "Participating CDNs"
+      ],
+      "actions": [
+        "replicate content",
+        "assist each other in serving data"
+      ],
+      "conditions": [
+        "a peering arrangement exists",
+        "resources are available"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data."
+    },
+    {
+      "id": "R22",
+      "text": "Load distribution shall measure and disseminate load information within and among CDNs using a hierarchical approach, with periodic or threshold-based reporting to the CDN gateway and aggregated load exchange among gateways.",
+      "type": "ACTION",
+      "actors": [
+        "Web Server",
+        "CDN Gateway",
+        "Participating CDN Gateways"
+      ],
+      "actions": [
+        "measure load information",
+        "disseminate load information",
+        "report bandwidth and resource usage",
+        "communicate aggregated load information"
+      ],
+      "conditions": [
+        "load information is available"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Load distribution is performed by measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach, where current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway ... in a periodic or threshold-based manner. The gateways of participating CDNs then communicate aggregated load information describing the load of their constituent servers."
+    },
+    {
+      "id": "R23",
+      "text": "Request assignment and redirection shall operate at the DNS level, at gateway level, and between servers in a cluster, including DNS record updates by peering agents and redirection at the CDN gateway when appropriate.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent",
+        "CDN Gateway",
+        "Web Server"
+      ],
+      "actions": [
+        "assign requests via DNS",
+        "update DNS records",
+        "redirect requests at the CDN gateway",
+        "redirect between servers in a cluster"
+      ],
+      "conditions": [
+        "requests need assignment or redirection"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R8"
+      ],
+      "source_sentence": "Request assignment and redirection is performed at multiple levels – at the DNS, at the gateways to local clusters, and also (redirection) between servers in a cluster. Therefore, end-users can be assigned via DNS (by the peering agents of participating CDNs updating their DNS records regularly) and also via redirection at the CDN gateway when appropriate."
+    }
+  ],
+  "requirement_matrix": {
+    "items": [
+      {
+        "requirement_id": "R1",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Initiation is triggered by an initialization request under exceptional circumstances when the CDN cannot handle workload.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R2",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "WS sends initialization request to mediator to trigger peering.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Controlling interest in interconnection creates a negotiated relationship with specified terms and interactions.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Mediator obtains SR and PR information and generates service requirements.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R5",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Service requirements are passed to local PA if acceptable under provider policy.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R6",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "PA discovers external resources and negotiates with peers; preexisting arrangements are returned when present.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R7",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "CDN peering protocols are configured and configurations are advertised through inter-PA communication.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R8",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Participating CDNs exchange content availability information and redirect requests to an optimal peer.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R9",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Sufficient resources make the arrangement operational and trigger policy deployment and administration.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R10",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Participating parties cooperate and exchange accounting information for billing.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R11",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Arrangement may disband or re-arrange when termination conditions hold.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R12",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Web server replicates content on-demand and stores it for future use.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R13",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Web server initiates request to trigger peering on Web hotspot.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R14",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Web services host ensures delivery based on negotiated policies.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R15",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Policy agent determines delegable resources and delegation conditions with mediator.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R16",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "SLA allocator provisions and reserves resources to satisfy and enforce SLAs.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R17",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Underlying algorithms perform caching, content selection, and routing.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R18",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Service Registry encapsulates resource/service info, supports discovery, and supplies info during surges.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R19",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Policy Repository virtualizes policies and provides rules to the mediator.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R20",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Peering Agent handles policy-driven discovery and exchanges information with external PAs.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R21",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Content replication is cooperative and pull-based among participating CDNs.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R22",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Load distribution uses hierarchical measurement/reporting and aggregated gateway exchange.",
+        "confidence": 0.91
+      },
+      {
+        "requirement_id": "R23",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Request assignment/redirection occurs at DNS, gateway, and server levels.",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "plan": {
+    "objective": "Model the CDN peering lifecycle from service registration through initiation, negotiation, resource discovery, protocol configuration, operational management, and possible disband/re-arrangement, including content delivery support functions.",
+    "nodes": [
+      {
+        "temp_id": "N0",
+        "node_type": "initial",
+        "label": "Start",
+        "requirement_ids": []
+      },
+      {
+        "temp_id": "N1",
+        "node_type": "action",
+        "label": "Publish resource and service information to Service Registry",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "temp_id": "N2",
+        "node_type": "decision",
+        "label": "Is peering initiation needed due to hotspot or exceptional load?",
+        "requirement_ids": [
+          "R1",
+          "R13",
+          "R2"
+        ]
+      },
+      {
+        "temp_id": "N3",
+        "node_type": "action",
+        "label": "Send initialization request to mediator",
+        "requirement_ids": [
+          "R1",
+          "R2",
+          "R13"
+        ]
+      },
+      {
+        "temp_id": "N4",
+        "node_type": "action",
+        "label": "Mediator obtains resource/access info from SR and policy info from PR and generates service requirements",
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "temp_id": "N5",
+        "node_type": "decision",
+        "label": "Are service requirements acceptable under provider policy?",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "temp_id": "N6",
+        "node_type": "action",
+        "label": "Pass service requirements to local Peering Agent",
+        "requirement_ids": [
+          "R5",
+          "R6"
+        ]
+      },
+      {
+        "temp_id": "N7",
+        "node_type": "decision",
+        "label": "Do preexisting peering policies or arrangements exist?",
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "temp_id": "N8",
+        "node_type": "action",
+        "label": "Return preexisting peering policies and proceed with long-term peering arrangement",
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "temp_id": "N9",
+        "node_type": "action",
+        "label": "Perform short-term negotiation and inter-PA communication to discover external resources",
+        "requirement_ids": [
+          "R6",
+          "R20"
+        ]
+      },
+      {
+        "temp_id": "N10",
+        "node_type": "decision",
+        "label": "Are sufficient resources acquired?",
+        "requirement_ids": [
+          "R6",
+          "R9"
+        ]
+      },
+      {
+        "temp_id": "N11",
+        "node_type": "action",
+        "label": "Establish peering arrangement",
+        "requirement_ids": [
+          "R6",
+          "R8",
+          "R9"
+        ]
+      },
+      {
+        "temp_id": "N12",
+        "node_type": "action",
+        "label": "Configure CDN peering protocols and advertise CDN configuration information",
+        "requirement_ids": [
+          "R7"
+        ]
+      },
+      {
+        "temp_id": "N13",
+        "node_type": "action",
+        "label": "Exchange content availability information and support request redirection to an optimal peer",
+        "requirement_ids": [
+          "R8",
+          "R23"
+        ]
+      },
+      {
+        "temp_id": "N14",
+        "node_type": "action",
+        "label": "Deploy and administer functional policies; exchange accounting information for billing",
+        "requirement_ids": [
+          "R9",
+          "R10",
+          "R19"
+        ]
+      },
+      {
+        "temp_id": "N15",
+        "node_type": "decision",
+        "label": "Is the arrangement still valid, beneficial, and sufficiently meeting contribution and load conditions?",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "temp_id": "N16",
+        "node_type": "action",
+        "label": "Disband or re-arrange peering arrangement through renegotiation",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "temp_id": "N17",
+        "node_type": "action",
+        "label": "Replicate content on-demand from origin server and store it for future use",
+        "requirement_ids": [
+          "R12",
+          "R21"
+        ]
+      },
+      {
+        "temp_id": "N18",
+        "node_type": "action",
+        "label": "Ensure delivery of content to end-users based on negotiated policies",
+        "requirement_ids": [
+          "R14",
+          "R17"
+        ]
+      },
+      {
+        "temp_id": "N19",
+        "node_type": "action",
+        "label": "Determine delegable resources and delegation conditions with mediator and reserve/provision resources for SLAs",
+        "requirement_ids": [
+          "R15",
+          "R16"
+        ]
+      },
+      {
+        "temp_id": "N20",
+        "node_type": "action",
+        "label": "Measure, report, and disseminate load information hierarchically",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "temp_id": "N21",
+        "node_type": "final",
+        "label": "End",
+        "requirement_ids": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "N0",
+        "target": "N1",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "source": "N1",
+        "target": "N2",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R1",
+          "R13",
+          "R2",
+          "R18"
+        ]
+      },
+      {
+        "source": "N2",
+        "target": "N3",
+        "guard": "yes",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R1",
+          "R13",
+          "R2"
+        ]
+      },
+      {
+        "source": "N2",
+        "target": "N17",
+        "guard": "no",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R12",
+          "R14",
+          "R17",
+          "R21",
+          "R22"
+        ]
+      },
+      {
+        "source": "N3",
+        "target": "N4",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R1",
+          "R2",
+          "R13",
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "source": "N4",
+        "target": "N5",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R3",
+          "R4",
+          "R5"
+        ]
+      },
+      {
+        "source": "N5",
+        "target": "N6",
+        "guard": "acceptable",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "source": "N5",
+        "target": "N21",
+        "guard": "rejected",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "source": "N6",
+        "target": "N7",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "source": "N7",
+        "target": "N8",
+        "guard": "preexisting policies exist",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "source": "N7",
+        "target": "N9",
+        "guard": "no preexisting policies exist",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6",
+          "R20"
+        ]
+      },
+      {
+        "source": "N8",
+        "target": "N11",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "source": "N9",
+        "target": "N10",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6",
+          "R20"
+        ]
+      },
+      {
+        "source": "N10",
+        "target": "N11",
+        "guard": "sufficient resources acquired",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6",
+          "R9"
+        ]
+      },
+      {
+        "source": "N10",
+        "target": "N4",
+        "guard": "insufficient resources acquired",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6",
+          "R9"
+        ]
+      },
+      {
+        "source": "N11",
+        "target": "N12",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R7",
+          "R8",
+          "R9"
+        ]
+      },
+      {
+        "source": "N12",
+        "target": "N13",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R7",
+          "R8",
+          "R23"
+        ]
+      },
+      {
+        "source": "N13",
+        "target": "N14",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R8",
+          "R9",
+          "R10",
+          "R19",
+          "R23"
+        ]
+      },
+      {
+        "source": "N14",
+        "target": "N15",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R9",
+          "R10",
+          "R11",
+          "R19"
+        ]
+      },
+      {
+        "source": "N15",
+        "target": "N16",
+        "guard": "termination condition holds",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "source": "N15",
+        "target": "N17",
+        "guard": "arrangement remains valid and beneficial",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R11",
+          "R12",
+          "R14",
+          "R15",
+          "R16",
+          "R17",
+          "R21",
+          "R22",
+          "R23"
+        ]
+      },
+      {
+        "source": "N16",
+        "target": "N21",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "source": "N17",
+        "target": "N18",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R12",
+          "R14",
+          "R17",
+          "R21"
+        ]
+      },
+      {
+        "source": "N18",
+        "target": "N19",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R14",
+          "R15",
+          "R16",
+          "R17"
+        ]
+      },
+      {
+        "source": "N19",
+        "target": "N20",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R15",
+          "R16",
+          "R22"
+        ]
+      },
+      {
+        "source": "N20",
+        "target": "N15",
+        "guard": "operational cycle continues",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R10",
+          "R22",
+          "R11"
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "decision_id": "D1",
+        "condition": "Peering initiation is needed because the primary CDN cannot handle part of the workload under exceptional circumstances and must consider expected and unexpected load increases",
+        "branch_ids": [
+          "B1",
+          "B2"
+        ],
+        "guards": [
+          "yes",
+          "no"
+        ]
+      },
+      {
+        "decision_id": "D2",
+        "condition": "Service requirements are acceptable under provider policy",
+        "branch_ids": [
+          "B3",
+          "B4"
+        ],
+        "guards": [
+          "acceptable",
+          "rejected"
+        ]
+      },
+      {
+        "decision_id": "D3",
+        "condition": "Preexisting peering policies or arrangements exist",
+        "branch_ids": [
+          "B5",
+          "B6"
+        ],
+        "guards": [
+          "preexisting policies exist",
+          "no preexisting policies exist"
+        ]
+      },
+      {
+        "decision_id": "D4",
+        "condition": "Sufficient resources are acquired to meet SLA and operationalize peering",
+        "branch_ids": [
+          "B7",
+          "B8"
+        ],
+        "guards": [
+          "sufficient resources acquired",
+          "insufficient resources acquired"
+        ]
+      },
+      {
+        "decision_id": "D5",
+        "condition": "The peering arrangement remains valid, beneficial, and compliant with contribution and load conditions",
+        "branch_ids": [
+          "B9",
+          "B10"
+        ],
+        "guards": [
+          "termination condition holds",
+          "arrangement remains valid and beneficial"
+        ]
+      }
+    ],
+    "loops": [
+      {
+        "loop_id": "L1",
+        "condition": "Operational peering cycle continues while the arrangement remains established and valid",
+        "entry_node": "N17",
+        "body_nodes": [
+          "N17",
+          "N18",
+          "N19",
+          "N20",
+          "N15"
+        ],
+        "exit_node": "N16",
+        "continue_guard": "arrangement remains valid and beneficial",
+        "exit_guard": "termination condition holds"
+      }
+    ],
+    "concurrency": [],
+    "exceptions": [
+      {
+        "exception_id": "E1",
+        "trigger": "User requests experience service timeout threshold and initiation is cancelled",
+        "handler_node_id": "N21",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "exception_id": "E2",
+        "trigger": "User requests cannot be accepted according to provider policies",
+        "handler_node_id": "N21",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "exception_id": "E3",
+        "trigger": "Resource failure occurs and service information must be removed from the Service Registry with counter decrement",
+        "handler_node_id": "N1",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "exception_id": "E4",
+        "trigger": "Exceptional circumstances such as natural disaster or theft prevent disband or re-arrangement and SLA conditions are bypassed",
+        "handler_node_id": "N15",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "exception_id": "E5",
+        "trigger": "A peered CDN provider refuses to accept user requests",
+        "handler_node_id": "N16",
+        "requirement_ids": [
+          "R9"
+        ]
+      }
+    ],
+    "decision_strategy": [
+      "Use a top-level decision to determine whether peering initiation is triggered by hotspot or exceptional load.",
+      "Use provider-policy acceptance as the gate before passing requirements to the local Peering Agent.",
+      "Use a resource-discovery decision to distinguish preexisting long-term peering policies from short-term negotiation.",
+      "Use a resource sufficiency decision to determine whether a peering arrangement is established or renegotiation is required.",
+      "Use an operational-validity decision to determine whether the arrangement continues or disbands/re-arranges.",
+      "Guard names must match the branch semantics exactly and remain deterministic for compilation."
+    ],
+    "concurrency_strategy": [
+      "No explicit parallel forks are stated as mandatory in the requirements; resource registration, negotiation, and operational activities are modeled sequentially for determinism."
+    ],
+    "exception_strategy": [
+      "Model request timeout, policy rejection, resource failure, refusal to accept requests, and extraordinary bypass conditions as exceptions with explicit handlers.",
+      "Do not invent recovery behavior beyond what is stated; when unspecified, terminate or route back only where the requirements explicitly require renegotiation or removal/update actions."
+    ],
+    "termination_strategy": [
+      "Terminate when initiation is rejected or canceled.",
+      "Terminate after disband/re-arrangement.",
+      "Otherwise remain in the operational loop while the arrangement is valid and beneficial.",
+      "Use explicit final node N21 as the compilation target for all terminal outcomes."
+    ],
+    "traceability": {
+      "items": [
+        {
+          "requirement_id": "R1",
+          "diagram_node_ids": [
+            "N2",
+            "N3"
+          ],
+          "diagram_edge_ids": [
+            "N2->N3"
+          ],
+          "evidence": "Initiation is triggered when the primary CDN cannot handle workload under exceptional circumstances and sends an initialization request.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R2",
+          "diagram_node_ids": [
+            "N3",
+            "N5"
+          ],
+          "diagram_edge_ids": [
+            "N2->N3",
+            "N5->N21"
+          ],
+          "evidence": "Mediator receives initialization request; timeout can cancel initiation.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R3",
+          "diagram_node_ids": [
+            "N4"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "Negotiated relationship created through mediator obtaining SR/PR information and defining service expectations.",
+          "confidence": 0.94
+        },
+        {
+          "requirement_id": "R4",
+          "diagram_node_ids": [
+            "N4"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "Mediator obtains resource/access and policy information and generates service requirements.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R5",
+          "diagram_node_ids": [
+            "N5",
+            "N6"
+          ],
+          "diagram_edge_ids": [
+            "N5->N6",
+            "N5->N21"
+          ],
+          "evidence": "Service requirements are passed to PA only when acceptable under provider policy.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R6",
+          "diagram_node_ids": [
+            "N7",
+            "N8",
+            "N9",
+            "N10"
+          ],
+          "diagram_edge_ids": [
+            "N7->N8",
+            "N7->N9",
+            "N10->N11",
+            "N10->N4"
+          ],
+          "evidence": "PA discovers external resources, uses preexisting arrangements if present, otherwise performs short-term negotiation; insufficient resources cause re-evaluation.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R7",
+          "diagram_node_ids": [
+            "N12"
+          ],
+          "diagram_edge_ids": [
+            "N11->N12"
+          ],
+          "evidence": "CDN peering protocols are configured and configuration information is advertised through inter-PA communication.",
+          "confidence": 0.96
+        },
+        {
+          "requirement_id": "R8",
+          "diagram_node_ids": [
+            "N13"
+          ],
+          "diagram_edge_ids": [
+            "N12->N13"
+          ],
+          "evidence": "Participating CDNs exchange content availability information and redirect to optimal peer.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R9",
+          "diagram_node_ids": [
+            "N11",
+            "N14",
+            "N10"
+          ],
+          "diagram_edge_ids": [
+            "N10->N11",
+            "N13->N14"
+          ],
+          "evidence": "Sufficient resources make arrangement operational; policies are deployed and administered.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R10",
+          "diagram_node_ids": [
+            "N14",
+            "N20"
+          ],
+          "diagram_edge_ids": [
+            "N14->N15",
+            "N20->N15"
+          ],
+          "evidence": "Participants cooperate and exchange accounting information for billing.",
+          "confidence": 0.95
+        },
+        {
+          "requirement_id": "R11",
+          "diagram_node_ids": [
+            "N15",
+            "N16"
+          ],
+          "diagram_edge_ids": [
+            "N15->N16",
+            "N16->N21"
+          ],
+          "evidence": "Arrangement disbands or re-arranges when termination conditions hold.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R12",
+          "diagram_node_ids": [
+            "N17"
+          ],
+          "diagram_edge_ids": [
+            "N17->N18"
+          ],
+          "evidence": "Web server replicates content on-demand and stores it for future use.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R13",
+          "diagram_node_ids": [
+            "N2",
+            "N3"
+          ],
+          "diagram_edge_ids": [
+            "N2->N3"
+          ],
+          "evidence": "Web server initiates request to trigger peering on hotspot.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R14",
+          "diagram_node_ids": [
+            "N18"
+          ],
+          "diagram_edge_ids": [
+            "N17->N18"
+          ],
+          "evidence": "Web services host ensures delivery based on negotiated policies.",
+          "confidence": 0.95
+        },
+        {
+          "requirement_id": "R15",
+          "diagram_node_ids": [
+            "N19"
+          ],
+          "diagram_edge_ids": [
+            "N18->N19"
+          ],
+          "evidence": "Policy agent determines delegable resources and delegation conditions with mediator.",
+          "confidence": 0.96
+        },
+        {
+          "requirement_id": "R16",
+          "diagram_node_ids": [
+            "N19"
+          ],
+          "diagram_edge_ids": [
+            "N18->N19"
+          ],
+          "evidence": "SLA-allocator provisions and reserves resources and enforces SLA terms.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R17",
+          "diagram_node_ids": [
+            "N18"
+          ],
+          "diagram_edge_ids": [
+            "N17->N18"
+          ],
+          "evidence": "Underlying algorithms perform caching, content selection, and routing between servers.",
+          "confidence": 0.95
+        },
+        {
+          "requirement_id": "R18",
+          "diagram_node_ids": [
+            "N1"
+          ],
+          "diagram_edge_ids": [
+            "N0->N1"
+          ],
+          "evidence": "Service Registry encapsulates resource/service information, supports discovery, and supplies info during surges; resource failure is handled by removal and counter decrement.",
+          "confidence": 0.96
+        },
+        {
+          "requirement_id": "R19",
+          "diagram_node_ids": [
+            "N4",
+            "N14"
+          ],
+          "diagram_edge_ids": [
+            "N13->N14"
+          ],
+          "evidence": "Policy Repository virtualizes policies and provides rules to the mediator.",
+          "confidence": 0.94
+        },
+        {
+          "requirement_id": "R20",
+          "diagram_node_ids": [
+            "N9"
+          ],
+          "diagram_edge_ids": [
+            "N7->N9"
+          ],
+          "evidence": "Peering Agent acts as conduit for negotiations and exchanges information with external PAs.",
+          "confidence": 0.95
+        },
+        {
+          "requirement_id": "R21",
+          "diagram_node_ids": [
+            "N17"
+          ],
+          "diagram_edge_ids": [
+            "N17->N18"
+          ],
+          "evidence": "Content replication uses cooperative pull-based approach among participating CDNs.",
+          "confidence": 0.92
+        },
+        {
+          "requirement_id": "R22",
+          "diagram_node_ids": [
+            "N20"
+          ],
+          "diagram_edge_ids": [
+            "N19->N20"
+          ],
+          "evidence": "Load distribution measures and disseminates load information hierarchically.",
+          "confidence": 0.92
+        },
+        {
+          "requirement_id": "R23",
+          "diagram_node_ids": [
+            "N13"
+          ],
+          "diagram_edge_ids": [
+            "N12->N13"
+          ],
+          "evidence": "Request assignment and redirection operate at DNS, gateway, and server levels.",
+          "confidence": 0.91
+        }
+      ]
+    }
+  },
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N0",
+        "type": "initial",
+        "label": "Start",
+        "requirement_ids": []
+      },
+      {
+        "id": "N1",
+        "type": "action",
+        "label": "Publish resource and service information to Service Registry",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "N2",
+        "type": "decision",
+        "label": "Is peering initiation needed due to hotspot or exceptional load, including expected and unexpected load increases?",
+        "requirement_ids": [
+          "R1",
+          "R13",
+          "R2"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Send initialization request to mediator",
+        "requirement_ids": [
+          "R1",
+          "R2",
+          "R13"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Mediator obtains resource/access info from SR and policy info from PR and generates service requirements",
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "decision",
+        "label": "Are service requirements acceptable under provider policy?",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Pass service requirements to local Peering Agent",
+        "requirement_ids": [
+          "R5",
+          "R6"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "decision",
+        "label": "Do preexisting peering policies or arrangements exist?",
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Return preexisting peering policies and proceed with long-term peering arrangement",
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Perform short-term negotiation and inter-PA communication to discover external resources",
+        "requirement_ids": [
+          "R6",
+          "R20"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "decision",
+        "label": "Are sufficient resources acquired?",
+        "requirement_ids": [
+          "R6",
+          "R9"
+        ]
+      },
+      {
+        "id": "N11",
+        "type": "action",
+        "label": "Establish peering arrangement",
+        "requirement_ids": [
+          "R6",
+          "R8",
+          "R9"
+        ]
+      },
+      {
+        "id": "N12",
+        "type": "action",
+        "label": "Configure CDN peering protocols and advertise CDN configuration information",
+        "requirement_ids": [
+          "R7"
+        ]
+      },
+      {
+        "id": "N13",
+        "type": "action",
+        "label": "Exchange content availability information and support request redirection to an optimal peer",
+        "requirement_ids": [
+          "R8",
+          "R23"
+        ]
+      },
+      {
+        "id": "N14",
+        "type": "action",
+        "label": "Deploy and administer functional policies; exchange accounting information for billing",
+        "requirement_ids": [
+          "R9",
+          "R10",
+          "R19"
+        ]
+      },
+      {
+        "id": "N15",
+        "type": "decision",
+        "label": "Is the arrangement still valid, beneficial, and sufficiently meeting contribution and load conditions?",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "id": "N16",
+        "type": "action",
+        "label": "Disband or re-arrange peering arrangement through renegotiation",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "id": "N17",
+        "type": "action",
+        "label": "Replicate content on-demand from origin server and store it for future use",
+        "requirement_ids": [
+          "R12",
+          "R21"
+        ]
+      },
+      {
+        "id": "N18",
+        "type": "action",
+        "label": "Ensure delivery of content to end-users based on negotiated policies",
+        "requirement_ids": [
+          "R14",
+          "R17"
+        ]
+      },
+      {
+        "id": "N19",
+        "type": "action",
+        "label": "Determine delegable resources and delegation conditions with mediator and reserve/provision resources for SLAs",
+        "requirement_ids": [
+          "R15",
+          "R16"
+        ]
+      },
+      {
+        "id": "N20",
+        "type": "action",
+        "label": "Measure, report, and disseminate load information hierarchically",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "id": "N21",
+        "type": "final",
+        "label": "End",
+        "requirement_ids": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "E0",
+        "source": "N0",
+        "target": "N1",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R1",
+          "R13",
+          "R2",
+          "R18"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": "hotspot/exceptional load with expected and unexpected load increases",
+        "requirement_ids": [
+          "R1",
+          "R13",
+          "R2"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N2",
+        "target": "N17",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R12",
+          "R14",
+          "R17",
+          "R21",
+          "R22"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R1",
+          "R2",
+          "R13",
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R3",
+          "R4",
+          "R5"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": "acceptable",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N5",
+        "target": "N21",
+        "type": "control",
+        "guard": "rejected",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": "preexisting policies exist",
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N7",
+        "target": "N9",
+        "type": "control",
+        "guard": "no preexisting policies exist",
+        "requirement_ids": [
+          "R6",
+          "R20"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N8",
+        "target": "N11",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R6",
+          "R19"
+        ]
+      },
+      {
+        "id": "E12",
+        "source": "N9",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R6",
+          "R20"
+        ]
+      },
+      {
+        "id": "E13",
+        "source": "N10",
+        "target": "N11",
+        "type": "control",
+        "guard": "sufficient resources acquired",
+        "requirement_ids": [
+          "R6",
+          "R9"
+        ]
+      },
+      {
+        "id": "E14",
+        "source": "N10",
+        "target": "N9",
+        "type": "control",
+        "guard": "insufficient resources acquired",
+        "requirement_ids": [
+          "R6",
+          "R9"
+        ]
+      },
+      {
+        "id": "E15",
+        "source": "N11",
+        "target": "N12",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R7",
+          "R8",
+          "R9"
+        ]
+      },
+      {
+        "id": "E16",
+        "source": "N12",
+        "target": "N13",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R7",
+          "R8",
+          "R23"
+        ]
+      },
+      {
+        "id": "E17",
+        "source": "N13",
+        "target": "N14",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R8",
+          "R9",
+          "R10",
+          "R19",
+          "R23"
+        ]
+      },
+      {
+        "id": "E18",
+        "source": "N14",
+        "target": "N15",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R9",
+          "R10",
+          "R11",
+          "R19"
+        ]
+      },
+      {
+        "id": "E19",
+        "source": "N15",
+        "target": "N16",
+        "type": "control",
+        "guard": "termination condition holds",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "id": "E20",
+        "source": "N15",
+        "target": "N17",
+        "type": "control",
+        "guard": "arrangement remains valid and beneficial",
+        "requirement_ids": [
+          "R11",
+          "R12",
+          "R14",
+          "R15",
+          "R16",
+          "R17",
+          "R21",
+          "R22",
+          "R23"
+        ]
+      },
+      {
+        "id": "E21",
+        "source": "N16",
+        "target": "N21",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "id": "E22",
+        "source": "N17",
+        "target": "N18",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R12",
+          "R14",
+          "R17",
+          "R21"
+        ]
+      },
+      {
+        "id": "E23",
+        "source": "N18",
+        "target": "N19",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R14",
+          "R15",
+          "R16",
+          "R17"
+        ]
+      },
+      {
+        "id": "E24",
+        "source": "N19",
+        "target": "N20",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R15",
+          "R16",
+          "R22"
+        ]
+      },
+      {
+        "id": "E25",
+        "source": "N20",
+        "target": "N15",
+        "type": "control",
+        "guard": "operational cycle continues",
+        "requirement_ids": [
+          "R10",
+          "R22",
+          "R11"
+        ]
+      }
+    ],
+    "title": "CDN Peering Lifecycle"
+  },
+  "validation": {
+    "passed": true,
+    "score": 1.0,
+    "defects": [],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "FLOW-001": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 0,
+      "HALL-001": 0
+    },
+    "summary": "0 defect(s) detected."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers most lifecycle steps of CDN peering, but it still has a few semantic mismatches with the requirements, mainly around initiation/exception handling and post-operation flow. Most core requirements are represented.",
+    "semantic_score": 0.84,
+    "defects": [
+      {
+        "id": "D1",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "MEDIUM",
+        "description": "The initiation path omits the required cancellation behavior when user requests experience service timeout. The diagram routes the non-initiation branch directly into content-serving behavior instead of terminating or cancelling the initiation request.",
+        "node_ids": [
+          "N2",
+          "N17",
+          "N21"
+        ],
+        "edge_ids": [
+          "E3",
+          "E21"
+        ],
+        "requirement_ids": [
+          "R2",
+          "R13"
+        ],
+        "evidence": "REQ 3.2.6 states: 'If the user requests experience service timeout (threshold), initiation request is cancelled.' R2 also allows cancellation of the initiation request. The current 'no' branch from the initiation decision leads to N17 (normal serving), not cancellation of the initiation request.",
+        "suggested_action": "Add an explicit cancellation/termination branch for the initiation timeout case before proceeding to peering or normal operations, and ensure the branch represents cancellation of the initiation request rather than unrelated content-serving behavior."
+      },
+      {
+        "id": "D2",
+        "category": "CONTROL_FLOW",
+        "severity": "HIGH",
+        "description": "The operational-management loop incorrectly routes back to the disband/re-arrangement decision after each operational cycle, which can cause repeated disband evaluation even when no termination condition is present. The requirements describe ongoing operational management as continuing until a termination/re-arrangement condition occurs, not as repeatedly re-evaluating disband conditions after every accounting/load cycle.",
+        "node_ids": [
+          "N20",
+          "N15"
+        ],
+        "edge_ids": [
+          "E25"
+        ],
+        "requirement_ids": [
+          "R9",
+          "R10",
+          "R11"
+        ],
+        "evidence": "R9 and R10 describe operational management as the state after resources are acquired: policies are deployed, parties cooperate, and accounting information is exchanged. R11 separately defines the conditions under which an existing arrangement may disband or re-arrange. The current flow returns from N20 to N15 on 'operational cycle continues', making termination evaluation part of the normal loop rather than a conditional transition.",
+        "suggested_action": "Keep operational management as the ongoing state and route to the disband/re-arrangement decision only when a termination condition is detected, instead of looping all operational activity back into the disband decision unconditionally."
+      }
+    ],
+    "strengths": [
+      "Covers the major lifecycle phases: initiation, negotiation, resource discovery, protocol configuration, operational management, and disband/re-arrangement.",
+      "Includes the required SR and PR interactions before service requirements are passed to the Peering Agent.",
+      "Represents long-term vs short-term peering discovery and includes the sufficient-resources condition before peering becomes operational.",
+      "Includes content exchange, request redirection, accounting/billing, and policy deployment after establishment."
+    ],
+    "missing_requirements": [
+      "Explicit cancellation handling for initiation timeout/service timeout.",
+      "A cleaner separation between continuous operational management and the conditional disband/re-arrangement trigger."
+    ],
+    "unsupported_behaviors": [
+      "Routing the non-initiation branch into the content-serving path without an explicit cancellation step.",
+      "Returning from the operational cycle into the disband decision on every loop iteration rather than only when disband/re-arrangement conditions arise."
+    ]
+  },
+  "defects": [
+    {
+      "id": "D1",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "The initiation path omits the required cancellation behavior when user requests experience service timeout. The diagram routes the non-initiation branch directly into content-serving behavior instead of terminating or cancelling the initiation request.",
+      "node_ids": [
+        "N2",
+        "N17",
+        "N21"
+      ],
+      "edge_ids": [
+        "E3",
+        "E21"
+      ],
+      "requirement_ids": [
+        "R2",
+        "R13"
+      ],
+      "evidence": "REQ 3.2.6 states: 'If the user requests experience service timeout (threshold), initiation request is cancelled.' R2 also allows cancellation of the initiation request. The current 'no' branch from the initiation decision leads to N17 (normal serving), not cancellation of the initiation request.",
+      "suggested_action": "Add an explicit cancellation/termination branch for the initiation timeout case before proceeding to peering or normal operations, and ensure the branch represents cancellation of the initiation request rather than unrelated content-serving behavior."
+    },
+    {
+      "id": "D2",
+      "category": "CONTROL_FLOW",
+      "severity": "HIGH",
+      "description": "The operational-management loop incorrectly routes back to the disband/re-arrangement decision after each operational cycle, which can cause repeated disband evaluation even when no termination condition is present. The requirements describe ongoing operational management as continuing until a termination/re-arrangement condition occurs, not as repeatedly re-evaluating disband conditions after every accounting/load cycle.",
+      "node_ids": [
+        "N20",
+        "N15"
+      ],
+      "edge_ids": [
+        "E25"
+      ],
+      "requirement_ids": [
+        "R9",
+        "R10",
+        "R11"
+      ],
+      "evidence": "R9 and R10 describe operational management as the state after resources are acquired: policies are deployed, parties cooperate, and accounting information is exchanged. R11 separately defines the conditions under which an existing arrangement may disband or re-arrange. The current flow returns from N20 to N15 on 'operational cycle continues', making termination evaluation part of the normal loop rather than a conditional transition.",
+      "suggested_action": "Keep operational management as the ongoing state and route to the disband/re-arrangement decision only when a termination condition is detected, instead of looping all operational activity back into the disband decision unconditionally."
+    }
+  ],
+  "repair_history": [
+    {
+      "iteration": 0,
+      "repair_type": "minimal_fix",
+      "changed": true,
+      "accepted": true,
+      "before_score": 47.0,
+      "after_score": 69.0,
+      "score_delta": 22.0,
+      "changes": [
+        "Refined decision node N2 label to explicitly evaluate expected and unexpected load increases, while preserving the existing hotspot/exceptional load initiation flow.",
+        "Updated the yes-guard on edge E2 to reflect the explicit load-increase condition for triggering peering initiation."
+      ],
+      "rationale": "The only supplied semantic defect was that the initiation decision did not explicitly consider both expected and unexpected load increases. The repair keeps the existing structure and behavior intact, making the smallest change needed to align the trigger condition with R1 while preserving all other nodes, edges, and requirement traces.",
+      "defect_ids": [
+        "PLANTUML-0",
+        "D1"
+      ],
+      "defect_categories": [
+        "SYNTAX",
+        "REQUIREMENT_COVERAGE"
+      ]
+    },
+    {
+      "iteration": 1,
+      "repair_type": "minimal_fix",
+      "changed": true,
+      "accepted": true,
+      "before_score": 35.5,
+      "after_score": 45.0,
+      "score_delta": 9.5,
+      "changes": [
+        "Redirected the insufficient-resources branch from the full mediator SR/PR information-gathering step to the existing short-term negotiation path, so re-negotiation resumes by tuning service requirements and re-entering PA negotiation.",
+        "Preserved all other nodes, edges, requirement traces, and the single initial/final structure."
+      ],
+      "rationale": "The only behavioral defect was the retry path after insufficient resources. Instead of looping back to regenerate requirements from SR/PR, the flow now resumes at the PA negotiation branch, which better matches the stated re-negotiation behavior while keeping the diagram otherwise unchanged and compilable.",
+      "defect_ids": [
+        "PLANTUML-1",
+        "D1"
+      ],
+      "defect_categories": [
+        "SYNTAX",
+        "CONTROL_FLOW"
+      ]
+    },
+    {
+      "iteration": 2,
+      "repair_type": "control_flow_fix",
+      "changed": true,
+      "accepted": true,
+      "before_score": 54.0,
+      "after_score": 62.43617021276596,
+      "score_delta": 8.436170212765958,
+      "changes": [
+        "Removed the unconditional loop from operational management back to the disband/re-arrangement decision.",
+        "Kept operational management as an ongoing flow after resource acquisition, preserving the disband/re-arrangement decision only for the explicit termination path."
+      ],
+      "rationale": "The defect required eliminating the normal-cycle return from operational management to the disband decision because termination evaluation should not be part of every operational iteration. I preserved all nodes and all other edges, changing only the problematic control flow while maintaining the intended operational behavior and the separate disband/re-arrangement condition.",
+      "defect_ids": [
+        "PLANTUML-2",
+        "D2"
+      ],
+      "defect_categories": [
+        "SYNTAX",
+        "CONTROL_FLOW"
+      ]
+    }
+  ],
+  "iteration": 3,
+  "final_plantuml": "@startuml\ntitle CDN Peering Lifecycle\n\nstart\n\n:Publish resource and service information to Service Registry;\nif (Is peering initiation needed due to hotspot or exceptional load, including expected and unexpected load increases?) then (hotspot/exceptional load with expected and unexpected load increases)\n:Send initialization request to mediator;\n:Mediator obtains resource/access info from SR and policy info from PR and generates service requirements;\nif (Are service requirements acceptable under provider policy?) then (acceptable)\n:Pass service requirements to local Peering Agent;\nif (Do preexisting peering policies or arrangements exist?) then (preexisting policies exist)\n:Return preexisting peering policies and proceed with long-term peering arrangement;\n:Establish peering arrangement;\n:Configure CDN peering protocols and advertise CDN configuration information;\n:Exchange content availability information and support request redirection to an optimal peer;\n:Deploy and administer functional policies; exchange accounting information for billing;\nrepeat\nrepeat while (arrangement remains valid and beneficial) is (true)\n:Disband or re-arrange peering arrangement through renegotiation;\nelse (no preexisting policies exist)\n:Perform short-term negotiation and inter-PA communication to discover external resources;\nrepeat\nrepeat while (insufficient resources acquired) is (true)\nendif\nelse (rejected)\nendif\nelse (no)\n:Replicate content on-demand from origin server and store it for future use;\n:Ensure delivery of content to end-users based on negotiated policies;\n:Determine delegable resources and delegation conditions with mediator and reserve/provision resources for SLAs;\n:Measure, report, and disseminate load information hierarchically;\nendif\n\nstop\n\n@enduml",
+  "metrics": {
+    "render": {
+      "source": "outputs\\peering.puml",
+      "rendered": false
+    },
+    "best_iteration": 2,
+    "best_score": 54.0,
+    "repair_iterations": 3,
+    "final_defect_count": 2,
+    "initial_requirement_count": 23
+  }
+}

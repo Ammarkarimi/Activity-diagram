@@ -1,0 +1,33 @@
+@startuml
+title CTS trade instruction processing
+
+start
+
+:Analyze incoming instruction;
+:Classify instruction into kind;
+if (Select instruction type) then (buy instruction)
+:Process buy instruction;
+:Match instructions by stock id and prescripts;
+if (Check whether matching succeeds) then (matching succeeds)
+:Make trade by matching;
+:Modify matched instruction information;
+:Save successful trade information;
+:Provide interface to other modules;
+:Send produced message to network message promulgating subsystem;
+else (no matched stock)
+endif
+else (sell instruction)
+:Process sell instruction;
+endif
+else (cancel instruction)
+:Process cancel instruction;
+:Cancel correlative instruction;
+else (query instruction)
+:Process query instruction;
+:Implement query;
+:Structuralize queried data;
+:Send queried data to release system;
+
+stop
+
+@enduml

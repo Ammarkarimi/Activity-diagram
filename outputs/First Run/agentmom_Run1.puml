@@ -1,0 +1,41 @@
+@startuml
+title Agent communication with optional encryption and multicast join/leave notifications
+
+start
+
+if (Choose communication mode) then (unicast)
+if (Choose whether to encrypt message) then (encrypt)
+:Encrypt message;
+:Send unicast message;
+:Receive unicast message;
+if (Message encrypted?) then (encrypted)
+:Decrypt unicast message;
+else (not encrypted)
+endif
+else (do not encrypt)
+endif
+else (multicast)
+:Send multicast message;
+:Receive multicast message;
+if (Message encrypted?) then (encrypted)
+:Decrypt multicast message;
+else (not encrypted)
+endif
+else (join/leave multicast group)
+if (Join or leave multicast group?) then (join multicast group)
+:Send notify message to join multicast group;
+else (leave multicast group)
+:Send notify message to leave multicast group;
+endif
+endif
+else (broadcast)
+:Send broadcast message;
+:Receive broadcast message;
+if (Message encrypted?) then (encrypted)
+:Decrypt broadcast message;
+else (not encrypted)
+endif
+
+stop
+
+@enduml
