@@ -1,0 +1,64 @@
+@startuml
+title agentMom – Product Functions Activity Diagram
+
+|Sending Agent|
+start
+
+:Compose message;
+
+if (Encrypt message?) then (yes)
+  :Encrypt message;
+else (no)
+endif
+
+if (Communication type Unicast?) then (Yes)
+  :Send unicast message\nvia TCP/IP;
+
+  |Receiving Agent|
+    :Receive unicast message;
+    if (Message encrypted?) then (yes)
+      :Decrypt message;
+    else (no)
+    endif
+    :Process unicast message;
+|Sending Agent|
+else (No)
+  if (Communication type Multicast?) then (Yes)
+
+    |Sending Agent|
+    if (Group action Join / Leave?) then (Yes)
+      if (Group action Join?) then (Yes)
+        :Send join request\nto multicast group;
+        :Agent added\nto group;
+      else (No)
+        :Send leave request\nto multicast group;
+        :Agent removed\nfrom group;
+      endif
+    else (No)
+      :Set multicast address,\nport & TTL;
+      :Send multicast message\nto group address;
+
+      |Receiving Agent|
+      :Receive multicast message\nfrom subscribed group;
+      if (Message encrypted?) then (yes)
+        :Decrypt message;
+      else (no)
+      endif
+      :Process multicast message;
+    endif
+
+  else (No)
+
+    |Sending Agent|
+    :Send broadcast message\nto local network via UDP;
+
+    |Receiving Agent|
+    :Receive broadcast message;
+    :Process broadcast message;
+
+  endif
+endif
+
+stop
+
+@enduml

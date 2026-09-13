@@ -1,0 +1,51 @@
+@startuml
+title Central Trading System
+
+|Central Trading System|
+start
+if (System operating normally?) then (yes)
+|Trade Client Serve|
+    :Submit trading instruction\n(buy / sell / cancel / query);
+|Central Trading System|
+    :Receive instruction from\nTrade Client Serve;
+    :Analyse and classify instruction\nbuy / sell / cancel / query);
+    if (Instruction type?) then (Trade / Cancel)
+      :Process instruction under\nspecific matching rules;
+      if(rules / data   matched?) then (yes)
+          :Produce result message;
+          fork
+            :Send result to\nNetwork Message Promulgating;
+          fork again
+            :Send result back to\nTrade Client Serve;
+          end fork
+      else (no)
+          :Notify Trade Client Serve\nof failure;
+      endif
+    elseif (Query) then (Query)
+      :Process query instruction;
+      :Retrieve requested information;
+      :Send query result to\nrequesting subsystem;
+    else (Invalid / Unrecognised)
+      :Reject instruction;
+      :Notify Trade Client Serve\nof rejection;
+    endif
+|Trading System Manager|
+    :Request access to CTS information;
+|Central Trading System|
+    :Authorise and provide\naccess to CTS data;
+|Central Trading System|
+else (no — system crash / overload)
+|System Maintainer|
+    :Diagnoses\ncause of crash;
+    if (New requirement or bug fix?) then (Bug Fix)
+      :Fix the issue;
+    else (New Requirement)
+      :Modify program\nto support new requirement;
+    endif
+    :Apply overload / crash\nmanagement strategy;
+    :Restore system to\nnormal operation;
+endif
+
+stop
+
+@enduml
