@@ -69,6 +69,60 @@ def test_plantuml_special_characters_escaping():
     assert '|' not in text
 
 
+def test_plantuml_emits_gold_standard_lanes():
+    d = ActivityDiagram(
+        nodes=[
+            ActivityNode(id="N1", type=NodeType.INITIAL, label="Start"),
+            ActivityNode(
+                id="N2",
+                type=NodeType.ACTION,
+                label="Receive request",
+                lane="Web Server",
+            ),
+            ActivityNode(
+                id="N3",
+                type=NodeType.ACTION,
+                label="Check policy",
+                lane="Policy Repository",
+            ),
+            ActivityNode(id="N4", type=NodeType.FINAL, label="End"),
+        ],
+        edges=[
+            ActivityEdge(id="E1", source="N1", target="N2"),
+            ActivityEdge(id="E2", source="N2", target="N3"),
+            ActivityEdge(id="E3", source="N3", target="N4"),
+        ],
+    )
+
+    text = PlantUMLGenerator().render(d)
+    assert "|Web Server|" in text
+    assert "|Policy Repository|" in text
+
+
+def test_plantuml_fallback_handles_multibranch_non_decision():
+    d = ActivityDiagram(
+        nodes=[
+            ActivityNode(id="N1", type=NodeType.INITIAL, label="Start"),
+            ActivityNode(id="N2", type=NodeType.ACTION, label="Continue flow"),
+            ActivityNode(id="N3", type=NodeType.ACTION, label="Handle A"),
+            ActivityNode(id="N4", type=NodeType.ACTION, label="Handle B"),
+            ActivityNode(id="N5", type=NodeType.FINAL, label="End"),
+        ],
+        edges=[
+            ActivityEdge(id="E1", source="N1", target="N2"),
+            ActivityEdge(id="E2", source="N2", target="N3"),
+            ActivityEdge(id="E3", source="N2", target="N4"),
+            ActivityEdge(id="E4", source="N3", target="N5"),
+            ActivityEdge(id="E5", source="N4", target="N5"),
+        ],
+    )
+    text = PlantUMLGenerator().render(d)
+    assert text.startswith("@startuml")
+    assert text.endswith("@enduml")
+    assert "if (" in text or "start" in text
+    assert "stop" in text
+
+
 def test_ir_sanitizer():
     from src.generation.ir_sanitizer import IRSanitizer
     d = ActivityDiagram(

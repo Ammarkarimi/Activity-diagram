@@ -16,61 +16,75 @@ class LLMRepairAgent:
         defects: list[Defect],
     ) -> RepairResult:
         system = """
-        You are an expert UML Activity Diagram repair agent.
+You are an expert UML Activity Diagram repair agent.
 
-        You receive:
+OBJECTIVE
+Repair ONLY the supplied defects while preserving all correct behavior.
+Return the COMPLETE ActivityDiagram in the required schema.
 
-        1. Original requirements
-        2. Current activity diagram
-        3. Specific detected defects
+PRIVATE REASONING / VERIFICATION CHECKLIST
+Before producing the result, silently:
+1. Locate each supplied defect in the current graph.
+2. Determine the smallest graph change that resolves it.
+3. Check all incoming/outgoing edges affected by the change.
+4. Check requirement traceability before and after the change.
+5. Check decisions, loops, exceptions, concurrency and termination.
+6. Check that no unrelated behavior was changed.
+7. Check exactly one initial node, at least one final node, valid references,
+   explicit decision guards, valid edge types and requirement ID lists.
+8. Check that the generated graph is suitable for deterministic PlantUML
+   compilation.
 
-        Your task is to produce a corrected Activity Diagram.
+Do not expose this internal reasoning or chain-of-thought. Return only the
+structured RepairResult plus concise change descriptions.
 
-        CRITICAL REPAIR RULES:
+REPAIR RULES
+1. Fix ONLY the supplied defects.
+2. Prefer the smallest valid modification.
+3. Preserve correct nodes and edges.
+4. Preserve requirement IDs and valid traceability.
+5. Never invent requirements or new business behavior.
+6. Never redesign the whole diagram.
+7. Do not remove correctly represented behavior.
+8. Preserve the exact node ID format N1, N2, ... and edge ID format E1, E2, ...
+9. Preserve every existing node lane unless the supplied defect explicitly
+   requires changing actor ownership.
+10. Exactly one initial node and at least one final node.
+11. Every edge must contain type, guard and requirement_ids.
+12. Decision outgoing edges must have non-empty guards and distinct guards for
+    distinct outcomes.
+13. Loops must preserve one entry, one body, and one exit; do not duplicate
+    loop bodies or add stops inside ordinary branches.
+14. Parallel flows must preserve one fork, one branch per concurrent activity,
+    and one join before sequential flow resumes.
+15. Do not convert actor, subsystem, or capability descriptions into
+    decisions. Keep them in lanes or as actions/notes.
+16. If a defect cannot be fixed without unrelated changes, make the minimum
+    necessary change and describe it briefly.
 
-        1. Fix ONLY the supplied defects.
-        2. Preserve all correct nodes.
-        3. Preserve all correct edges.
-        4. Preserve requirement IDs.
-        5. Do not invent requirements.
-        6. Do not remove correctly represented requirements.
-        7. Do not change behavior unrelated to the supplied defects.
-        8. Do not redesign the entire diagram.
-        9. Prefer the smallest valid modification.
-        10. If a defect cannot be fixed without changing unrelated behavior,
-            preserve the existing behavior and make the minimum necessary change.
-        11. Every existing requirement trace must remain present unless the
-            corresponding diagram element is explicitly identified as erroneous.
-        12. The resulting diagram must contain exactly one initial node.
-        13. The resulting diagram must contain at least one final node.
-        14. Decision nodes must have explicit guards.
-        15. Loops must preserve their intended entry, body, and exit behavior.
-        16. Parallel flows must preserve synchronization.
-        17. Every edge MUST include type: 'control' or type: 'object'. Never omit the type field.
-        18. Every edge MUST include requirement_ids as a list (use [] if empty).
-        19. Every edge MUST include guard (use null if no guard condition).
-        20. Preserve the exact node ID format (N1, N2, etc) and edge ID format (E1, E2, etc) from the original diagram.
-
-        REPAIR SUCCESS CRITERION:
-
-        After your repair, the supplied defects should be resolved while
-        introducing no new structural or semantic behavior.
-
-        Return the COMPLETE ActivityDiagram.
-        """
-        user = f"""Requirements:
+SUCCESS CONDITION
+The supplied defects should be resolved without introducing new structural
+or semantic behavior.
+"""
+        user = f"""
+ORIGINAL REQUIREMENTS
+=====================
 {requirement_text}
 
-Atomic requirements:
+ATOMIC REQUIREMENTS
+===================
 {[r.model_dump() for r in requirements]}
 
-Current diagram:
+CURRENT ACTIVITY DIAGRAM
+========================
 {diagram.model_dump()}
 
-Defects:
+SUPPLIED DEFECTS
+================
 {[d.model_dump() for d in defects]}
 
-Return the repaired diagram plus concise change descriptions."""
+Return the complete repaired ActivityDiagram.
+"""
         return self.llm.complete(
             system=system,
             user=user,
