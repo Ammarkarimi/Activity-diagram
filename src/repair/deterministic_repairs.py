@@ -3,7 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 
 from src.models.domain import (
-    ActivityDiagram, ActivityEdge, ActivityNode, Defect, NodeType, RepairResult
+    ActivityDiagram, ActivityEdge, ActivityNode, Defect, NodeType, RepairResult, EdgeType
 )
 
 
@@ -23,6 +23,7 @@ class StructuralRepair:
                     id="N_INIT",
                     type=NodeType.INITIAL,
                     label="Start",
+                    requirement_ids=[],
                 ),
             )
             d.edges.insert(
@@ -31,6 +32,8 @@ class StructuralRepair:
                     id="E_INIT",
                     source="N_INIT",
                     target=first.id,
+                    type=EdgeType.CONTROL,
+                    guard=None,
                     requirement_ids=first.requirement_ids.copy(),
                 ),
             )
@@ -44,8 +47,8 @@ class StructuralRepair:
             candidates = [n for n in d.nodes if n.id not in terminal_candidates and n.type != NodeType.INITIAL]
             if candidates:
                 target = candidates[-1]
-                d.nodes.append(ActivityNode(id="N_FINAL", type=NodeType.FINAL, label="End"))
-                d.edges.append(ActivityEdge(id="E_FINAL", source=target.id, target="N_FINAL"))
+                d.nodes.append(ActivityNode(id="N_FINAL", type=NodeType.FINAL, label="End", requirement_ids=[]))
+                d.edges.append(ActivityEdge(id="E_FINAL", source=target.id, target="N_FINAL", type=EdgeType.CONTROL, guard=None, requirement_ids=[]))
                 changes.append("Added missing final node and termination edge.")
 
         return RepairResult(
@@ -83,7 +86,9 @@ class DecisionRepair:
                             id=f"E{edge_counter}",
                             source=node.id,
                             target=target.id,
+                            type=EdgeType.CONTROL,
                             guard="[otherwise]",
+                            requirement_ids=[],
                         )
                     )
                     edge_counter += 1
