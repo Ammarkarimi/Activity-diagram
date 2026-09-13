@@ -116,6 +116,8 @@ class PlanNode(BaseModel):
 
     label: str
 
+    lane: str | None = None
+
     requirement_ids: list[str] = Field(
         default_factory=list
     )
@@ -255,6 +257,8 @@ class ActivityNode(BaseModel):
     type: NodeType
 
     label: str
+
+    lane: str | None = None
 
     requirement_ids: list[str] = Field(
         default_factory=list
@@ -547,6 +551,12 @@ class CandidateRecord(BaseModel):
     plantuml: str = ""
 
     metrics: CandidateMetrics
+
+    # Exact evaluation snapshot for this candidate. Storing these objects
+    # avoids re-running an LLM reviewer merely to restore the best candidate.
+    validation: ValidationResult | None = None
+
+    review: ReviewResult | None = None
 
     defects: list[Defect] = Field(
         default_factory=list

@@ -1,7 +1,17 @@
 from __future__ import annotations
 
-from src.models.domain import PipelineState
+from src.models.domain import Defect, Severity
 
+
+# Weights used for the research-oriented normalized quality score.
+QUALITY_WEIGHTS = {
+    "requirement_coverage": 0.25,
+    "correctness": 0.25,
+    "completeness": 0.20,
+    "structural_validity": 0.15,
+    "unsupported_behavior": 0.10,
+    "defect_free": 0.05,
+}
 
 CATEGORY_WEIGHTS = {
     "SYNTAX": 10.0,
@@ -16,65 +26,67 @@ CATEGORY_WEIGHTS = {
     "HALLUCINATION": 7.0,
     "GRANULARITY": 4.0,
     "DATA_FLOW": 6.0,
+    "LAYOUT": 2.0,
+}
+
+SEVERITY_WEIGHTS = {
+    Severity.CRITICAL: 4.0,
+    Severity.HIGH: 3.0,
+    Severity.MEDIUM: 2.0,
+    Severity.LOW: 1.0,
 }
 
 
-def defect_penalty(defects) -> float:
+def defect_penalty(defects: list[Defect]) -> float:
+    """Return a transparent penalty used for the auxiliary candidate score."""
+    return sum(
+        CATEGORY_WEIGHTS.get(defect.category, 5.0)
+        * SEVERITY_WEIGHTS.get(defect.severity, 1.0)
+        for defect in defects
+    )
 
-    penalty = 0.0
 
-    for defect in defects:
+def quality_score(
+    *,
+    requirement_coverage: float,
+    correctness: float,
+    completeness: float,
+    structural_validity: float,
+    unsupported_behaviour_rate: float,
+    defect_count: int,
+) -> float:
+    """Return a normalized 0..1 quality score.
 
-        penalty += CATEGORY_WEIGHTS.get(
-            defect.category,
-            5.0,
-        )
+    This is the main research score. It is deliberately independent of
+    reviewer wording and of the raw number of graph nodes/edges.
+    """
+    unsupported_score = 1.0 - max(0.0, min(1.0, unsupported_behaviour_rate))
+    defect_free_score = 1.0 / (1.0 + max(0, defect_count))
 
-        if defect.severity.value == "CRITICAL":
-            penalty += 10.0
-
-        elif defect.severity.value == "HIGH":
-            penalty += 5.0
-
-        elif defect.severity.value == "MEDIUM":
-            penalty += 2.0
-
-    return penalty
+    score = (
+        QUALITY_WEIGHTS["requirement_coverage"] * requirement_coverage
+        + QUALITY_WEIGHTS["correctness"] * correctness
+        + QUALITY_WEIGHTS["completeness"] * completeness
+        + QUALITY_WEIGHTS["structural_validity"] * structural_validity
+        + QUALITY_WEIGHTS["unsupported_behavior"] * unsupported_score
+        + QUALITY_WEIGHTS["defect_free"] * defect_free_score
+    )
+    return max(0.0, min(1.0, score))
 
 
 def candidate_score(
     validation,
     review,
+    defects: list[Defect],
 ) -> float:
+    """Return an auxiliary 0..100 score for iteration logs.
 
-    validation_score = (
-        validation.score
-        if validation
-        else 0.0
-    )
+    The orchestrator uses ``quality_score`` for candidate selection and
+    repair acceptance. This score is kept for backwards-compatible reporting.
+    """
+    structural = validation.score if validation else 0.0
+    semantic = review.semantic_score if review else 0.0
+    penalty = defect_penalty(defects)
 
-    semantic_score = (
-        review.semantic_score
-        if review
-        else 0.0
-    )
-
-    penalty = defect_penalty(
-        (
-            validation.defects
-            if validation
-            else []
-        )
-        +
-        (
-            review.defects
-            if review
-            else []
-        )
-    )
-
-    return (
-        validation_score * 50.0
-        + semantic_score * 50.0
-        - penalty
-    )
+    raw = 50.0 * structural + 50.0 * semantic - penalty
+    return max(0.0, min(100.0, raw))

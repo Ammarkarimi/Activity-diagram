@@ -4,65 +4,41 @@ import re
 
 
 def normalize(text: str) -> str:
-
-    text = text.lower()
-
-    text = re.sub(
-        r"\s+",
-        " ",
-        text,
-    )
-
+    text = (text or "").lower()
+    text = re.sub(r"\s+", " ", text)
     return text.strip()
 
 
 def defect_key(defect) -> str:
+    """Stable identity for the same logical defect across iterations.
 
-    return "|".join(
-        [
-            defect.category,
-            ",".join(
-                sorted(
-                    defect.node_ids
-                )
-            ),
-            ",".join(
-                sorted(
-                    defect.edge_ids
-                )
-            ),
-            ",".join(
-                sorted(
-                    defect.requirement_ids
-                )
-            ),
-            normalize(
-                defect.description
-            ),
-        ]
-    )
+    Defect IDs are intentionally excluded because an LLM may call the same
+    defect D1 in multiple iterations or use a different generated ID.
+    """
+    nodes = ",".join(sorted(defect.node_ids))
+    edges = ",".join(sorted(defect.edge_ids))
+    requirements = ",".join(sorted(defect.requirement_ids))
+
+    # Prefer stable graph/requirement locations. This prevents an LLM from
+    # turning the same defect into a new defect merely by rephrasing it.
+    location = ",".join([nodes, edges, requirements]).strip(",")
+    if location:
+        return "|".join([defect.category, location])
+
+    return "|".join([defect.category, normalize(defect.description)])
 
 
-def deduplicate_defects(
-    defects,
-):
+def defect_signatures(defects) -> set[str]:
+    return {defect_key(defect) for defect in defects}
 
+
+def deduplicate_defects(defects):
     result = []
     seen = set()
-
     for defect in defects:
-
-        key = defect_key(
-            defect
-        )
-
+        key = defect_key(defect)
         if key in seen:
             continue
-
         seen.add(key)
-
-        result.append(
-            defect
-        )
-
+        result.append(defect)
     return result

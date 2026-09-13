@@ -68,6 +68,7 @@ class PlantUMLGenerator:
 
         visited: set[str] = set()
         self._final_reached = False
+        self._current_lane: str | None = None
 
         self._compile_node(
             graph=graph,
@@ -75,6 +76,7 @@ class PlantUMLGenerator:
             diagram=diagram,
             node_id=initial.id,
             visited=visited,
+            path=set(),
             lines=lines,
         )
 
@@ -129,15 +131,21 @@ class PlantUMLGenerator:
         diagram: ActivityDiagram,
         node_id: str,
         visited: set[str],
+        path: set[str],
         lines: list[str],
     ) -> None:
 
+        if node_id in path:
+            return
         if node_id in visited:
             return
 
+        next_path = set(path)
+        next_path.add(node_id)
         visited.add(node_id)
 
         node = nodes[node_id]
+        self._emit_lane(node.lane, lines)
 
         # --------------------------------------------------------
         # INITIAL
@@ -151,6 +159,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node_id=node_id,
                 visited=visited,
+                path=next_path,
                 lines=lines,
             )
 
@@ -181,6 +190,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node_id=node_id,
                 visited=visited,
+                path=next_path,
                 lines=lines,
             )
 
@@ -198,6 +208,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node=node,
                 visited=visited,
+                path=next_path,
                 lines=lines,
             )
 
@@ -215,6 +226,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node_id=node_id,
                 visited=visited,
+                path=next_path,
                 lines=lines,
             )
 
@@ -232,6 +244,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node=node,
                 visited=visited,
+                path=next_path,
                 lines=lines,
             )
 
@@ -249,6 +262,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node_id=node_id,
                 visited=visited,
+                path=next_path,
                 lines=lines,
             )
 
@@ -271,6 +285,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node_id=node_id,
                 visited=visited,
+                path=next_path,
                 lines=lines,
             )
 
@@ -293,6 +308,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node_id=node_id,
                 visited=visited,
+                path=next_path,
                 lines=lines,
             )
 
@@ -308,6 +324,7 @@ class PlantUMLGenerator:
         diagram: ActivityDiagram,
         node_id: str,
         visited: set[str],
+        path: set[str],
         lines: list[str],
     ) -> None:
 
@@ -327,7 +344,7 @@ class PlantUMLGenerator:
             target = successors[0]
 
             # Don't recursively traverse cycles.
-            if target in visited:
+            if target in visited or target in path:
                 return
 
             self._compile_node(
@@ -336,23 +353,36 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 node_id=target,
                 visited=visited,
+                path=path,
                 lines=lines,
             )
 
             return
 
         # --------------------------------------------------------
-        # More than one successor from a normal node
+        # More than one successor from a normal node.
         #
-        # This should normally be a decision/fork.
-        # We do not invent semantics here.
+        # This situation can happen when a generator emits a branch without a
+        # dedicated decision node. Preserve the graph by compiling it as a
+        # synthetic decision instead of crashing and producing an empty output.
         # --------------------------------------------------------
 
-        raise ValueError(
-            f"Node {node_id} has multiple "
-            "outgoing edges but is not a "
-            "decision or fork."
+        synthetic_node = nodes[node_id].model_copy(deep=True)
+        synthetic_node.type = NodeType.DECISION
+        if not synthetic_node.label:
+            synthetic_node.label = "Decision"
+
+        self._compile_decision(
+            graph=graph,
+            nodes=nodes,
+            diagram=diagram,
+            node=synthetic_node,
+            visited=visited,
+            path=path,
+            lines=lines,
         )
+
+        return
 
     # ============================================================
     # DECISION COMPILER
@@ -366,6 +396,7 @@ class PlantUMLGenerator:
         diagram: ActivityDiagram,
         node: ActivityNode,
         visited: set[str],
+        path: set[str],
         lines: list[str],
     ) -> None:
 
@@ -424,6 +455,7 @@ class PlantUMLGenerator:
                 start=loop_edge.target,
                 loop_target=node.id,
                 visited=visited,
+                path=path,
                 lines=lines,
                 excluded_targets={
                     exit_edge.target,
@@ -447,12 +479,15 @@ class PlantUMLGenerator:
 
             if exit_target not in visited:
 
+                if exit_target in path:
+                    return
                 self._compile_node(
                     graph=graph,
                     nodes=nodes,
                     diagram=diagram,
                     node_id=exit_target,
                     visited=visited,
+                    path=path,
                     lines=lines,
                 )
 
@@ -500,6 +535,7 @@ class PlantUMLGenerator:
                 diagram=diagram,
                 target=edge.target,
                 visited=branch_visited,
+                path=path.copy(),
                 lines=lines,
             )
             branch_visited_sets.append(branch_visited)
@@ -511,12 +547,15 @@ class PlantUMLGenerator:
 
         if merge_point:
             visited.discard(merge_point)
+            if merge_point in path:
+                return
             self._compile_node(
                 graph=graph,
                 nodes=nodes,
                 diagram=diagram,
                 node_id=merge_point,
                 visited=visited,
+                path=path,
                 lines=lines,
             )
 
@@ -568,6 +607,7 @@ class PlantUMLGenerator:
         start: str,
         loop_target: str,
         visited: set[str],
+        path: set[str],
         lines: list[str],
         excluded_targets: set[str],
     ) -> None:
@@ -576,12 +616,15 @@ class PlantUMLGenerator:
         visited.add(loop_target)
         visited.update(excluded_targets)
 
+        if start in path:
+            return
         self._compile_node(
             graph=graph,
             nodes=nodes,
             diagram=diagram,
             node_id=start,
             visited=visited,
+            path=path,
             lines=lines,
         )
 
@@ -603,6 +646,7 @@ class PlantUMLGenerator:
         diagram: ActivityDiagram,
         target: str,
         visited: set[str],
+        path: set[str],
         lines: list[str],
     ) -> None:
 
@@ -615,22 +659,28 @@ class PlantUMLGenerator:
             NodeType.FINAL,
         }:
             # Compile it to get the stop emitted if needed
+            if target in path:
+                return
             self._compile_node(
                 graph=graph,
                 nodes=nodes,
                 diagram=diagram,
                 node_id=target,
                 visited=visited,
+                path=path,
                 lines=lines,
             )
             return
 
+        if target in path:
+            return
         self._compile_node(
             graph=graph,
             nodes=nodes,
             diagram=diagram,
             node_id=target,
             visited=visited,
+            path=path,
             lines=lines,
         )
 
@@ -646,6 +696,7 @@ class PlantUMLGenerator:
         diagram: ActivityDiagram,
         node: ActivityNode,
         visited: set[str],
+        path: set[str],
         lines: list[str],
     ) -> None:
 
@@ -668,12 +719,15 @@ class PlantUMLGenerator:
                     "fork again"
                 )
 
+            if target in path:
+                continue
             self._compile_node(
                 graph=graph,
                 nodes=nodes,
                 diagram=diagram,
                 node_id=target,
                 visited=visited.copy(),
+                path=path.copy(),
                 lines=lines,
             )
 
@@ -682,6 +736,17 @@ class PlantUMLGenerator:
     # ============================================================
     # GRAPH UTILITIES
     # ============================================================
+
+    def _emit_lane(
+        self,
+        lane: str | None,
+        lines: list[str],
+    ) -> None:
+        lane = (lane or "").strip()
+        if not lane or lane == self._current_lane:
+            return
+        lines.append(f"|{self._escape_lane(lane)}|")
+        self._current_lane = lane
 
     @staticmethod
     def _reaches(
@@ -786,6 +851,14 @@ class PlantUMLGenerator:
             .replace("(", "")
             .replace(")", "")
             .replace('"', "'")
+            .strip()
+        )
+
+    @staticmethod
+    def _escape_lane(text: str) -> str:
+        return (
+            text.replace("|", " ")
+            .replace("\n", " ")
             .strip()
         )
 

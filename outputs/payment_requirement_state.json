@@ -1,0 +1,2083 @@
+{
+  "sample_id": "payment_requirement",
+  "requirement_text": "A customer submits payment details. The system validates the payment information.\nIf validation fails, the system asks the customer to correct the information and retry.\nIf validation succeeds, the system processes the payment.\nThe payment may succeed or fail. On success, the system sends a payment confirmation.\nOn failure, the system displays a payment failure message and ends the transaction.\n",
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "The customer submits payment details.",
+      "type": "ACTION",
+      "actors": [
+        "customer"
+      ],
+      "actions": [
+        "submits payment details"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A customer submits payment details."
+    },
+    {
+      "id": "R2",
+      "text": "The system validates the payment information.",
+      "type": "ACTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "validates payment information"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "The system validates the payment information."
+    },
+    {
+      "id": "R3",
+      "text": "If validation fails, the system asks the customer to correct the information and retry.",
+      "type": "DECISION",
+      "actors": [
+        "system",
+        "customer"
+      ],
+      "actions": [
+        "asks the customer to correct the information",
+        "retry"
+      ],
+      "conditions": [
+        "validation fails"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "If validation fails, the system asks the customer to correct the information and retry."
+    },
+    {
+      "id": "R4",
+      "text": "If validation succeeds, the system processes the payment.",
+      "type": "DECISION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "processes the payment"
+      ],
+      "conditions": [
+        "validation succeeds"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "If validation succeeds, the system processes the payment."
+    },
+    {
+      "id": "R5",
+      "text": "The payment may succeed or fail.",
+      "type": "DECISION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "The payment may succeed or fail."
+    },
+    {
+      "id": "R6",
+      "text": "On success, the system sends a payment confirmation.",
+      "type": "ACTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "sends a payment confirmation"
+      ],
+      "conditions": [
+        "payment succeeds"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R5"
+      ],
+      "source_sentence": "On success, the system sends a payment confirmation."
+    },
+    {
+      "id": "R7",
+      "text": "On failure, the system displays a payment failure message and ends the transaction.",
+      "type": "TERMINATION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "displays a payment failure message",
+        "ends the transaction"
+      ],
+      "conditions": [
+        "payment fails"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R5"
+      ],
+      "source_sentence": "On failure, the system displays a payment failure message and ends the transaction."
+    }
+  ],
+  "requirement_matrix": {
+    "items": []
+  },
+  "plan": {
+    "objective": "Model payment submission, validation with retry on failure, payment processing, and success/failure outcomes including confirmation or termination.",
+    "nodes": [
+      {
+        "temp_id": "P1",
+        "node_type": "initial",
+        "label": "Start payment transaction",
+        "requirement_ids": []
+      },
+      {
+        "temp_id": "P2",
+        "node_type": "action",
+        "label": "Customer submits payment details",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "temp_id": "P3",
+        "node_type": "action",
+        "label": "System validates payment information",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "temp_id": "P4",
+        "node_type": "decision",
+        "label": "Was validation successful?",
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "temp_id": "P5",
+        "node_type": "action",
+        "label": "Ask customer to correct information and retry",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "temp_id": "P6",
+        "node_type": "action",
+        "label": "Process payment",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "temp_id": "P7",
+        "node_type": "decision",
+        "label": "Did payment succeed?",
+        "requirement_ids": [
+          "R5",
+          "R6",
+          "R7"
+        ]
+      },
+      {
+        "temp_id": "P8",
+        "node_type": "action",
+        "label": "Send payment confirmation",
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "temp_id": "P9",
+        "node_type": "action",
+        "label": "Display payment failure message and end transaction",
+        "requirement_ids": [
+          "R7"
+        ]
+      },
+      {
+        "temp_id": "P10",
+        "node_type": "final",
+        "label": "Transaction completed",
+        "requirement_ids": [
+          "R6",
+          "R7"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "P1",
+        "target": "P2",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "source": "P2",
+        "target": "P3",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "source": "P3",
+        "target": "P4",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "source": "P4",
+        "target": "P5",
+        "guard": "validation fails",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "source": "P4",
+        "target": "P6",
+        "guard": "validation succeeds",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "source": "P5",
+        "target": "P2",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "source": "P6",
+        "target": "P7",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "source": "P7",
+        "target": "P8",
+        "guard": "payment succeeds",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "source": "P7",
+        "target": "P9",
+        "guard": "payment fails",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R7"
+        ]
+      },
+      {
+        "source": "P8",
+        "target": "P10",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "source": "P9",
+        "target": "P10",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R7"
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "decision_id": "D1",
+        "condition": "Validation result after customer submits payment details",
+        "branch_ids": [
+          "P5",
+          "P6"
+        ],
+        "guards": [
+          "validation fails",
+          "validation succeeds"
+        ]
+      },
+      {
+        "decision_id": "D2",
+        "condition": "Payment processing outcome",
+        "branch_ids": [
+          "P8",
+          "P9"
+        ],
+        "guards": [
+          "payment succeeds",
+          "payment fails"
+        ]
+      }
+    ],
+    "loops": [
+      {
+        "loop_id": "LOOP_1",
+        "condition": "Repeat until payment information validates",
+        "entry_node": "P5",
+        "body_nodes": [
+          "P5",
+          "P2",
+          "P3",
+          "P4"
+        ],
+        "exit_node": "P6",
+        "continue_guard": "validation fails and customer retries",
+        "exit_guard": "validation succeeds"
+      }
+    ],
+    "concurrency": [],
+    "exceptions": [],
+    "decision_strategy": [
+      "Evaluate validation immediately after submission.",
+      "Use mutually exclusive guards: validation fails versus validation succeeds.",
+      "If validation fails, route to correction and re-entry of payment details.",
+      "If validation succeeds, proceed directly to payment processing.",
+      "After processing, evaluate payment outcome with mutually exclusive guards: payment succeeds versus payment fails."
+    ],
+    "concurrency_strategy": [
+      "No concurrent branches are required in this workflow."
+    ],
+    "exception_strategy": [
+      "No explicit exception handling is modeled beyond the validation retry and payment failure path."
+    ],
+    "termination_strategy": [
+      "Terminate successfully after payment confirmation.",
+      "Terminate after displaying payment failure message and ending the transaction."
+    ],
+    "traceability": {
+      "items": [
+        {
+          "requirement_id": "R1",
+          "diagram_node_ids": [
+            "P2"
+          ],
+          "diagram_edge_ids": [
+            "P1",
+            "P2"
+          ],
+          "evidence": "Customer submits payment details at the start of the workflow.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R2",
+          "diagram_node_ids": [
+            "P3"
+          ],
+          "diagram_edge_ids": [
+            "P2",
+            "P3"
+          ],
+          "evidence": "System validates payment information immediately after submission.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R3",
+          "diagram_node_ids": [
+            "P4",
+            "P5"
+          ],
+          "diagram_edge_ids": [
+            "P3",
+            "P4",
+            "P4",
+            "P5",
+            "P5",
+            "P2"
+          ],
+          "evidence": "Validation failure is modeled by the decision and the correction/retry action.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R4",
+          "diagram_node_ids": [
+            "P4",
+            "P6"
+          ],
+          "diagram_edge_ids": [
+            "P3",
+            "P4",
+            "P4",
+            "P6"
+          ],
+          "evidence": "Validation success routes to payment processing.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R5",
+          "diagram_node_ids": [
+            "P7"
+          ],
+          "diagram_edge_ids": [
+            "P6",
+            "P7"
+          ],
+          "evidence": "Payment outcome is modeled as a decision after processing.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R6",
+          "diagram_node_ids": [
+            "P8",
+            "P10"
+          ],
+          "diagram_edge_ids": [
+            "P7",
+            "P8",
+            "P8",
+            "P10"
+          ],
+          "evidence": "Successful payment leads to confirmation and then termination.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R7",
+          "diagram_node_ids": [
+            "P9",
+            "P10"
+          ],
+          "diagram_edge_ids": [
+            "P7",
+            "P9",
+            "P9",
+            "P10"
+          ],
+          "evidence": "Failed payment leads to failure message and transaction end.",
+          "confidence": 0.99
+        }
+      ]
+    }
+  },
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start payment transaction",
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Customer submits payment details",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "System validates payment information",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "decision",
+        "label": "Was validation successful?",
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Ask customer to correct information and retry",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Process payment",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "decision",
+        "label": "Did payment succeed?",
+        "requirement_ids": [
+          "R5",
+          "R6",
+          "R7"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Send payment confirmation",
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Display payment failure message and end transaction",
+        "requirement_ids": [
+          "R7"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "final",
+        "label": "Transaction completed",
+        "requirement_ids": [
+          "R6",
+          "R7"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": "validation fails",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N4",
+        "target": "N6",
+        "type": "control",
+        "guard": "validation succeeds",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N5",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": "payment succeeds",
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N7",
+        "target": "N9",
+        "type": "control",
+        "guard": "payment fails",
+        "requirement_ids": [
+          "R7"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N8",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N9",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R7"
+        ]
+      }
+    ],
+    "title": "Payment submission, validation retry, processing, and outcome"
+  },
+  "validation": {
+    "passed": true,
+    "score": 1.0,
+    "defects": [],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "FLOW-001": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 0,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 0,
+      "TOTAL_NODES": 10,
+      "TOTAL_EDGES": 11,
+      "TOTAL_REQUIREMENTS": 7
+    },
+    "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers the main payment flow and outcome branching, but it omits an explicit transaction-ending behavior on payment failure and models the validation retry in a way that is semantically acceptable. The main semantic issue is that the failure path does not clearly terminate the transaction as required.",
+    "semantic_score": 0.86,
+    "defects": [
+      {
+        "id": "D1",
+        "category": "TERMINATION",
+        "severity": "HIGH",
+        "description": "The failure branch does not explicitly terminate the transaction after displaying the payment failure message as required by R7.",
+        "node_ids": [
+          "N9",
+          "N10"
+        ],
+        "edge_ids": [
+          "E9",
+          "E11"
+        ],
+        "requirement_ids": [
+          "R7"
+        ],
+        "evidence": "R7 states: 'On failure, the system displays a payment failure message and ends the transaction.' The diagram sends the failure path from N9 to a final node N10 labeled 'Transaction completed', but it does not clearly represent the required transaction termination on the failure branch itself, and the final node label does not distinguish failure termination from successful completion.",
+        "suggested_action": "Make the failure branch end in an explicit termination that represents the failed transaction, or ensure the final node/termination behavior clearly captures that the transaction ends on failure."
+      }
+    ],
+    "strengths": [
+      "The diagram includes the required submission, validation, retry, processing, success, and failure branches.",
+      "Validation success and failure are modeled as separate guarded decisions.",
+      "The success path includes sending a payment confirmation."
+    ],
+    "missing_requirements": [
+      "An explicit semantic representation that the transaction ends on payment failure."
+    ],
+    "unsupported_behaviors": []
+  },
+  "defects": [
+    {
+      "id": "D1",
+      "category": "TERMINATION",
+      "severity": "HIGH",
+      "description": "The failure branch does not explicitly terminate the transaction after displaying the payment failure message as required by R7.",
+      "node_ids": [
+        "N9",
+        "N10"
+      ],
+      "edge_ids": [
+        "E9",
+        "E11"
+      ],
+      "requirement_ids": [
+        "R7"
+      ],
+      "evidence": "R7 states: 'On failure, the system displays a payment failure message and ends the transaction.' The diagram sends the failure path from N9 to a final node N10 labeled 'Transaction completed', but it does not clearly represent the required transaction termination on the failure branch itself, and the final node label does not distinguish failure termination from successful completion.",
+      "suggested_action": "Make the failure branch end in an explicit termination that represents the failed transaction, or ensure the final node/termination behavior clearly captures that the transaction ends on failure."
+    }
+  ],
+  "repair_history": [
+    {
+      "iteration": 0,
+      "repair_type": "minimal_fix",
+      "changed": true,
+      "accepted": true,
+      "before_score": 77.0,
+      "after_score": 96.0,
+      "score_delta": 19.0,
+      "changes": [
+        "Updated N10 label to explicitly represent transaction termination after failure as required by R7."
+      ],
+      "rationale": "The only detected defect concerns the failure branch termination semantics. I preserved the existing structure, nodes, edges, and requirement traces, and made the smallest change by clarifying the final node so it explicitly indicates termination of the transaction on failure.",
+      "defect_ids": [
+        "D1"
+      ],
+      "defect_categories": [
+        "TERMINATION"
+      ]
+    },
+    {
+      "iteration": 1,
+      "repair_type": "minimal_fix",
+      "changed": true,
+      "accepted": true,
+      "before_score": 73.0,
+      "after_score": 78.0,
+      "score_delta": 5.0,
+      "changes": [
+        "Redirected the retry loop from N5 to re-enter validation at N3 instead of returning to payment submission N2, making the validation retry explicit.",
+        "Preserved all existing nodes, edges, requirement traces, and the overall payment flow."
+      ],
+      "rationale": "The only detected defect was that the validation-failure branch did not explicitly loop back to validation after correction. Changing the retry edge target from N2 to N3 fixes the retry behavior with the smallest possible modification and does not alter unrelated behavior.",
+      "defect_ids": [
+        "D1"
+      ],
+      "defect_categories": [
+        "CONTROL_FLOW"
+      ]
+    },
+    {
+      "iteration": 2,
+      "repair_type": "minimal_edit",
+      "changed": true,
+      "accepted": false,
+      "before_score": 69.0,
+      "after_score": 64.0,
+      "score_delta": -5.0,
+      "changes": [
+        "Added an explicit retry flow by inserting a resubmission step after the customer correction action and routing the loop through it before re-validation.",
+        "Removed the redundant failure termination node and kept the failure path as a single outcome: display failure message, then end the transaction via the existing finalization point."
+      ],
+      "rationale": "The repair fixes only the supplied defects. The validation-failure path now includes an explicit retry/resubmission step before validation, preserving the intended loop semantics. The failure outcome no longer duplicates termination with both an action and a separate final node; instead, the failure message action leads directly to the single final node, satisfying the termination requirement with minimal structural change. All other correct behavior, nodes, edges, and requirement traces are preserved.",
+      "defect_ids": [
+        "D2",
+        "D1"
+      ],
+      "defect_categories": [
+        "TERMINATION",
+        "REQUIREMENT_COVERAGE"
+      ]
+    }
+  ],
+  "iteration": 2,
+  "final_plantuml": "@startuml\ntitle Payment submission, validation retry, processing, and outcome\n\nstart\n\n:Customer submits payment details;\n:System validates payment information;\nrepeat\n:Ask customer to correct information and retry;\nrepeat while (validation fails) is (true)\n:Process payment;\nif (Did payment succeed?) then (payment succeeds)\n:Send payment confirmation;\nelse (payment fails)\n:Display payment failure message and end transaction;\nendif\nstop\n\n@enduml",
+  "metrics": {
+    "render": {
+      "source": "outputs\\payment_requirement.puml",
+      "rendered": false
+    },
+    "best_iteration": 0,
+    "best_score": 77.0,
+    "best_candidate_quality": 0.92,
+    "repair_iterations": 3,
+    "final_defect_count": 1,
+    "initial_requirement_count": 7,
+    "candidate_count": 3,
+    "total_execution_time_seconds": 121.15069519984536,
+    "llm_calls": 15,
+    "candidate_scores": [
+      {
+        "iteration": 0,
+        "quality_score": 0.92,
+        "defect_count": 1,
+        "requirement_coverage": 1.0,
+        "correctness": 0.7799999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.0
+      },
+      {
+        "iteration": 1,
+        "quality_score": 0.91,
+        "defect_count": 1,
+        "requirement_coverage": 1.0,
+        "correctness": 0.74,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.0
+      },
+      {
+        "iteration": 2,
+        "quality_score": 0.8966666666666666,
+        "defect_count": 2,
+        "requirement_coverage": 1.0,
+        "correctness": 0.7599999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.1
+      }
+    ],
+    "research_summary": {
+      "candidate_count": 3,
+      "initial_iteration": 0,
+      "best_iteration": 0,
+      "best_quality_score": 0.92,
+      "final_quality_score": 0.8966666666666666,
+      "initial_defects": 1,
+      "final_defects": 2,
+      "overall_defect_reduction_rate": -1.0,
+      "best_requirement_coverage": 1.0,
+      "best_correctness": 0.7799999999999999,
+      "best_completeness": 1.0,
+      "best_structural_validity": 1.0,
+      "best_unsupported_behaviour_rate": 0.0,
+      "accepted_repairs": 2,
+      "rejected_repairs": 1
+    }
+  },
+  "candidates": [
+    {
+      "iteration": 0,
+      "diagram": {
+        "nodes": [
+          {
+            "id": "N1",
+            "type": "initial",
+            "label": "Start payment transaction",
+            "requirement_ids": []
+          },
+          {
+            "id": "N2",
+            "type": "action",
+            "label": "Customer submits payment details",
+            "requirement_ids": [
+              "R1"
+            ]
+          },
+          {
+            "id": "N3",
+            "type": "action",
+            "label": "System validates payment information",
+            "requirement_ids": [
+              "R2"
+            ]
+          },
+          {
+            "id": "N4",
+            "type": "decision",
+            "label": "Was validation successful?",
+            "requirement_ids": [
+              "R3",
+              "R4"
+            ]
+          },
+          {
+            "id": "N5",
+            "type": "action",
+            "label": "Ask customer to correct information and retry",
+            "requirement_ids": [
+              "R3"
+            ]
+          },
+          {
+            "id": "N6",
+            "type": "action",
+            "label": "Process payment",
+            "requirement_ids": [
+              "R4"
+            ]
+          },
+          {
+            "id": "N7",
+            "type": "decision",
+            "label": "Did payment succeed?",
+            "requirement_ids": [
+              "R5",
+              "R6",
+              "R7"
+            ]
+          },
+          {
+            "id": "N8",
+            "type": "action",
+            "label": "Send payment confirmation",
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "N9",
+            "type": "action",
+            "label": "Display payment failure message and end transaction",
+            "requirement_ids": [
+              "R7"
+            ]
+          },
+          {
+            "id": "N10",
+            "type": "final",
+            "label": "Transaction completed",
+            "requirement_ids": [
+              "R6",
+              "R7"
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "E1",
+            "source": "N1",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R1"
+            ]
+          },
+          {
+            "id": "E2",
+            "source": "N2",
+            "target": "N3",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R2"
+            ]
+          },
+          {
+            "id": "E3",
+            "source": "N3",
+            "target": "N4",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R3",
+              "R4"
+            ]
+          },
+          {
+            "id": "E4",
+            "source": "N4",
+            "target": "N5",
+            "type": "control",
+            "guard": "validation fails",
+            "requirement_ids": [
+              "R3"
+            ]
+          },
+          {
+            "id": "E5",
+            "source": "N4",
+            "target": "N6",
+            "type": "control",
+            "guard": "validation succeeds",
+            "requirement_ids": [
+              "R4"
+            ]
+          },
+          {
+            "id": "E6",
+            "source": "N5",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R3"
+            ]
+          },
+          {
+            "id": "E7",
+            "source": "N6",
+            "target": "N7",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R5"
+            ]
+          },
+          {
+            "id": "E8",
+            "source": "N7",
+            "target": "N8",
+            "type": "control",
+            "guard": "payment succeeds",
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "E9",
+            "source": "N7",
+            "target": "N9",
+            "type": "control",
+            "guard": "payment fails",
+            "requirement_ids": [
+              "R7"
+            ]
+          },
+          {
+            "id": "E10",
+            "source": "N8",
+            "target": "N10",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "E11",
+            "source": "N9",
+            "target": "N10",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R7"
+            ]
+          }
+        ],
+        "title": "Payment submission, validation retry, processing, and outcome"
+      },
+      "plantuml": "@startuml\ntitle Payment submission, validation retry, processing, and outcome\n\nstart\n\n:Customer submits payment details;\n:System validates payment information;\nrepeat\n:Ask customer to correct information and retry;\nrepeat while (validation fails) is (true)\n:Process payment;\nif (Did payment succeed?) then (payment succeeds)\n:Send payment confirmation;\nelse (payment fails)\n:Display payment failure message and end transaction;\nendif\nstop\n\n@enduml",
+      "metrics": {
+        "iteration": 0,
+        "requirement_coverage": 1.0,
+        "correctness": 0.7799999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.0,
+        "defect_count": 1,
+        "defects_fixed": 0,
+        "defects_introduced": 1,
+        "defect_reduction_rate": 0.0,
+        "repair_success_rate": 1.0,
+        "quality_score": 0.92,
+        "execution_time_seconds": 3.808432700112462,
+        "llm_calls": 4
+      },
+      "defects": [
+        {
+          "id": "D1",
+          "category": "TERMINATION",
+          "severity": "HIGH",
+          "description": "The failure branch does not explicitly terminate the transaction after displaying the payment failure message as required by R7.",
+          "node_ids": [
+            "N9",
+            "N10"
+          ],
+          "edge_ids": [
+            "E9",
+            "E11"
+          ],
+          "requirement_ids": [
+            "R7"
+          ],
+          "evidence": "R7 states: 'On failure, the system displays a payment failure message and ends the transaction.' The diagram sends the failure path from N9 to a final node N10 labeled 'Transaction completed', but it does not clearly represent the required transaction termination on the failure branch itself, and the final node label does not distinguish failure termination from successful completion.",
+          "suggested_action": "Make the failure branch end in an explicit termination that represents the failed transaction, or ensure the final node/termination behavior clearly captures that the transaction ends on failure."
+        }
+      ],
+      "requirement_coverage": [
+        {
+          "requirement_id": "R1",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N2; Edges: E1",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R2",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N3; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R3",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4, N5; Edges: E3, E4, E6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R4",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4, N6; Edges: E3, E5",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R5",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7; Edges: E7",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R6",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7, N8, N10; Edges: E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R7",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7, N9, N10; Edges: E9, E11",
+          "confidence": 0.0
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "diagram": {
+        "nodes": [
+          {
+            "id": "N1",
+            "type": "initial",
+            "label": "Start payment transaction",
+            "requirement_ids": []
+          },
+          {
+            "id": "N2",
+            "type": "action",
+            "label": "Customer submits payment details",
+            "requirement_ids": [
+              "R1"
+            ]
+          },
+          {
+            "id": "N3",
+            "type": "action",
+            "label": "System validates payment information",
+            "requirement_ids": [
+              "R2"
+            ]
+          },
+          {
+            "id": "N4",
+            "type": "decision",
+            "label": "Was validation successful?",
+            "requirement_ids": [
+              "R3",
+              "R4"
+            ]
+          },
+          {
+            "id": "N5",
+            "type": "action",
+            "label": "Ask customer to correct information and retry",
+            "requirement_ids": [
+              "R3"
+            ]
+          },
+          {
+            "id": "N6",
+            "type": "action",
+            "label": "Process payment",
+            "requirement_ids": [
+              "R4"
+            ]
+          },
+          {
+            "id": "N7",
+            "type": "decision",
+            "label": "Did payment succeed?",
+            "requirement_ids": [
+              "R5",
+              "R6",
+              "R7"
+            ]
+          },
+          {
+            "id": "N8",
+            "type": "action",
+            "label": "Send payment confirmation",
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "N9",
+            "type": "action",
+            "label": "Display payment failure message and end transaction",
+            "requirement_ids": [
+              "R7"
+            ]
+          },
+          {
+            "id": "N10",
+            "type": "final",
+            "label": "Failed transaction terminated",
+            "requirement_ids": [
+              "R7"
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "E1",
+            "source": "N1",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R1"
+            ]
+          },
+          {
+            "id": "E2",
+            "source": "N2",
+            "target": "N3",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R2"
+            ]
+          },
+          {
+            "id": "E3",
+            "source": "N3",
+            "target": "N4",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R3",
+              "R4"
+            ]
+          },
+          {
+            "id": "E4",
+            "source": "N4",
+            "target": "N5",
+            "type": "control",
+            "guard": "validation fails",
+            "requirement_ids": [
+              "R3"
+            ]
+          },
+          {
+            "id": "E5",
+            "source": "N4",
+            "target": "N6",
+            "type": "control",
+            "guard": "validation succeeds",
+            "requirement_ids": [
+              "R4"
+            ]
+          },
+          {
+            "id": "E6",
+            "source": "N5",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R3"
+            ]
+          },
+          {
+            "id": "E7",
+            "source": "N6",
+            "target": "N7",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R5"
+            ]
+          },
+          {
+            "id": "E8",
+            "source": "N7",
+            "target": "N8",
+            "type": "control",
+            "guard": "payment succeeds",
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "E9",
+            "source": "N7",
+            "target": "N9",
+            "type": "control",
+            "guard": "payment fails",
+            "requirement_ids": [
+              "R7"
+            ]
+          },
+          {
+            "id": "E10",
+            "source": "N8",
+            "target": "N10",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "E11",
+            "source": "N9",
+            "target": "N10",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R7"
+            ]
+          }
+        ],
+        "title": "Payment submission, validation retry, processing, and outcome"
+      },
+      "plantuml": "@startuml\ntitle Payment submission, validation retry, processing, and outcome\n\nstart\n\n:Customer submits payment details;\n:System validates payment information;\nrepeat\n:Ask customer to correct information and retry;\nrepeat while (validation fails) is (true)\n:Process payment;\nif (Did payment succeed?) then (payment succeeds)\n:Send payment confirmation;\nelse (payment fails)\n:Display payment failure message and end transaction;\nendif\nstop\n\n@enduml",
+      "metrics": {
+        "iteration": 1,
+        "requirement_coverage": 1.0,
+        "correctness": 0.74,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.0,
+        "defect_count": 1,
+        "defects_fixed": 0,
+        "defects_introduced": 0,
+        "defect_reduction_rate": 0.0,
+        "repair_success_rate": 1.0,
+        "quality_score": 0.91,
+        "execution_time_seconds": 3.1385584000963718,
+        "llm_calls": 8
+      },
+      "defects": [
+        {
+          "id": "D1",
+          "category": "CONTROL_FLOW",
+          "severity": "HIGH",
+          "description": "The validation-failure branch asks the customer to correct the information and returns directly to the payment submission action, but the requirements say the customer should correct the information and retry validation. The diagram omits an explicit return to the validation step, so the retry loop does not clearly revalidate the corrected payment details.",
+          "node_ids": [
+            "N5",
+            "N2",
+            "N3",
+            "N4"
+          ],
+          "edge_ids": [
+            "E6"
+          ],
+          "requirement_ids": [
+            "R3",
+            "R2"
+          ],
+          "evidence": "R3 requires that if validation fails, the system asks the customer to correct the information and retry. R2 requires the system to validate the payment information. The current flow from N5 goes back to N2 (submission) rather than back to validation, leaving the retry-to-validation behavior unexpressed.",
+          "suggested_action": "Redirect the failure/retry flow from the correction step back to the validation step, or otherwise make the retry loop explicitly re-enter validation after corrected details are submitted."
+        }
+      ],
+      "requirement_coverage": [
+        {
+          "requirement_id": "R1",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N2; Edges: E1",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R2",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N3; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R3",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4, N5; Edges: E3, E4, E6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R4",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4, N6; Edges: E3, E5",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R5",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7; Edges: E7",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R6",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7, N8; Edges: E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R7",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7, N9, N10; Edges: E9, E11",
+          "confidence": 0.0
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "diagram": {
+        "nodes": [
+          {
+            "id": "N1",
+            "type": "initial",
+            "label": "Start payment transaction",
+            "requirement_ids": []
+          },
+          {
+            "id": "N2",
+            "type": "action",
+            "label": "Customer submits payment details",
+            "requirement_ids": [
+              "R1"
+            ]
+          },
+          {
+            "id": "N3",
+            "type": "action",
+            "label": "System validates payment information",
+            "requirement_ids": [
+              "R2"
+            ]
+          },
+          {
+            "id": "N4",
+            "type": "decision",
+            "label": "Was validation successful?",
+            "requirement_ids": [
+              "R3",
+              "R4"
+            ]
+          },
+          {
+            "id": "N5",
+            "type": "action",
+            "label": "Ask customer to correct information and retry",
+            "requirement_ids": [
+              "R3"
+            ]
+          },
+          {
+            "id": "N6",
+            "type": "action",
+            "label": "Process payment",
+            "requirement_ids": [
+              "R4"
+            ]
+          },
+          {
+            "id": "N7",
+            "type": "decision",
+            "label": "Did payment succeed?",
+            "requirement_ids": [
+              "R5",
+              "R6",
+              "R7"
+            ]
+          },
+          {
+            "id": "N8",
+            "type": "action",
+            "label": "Send payment confirmation",
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "N9",
+            "type": "action",
+            "label": "Display payment failure message and end transaction",
+            "requirement_ids": [
+              "R7"
+            ]
+          },
+          {
+            "id": "N10",
+            "type": "final",
+            "label": "Failed transaction terminated",
+            "requirement_ids": [
+              "R7"
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "E1",
+            "source": "N1",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R1"
+            ]
+          },
+          {
+            "id": "E2",
+            "source": "N2",
+            "target": "N3",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R2"
+            ]
+          },
+          {
+            "id": "E3",
+            "source": "N3",
+            "target": "N4",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R3",
+              "R4"
+            ]
+          },
+          {
+            "id": "E4",
+            "source": "N4",
+            "target": "N5",
+            "type": "control",
+            "guard": "validation fails",
+            "requirement_ids": [
+              "R3"
+            ]
+          },
+          {
+            "id": "E5",
+            "source": "N4",
+            "target": "N6",
+            "type": "control",
+            "guard": "validation succeeds",
+            "requirement_ids": [
+              "R4"
+            ]
+          },
+          {
+            "id": "E6",
+            "source": "N5",
+            "target": "N3",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R3",
+              "R2"
+            ]
+          },
+          {
+            "id": "E7",
+            "source": "N6",
+            "target": "N7",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R5"
+            ]
+          },
+          {
+            "id": "E8",
+            "source": "N7",
+            "target": "N8",
+            "type": "control",
+            "guard": "payment succeeds",
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "E9",
+            "source": "N7",
+            "target": "N9",
+            "type": "control",
+            "guard": "payment fails",
+            "requirement_ids": [
+              "R7"
+            ]
+          },
+          {
+            "id": "E10",
+            "source": "N8",
+            "target": "N10",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R6"
+            ]
+          },
+          {
+            "id": "E11",
+            "source": "N9",
+            "target": "N10",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R7"
+            ]
+          }
+        ],
+        "title": "Payment submission, validation retry, processing, and outcome"
+      },
+      "plantuml": "@startuml\ntitle Payment submission, validation retry, processing, and outcome\n\nstart\n\n:Customer submits payment details;\n:System validates payment information;\nrepeat\n:Ask customer to correct information and retry;\nrepeat while (validation fails) is (true)\n:Process payment;\nif (Did payment succeed?) then (payment succeeds)\n:Send payment confirmation;\nelse (payment fails)\n:Display payment failure message and end transaction;\nendif\nstop\n\n@enduml",
+      "metrics": {
+        "iteration": 2,
+        "requirement_coverage": 1.0,
+        "correctness": 0.7599999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.1,
+        "defect_count": 2,
+        "defects_fixed": 0,
+        "defects_introduced": 1,
+        "defect_reduction_rate": 0.0,
+        "repair_success_rate": 0.0,
+        "quality_score": 0.8966666666666666,
+        "execution_time_seconds": 5.141148600028828,
+        "llm_calls": 12
+      },
+      "defects": [
+        {
+          "id": "D1",
+          "category": "REQUIREMENT_COVERAGE",
+          "severity": "HIGH",
+          "description": "The validation-failure branch jumps directly from the customer correction action back to payment validation, but the requirements say the system asks the customer to correct the information and retry. The modeled flow omits the required retry of submitting corrected payment details before re-validation.",
+          "node_ids": [
+            "N5",
+            "N3"
+          ],
+          "edge_ids": [
+            "E6"
+          ],
+          "requirement_ids": [
+            "R3",
+            "R1",
+            "R2"
+          ],
+          "evidence": "R3 requires that after validation fails, the system asks the customer to correct the information and retry. R1 requires the customer to submit payment details, and R2 requires the system to validate that submitted information. Returning directly from correction to validation skips the required resubmission/retry step.",
+          "suggested_action": "Insert a step/loop that returns the customer to resubmit corrected payment details before validation is performed again, or otherwise explicitly model the retry as a renewed submission followed by validation."
+        },
+        {
+          "id": "D2",
+          "category": "TERMINATION",
+          "severity": "MEDIUM",
+          "description": "The failure outcome is modeled with both an action that ends the transaction and a separate final node. This duplicates the termination behavior and does not clearly reflect the requirement that the system displays the failure message and ends the transaction as a single outcome.",
+          "node_ids": [
+            "N9",
+            "N10"
+          ],
+          "edge_ids": [
+            "E11"
+          ],
+          "requirement_ids": [
+            "R7"
+          ],
+          "evidence": "R7 states that on failure, the system displays a payment failure message and ends the transaction. The diagram already models this in N9 and then adds a separate final node N10, which is not required by the text and introduces redundant termination modeling.",
+          "suggested_action": "Represent the failure path with the failure message action followed by a single termination/finalization point, ensuring the end-of-transaction behavior is modeled once without duplicating it."
+        }
+      ],
+      "requirement_coverage": [
+        {
+          "requirement_id": "R1",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N2; Edges: E1",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R2",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N3; Edges: E2, E6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R3",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4, N5; Edges: E3, E4, E6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R4",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4, N6; Edges: E3, E5",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R5",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7; Edges: E7",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R6",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7, N8; Edges: E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R7",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7, N9, N10; Edges: E9, E11",
+          "confidence": 0.0
+        }
+      ]
+    }
+  ],
+  "best_candidate_iteration": 0,
+  "best_candidate": {
+    "iteration": 0,
+    "diagram": {
+      "nodes": [
+        {
+          "id": "N1",
+          "type": "initial",
+          "label": "Start payment transaction",
+          "requirement_ids": []
+        },
+        {
+          "id": "N2",
+          "type": "action",
+          "label": "Customer submits payment details",
+          "requirement_ids": [
+            "R1"
+          ]
+        },
+        {
+          "id": "N3",
+          "type": "action",
+          "label": "System validates payment information",
+          "requirement_ids": [
+            "R2"
+          ]
+        },
+        {
+          "id": "N4",
+          "type": "decision",
+          "label": "Was validation successful?",
+          "requirement_ids": [
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "id": "N5",
+          "type": "action",
+          "label": "Ask customer to correct information and retry",
+          "requirement_ids": [
+            "R3"
+          ]
+        },
+        {
+          "id": "N6",
+          "type": "action",
+          "label": "Process payment",
+          "requirement_ids": [
+            "R4"
+          ]
+        },
+        {
+          "id": "N7",
+          "type": "decision",
+          "label": "Did payment succeed?",
+          "requirement_ids": [
+            "R5",
+            "R6",
+            "R7"
+          ]
+        },
+        {
+          "id": "N8",
+          "type": "action",
+          "label": "Send payment confirmation",
+          "requirement_ids": [
+            "R6"
+          ]
+        },
+        {
+          "id": "N9",
+          "type": "action",
+          "label": "Display payment failure message and end transaction",
+          "requirement_ids": [
+            "R7"
+          ]
+        },
+        {
+          "id": "N10",
+          "type": "final",
+          "label": "Transaction completed",
+          "requirement_ids": [
+            "R6",
+            "R7"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "id": "E1",
+          "source": "N1",
+          "target": "N2",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R1"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "N2",
+          "target": "N3",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R2"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "N3",
+          "target": "N4",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "id": "E4",
+          "source": "N4",
+          "target": "N5",
+          "type": "control",
+          "guard": "validation fails",
+          "requirement_ids": [
+            "R3"
+          ]
+        },
+        {
+          "id": "E5",
+          "source": "N4",
+          "target": "N6",
+          "type": "control",
+          "guard": "validation succeeds",
+          "requirement_ids": [
+            "R4"
+          ]
+        },
+        {
+          "id": "E6",
+          "source": "N5",
+          "target": "N2",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R3"
+          ]
+        },
+        {
+          "id": "E7",
+          "source": "N6",
+          "target": "N7",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R5"
+          ]
+        },
+        {
+          "id": "E8",
+          "source": "N7",
+          "target": "N8",
+          "type": "control",
+          "guard": "payment succeeds",
+          "requirement_ids": [
+            "R6"
+          ]
+        },
+        {
+          "id": "E9",
+          "source": "N7",
+          "target": "N9",
+          "type": "control",
+          "guard": "payment fails",
+          "requirement_ids": [
+            "R7"
+          ]
+        },
+        {
+          "id": "E10",
+          "source": "N8",
+          "target": "N10",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R6"
+          ]
+        },
+        {
+          "id": "E11",
+          "source": "N9",
+          "target": "N10",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R7"
+          ]
+        }
+      ],
+      "title": "Payment submission, validation retry, processing, and outcome"
+    },
+    "plantuml": "@startuml\ntitle Payment submission, validation retry, processing, and outcome\n\nstart\n\n:Customer submits payment details;\n:System validates payment information;\nrepeat\n:Ask customer to correct information and retry;\nrepeat while (validation fails) is (true)\n:Process payment;\nif (Did payment succeed?) then (payment succeeds)\n:Send payment confirmation;\nelse (payment fails)\n:Display payment failure message and end transaction;\nendif\nstop\n\n@enduml",
+    "metrics": {
+      "iteration": 0,
+      "requirement_coverage": 1.0,
+      "correctness": 0.7799999999999999,
+      "completeness": 1.0,
+      "structural_validity": 1.0,
+      "unsupported_behaviour_rate": 0.0,
+      "defect_count": 1,
+      "defects_fixed": 0,
+      "defects_introduced": 1,
+      "defect_reduction_rate": 0.0,
+      "repair_success_rate": 1.0,
+      "quality_score": 0.92,
+      "execution_time_seconds": 3.808432700112462,
+      "llm_calls": 4
+    },
+    "defects": [
+      {
+        "id": "D1",
+        "category": "TERMINATION",
+        "severity": "HIGH",
+        "description": "The failure branch does not explicitly terminate the transaction after displaying the payment failure message as required by R7.",
+        "node_ids": [
+          "N9",
+          "N10"
+        ],
+        "edge_ids": [
+          "E9",
+          "E11"
+        ],
+        "requirement_ids": [
+          "R7"
+        ],
+        "evidence": "R7 states: 'On failure, the system displays a payment failure message and ends the transaction.' The diagram sends the failure path from N9 to a final node N10 labeled 'Transaction completed', but it does not clearly represent the required transaction termination on the failure branch itself, and the final node label does not distinguish failure termination from successful completion.",
+        "suggested_action": "Make the failure branch end in an explicit termination that represents the failed transaction, or ensure the final node/termination behavior clearly captures that the transaction ends on failure."
+      }
+    ],
+    "requirement_coverage": [
+      {
+        "requirement_id": "R1",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N2; Edges: E1",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R2",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N3; Edges: E2",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R3",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N4, N5; Edges: E3, E4, E6",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R4",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N4, N6; Edges: E3, E5",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R5",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N7; Edges: E7",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R6",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N7, N8, N10; Edges: E8, E10",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R7",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N7, N9, N10; Edges: E9, E11",
+        "confidence": 0.0
+      }
+    ]
+  }
+}

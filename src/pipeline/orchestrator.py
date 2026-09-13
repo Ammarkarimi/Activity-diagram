@@ -10,19 +10,15 @@ from src.agents.generator_agent import GeneratorAgent
 from src.agents.planning_agent import PlanningAgent
 from src.agents.requirement_agent import RequirementAgent
 from src.agents.reviewer_agent import ReviewerAgent
-
-from src.generation.plantuml_generator import PlantUMLGenerator
 from src.generation.ir_sanitizer import IRSanitizer
+from src.generation.plantuml_generator import PlantUMLGenerator
 from src.generation.renderer import PlantUMLRenderer
-
 from src.llm.openai_client import OpenAIClient
-
 from src.models.domain import (
     ActivityDiagram,
     CandidateMetrics,
     CandidateRecord,
     Defect,
-    HumanRating,
     PipelineState,
     Requirement,
     RequirementCoverage,
@@ -31,157 +27,46 @@ from src.models.domain import (
     Severity,
     ValidationResult,
 )
-
+from src.pipeline.defect_utils import defect_key, defect_signatures
 from src.pipeline.repair_router import RepairRouter
-
-from src.validation.syntax.plantuml_validator import (
-    PlantUMLSyntaxValidator,
-)
-
+from src.pipeline.scoring import candidate_score, quality_score
+from src.validation.syntax.plantuml_validator import PlantUMLSyntaxValidator
 from src.validation.validator import HybridValidator
 
 
 class MultiAgentPipeline:
-    """
-    Multi-agent requirement-to-activity-diagram pipeline.
+    """Orchestrates the complete requirement-to-activity-diagram workflow.
 
-    Main stages:
+    The orchestrator is the state manager. Agents do not communicate directly
+    with one another: every output returns to this class, which decides what
+    happens next and stores the candidate/repair history.
 
-        Requirement
-            |
-            v
-        Requirement Agent
-            |
-            v
-        Requirement Matrix
-            |
-            v
-        Planning Agent
-            |
-            v
-        Generator Agent
-            |
-            v
-        Initial Candidate
-            |
-            +------------------------------+
-            |                              |
-            v                              v
-      Deterministic Validation       Semantic Review
-            |                              |
-            +--------------+---------------+
-                           |
-                           v
-                     Defect Set
-                           |
-                           v
-                    Feedback Agent
-                           |
-                           v
-                     Repair Router
-                           |
-                           v
-                    Repair Candidate
-                           |
-                           v
-                    Regression Check
-                           |
-                  +--------+--------+
-                  |                 |
-               Better            Worse
-                  |                 |
-                  v                 v
-                Keep             Rollback
-                  |
-                  v
-             Next Iteration
-                  |
-                  v
-          Best Candidate Selection
-                  |
-                  v
-           PlantUML Compilation
-                  |
-                  v
-              Rendering
-
-    Research-oriented tracking:
-
-        - Candidate metrics for every iteration
-        - Requirement coverage
-        - Correctness
-        - Completeness
-        - Structural validity
-        - Unsupported behaviour
-        - Defect count
-        - Defects fixed
-        - Defects introduced
-        - Defect reduction rate
-        - Repair success rate
-        - Candidate quality score
-        - Execution time
-        - LLM calls
-        - Best candidate iteration
+    Flow:
+        Requirement -> Requirement Agent -> Planning Agent -> Generator Agent
+        -> Validation + Semantic Review -> Feedback -> Repair Router
+        -> Re-evaluation -> Accept/Rollback -> next iteration
+        -> Best Candidate -> PlantUML -> Rendering
     """
 
-    def __init__(
-        self,
-        model: str | None = None,
-        max_defects_per_repair: int = 2,
-    ) -> None:
+    def __init__(self, model: str | None = None, max_defects_per_repair: int = 2) -> None:
+        self.llm = OpenAIClient(model=model)
 
-        self.llm = OpenAIClient(
-            model=model
-        )
-
-        # --------------------------------------------------------
-        # Agents
-        # --------------------------------------------------------
-
-        self.requirement_agent = RequirementAgent(
-            self.llm
-        )
-
-        self.planning_agent = PlanningAgent(
-            self.llm
-        )
-
-        self.generator = GeneratorAgent(
-            self.llm
-        )
-
-        self.reviewer = ReviewerAgent(
-            self.llm
-        )
-
-        self.feedback = FeedbackAgent(
-            self.llm
-        )
-
-        # --------------------------------------------------------
-        # Pipeline components
-        # --------------------------------------------------------
+        self.requirement_agent = RequirementAgent(self.llm)
+        self.planning_agent = PlanningAgent(self.llm)
+        self.generator = GeneratorAgent(self.llm)
+        self.reviewer = ReviewerAgent(self.llm)
+        self.feedback = FeedbackAgent(self.llm)
 
         self.repair_router = RepairRouter(
             self.llm,
-            max_defects_per_repair=(
-                max_defects_per_repair
-            ),
+            max_defects_per_repair=max_defects_per_repair,
         )
 
         self.validator = HybridValidator()
-
         self.plantuml = PlantUMLGenerator()
-
-        self.plantuml_validator = (
-            PlantUMLSyntaxValidator()
-        )
-
+        self.plantuml_validator = PlantUMLSyntaxValidator()
         self.renderer = PlantUMLRenderer()
-
-        self.log = logging.getLogger(
-            self.__class__.__name__
-        )
+        self.log = logging.getLogger(self.__class__.__name__)
 
     # ============================================================
     # MAIN PIPELINE
@@ -194,20 +79,15 @@ class MultiAgentPipeline:
         max_iterations: int = 3,
         output_dir: str | Path = "outputs",
     ) -> PipelineState:
-
         pipeline_start = time.perf_counter()
-
-        # ========================================================
-        # INITIAL STATE
-        # ========================================================
+        max_iterations = max(0, max_iterations)
+        llm_calls = 0
 
         state = PipelineState(
             sample_id=sample_id,
             requirement_text=requirement_text,
             requirements=[],
-            requirement_matrix=RequirementMatrix(
-                items=[]
-            ),
+            requirement_matrix=RequirementMatrix(items=[]),
             plan=None,
             diagram=None,
             validation=None,
@@ -222,64 +102,32 @@ class MultiAgentPipeline:
             best_candidate=None,
         )
 
-        # ========================================================
-        # LLM CALL TRACKING
-        # ========================================================
-
-        llm_calls = 0
-
-        def count_llm_call() -> None:
+        def call_llm() -> None:
             nonlocal llm_calls
             llm_calls += 1
 
-        # ========================================================
-        # PHASE 1 — REQUIREMENT EXTRACTION
-        # ========================================================
+        # --------------------------------------------------------
+        # 1. Requirement extraction
+        # --------------------------------------------------------
+        self.log.info("Running requirement agent...")
+        call_llm()
+        extracted = self.requirement_agent.run(requirement_text)
+        state.requirements = extracted.requirements
+        state.requirement_matrix = extracted.matrix
+        self.log.info("Extracted %d requirements.", len(state.requirements))
 
-        self.log.info(
-            "Running requirement agent..."
-        )
-
-        count_llm_call()
-
-        extracted = self.requirement_agent.run(
-            requirement_text
-        )
-
-        state.requirements = (
-            extracted.requirements
-        )
-
-        state.requirement_matrix = (
-            extracted.matrix
-        )
-
-        self.log.info(
-            "Extracted %d requirements.",
-            len(state.requirements),
-        )
-
-        # ========================================================
-        # PHASE 2 — PLANNING
-        # ========================================================
-
-        self.log.info(
-            "Running planning agent..."
-        )
-
-        count_llm_call()
-
+        # --------------------------------------------------------
+        # 2. Planning
+        # --------------------------------------------------------
+        self.log.info("Running planning agent...")
+        call_llm()
         state.plan = self.planning_agent.run(
             requirement_text,
             state.requirements,
             state.requirement_matrix,
         )
-
         self.log.info(
-            "Planning completed: "
-            "%d nodes, %d edges, "
-            "%d decisions, %d loops, "
-            "%d concurrency blocks.",
+            "Planning completed: %d nodes, %d edges, %d decisions, %d loops, %d concurrency blocks.",
             len(state.plan.nodes),
             len(state.plan.edges),
             len(state.plan.decisions),
@@ -287,1125 +135,601 @@ class MultiAgentPipeline:
             len(state.plan.concurrency),
         )
 
-        # ========================================================
-        # PHASE 3 — INITIAL GENERATION
-        # ========================================================
-
-        self.log.info(
-            "Running generator agent..."
-        )
-
-        count_llm_call()
-
-        state.diagram = self.generator.run(
-            requirement_text,
-            state.requirements,
-            state.plan,
-        )
-
+        # --------------------------------------------------------
+        # 3. Initial generation
+        # --------------------------------------------------------
+        self.log.info("Running generator agent...")
+        call_llm()
         state.diagram = IRSanitizer.sanitize(
-            state.diagram
+            self.generator.run(
+                requirement_text,
+                state.requirements,
+                state.plan,
+            )
         )
-
         self.log.info(
-            "Generated diagram: "
-            "%d nodes, %d edges.",
+            "Generated diagram: %d nodes, %d edges.",
             len(state.diagram.nodes),
             len(state.diagram.edges),
         )
 
-        # ========================================================
-        # BEST CANDIDATE TRACKING
-        # ========================================================
-
-        best_diagram = state.diagram.model_copy(
-            deep=True
-        )
-
-        best_validation: ValidationResult | None = None
-
-        best_review: ReviewResult | None = None
-
-        best_score = float("-inf")
-
+        best_quality = -1.0
         best_iteration = 0
+        best_candidate: CandidateRecord | None = None
+        previous_signatures: set[str] | None = None
+        previous_defect_count: int | None = None
 
-        # ========================================================
-        # INITIAL DEFECT COUNT
-        # ========================================================
-
-        previous_defect_ids: set[str] = set()
-
-        previous_defect_count = 0
-
-        # ========================================================
-        # ITERATIVE VALIDATION / REPAIR
-        # ========================================================
-
-        for iteration in range(
-            max_iterations + 1
-        ):
-
+        # --------------------------------------------------------
+        # 4. Iterative evaluation / repair loop
+        # --------------------------------------------------------
+        for iteration in range(max_iterations + 1):
             state.iteration = iteration
-
             iteration_start = time.perf_counter()
+            self.log.info("Validation iteration %d", iteration)
 
-            self.log.info(
-                "Validation iteration %d",
-                iteration,
-            )
-
-            # ====================================================
-            # 1. DETERMINISTIC VALIDATION
-            # ====================================================
-
-            validation = self.validator.validate(
-                state.diagram,
-                state.requirements,
+            validation, review, defects, plantuml_text = self._evaluate_candidate(
+                requirement_text=requirement_text,
+                requirements=state.requirements,
+                matrix=state.requirement_matrix,
+                diagram=state.diagram,
+                count_llm_call=call_llm,
             )
 
             state.validation = validation
-
-            defects: list[Defect] = list(
-                validation.defects
-            )
-
-            self.log.info(
-                "Deterministic validation "
-                "found %d defect(s).",
-                len(validation.defects),
-            )
-
-            # ====================================================
-            # 2. PLANTUML COMPILATION
-            # ====================================================
-
-            candidate_plantuml = ""
-
-            try:
-
-                candidate_plantuml = (
-                    self.plantuml.render(
-                        state.diagram
-                    )
-                )
-
-                self.log.debug(
-                    "PlantUML compilation succeeded."
-                )
-
-            except Exception as exc:
-
-                self.log.warning(
-                    "PlantUML compiler failed: %s",
-                    exc,
-                )
-
-                defects.append(
-                    Defect(
-                        id=f"COMPILER-{iteration}",
-                        category="SYNTAX",
-                        severity=Severity.HIGH,
-                        description=(
-                            "Activity Diagram "
-                            "could not be compiled "
-                            "to PlantUML."
-                        ),
-                        node_ids=[],
-                        edge_ids=[],
-                        requirement_ids=[],
-                        evidence=str(exc),
-                        suggested_action=(
-                            "Repair the Activity "
-                            "Diagram structure."
-                        ),
-                    )
-                )
-
-            # ====================================================
-            # 3. PLANTUML VALIDATION
-            # ====================================================
-
-            if candidate_plantuml:
-
-                (
-                    plantuml_ok,
-                    plantuml_message,
-                ) = self.plantuml_validator.validate(
-                    candidate_plantuml
-                )
-
-                if not plantuml_ok:
-
-                    self.log.warning(
-                        "PlantUML validation failed."
-                    )
-
-                    defects.append(
-                        Defect(
-                            id=f"PLANTUML-{iteration}",
-                            category="SYNTAX",
-                            severity=Severity.HIGH,
-                            description=(
-                                "Generated PlantUML "
-                                "failed compilation."
-                            ),
-                            node_ids=[],
-                            edge_ids=[],
-                            requirement_ids=[],
-                            evidence=plantuml_message,
-                            suggested_action=(
-                                "Repair the Activity "
-                                "Diagram so generated "
-                                "PlantUML compiles."
-                            ),
-                        )
-                    )
-
-            # ====================================================
-            # 4. SEMANTIC REVIEW
-            # ====================================================
-
-            self.log.info(
-                "Running semantic reviewer..."
-            )
-
-            count_llm_call()
-
-            review = self.reviewer.run(
-                requirement_text,
-                state.requirements,
-                state.requirement_matrix,
-                state.diagram,
-                existing_defects=defects,
-            )
-
             state.review = review
-
-            defects.extend(
-                review.defects
-            )
-
-            # ====================================================
-            # 5. DEDUPLICATION
-            # ====================================================
-
-            defects = self._deduplicate_defects(
-                defects
-            )
-
             state.defects = defects
 
-            # ====================================================
-            # 6. REQUIREMENT COVERAGE
-            # ====================================================
-
-            requirement_coverage = (
-                self._calculate_requirement_coverage(
-                    state.requirements,
-                    state.diagram,
-                )
+            coverage = self._calculate_requirement_coverage(
+                state.requirements, state.diagram
+            )
+            coverage_score = self._coverage_score(coverage)
+            correctness = self._calculate_correctness(validation, review, defects)
+            completeness = self._calculate_completeness(state.requirements, coverage)
+            structural_validity = self._calculate_structural_validity(validation)
+            unsupported_rate = self._calculate_unsupported_behaviour_rate(
+                review, state.diagram
             )
 
-            coverage_score = (
-                self._coverage_score(
-                    requirement_coverage
-                )
-            )
+            current_signatures = defect_signatures(defects)
+            current_defect_count = len(defects)
 
-            # ====================================================
-            # 7. CORRECTNESS
-            # ====================================================
-
-            correctness = (
-                self._calculate_correctness(
-                    validation=validation,
-                    review=review,
-                    defects=defects,
-                )
-            )
-
-            # ====================================================
-            # 8. COMPLETENESS
-            # ====================================================
-
-            completeness = (
-                self._calculate_completeness(
-                    state.requirements,
-                    requirement_coverage,
-                )
-            )
-
-            # ====================================================
-            # 9. STRUCTURAL VALIDITY
-            # ====================================================
-
-            structural_validity = (
-                self._calculate_structural_validity(
-                    validation
-                )
-            )
-
-            # ====================================================
-            # 10. UNSUPPORTED BEHAVIOUR
-            # ====================================================
-
-            unsupported_behaviour_rate = (
-                self._calculate_unsupported_behaviour_rate(
-                    review,
-                    state.diagram,
-                )
-            )
-
-            # ====================================================
-            # 11. DEFECT METRICS
-            # ====================================================
-
-            current_defect_ids = {
-                defect.id
-                for defect in defects
-            }
-
-            current_defect_count = len(
-                defects
-            )
-
-            defects_fixed = len(
-                previous_defect_ids
-                - current_defect_ids
-            )
-
-            defects_introduced = len(
-                current_defect_ids
-                - previous_defect_ids
-            )
-
-            if previous_defect_count > 0:
-
-                defect_reduction_rate = (
-                    previous_defect_count
-                    - current_defect_count
-                ) / previous_defect_count
-
+            if previous_signatures is None:
+                defects_fixed = 0
+                defects_introduced = 0
+                reduction_rate = 0.0
             else:
-
-                defect_reduction_rate = 0.0
-
-            defect_reduction_rate = max(
-                0.0,
-                min(
-                    1.0,
-                    defect_reduction_rate,
-                ),
-            )
-
-            # ====================================================
-            # 12. CANDIDATE QUALITY SCORE
-            # ====================================================
-
-            score = self._candidate_score(
-                validation,
-                review,
-                defects,
-            )
-
-            quality_score = (
-                self._quality_score(
-                    requirement_coverage=coverage_score,
-                    correctness=correctness,
-                    completeness=completeness,
-                    structural_validity=(
-                        structural_validity
-                    ),
-                    unsupported_behaviour_rate=(
-                        unsupported_behaviour_rate
-                    ),
-                    defect_count=current_defect_count,
-                    candidate_score=score,
+                defects_fixed = len(previous_signatures - current_signatures)
+                defects_introduced = len(current_signatures - previous_signatures)
+                reduction_rate = self._reduction_rate(
+                    previous_defect_count or 0,
+                    current_defect_count,
                 )
+
+            quality = quality_score(
+                requirement_coverage=coverage_score,
+                correctness=correctness,
+                completeness=completeness,
+                structural_validity=structural_validity,
+                unsupported_behaviour_rate=unsupported_rate,
+                defect_count=current_defect_count,
             )
+            raw_score = candidate_score(validation, review, defects)
 
-            # ====================================================
-            # 13. ITERATION TIME
-            # ====================================================
-
-            iteration_time = (
-                time.perf_counter()
-                - iteration_start
-            )
-
-            # ====================================================
-            # 14. CANDIDATE METRICS
-            # ====================================================
-
-            candidate_metrics = CandidateMetrics(
+            iteration_time = time.perf_counter() - iteration_start
+            metrics = CandidateMetrics(
                 iteration=iteration,
-
-                requirement_coverage=(
-                    coverage_score
-                ),
-
-                correctness=(
-                    correctness
-                ),
-
-                completeness=(
-                    completeness
-                ),
-
-                structural_validity=(
-                    structural_validity
-                ),
-
-                unsupported_behaviour_rate=(
-                    unsupported_behaviour_rate
-                ),
-
-                defect_count=(
-                    current_defect_count
-                ),
-
-                defects_fixed=(
-                    defects_fixed
-                ),
-
-                defects_introduced=(
-                    defects_introduced
-                ),
-
-                defect_reduction_rate=(
-                    defect_reduction_rate
-                ),
-
+                requirement_coverage=coverage_score,
+                correctness=correctness,
+                completeness=completeness,
+                structural_validity=structural_validity,
+                unsupported_behaviour_rate=unsupported_rate,
+                defect_count=current_defect_count,
+                defects_fixed=defects_fixed,
+                defects_introduced=defects_introduced,
+                defect_reduction_rate=reduction_rate,
                 repair_success_rate=0.0,
-
-                quality_score=(
-                    quality_score
-                ),
-
-                execution_time_seconds=(
-                    iteration_time
-                ),
-
+                quality_score=quality,
+                execution_time_seconds=iteration_time,
                 llm_calls=llm_calls,
             )
 
-            # ====================================================
-            # 15. STORE CANDIDATE
-            # ====================================================
-
-            candidate_record = CandidateRecord(
+            record = CandidateRecord(
                 iteration=iteration,
-
-                diagram=state.diagram.model_copy(
-                    deep=True
-                ),
-
-                plantuml=candidate_plantuml,
-
-                metrics=candidate_metrics,
-
-                defects=[
-                    defect.model_copy(
-                        deep=True
-                    )
-                    for defect in defects
-                ],
-
-                requirement_coverage=(
-                    requirement_coverage
-                ),
+                diagram=state.diagram.model_copy(deep=True),
+                plantuml=plantuml_text,
+                metrics=metrics,
+                validation=validation.model_copy(deep=True),
+                review=review.model_copy(deep=True),
+                defects=[d.model_copy(deep=True) for d in defects],
+                requirement_coverage=coverage,
             )
-
-            state.candidates.append(
-                candidate_record
-            )
-
-            # ====================================================
-            # 16. LOG METRICS
-            # ====================================================
+            state.candidates.append(record)
 
             self.log.info(
-                "Iteration %d metrics: "
-                "coverage=%.3f, "
-                "correctness=%.3f, "
-                "completeness=%.3f, "
-                "structural=%.3f, "
-                "unsupported=%.3f, "
-                "defects=%d, "
-                "quality=%.3f",
+                "Iteration %d metrics: coverage=%.3f, correctness=%.3f, completeness=%.3f, structural=%.3f, unsupported=%.3f, defects=%d, quality=%.3f",
                 iteration,
                 coverage_score,
                 correctness,
                 completeness,
                 structural_validity,
-                unsupported_behaviour_rate,
+                unsupported_rate,
                 current_defect_count,
-                quality_score,
+                quality,
             )
 
-            # ====================================================
-            # 17. BEST CANDIDATE
-            # ====================================================
-
-            if (
-                best_validation is None
-                or score > best_score
-            ):
-
-                best_score = score
-
+            # Best candidate is selected using the same normalized quality
+            # score that is reported to the research evaluation.
+            if self._is_better_candidate(record, best_candidate):
+                best_candidate = record.model_copy(deep=True)
+                best_quality = quality
                 best_iteration = iteration
-
-                best_diagram = (
-                    state.diagram.model_copy(
-                        deep=True
-                    )
-                )
-
-                best_validation = (
-                    validation.model_copy(
-                        deep=True
-                    )
-                )
-
-                best_review = (
-                    review.model_copy(
-                        deep=True
-                    )
-                )
-
                 self.log.info(
-                    "New best candidate selected "
-                    "at iteration %d "
-                    "(score=%.3f).",
+                    "New best candidate selected at iteration %d (quality=%.3f, raw_score=%.3f).",
                     iteration,
-                    score,
+                    quality,
+                    raw_score,
                 )
 
-            # ====================================================
-            # 18. SUCCESS
-            # ====================================================
+            # Update comparison baseline for the next evaluated candidate.
+            previous_signatures = current_signatures
+            previous_defect_count = current_defect_count
 
             if not defects:
-
-                self.log.info(
-                    "Candidate passed all "
-                    "current validations."
-                )
-
+                self.log.info("Candidate passed all current validations.")
                 break
-
-            # ====================================================
-            # 19. ITERATION LIMIT
-            # ====================================================
 
             if iteration >= max_iterations:
-
-                self.log.warning(
-                    "Maximum repair iterations reached."
-                )
-
+                self.log.warning("Maximum repair iterations reached.")
                 break
 
-            # ====================================================
-            # 20. FEEDBACK
-            # ====================================================
-
-            feedback = self.feedback.run(
-                defects
+            # ----------------------------------------------------
+            # 5. Feedback / defect prioritization
+            # ----------------------------------------------------
+            self.log.info("Running feedback agent...")
+            call_llm()
+            feedback_result = self.feedback.run(defects)
+            prioritized = self._filter_feedback_defects(
+                feedback_result.prioritized_defects,
+                defects,
+            )
+            prioritized = self.repair_router.select_defects(
+                prioritized or defects
             )
 
-            count_llm_call()
-
-            prioritized = (
-                feedback.prioritized_defects
-                or defects
-            )
-
-            prioritized = (
-                self.repair_router.select_defects(
-                    prioritized
-                )
-            )
+            if not prioritized:
+                self.log.warning("No valid repair defects were selected. Stopping.")
+                break
 
             self.log.info(
                 "Selected defects for repair: %s",
-                [
-                    defect.id
-                    for defect in prioritized
-                ],
+                [defect.id for defect in prioritized],
             )
 
-            # ====================================================
-            # 21. PRESERVE CURRENT CANDIDATE
-            # ====================================================
+            # ----------------------------------------------------
+            # 6. Repair candidate
+            # ----------------------------------------------------
+            original_diagram = state.diagram.model_copy(deep=True)
+            original_quality = quality
+            original_defect_signatures = current_signatures
 
-            original_diagram = (
-                state.diagram.model_copy(
-                    deep=True
-                )
-            )
-
-            original_score = score
-
-            # ====================================================
-            # 22. REPAIR
-            # ====================================================
-
+            uses_llm_repair = not self._is_deterministic_repair_batch(prioritized)
             repair = self.repair_router.repair(
                 requirement_text,
                 state.requirements,
                 state.diagram,
                 prioritized,
             )
-
-            count_llm_call()
+            if uses_llm_repair:
+                call_llm()
 
             if not repair.changed:
-
-                self.log.warning(
-                    "Repair agent made no changes. "
-                    "Stopping repair loop."
-                )
-
-                break
-
-            candidate_after_repair = (
-                IRSanitizer.sanitize(
-                    repair.diagram
-                )
-            )
-
-            # ====================================================
-            # 23. REGRESSION VALIDATION
-            # ====================================================
-
-            regression_validation = (
-                self.validator.validate(
-                    candidate_after_repair,
-                    state.requirements,
-                )
-            )
-
-            regression_defects = list(
-                regression_validation.defects
-            )
-
-            # ====================================================
-            # 24. REGRESSION SEMANTIC REVIEW
-            # ====================================================
-
-            regression_review = (
-                self.reviewer.run(
-                    requirement_text,
-                    state.requirements,
-                    state.requirement_matrix,
-                    candidate_after_repair,
-                    existing_defects=(
-                        regression_defects
-                    ),
-                )
-            )
-
-            count_llm_call()
-
-            regression_defects.extend(
-                regression_review.defects
-            )
-
-            regression_defects = (
-                self._deduplicate_defects(
-                    regression_defects
-                )
-            )
-
-            regression_score = (
-                self._candidate_score(
-                    regression_validation,
-                    regression_review,
-                    regression_defects,
-                )
-            )
-
-            self.log.info(
-                "Repaired candidate score: %.3f",
-                regression_score,
-            )
-
-            # ====================================================
-            # 25. REPAIR SUCCESS
-            # ====================================================
-
-            repair_success = (
-                regression_score
-                > original_score
-            )
-
-            # Update the candidate record's repair metric.
-
-            if state.candidates:
-
-                state.candidates[-1].metrics.repair_success_rate = (
-                    1.0
-                    if repair_success
-                    else 0.0
-                )
-
-            # ====================================================
-            # 26. ACCEPT / ROLLBACK
-            # ====================================================
-
-            if repair_success:
-
-                self.log.info(
-                    "Repair improved candidate "
-                    "(%.3f -> %.3f).",
-                    original_score,
-                    regression_score,
-                )
-
-                state.diagram = (
-                    candidate_after_repair
-                )
-
-                state.repair_history.append(
-                    self._repair_record(
-                        iteration=iteration,
-                        repair=repair,
-                        selected_defects=prioritized,
-                        accepted=True,
-                        before_score=original_score,
-                        after_score=regression_score,
-                    )
-                )
-
-            else:
-
-                self.log.warning(
-                    "Repair did not improve "
-                    "candidate "
-                    "(%.3f -> %.3f). "
-                    "Rolling back.",
-                    original_score,
-                    regression_score,
-                )
-
-                state.diagram = (
-                    original_diagram
-                )
-
+                self.log.warning("Repair made no changes. Stopping repair loop.")
                 state.repair_history.append(
                     self._repair_record(
                         iteration=iteration,
                         repair=repair,
                         selected_defects=prioritized,
                         accepted=False,
-                        before_score=original_score,
-                        after_score=regression_score,
+                        before_score=original_quality,
+                        after_score=original_quality,
+                        before_defect_count=current_defect_count,
+                        after_defect_count=current_defect_count,
+                        defects_fixed=0,
+                        defects_introduced=0,
+                        reason="NO_CHANGE",
                     )
                 )
-
                 break
 
-            # ====================================================
-            # 27. UPDATE PREVIOUS DEFECT STATE
-            # ====================================================
+            repaired_diagram = IRSanitizer.sanitize(repair.diagram)
 
-            previous_defect_ids = (
-                current_defect_ids
+            # ----------------------------------------------------
+            # 7. Regression evaluation
+            # ----------------------------------------------------
+            (
+                regression_validation,
+                regression_review,
+                regression_defects,
+                regression_plantuml,
+            ) = self._evaluate_candidate(
+                requirement_text=requirement_text,
+                requirements=state.requirements,
+                matrix=state.requirement_matrix,
+                diagram=repaired_diagram,
+                count_llm_call=call_llm,
             )
 
-            previous_defect_count = (
-                current_defect_count
+            regression_coverage = self._calculate_requirement_coverage(
+                state.requirements, repaired_diagram
+            )
+            regression_coverage_score = self._coverage_score(regression_coverage)
+            regression_correctness = self._calculate_correctness(
+                regression_validation,
+                regression_review,
+                regression_defects,
+            )
+            regression_completeness = self._calculate_completeness(
+                state.requirements,
+                regression_coverage,
+            )
+            regression_structural = self._calculate_structural_validity(
+                regression_validation
+            )
+            regression_unsupported = self._calculate_unsupported_behaviour_rate(
+                regression_review,
+                repaired_diagram,
+            )
+            regression_quality = quality_score(
+                requirement_coverage=regression_coverage_score,
+                correctness=regression_correctness,
+                completeness=regression_completeness,
+                structural_validity=regression_structural,
+                unsupported_behaviour_rate=regression_unsupported,
+                defect_count=len(regression_defects),
+            )
+            regression_signatures = defect_signatures(regression_defects)
+            fixed = len(original_defect_signatures - regression_signatures)
+            introduced = len(regression_signatures - original_defect_signatures)
+
+            self.log.info(
+                "Repair evaluation: quality %.3f -> %.3f, defects %d -> %d, fixed=%d, introduced=%d.",
+                original_quality,
+                regression_quality,
+                current_defect_count,
+                len(regression_defects),
+                fixed,
+                introduced,
             )
 
-        # ========================================================
-        # RESTORE BEST CANDIDATE
-        # ========================================================
-
-        if best_validation is not None:
-
-            state.diagram = (
-                best_diagram
+            # ----------------------------------------------------
+            # 8. Accept only a non-regressing repair
+            # ----------------------------------------------------
+            accepted, reason = self._should_accept_repair(
+                original_quality=original_quality,
+                repaired_quality=regression_quality,
+                original_defect_count=current_defect_count,
+                repaired_defect_count=len(regression_defects),
+                defects_fixed=fixed,
+                defects_introduced=introduced,
             )
 
-            state.validation = (
-                best_validation
+            state.repair_history.append(
+                self._repair_record(
+                    iteration=iteration,
+                    repair=repair,
+                    selected_defects=prioritized,
+                    accepted=accepted,
+                    before_score=original_quality,
+                    after_score=regression_quality,
+                    before_defect_count=current_defect_count,
+                    after_defect_count=len(regression_defects),
+                    defects_fixed=fixed,
+                    defects_introduced=introduced,
+                    reason=reason,
+                )
             )
 
-            state.review = (
-                best_review
-            )
-
-            state.best_candidate_iteration = (
-                best_iteration
-            )
-
-            # Locate the actual best candidate record.
-
-            for candidate in state.candidates:
-
-                if (
-                    candidate.iteration
-                    == best_iteration
-                ):
-
-                    state.best_candidate = (
-                        candidate
-                    )
-
+            if accepted:
+                state.diagram = repaired_diagram
+                self.log.info(
+                    "Repair accepted: %s",
+                    reason,
+                )
+                # The repaired candidate will be evaluated again in the next
+                # iteration. This keeps candidate records comparable: every
+                # stored candidate has passed through the same evaluation path.
+            else:
+                state.diagram = original_diagram
+                self.log.warning("Repair rejected: %s", reason)
+                if iteration >= max_iterations:
+                    self.log.warning("Maximum repair iterations reached after rejected repair.")
                     break
-
-            state.defects = (
-                self._deduplicate_defects(
-                    (
-                        best_validation.defects
-                        if best_validation
-                        else []
-                    )
-                    + (
-                        best_review.defects
-                        if best_review
-                        else []
-                    )
+                self.log.info(
+                    "Continuing with the previous candidate to attempt another repair."
                 )
+
+        # --------------------------------------------------------
+        # 9. Restore the best candidate
+        # --------------------------------------------------------
+        if best_candidate is not None:
+            state.diagram = best_candidate.diagram.model_copy(deep=True)
+            state.best_candidate = best_candidate.model_copy(deep=True)
+            state.best_candidate_iteration = best_iteration
+            state.validation = (
+                best_candidate.validation.model_copy(deep=True)
+                if best_candidate.validation is not None
+                else None
             )
+            state.review = (
+                best_candidate.review.model_copy(deep=True)
+                if best_candidate.review is not None
+                else None
+            )
+            state.defects = [
+                defect.model_copy(deep=True)
+                for defect in best_candidate.defects
+            ]
 
-        # ========================================================
-        # FINAL PLANTUML
-        # ========================================================
-
-        self.log.info(
-            "Compiling final diagram "
-            "(best iteration: %d, score: %.3f)...",
-            best_iteration,
-            best_score,
+        # --------------------------------------------------------
+        # 10. Final PlantUML with explicit non-empty check
+        # --------------------------------------------------------
+        state.final_plantuml, final_puml_defect = self._compile_plantuml(
+            state.diagram,
+            iteration=best_iteration,
         )
-
-        try:
-
-            state.final_plantuml = (
-                self.plantuml.render(
-                    state.diagram
-                )
+        if final_puml_defect is not None:
+            state.defects = self._deduplicate_defects(
+                state.defects + [final_puml_defect]
             )
 
-        except Exception as exc:
+        if not state.final_plantuml:
+            state.final_plantuml = self._fallback_plantuml(sample_id, state)
 
-            self.log.error(
-                "Final PlantUML compilation failed: %s",
-                exc,
-            )
-
-            state.final_plantuml = ""
-
-            state.defects.append(
-                Defect(
-                    id="FINAL-COMPILER",
-                    category="SYNTAX",
-                    severity=Severity.CRITICAL,
-                    description=(
-                        "Final diagram could not "
-                        "be compiled to PlantUML."
-                    ),
-                    node_ids=[],
-                    edge_ids=[],
-                    requirement_ids=[],
-                    evidence=str(exc),
-                    suggested_action=(
-                        "Fix the final Activity "
-                        "Diagram representation."
-                    ),
-                )
-            )
-
-        # ========================================================
-        # FINAL RENDERING
-        # ========================================================
-
-        output_path = Path(
-            output_dir
-        )
-
-        output_path.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
-
+        # --------------------------------------------------------
+        # 11. Render
+        # --------------------------------------------------------
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
         render_info: dict[str, Any] = {}
 
         if state.final_plantuml:
-
             try:
-
-                render_info = (
-                    self.renderer.render(
-                        state.final_plantuml,
-                        output_path,
-                        name=sample_id,
-                    )
+                render_info = self.renderer.render(
+                    state.final_plantuml,
+                    output_path,
+                    name=sample_id,
                 )
-
             except Exception as exc:
-
-                self.log.warning(
-                    "Rendering failed: %s",
-                    exc,
-                )
-
                 render_info = {
                     "rendered": False,
                     "error": str(exc),
                 }
-
-        # ========================================================
-        # FINAL METRICS
-        # ========================================================
-
-        total_execution_time = (
-            time.perf_counter()
-            - pipeline_start
-        )
-
-        state.metrics["render"] = (
-            render_info
-        )
-
-        state.metrics["best_iteration"] = (
-            best_iteration
-        )
-
-        state.metrics["best_score"] = (
-            best_score
-        )
-
-        state.metrics["best_candidate_quality"] = (
-            (
-                state.best_candidate.metrics.quality_score
-                if state.best_candidate
-                else 0.0
-            )
-        )
-
-        state.metrics["repair_iterations"] = (
-            len(state.repair_history)
-        )
-
-        state.metrics["final_defect_count"] = (
-            len(state.defects)
-        )
-
-        state.metrics["initial_requirement_count"] = (
-            len(state.requirements)
-        )
-
-        state.metrics["candidate_count"] = (
-            len(state.candidates)
-        )
-
-        state.metrics["total_execution_time_seconds"] = (
-            total_execution_time
-        )
-
-        state.metrics["llm_calls"] = (
-            llm_calls
-        )
-
-        state.metrics["candidate_scores"] = [
-            {
-                "iteration": candidate.iteration,
-                "quality_score": (
-                    candidate.metrics.quality_score
-                ),
-                "defect_count": (
-                    candidate.metrics.defect_count
-                ),
-                "requirement_coverage": (
-                    candidate.metrics.requirement_coverage
-                ),
-                "correctness": (
-                    candidate.metrics.correctness
-                ),
-                "completeness": (
-                    candidate.metrics.completeness
-                ),
-                "structural_validity": (
-                    candidate.metrics.structural_validity
-                ),
-                "unsupported_behaviour_rate": (
-                    candidate.metrics.unsupported_behaviour_rate
-                ),
+                self.log.warning("Rendering failed: %s", exc)
+        else:
+            render_info = {
+                "rendered": False,
+                "error": "Final PlantUML is empty.",
             }
-            for candidate in state.candidates
-        ]
 
-        # ========================================================
-        # RESEARCH SUMMARY
-        # ========================================================
-
-        state.metrics["research_summary"] = (
-            self._build_research_summary(
-                state
-            )
+        # --------------------------------------------------------
+        # 12. Research metrics
+        # --------------------------------------------------------
+        total_execution_time = time.perf_counter() - pipeline_start
+        state.metrics.update(
+            {
+                "render": render_info,
+                "best_iteration": best_iteration,
+                "best_score": best_quality * 100.0,
+                "best_candidate_quality": best_quality,
+                "repair_iterations": len(state.repair_history),
+                "final_defect_count": len(state.defects),
+                "initial_requirement_count": len(state.requirements),
+                "candidate_count": len(state.candidates),
+                "total_execution_time_seconds": total_execution_time,
+                "llm_calls": llm_calls,
+                "candidate_scores": [
+                    {
+                        "iteration": c.iteration,
+                        "quality_score": c.metrics.quality_score,
+                        "quality_score_100": c.metrics.quality_score * 100.0,
+                        "defect_count": c.metrics.defect_count,
+                        "defects_fixed": c.metrics.defects_fixed,
+                        "defects_introduced": c.metrics.defects_introduced,
+                        "defect_reduction_rate": c.metrics.defect_reduction_rate,
+                        "requirement_coverage": c.metrics.requirement_coverage,
+                        "correctness": c.metrics.correctness,
+                        "completeness": c.metrics.completeness,
+                        "structural_validity": c.metrics.structural_validity,
+                        "unsupported_behaviour_rate": c.metrics.unsupported_behaviour_rate,
+                        "execution_time_seconds": c.metrics.execution_time_seconds,
+                        "llm_calls": c.metrics.llm_calls,
+                    }
+                    for c in state.candidates
+                ],
+            }
         )
+        state.metrics["research_summary"] = self._build_research_summary(state)
 
         self.log.info(
-            "Pipeline completed. "
-            "Best iteration=%d, "
-            "remaining defects=%d, "
-            "quality=%.3f.",
+            "Pipeline completed. Best iteration=%d, remaining defects=%d, quality=%.3f.",
             best_iteration,
             len(state.defects),
-            state.metrics[
-                "best_candidate_quality"
-            ],
+            best_quality,
         )
-
         return state
 
     # ============================================================
-    # CANDIDATE SCORE
+    # CANDIDATE EVALUATION
     # ============================================================
 
+    def _evaluate_candidate(
+        self,
+        *,
+        requirement_text: str,
+        requirements: list[Requirement],
+        matrix: RequirementMatrix,
+        diagram: ActivityDiagram,
+        count_llm_call,
+    ) -> tuple[ValidationResult, ReviewResult, list[Defect], str]:
+        validation = self.validator.validate(diagram, requirements)
+        defects = list(validation.defects)
+
+        plantuml_text, puml_defect = self._compile_plantuml(
+            diagram,
+            iteration=0,
+        )
+        if puml_defect is not None:
+            defects.append(puml_defect)
+
+        self.log.info("Running semantic reviewer...")
+        count_llm_call()
+        review = self.reviewer.run(
+            requirement_text,
+            requirements,
+            matrix,
+            diagram,
+            existing_defects=defects,
+        )
+        defects.extend(review.defects)
+        defects = self._deduplicate_defects(defects)
+        return validation, review, defects, plantuml_text
+
     @staticmethod
-    def _candidate_score(
-        validation: ValidationResult,
-        review: ReviewResult,
-        defects: list[Defect],
-    ) -> float:
-
-        structural_score = (
-            validation.score
-            if validation
-            else 0.0
-        )
-
-        semantic_score = (
-            review.semantic_score
-            if review
-            else 0.0
-        )
-
-        severity_weights = {
-            "CRITICAL": 15.0,
-            "HIGH": 8.0,
-            "MEDIUM": 3.0,
-            "LOW": 1.0,
-        }
-
-        category_weights = {
-            "SYNTAX": 2.0,
-            "STRUCTURAL": 2.0,
-            "DECISION": 2.0,
-            "CONTROL_FLOW": 2.0,
-            "CONCURRENCY": 2.0,
-            "TERMINATION": 2.0,
-            "REQUIREMENT_COVERAGE": 2.0,
-            "SEMANTIC": 2.0,
-            "EXCEPTION": 1.5,
-            "HALLUCINATION": 1.5,
-            "DATA_FLOW": 1.0,
-            "GRANULARITY": 0.5,
-            "LAYOUT": 0.25,
-        }
-
-        severity_penalty = 0.0
-
-        for defect in defects:
-
-            severity_penalty += (
-                severity_weights.get(
-                    defect.severity.value,
-                    1.0,
-                )
-                * category_weights.get(
-                    defect.category,
-                    1.0,
-                )
-            )
-
+    def _fallback_plantuml(sample_id: str, state: PipelineState) -> str:
+        title = (state.diagram.title if state.diagram and state.diagram.title else sample_id).replace("\n", " ")
         return (
-            (
-                structural_score
-                * 50.0
-            )
-            + (
-                semantic_score
-                * 50.0
-            )
-            - severity_penalty
+            "@startuml\n"
+            f"title {title}\n"
+            "start\n"
+            "note right: Diagram generation failed; structural defects remain.\n"
+            "stop\n"
+            "@enduml\n"
         )
 
+    def _compile_plantuml(
+        self,
+        diagram: ActivityDiagram | None,
+        *,
+        iteration: int,
+    ) -> tuple[str, Defect | None]:
+        if diagram is None:
+            return "", Defect(
+                id=f"PLANTUML-NODIAGRAM-{iteration}",
+                category="SYNTAX",
+                severity=Severity.CRITICAL,
+                description="No activity diagram is available for PlantUML compilation.",
+                node_ids=[], edge_ids=[], requirement_ids=[],
+                evidence="diagram=None",
+                suggested_action="Provide a valid ActivityDiagram before compilation.",
+            )
+
+        try:
+            text = self.plantuml.render(diagram)
+        except Exception as exc:
+            return "", Defect(
+                id=f"PLANTUML-COMPILE-{iteration}",
+                category="SYNTAX",
+                severity=Severity.HIGH,
+                description="Activity Diagram could not be compiled to PlantUML.",
+                node_ids=[], edge_ids=[], requirement_ids=[],
+                evidence=str(exc),
+                suggested_action="Repair the ActivityDiagram structure so PlantUML can be generated.",
+            )
+
+        if not text or not text.strip():
+            return "", Defect(
+                id=f"PLANTUML-EMPTY-{iteration}",
+                category="SYNTAX",
+                severity=Severity.CRITICAL,
+                description="PlantUML generator returned an empty result.",
+                node_ids=[], edge_ids=[], requirement_ids=[],
+                evidence="PlantUML text was empty.",
+                suggested_action="Ensure the final ActivityDiagram is valid and the compiler returns @startuml/@enduml.",
+            )
+
+        valid, message = self.plantuml_validator.validate(text)
+        if not valid:
+            return text, Defect(
+                id=f"PLANTUML-INVALID-{iteration}",
+                category="SYNTAX",
+                severity=Severity.HIGH,
+                description="Generated PlantUML failed syntax validation.",
+                node_ids=[], edge_ids=[], requirement_ids=[],
+                evidence=message,
+                suggested_action="Repair the ActivityDiagram so the generated PlantUML passes syntax validation.",
+            )
+        return text, None
+
     # ============================================================
-    # QUALITY SCORE
+    # REPAIR ACCEPTANCE
     # ============================================================
 
     @staticmethod
-    def _quality_score(
-        requirement_coverage: float,
-        correctness: float,
-        completeness: float,
-        structural_validity: float,
-        unsupported_behaviour_rate: float,
-        defect_count: int,
-        candidate_score: float,
-    ) -> float:
-        """
-        Research-oriented normalized quality score.
+    def _should_accept_repair(
+        *,
+        original_quality: float,
+        repaired_quality: float,
+        original_defect_count: int,
+        repaired_defect_count: int,
+        defects_fixed: int,
+        defects_introduced: int,
+        tolerance: float = 0.01,
+    ) -> tuple[bool, str]:
+        if repaired_defect_count > original_defect_count:
+            return False, "DEFECT_COUNT_INCREASED"
 
-        Higher is better.
+        if defects_introduced > 0 and repaired_defect_count >= original_defect_count:
+            return False, "NEW_DEFECT_WITHOUT_NET_REDUCTION"
 
-        Components:
+        if repaired_defect_count < original_defect_count:
+            return True, "FEWER_DEFECTS"
 
-            Requirement Coverage   25%
-            Correctness            25%
-            Completeness           20%
-            Structural Validity    15%
-            Unsupported Behaviour  10%
-            Defect-free factor      5%
-        """
+        if (
+            repaired_defect_count == original_defect_count
+            and defects_fixed > 0
+            and defects_introduced == 0
+            and repaired_quality > original_quality + tolerance
+        ):
+            return True, "SAME_DEFECT_COUNT_BUT_QUALITY_IMPROVED"
 
-        unsupported_score = (
-            1.0
-            - max(
-                0.0,
-                min(
-                    1.0,
-                    unsupported_behaviour_rate,
-                ),
-            )
-        )
+        return False, "NO_MEANINGFUL_IMPROVEMENT"
 
-        defect_free_score = (
-            1.0
-            if defect_count == 0
-            else 1.0
-            / (
-                1.0
-                + defect_count
-            )
-        )
-
-        score = (
-            0.25 * requirement_coverage
-            + 0.25 * correctness
-            + 0.20 * completeness
-            + 0.15 * structural_validity
-            + 0.10 * unsupported_score
-            + 0.05 * defect_free_score
-        )
-
-        return max(
-            0.0,
-            min(
-                1.0,
-                score,
-            ),
+    @staticmethod
+    def _is_deterministic_repair_batch(defects: list[Defect]) -> bool:
+        return bool(defects) and all(
+            defect.category in {"STRUCTURAL", "DECISION"}
+            for defect in defects
         )
 
     # ============================================================
-    # REQUIREMENT COVERAGE
+    # BEST CANDIDATE
+    # ============================================================
+
+    @staticmethod
+    def _is_better_candidate(
+        candidate: CandidateRecord,
+        best: CandidateRecord | None,
+    ) -> bool:
+        if best is None:
+            return True
+        a = candidate.metrics
+        b = best.metrics
+        return (
+            a.quality_score,
+            -a.defect_count,
+            a.requirement_coverage,
+            a.correctness,
+            a.completeness,
+        ) > (
+            b.quality_score,
+            -b.defect_count,
+            b.requirement_coverage,
+            b.correctness,
+            b.completeness,
+        )
+
+    # ============================================================
+    # METRICS
     # ============================================================
 
     @staticmethod
@@ -1413,114 +737,45 @@ class MultiAgentPipeline:
         requirements: list[Requirement],
         diagram: ActivityDiagram,
     ) -> list[RequirementCoverage]:
-
-        result: list[RequirementCoverage] = []
-
+        result = []
         for requirement in requirements:
-
             node_matches = [
-                node
-                for node in diagram.nodes
-                if requirement.id
-                in node.requirement_ids
+                n for n in diagram.nodes if requirement.id in n.requirement_ids
             ]
-
             edge_matches = [
-                edge
-                for edge in diagram.edges
-                if requirement.id
-                in edge.requirement_ids
+                e for e in diagram.edges if requirement.id in e.requirement_ids
             ]
-
-            covered = bool(
-                node_matches
-                or edge_matches
-            )
-
-            if (
-                node_matches
-                and edge_matches
-            ):
-
+            covered = bool(node_matches or edge_matches)
+            if node_matches and edge_matches:
                 coverage_type = "FULL"
-
             elif node_matches:
-
                 coverage_type = "NODE"
-
             elif edge_matches:
-
                 coverage_type = "EDGE"
-
             else:
-
                 coverage_type = "NONE"
 
-            evidence_parts = []
-
+            evidence = []
             if node_matches:
-
-                evidence_parts.append(
-                    "Nodes: "
-                    + ", ".join(
-                        node.id
-                        for node in node_matches
-                    )
-                )
-
+                evidence.append("Nodes: " + ", ".join(n.id for n in node_matches))
             if edge_matches:
-
-                evidence_parts.append(
-                    "Edges: "
-                    + ", ".join(
-                        edge.id
-                        for edge in edge_matches
-                    )
-                )
+                evidence.append("Edges: " + ", ".join(e.id for e in edge_matches))
 
             result.append(
                 RequirementCoverage(
-                    requirement_id=(
-                        requirement.id
-                    ),
+                    requirement_id=requirement.id,
                     covered=covered,
-                    coverage_type=(
-                        coverage_type
-                    ),
-                    evidence="; ".join(
-                        evidence_parts
-                    ),
+                    coverage_type=coverage_type,
+                    evidence="; ".join(evidence),
                 )
             )
-
         return result
 
-    # ============================================================
-    # COVERAGE SCORE
-    # ============================================================
-
     @staticmethod
-    def _coverage_score(
-        coverage: list[RequirementCoverage],
-    ) -> float:
-
+    def _coverage_score(coverage: list[RequirementCoverage]) -> float:
         if not coverage:
             return 1.0
-
-        covered = sum(
-            1
-            for item in coverage
-            if item.covered
-        )
-
-        return (
-            covered
-            / len(coverage)
-        )
-
-    # ============================================================
-    # CORRECTNESS
-    # ============================================================
+        return sum(item.covered for item in coverage) / len(coverage)
 
     @staticmethod
     def _calculate_correctness(
@@ -1528,173 +783,83 @@ class MultiAgentPipeline:
         review: ReviewResult,
         defects: list[Defect],
     ) -> float:
-
-        structural = (
-            validation.score
+        structural = validation.score
+        semantic = review.semantic_score
+        major = sum(
+            1 for defect in defects
+            if defect.severity in {Severity.CRITICAL, Severity.HIGH}
         )
-
-        semantic = (
-            review.semantic_score
-        )
-
-        critical_or_high = sum(
-            1
-            for defect in defects
-            if defect.severity
-            in {
-                Severity.CRITICAL,
-                Severity.HIGH,
-            }
-        )
-
-        major_defect_penalty = min(
-            1.0,
-            critical_or_high * 0.15,
-        )
-
-        correctness = (
-            (
-                0.5
-                * structural
-            )
-            + (
-                0.5
-                * semantic
-            )
-            - major_defect_penalty
-        )
-
-        return max(
-            0.0,
-            min(
-                1.0,
-                correctness,
-            ),
-        )
-
-    # ============================================================
-    # COMPLETENESS
-    # ============================================================
+        return max(0.0, min(1.0, 0.5 * structural + 0.5 * semantic - min(1.0, 0.15 * major)))
 
     @staticmethod
     def _calculate_completeness(
         requirements: list[Requirement],
         coverage: list[RequirementCoverage],
     ) -> float:
-
         if not requirements:
             return 1.0
-
-        covered = sum(
-            1
-            for item in coverage
-            if item.covered
-        )
-
-        return (
-            covered
-            / len(requirements)
-        )
-
-    # ============================================================
-    # STRUCTURAL VALIDITY
-    # ============================================================
+        return sum(item.covered for item in coverage) / len(requirements)
 
     @staticmethod
-    def _calculate_structural_validity(
-        validation: ValidationResult,
-    ) -> float:
-
-        return max(
-            0.0,
-            min(
-                1.0,
-                validation.score,
-            ),
-        )
-
-    # ============================================================
-    # UNSUPPORTED BEHAVIOUR RATE
-    # ============================================================
+    def _calculate_structural_validity(validation: ValidationResult) -> float:
+        return max(0.0, min(1.0, validation.score))
 
     @staticmethod
     def _calculate_unsupported_behaviour_rate(
         review: ReviewResult,
         diagram: ActivityDiagram,
     ) -> float:
-
-        node_count = max(
-            1,
-            len(diagram.nodes),
-        )
-
-        unsupported_count = len(
-            review.unsupported_behaviors
-        )
-
+        relevant_nodes = [
+            n for n in diagram.nodes
+            if n.type.value in {"action", "decision", "object", "note"}
+        ]
+        if not relevant_nodes:
+            return 0.0
         return max(
             0.0,
-            min(
-                1.0,
-                unsupported_count
-                / node_count,
-            ),
+            min(1.0, len(review.unsupported_behaviors) / len(relevant_nodes)),
         )
 
-    # ============================================================
-    # DEFECT DEDUPLICATION
-    # ============================================================
+    @staticmethod
+    def _reduction_rate(previous_count: int, current_count: int) -> float:
+        if previous_count <= 0:
+            return 0.0
+        return max(0.0, min(1.0, (previous_count - current_count) / previous_count))
 
     @staticmethod
-    def _deduplicate_defects(
-        defects: list[Defect],
-    ) -> list[Defect]:
-
-        result: list[Defect] = []
-
-        seen: set[tuple] = set()
-
+    def _deduplicate_defects(defects: list[Defect]) -> list[Defect]:
+        result = []
+        seen = set()
         for defect in defects:
-
-            key = (
-                defect.category,
-
-                tuple(
-                    sorted(
-                        defect.node_ids
-                    )
-                ),
-
-                tuple(
-                    sorted(
-                        defect.edge_ids
-                    )
-                ),
-
-                tuple(
-                    sorted(
-                        defect.requirement_ids
-                    )
-                ),
-
-                defect.description
-                .strip()
-                .lower(),
-            )
-
+            key = defect_key(defect)
             if key in seen:
                 continue
-
             seen.add(key)
-
-            result.append(
-                defect
-            )
-
+            result.append(defect)
         return result
 
+    @staticmethod
+    def _filter_feedback_defects(
+        proposed: list[Defect],
+        actual: list[Defect],
+    ) -> list[Defect]:
+        """Only allow the feedback agent to reorder existing defects."""
+        actual_by_id = {d.id: d for d in actual}
+        actual_by_key = {defect_key(d): d for d in actual}
+        selected = []
+        seen = set()
+        for defect in proposed:
+            match = actual_by_id.get(defect.id) or actual_by_key.get(defect_key(defect))
+            if match is None:
+                continue
+            key = defect_key(match)
+            if key not in seen:
+                seen.add(key)
+                selected.append(match)
+        return selected
+
     # ============================================================
-    # REPAIR HISTORY
+    # REPAIR HISTORY / SUMMARY
     # ============================================================
 
     @staticmethod
@@ -1706,176 +871,68 @@ class MultiAgentPipeline:
         accepted: bool,
         before_score: float,
         after_score: float,
+        before_defect_count: int,
+        after_defect_count: int,
+        defects_fixed: int,
+        defects_introduced: int,
+        reason: str,
     ) -> dict[str, Any]:
-
         return {
             "iteration": iteration,
-
-            "repair_type": (
-                repair.repair_type
-            ),
-
-            "changed": (
-                repair.changed
-            ),
-
-            "accepted": (
-                accepted
-            ),
-
-            "before_score": (
-                before_score
-            ),
-
-            "after_score": (
-                after_score
-            ),
-
-            "score_delta": (
-                after_score
-                - before_score
-            ),
-
-            "changes": (
-                repair.changes
-            ),
-
-            "rationale": (
-                repair.rationale
-            ),
-
-            "defect_ids": [
-                defect.id
-                for defect in selected_defects
-            ],
-
-            "defect_categories": [
-                defect.category
-                for defect in selected_defects
-            ],
+            "repair_type": repair.repair_type,
+            "changed": repair.changed,
+            "accepted": accepted,
+            "reason": reason,
+            "before_score": before_score,
+            "after_score": after_score,
+            "score_delta": after_score - before_score,
+            "before_defect_count": before_defect_count,
+            "after_defect_count": after_defect_count,
+            "defects_fixed": defects_fixed,
+            "defects_introduced": defects_introduced,
+            "changes": repair.changes,
+            "rationale": repair.rationale,
+            "defect_ids": [d.id for d in selected_defects],
+            "defect_categories": [d.category for d in selected_defects],
         }
 
-    # ============================================================
-    # RESEARCH SUMMARY
-    # ============================================================
-
     @staticmethod
-    def _build_research_summary(
-        state: PipelineState,
-    ) -> dict[str, Any]:
-
+    def _build_research_summary(state: PipelineState) -> dict[str, Any]:
         if not state.candidates:
-
             return {
                 "candidate_count": 0,
                 "best_iteration": None,
                 "best_quality": 0.0,
                 "initial_defects": 0,
-                "final_defects": len(
-                    state.defects
-                ),
+                "final_defects": len(state.defects),
             }
 
         first = state.candidates[0]
-
-        best = max(
-            state.candidates,
-            key=lambda candidate: (
-                candidate.metrics.quality_score
-            ),
-        )
-
+        best = max(state.candidates, key=lambda c: c.metrics.quality_score)
         final = state.candidates[-1]
-
-        initial_defects = (
-            first.metrics.defect_count
-        )
-
-        final_defects = (
-            final.metrics.defect_count
-        )
-
-        if initial_defects > 0:
-
-            overall_defect_reduction = (
-                initial_defects
-                - final_defects
-            ) / initial_defects
-
-        else:
-
-            overall_defect_reduction = 0.0
+        initial_defects = first.metrics.defect_count
+        final_defects = final.metrics.defect_count
 
         return {
-            "candidate_count": len(
-                state.candidates
-            ),
-
-            "initial_iteration": (
-                first.iteration
-            ),
-
-            "best_iteration": (
-                best.iteration
-            ),
-
-            "best_quality_score": (
-                best.metrics.quality_score
-            ),
-
-            "final_quality_score": (
-                final.metrics.quality_score
-            ),
-
-            "initial_defects": (
-                initial_defects
-            ),
-
-            "final_defects": (
-                final_defects
-            ),
-
+            "candidate_count": len(state.candidates),
+            "initial_iteration": first.iteration,
+            "best_iteration": best.iteration,
+            "best_quality_score": best.metrics.quality_score,
+            "final_quality_score": final.metrics.quality_score,
+            "initial_defects": initial_defects,
+            "final_defects": final_defects,
             "overall_defect_reduction_rate": (
-                overall_defect_reduction
+                max(0.0, min(1.0, (initial_defects - final_defects) / initial_defects))
+                if initial_defects > 0
+                else 0.0
             ),
-
-            "best_requirement_coverage": (
-                best.metrics.requirement_coverage
-            ),
-
-            "best_correctness": (
-                best.metrics.correctness
-            ),
-
-            "best_completeness": (
-                best.metrics.completeness
-            ),
-
-            "best_structural_validity": (
-                best.metrics.structural_validity
-            ),
-
-            "best_unsupported_behaviour_rate": (
-                best.metrics.unsupported_behaviour_rate
-            ),
-
-            "accepted_repairs": sum(
-                1
-                for repair
-                in state.repair_history
-                if repair.get(
-                    "accepted",
-                    False,
-                )
-            ),
-
-            "rejected_repairs": sum(
-                1
-                for repair
-                in state.repair_history
-                if not repair.get(
-                    "accepted",
-                    False,
-                )
-            ),
+            "best_requirement_coverage": best.metrics.requirement_coverage,
+            "best_correctness": best.metrics.correctness,
+            "best_completeness": best.metrics.completeness,
+            "best_structural_validity": best.metrics.structural_validity,
+            "best_unsupported_behaviour_rate": best.metrics.unsupported_behaviour_rate,
+            "accepted_repairs": sum(r.get("accepted", False) for r in state.repair_history),
+            "rejected_repairs": sum(not r.get("accepted", False) for r in state.repair_history),
+            "total_defects_fixed": sum(r.get("defects_fixed", 0) for r in state.repair_history),
+            "total_defects_introduced": sum(r.get("defects_introduced", 0) for r in state.repair_history),
         }

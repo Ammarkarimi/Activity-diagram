@@ -1,0 +1,19 @@
+@startuml
+title Payment submission, validation retry, processing, and outcome
+
+start
+
+:Customer submits payment details;
+:System validates payment information;
+repeat
+:Ask customer to correct information and retry;
+repeat while (validation fails) is (true)
+:Process payment;
+if (Did payment succeed?) then (payment succeeds)
+:Send payment confirmation;
+else (payment fails)
+:Display payment failure message and end transaction;
+endif
+stop
+
+@enduml
