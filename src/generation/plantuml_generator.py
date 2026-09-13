@@ -67,6 +67,7 @@ class PlantUMLGenerator:
         lines.append("")
 
         visited: set[str] = set()
+        self._final_reached = False
 
         self._compile_node(
             graph=graph,
@@ -77,11 +78,7 @@ class PlantUMLGenerator:
             lines=lines,
         )
 
-        # Only add stop if final exists.
-        if any(
-            n.type == NodeType.FINAL
-            for n in diagram.nodes
-        ):
+        if not self._final_reached:
             lines.append("")
             lines.append("stop")
 
@@ -164,6 +161,8 @@ class PlantUMLGenerator:
         # --------------------------------------------------------
 
         if node.type == NodeType.FINAL:
+            lines.append("stop")
+            self._final_reached = True
             return
 
         # --------------------------------------------------------
@@ -422,12 +421,11 @@ class PlantUMLGenerator:
                 graph=graph,
                 nodes=nodes,
                 diagram=diagram,
-                start=node.id,
+                start=loop_edge.target,
                 loop_target=node.id,
                 visited=visited,
                 lines=lines,
                 excluded_targets={
-                    loop_edge.target,
                     exit_edge.target,
                 },
             )
@@ -461,72 +459,101 @@ class PlantUMLGenerator:
             return
 
         # --------------------------------------------------------
-        # Normal IF / ELSE
+        # Normal IF / ELSEIF / ELSE
         # --------------------------------------------------------
 
-        first = outgoing[0]
-        second = outgoing[1]
+        merge_point = self._find_merge_point(graph, node.id, outgoing)
+        branch_visited_sets = []
 
-        first_guard = self._guard(
-            first.guard,
-            "yes",
-        )
+        for i, edge in enumerate(outgoing):
 
-        second_guard = self._guard(
-            second.guard,
-            "no",
-        )
-
-        lines.append(
-            f"if ({self._escape(node.label)}) "
-            f"then ({self._escape_guard(first_guard)})"
-        )
-
-        self._compile_branch(
-            graph=graph,
-            nodes=nodes,
-            diagram=diagram,
-            target=first.target,
-            visited=visited,
-            lines=lines,
-        )
-
-        lines.append(
-            f"else ({self._escape_guard(second_guard)})"
-        )
-
-        self._compile_branch(
-            graph=graph,
-            nodes=nodes,
-            diagram=diagram,
-            target=second.target,
-            visited=visited,
-            lines=lines,
-        )
-
-        lines.append("endif")
-
-        # Additional branches.
-        for extra in outgoing[2:]:
+            is_first = (i == 0)
+            is_last = (i == len(outgoing) - 1)
 
             guard = self._guard(
-                extra.guard,
-                "otherwise",
+                edge.guard,
+                "yes" if is_first else "otherwise" if is_last else "no"
             )
 
-            lines.append(
-                f"else "
-                f"({self._escape_guard(guard)})"
-            )
+            if is_first:
+                lines.append(
+                    f"if ({self._escape(node.label)}) "
+                    f"then ({self._escape_guard(guard)})"
+                )
+            elif is_last:
+                lines.append(
+                    f"else ({self._escape_guard(guard)})"
+                )
+            else:
+                lines.append(
+                    f"elseif ({self._escape(node.label)}) "
+                    f"then ({self._escape_guard(guard)})"
+                )
+
+            branch_visited = visited.copy()
+            if merge_point:
+                branch_visited.add(merge_point)
 
             self._compile_branch(
                 graph=graph,
                 nodes=nodes,
                 diagram=diagram,
-                target=extra.target,
+                target=edge.target,
+                visited=branch_visited,
+                lines=lines,
+            )
+            branch_visited_sets.append(branch_visited)
+
+        lines.append("endif")
+
+        for bv in branch_visited_sets:
+            visited.update(bv)
+
+        if merge_point:
+            visited.discard(merge_point)
+            self._compile_node(
+                graph=graph,
+                nodes=nodes,
+                diagram=diagram,
+                node_id=merge_point,
                 visited=visited,
                 lines=lines,
             )
+
+    def _find_merge_point(
+        self,
+        graph: nx.DiGraph,
+        decision_id: str,
+        outgoing_edges: list[ActivityEdge],
+    ) -> str | None:
+        
+        reachable_sets = []
+        for edge in outgoing_edges:
+            target = edge.target
+            reachable = set(nx.descendants(graph, target))
+            reachable.add(target)
+            reachable_sets.append(reachable)
+            
+        intersection = set()
+        for i in range(len(reachable_sets)):
+            for j in range(i + 1, len(reachable_sets)):
+                intersection.update(reachable_sets[i].intersection(reachable_sets[j]))
+                
+        if not intersection:
+            return None
+            
+        closest = None
+        min_dist = float('inf')
+        for node in intersection:
+            try:
+                dist = nx.shortest_path_length(graph, decision_id, node)
+                if dist < min_dist:
+                    min_dist = dist
+                    closest = node
+            except nx.NetworkXNoPath:
+                pass
+                
+        return closest
 
     # ============================================================
     # LOOP BODY
@@ -545,29 +572,24 @@ class PlantUMLGenerator:
         excluded_targets: set[str],
     ) -> None:
 
-        successors = list(
-            graph.successors(start)
+        original_visited = visited.copy()
+        visited.add(loop_target)
+        visited.update(excluded_targets)
+
+        self._compile_node(
+            graph=graph,
+            nodes=nodes,
+            diagram=diagram,
+            node_id=start,
+            visited=visited,
+            lines=lines,
         )
 
-        for target in successors:
-
-            if target in excluded_targets:
-                continue
-
-            if target == loop_target:
-                continue
-
-            if target in visited:
-                continue
-
-            self._compile_node(
-                graph=graph,
-                nodes=nodes,
-                diagram=diagram,
-                node_id=target,
-                visited=visited,
-                lines=lines,
-            )
+        if loop_target not in original_visited:
+            visited.discard(loop_target)
+        for ex in excluded_targets:
+            if ex not in original_visited:
+                visited.discard(ex)
 
     # ============================================================
     # BRANCH
@@ -584,9 +606,6 @@ class PlantUMLGenerator:
         lines: list[str],
     ) -> None:
 
-        # Don't globally suppress a branch just because the merge
-        # point was visited by the other branch. The compiler
-        # terminates branch traversal at merge/final/revisited nodes.
         if target not in nodes:
             raise ValueError(
                 f"Unknown branch target {target}"
@@ -595,6 +614,15 @@ class PlantUMLGenerator:
         if nodes[target].type in {
             NodeType.FINAL,
         }:
+            # Compile it to get the stop emitted if needed
+            self._compile_node(
+                graph=graph,
+                nodes=nodes,
+                diagram=diagram,
+                node_id=target,
+                visited=visited,
+                lines=lines,
+            )
             return
 
         self._compile_node(
@@ -739,6 +767,12 @@ class PlantUMLGenerator:
             (text or "")
             .replace('"', "'")
             .replace("\n", " ")
+            .replace(";", ",")
+            .replace("|", " ")
+            .replace("{", " ")
+            .replace("}", " ")
+            .replace("<", " ")
+            .replace(">", " ")
             .strip()
         )
 

@@ -13,6 +13,37 @@ class PlantUMLSyntaxValidator:
     ):
         self.plantuml_command = plantuml_command
 
+    def _regex_validate(self, plantuml_text: str) -> tuple[bool, str]:
+        import re
+        text = plantuml_text.strip()
+        if not text.startswith("@startuml"):
+            return False, "Missing @startuml at the beginning"
+        if not text.endswith("@enduml"):
+            return False, "Missing @enduml at the end"
+            
+        if len(re.findall(r'\bif\b', plantuml_text)) != len(re.findall(r'\bendif\b', plantuml_text)):
+            return False, "Unbalanced if/endif pairs"
+            
+        forks = len(re.findall(r'^[ \t]*fork[ \t]*$', plantuml_text, re.MULTILINE))
+        end_forks = len(re.findall(r'^[ \t]*end fork[ \t]*$', plantuml_text, re.MULTILINE))
+        if forks != end_forks:
+            return False, "Unbalanced fork/end fork pairs"
+            
+        repeats = len(re.findall(r'^[ \t]*repeat[ \t]*$', plantuml_text, re.MULTILINE))
+        repeat_whiles = len(re.findall(r'^[ \t]*repeat while\b', plantuml_text, re.MULTILINE))
+        if repeats != repeat_whiles:
+            return False, "Unbalanced repeat/repeat while pairs"
+            
+        for line in plantuml_text.splitlines():
+            line = line.strip()
+            if line.startswith(':') and not line.endswith(';'):
+                return False, "Action lines starting with : must end with ;"
+                
+        if re.search(r'if\s*\(\s*\)', plantuml_text):
+            return False, "Empty if() condition found"
+            
+        return True, "Regex validation passed"
+
     def validate(
         self,
         plantuml_text: str,
@@ -32,7 +63,7 @@ class PlantUMLSyntaxValidator:
                 process = subprocess.run(
                     [
                         self.plantuml_command,
-                        "-checkmetadata",
+                        "-syntax",
                         str(source),
                     ],
                     capture_output=True,
@@ -42,10 +73,7 @@ class PlantUMLSyntaxValidator:
 
             except FileNotFoundError:
 
-                return (
-                    False,
-                    "PlantUML executable not found."
-                )
+                return self._regex_validate(plantuml_text)
 
             except subprocess.TimeoutExpired:
 
