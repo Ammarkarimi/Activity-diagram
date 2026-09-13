@@ -46,6 +46,10 @@ class LLMRepairAgent:
         14. Decision nodes must have explicit guards.
         15. Loops must preserve their intended entry, body, and exit behavior.
         16. Parallel flows must preserve synchronization.
+        17. Every edge MUST include type: 'control' or type: 'object'. Never omit the type field.
+        18. Every edge MUST include requirement_ids as a list (use [] if empty).
+        19. Every edge MUST include guard (use null if no guard condition).
+        20. Preserve the exact node ID format (N1, N2, etc) and edge ID format (E1, E2, etc) from the original diagram.
 
         REPAIR SUCCESS CRITERION:
 
