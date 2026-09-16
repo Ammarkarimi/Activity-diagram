@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import logging
+import json
 import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -82,6 +84,23 @@ class MultiAgentPipeline:
         pipeline_start = time.perf_counter()
         max_iterations = max(0, max_iterations)
         llm_calls = 0
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+        run_dir = output_path / (
+            f"{sample_id}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
+        )
+        run_dir.mkdir(parents=True, exist_ok=False)
+
+        def save_stage(name: str, value: Any) -> None:
+            stage_path = run_dir / f"{name}.json"
+            if hasattr(value, "model_dump"):
+                payload = value.model_dump(mode="json")
+            else:
+                payload = value
+            stage_path.write_text(
+                json.dumps(payload, indent=2, ensure_ascii=True),
+                encoding="utf-8",
+            )
 
         state = PipelineState(
             sample_id=sample_id,
@@ -114,6 +133,10 @@ class MultiAgentPipeline:
         extracted = self.requirement_agent.run(requirement_text)
         state.requirements = extracted.requirements
         state.requirement_matrix = extracted.matrix
+        save_stage(
+            "01_requirement_agent",
+            extracted,
+        )
         self.log.info("Extracted %d requirements.", len(state.requirements))
 
         # --------------------------------------------------------
@@ -126,6 +149,7 @@ class MultiAgentPipeline:
             state.requirements,
             state.requirement_matrix,
         )
+        save_stage("02_planning_agent", state.plan)
         self.log.info(
             "Planning completed: %d nodes, %d edges, %d decisions, %d loops, %d concurrency blocks.",
             len(state.plan.nodes),
@@ -147,6 +171,7 @@ class MultiAgentPipeline:
                 state.plan,
             )
         )
+        save_stage("03_generator_agent", state.diagram)
         self.log.info(
             "Generated diagram: %d nodes, %d edges.",
             len(state.diagram.nodes),
@@ -178,6 +203,15 @@ class MultiAgentPipeline:
             state.validation = validation
             state.review = review
             state.defects = defects
+            save_stage(
+                f"04_iteration_{iteration:02d}_validation",
+                {
+                    "validation": validation.model_dump(mode="json"),
+                    "review": review.model_dump(mode="json"),
+                    "defects": [d.model_dump(mode="json") for d in defects],
+                    "plantuml": plantuml_text,
+                },
+            )
 
             coverage = self._calculate_requirement_coverage(
                 state.requirements, state.diagram
@@ -288,6 +322,10 @@ class MultiAgentPipeline:
             self.log.info("Running feedback agent...")
             call_llm()
             feedback_result = self.feedback.run(defects)
+            save_stage(
+                f"05_iteration_{iteration:02d}_feedback_agent",
+                feedback_result,
+            )
             prioritized = self._filter_feedback_defects(
                 feedback_result.prioritized_defects,
                 defects,
@@ -319,6 +357,10 @@ class MultiAgentPipeline:
                 state.diagram,
                 prioritized,
             )
+            save_stage(
+                f"06_iteration_{iteration:02d}_repair_agent",
+                repair,
+            )
             if uses_llm_repair:
                 call_llm()
 
@@ -342,6 +384,10 @@ class MultiAgentPipeline:
                 break
 
             repaired_diagram = IRSanitizer.sanitize(repair.diagram)
+            save_stage(
+                f"07_iteration_{iteration:02d}_repaired_diagram",
+                repaired_diagram,
+            )
 
             # ----------------------------------------------------
             # 7. Regression evaluation
@@ -488,8 +534,6 @@ class MultiAgentPipeline:
         # --------------------------------------------------------
         # 11. Render
         # --------------------------------------------------------
-        output_path = Path(output_dir)
-        output_path.mkdir(parents=True, exist_ok=True)
         render_info: dict[str, Any] = {}
 
         if state.final_plantuml:
@@ -549,6 +593,12 @@ class MultiAgentPipeline:
             }
         )
         state.metrics["research_summary"] = self._build_research_summary(state)
+        state.metrics["run_output_dir"] = str(run_dir)
+        save_stage("08_final_state", state)
+        (run_dir / "final.puml").write_text(
+            state.final_plantuml,
+            encoding="utf-8",
+        )
 
         self.log.info(
             "Pipeline completed. Best iteration=%d, remaining defects=%d, quality=%.3f.",

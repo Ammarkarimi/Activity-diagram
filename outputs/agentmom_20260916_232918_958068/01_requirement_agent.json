@@ -1,0 +1,354 @@
+{
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Enable agents to broadcast a message to all the agents within the same local network.",
+      "type": "ACTION",
+      "actors": [
+        "agents"
+      ],
+      "actions": [
+        "broadcast a message"
+      ],
+      "conditions": [
+        "to all the agents within the same local network"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.2.1 Enable agents to broadcast a message to all the agents within the same local network."
+    },
+    {
+      "id": "R2",
+      "text": "Enable agents to multicast a message to all the agents within the same multicast address.",
+      "type": "ACTION",
+      "actors": [
+        "agents"
+      ],
+      "actions": [
+        "multicast a message"
+      ],
+      "conditions": [
+        "to all the agents within the same multicast address"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.2.2 Enable agents to multicast a message to all the agents within the same multicast address."
+    },
+    {
+      "id": "R3",
+      "text": "Enable agents to unicast a message to other agents within organization.",
+      "type": "ACTION",
+      "actors": [
+        "agents"
+      ],
+      "actions": [
+        "unicast a message"
+      ],
+      "conditions": [
+        "to other agents within organization"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.2.3 Enable agents to unicast a message to other agents within organization."
+    },
+    {
+      "id": "R4",
+      "text": "Allow agents to choose among unicast, multicast and broadcast communication.",
+      "type": "DECISION",
+      "actors": [
+        "agents"
+      ],
+      "actions": [
+        "choose among unicast, multicast and broadcast communication"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "source_sentence": "2.2.4 Allow agents to choose among unicast, multicast and broadcast communication."
+    },
+    {
+      "id": "R5",
+      "text": "Allow agents to join multicast group.",
+      "type": "ACTION",
+      "actors": [
+        "agents"
+      ],
+      "actions": [
+        "join multicast group"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.2.5 Allow agents to join and leave multicast group."
+    },
+    {
+      "id": "R6",
+      "text": "Allow agents to leave multicast group.",
+      "type": "ACTION",
+      "actors": [
+        "agents"
+      ],
+      "actions": [
+        "leave multicast group"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.2.5 Allow agents to join and leave multicast group."
+    },
+    {
+      "id": "R7",
+      "text": "Provide message encryption techniques for secured communication.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "provide message encryption techniques"
+      ],
+      "conditions": [
+        "for secured communication"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.2.6 Provide message encryption and decryption techniques for secured communication."
+    },
+    {
+      "id": "R8",
+      "text": "Provide message decryption techniques for secured communication.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "provide message decryption techniques"
+      ],
+      "conditions": [
+        "for secured communication"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R7"
+      ],
+      "source_sentence": "2.2.6 Provide message encryption and decryption techniques for secured communication."
+    },
+    {
+      "id": "R9",
+      "text": "Allow agents to choose to encrypt message or not to encrypt message.",
+      "type": "DECISION",
+      "actors": [
+        "agents"
+      ],
+      "actions": [
+        "choose to encrypt message or not to encrypt message"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R7"
+      ],
+      "source_sentence": "2.2.7 Allow agents to choose to encrypt or not to encrypt message"
+    },
+    {
+      "id": "R10",
+      "text": "An agent sends notify to join multicast group.",
+      "type": "ACTION",
+      "actors": [
+        "an agent"
+      ],
+      "actions": [
+        "sends notify"
+      ],
+      "conditions": [
+        "to join multicast group"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2. Message is encrypted or Message is not encrypted."
+    },
+    {
+      "id": "R11",
+      "text": "An agent sends notify to leave multicast group.",
+      "type": "ACTION",
+      "actors": [
+        "an agent"
+      ],
+      "actions": [
+        "sends notify"
+      ],
+      "conditions": [
+        "to leave multicast group"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2. An agent sends notify to join/leave multicast group."
+    },
+    {
+      "id": "R12",
+      "text": "Message is encrypted.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Message is encrypted"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. Message is encrypted or Message is not encrypted."
+    },
+    {
+      "id": "R13",
+      "text": "Message is not encrypted.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Message is not encrypted"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. Message is encrypted or Message is not encrypted."
+    },
+    {
+      "id": "R14",
+      "text": "Message is decrypted only if Message is encrypted.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [
+        "Message is decrypted"
+      ],
+      "conditions": [
+        "only if Message is encrypted"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "source_sentence": "3. Message is decrypted only if Message is encrypted."
+    },
+    {
+      "id": "R15",
+      "text": "Another agent receives message.",
+      "type": "ACTION",
+      "actors": [
+        "another agent"
+      ],
+      "actions": [
+        "receives message"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "3. Another agent receives message."
+    },
+    {
+      "id": "R16",
+      "text": "An agent sends unicast message to another agent.",
+      "type": "ACTION",
+      "actors": [
+        "an agent"
+      ],
+      "actions": [
+        "sends unicast message"
+      ],
+      "conditions": [
+        "to another agent"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2. An agent sends unicast message to another agent."
+    },
+    {
+      "id": "R17",
+      "text": "Message is decrypted only if Message is encrypted.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [
+        "Message is decrypted"
+      ],
+      "conditions": [
+        "only if Message is encrypted"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "source_sentence": "4. Message is decrypted only if Message is encrypted"
+    },
+    {
+      "id": "R18",
+      "text": "An agent sends multicast message to the group (multicast address).",
+      "type": "ACTION",
+      "actors": [
+        "an agent"
+      ],
+      "actions": [
+        "sends multicast message"
+      ],
+      "conditions": [
+        "to the group (multicast address)"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2. An agent sends multicast message to the group (multicast address)."
+    },
+    {
+      "id": "R19",
+      "text": "Other agents in the group receive message.",
+      "type": "ACTION",
+      "actors": [
+        "other agents in the group"
+      ],
+      "actions": [
+        "receive message"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R18"
+      ],
+      "source_sentence": "3. Other agents in the group receive message."
+    },
+    {
+      "id": "R20",
+      "text": "An agent sends message to everyone in the same local network",
+      "type": "ACTION",
+      "actors": [
+        "an agent"
+      ],
+      "actions": [
+        "sends message"
+      ],
+      "conditions": [
+        "to everyone in the same local network"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. An agent sends message to everyone in the same local network"
+    },
+    {
+      "id": "R21",
+      "text": "Other agent in the same local network receive message",
+      "type": "ACTION",
+      "actors": [
+        "other agent in the same local network"
+      ],
+      "actions": [
+        "receive message"
+      ],
+      "conditions": [
+        "in the same local network"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R20"
+      ],
+      "source_sentence": "2. Other agent in the same local network receive message"
+    }
+  ],
+  "matrix": {
+    "items": []
+  }
+}

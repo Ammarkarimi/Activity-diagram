@@ -1,0 +1,389 @@
+{
+  "changed": true,
+  "repair_type": "minimal_graph_repair",
+  "changes": [
+    "Connected the previously unreachable broadcast receive node by routing the broadcast path through N9 before termination.",
+    "Reordered the multicast join/leave branch so notification precedes the join/leave outcome, using N14/N15 as the trigger actions and N12/N13 as the resulting group state changes."
+  ],
+  "rationale": "The repair resolves the two supplied defects with minimal structural change: unreachable nodes N9 and N11 were made reachable within the existing broadcast flow, and the join/leave multicast branch now reflects the specified notify-first causal order without redesigning unrelated behavior. All other communication paths and requirement traceability were preserved.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "decision",
+        "label": "Select communication type",
+        "lane": null,
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "decision",
+        "label": "Encrypt message?",
+        "lane": null,
+        "requirement_ids": [
+          "R9",
+          "R12",
+          "R13"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Provide message encryption techniques",
+        "lane": null,
+        "requirement_ids": [
+          "R7"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Send unicast message to another agent",
+        "lane": null,
+        "requirement_ids": [
+          "R16"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Another agent receives message",
+        "lane": null,
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "action",
+        "label": "Provide message decryption techniques",
+        "lane": null,
+        "requirement_ids": [
+          "R8",
+          "R14",
+          "R17"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Send multicast message to the group",
+        "lane": null,
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Other agents in the group receive message",
+        "lane": null,
+        "requirement_ids": [
+          "R19"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "action",
+        "label": "Send message to everyone in the same local network",
+        "lane": null,
+        "requirement_ids": [
+          "R20"
+        ]
+      },
+      {
+        "id": "N11",
+        "type": "action",
+        "label": "Other agent in the same local network receive message",
+        "lane": null,
+        "requirement_ids": [
+          "R21"
+        ]
+      },
+      {
+        "id": "N12",
+        "type": "action",
+        "label": "Join multicast group",
+        "lane": null,
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "N13",
+        "type": "action",
+        "label": "Leave multicast group",
+        "lane": null,
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "id": "N14",
+        "type": "action",
+        "label": "Send notify to join multicast group",
+        "lane": null,
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "N15",
+        "type": "action",
+        "label": "Send notify to leave multicast group",
+        "lane": null,
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "id": "N16",
+        "type": "final",
+        "label": "End",
+        "lane": null,
+        "requirement_ids": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N5",
+        "type": "control",
+        "guard": "Unicast",
+        "requirement_ids": [
+          "R4",
+          "R3"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N2",
+        "target": "N8",
+        "type": "control",
+        "guard": "Multicast",
+        "requirement_ids": [
+          "R4",
+          "R2"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N2",
+        "target": "N10",
+        "type": "control",
+        "guard": "Broadcast",
+        "requirement_ids": [
+          "R4",
+          "R1"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N2",
+        "target": "N14",
+        "type": "control",
+        "guard": "Join multicast group",
+        "requirement_ids": [
+          "R5",
+          "R10"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N2",
+        "target": "N15",
+        "type": "control",
+        "guard": "Leave multicast group",
+        "requirement_ids": [
+          "R6",
+          "R11"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N5",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R16",
+          "R9"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N8",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R18",
+          "R9"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N10",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R20"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": "Encrypted",
+        "requirement_ids": [
+          "R9",
+          "R12",
+          "R7"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N3",
+        "target": "N6",
+        "type": "control",
+        "guard": "Not encrypted",
+        "requirement_ids": [
+          "R9",
+          "R13",
+          "R15",
+          "R21"
+        ]
+      },
+      {
+        "id": "E12",
+        "source": "N4",
+        "target": "N6",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R7",
+          "R15",
+          "R19",
+          "R21"
+        ]
+      },
+      {
+        "id": "E13",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": "Unicast or Multicast",
+        "requirement_ids": [
+          "R14",
+          "R17",
+          "R8"
+        ]
+      },
+      {
+        "id": "E14",
+        "source": "N6",
+        "target": "N11",
+        "type": "control",
+        "guard": "Broadcast",
+        "requirement_ids": [
+          "R21"
+        ]
+      },
+      {
+        "id": "E15",
+        "source": "N7",
+        "target": "N16",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R8",
+          "R14",
+          "R17"
+        ]
+      },
+      {
+        "id": "E16",
+        "source": "N14",
+        "target": "N12",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R10",
+          "R5"
+        ]
+      },
+      {
+        "id": "E17",
+        "source": "N15",
+        "target": "N13",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R11",
+          "R6"
+        ]
+      },
+      {
+        "id": "E18",
+        "source": "N12",
+        "target": "N16",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "E19",
+        "source": "N13",
+        "target": "N16",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R6"
+        ]
+      },
+      {
+        "id": "E20",
+        "source": "N9",
+        "target": "N16",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R19"
+        ]
+      },
+      {
+        "id": "E21",
+        "source": "N11",
+        "target": "N16",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R21"
+        ]
+      }
+    ],
+    "title": "Model agent communication behavior for broadcast, multicast, and unicast messaging, including optional encryption/decryption and multicast group join/leave notifications."
+  }
+}
