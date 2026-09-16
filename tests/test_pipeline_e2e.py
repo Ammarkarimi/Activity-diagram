@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from unittest.mock import MagicMock
+from pathlib import Path
 from src.generation.plantuml_generator import PlantUMLGenerator
 from src.generation.ir_sanitizer import IRSanitizer
 from src.models.domain import (
@@ -102,3 +103,67 @@ def test_complete_pipeline_flow():
     final_edge = rep_result.diagram.edges[-1]
     assert final_edge.type == EdgeType.CONTROL
     assert final_edge.requirement_ids == []
+
+
+def test_pipeline_persists_timestamped_stage_artifacts(tmp_path):
+    from src.agents.requirement_agent import RequirementExtractionResponse
+    from src.models.domain import ActivityPlan, RequirementType, ReviewResult
+    from src.pipeline.orchestrator import MultiAgentPipeline
+    from src.validation.validator import HybridValidator
+
+    pipeline = MultiAgentPipeline.__new__(MultiAgentPipeline)
+    pipeline.log = MagicMock()
+    pipeline.requirement_agent = MagicMock()
+    pipeline.planning_agent = MagicMock()
+    pipeline.generator = MagicMock()
+    pipeline.feedback = MagicMock()
+    pipeline.repair_router = MagicMock()
+    pipeline.validator = HybridValidator()
+    pipeline.plantuml = PlantUMLGenerator()
+    pipeline.plantuml_validator = PlantUMLSyntaxValidator()
+    pipeline.renderer = MagicMock()
+    pipeline.renderer.render.return_value = {"rendered": False}
+
+    requirement = Requirement(
+        id="R1",
+        text="Perform an action.",
+        type=RequirementType.ACTION,
+    )
+    matrix = RequirementMatrix(items=[])
+    pipeline.requirement_agent.run.return_value = RequirementExtractionResponse(
+        requirements=[requirement],
+        matrix=matrix,
+    )
+    pipeline.planning_agent.run.return_value = ActivityPlan(
+        objective="Test", nodes=[], edges=[], traceability=matrix
+    )
+    pipeline.generator.run.return_value = ActivityDiagram(
+        title="Test",
+        nodes=[
+            ActivityNode(id="N1", type=NodeType.INITIAL, label="Start"),
+            ActivityNode(id="N2", type=NodeType.FINAL, label="End"),
+        ],
+        edges=[ActivityEdge(id="E1", source="N1", target="N2")],
+    )
+    pipeline.reviewer = MagicMock()
+    pipeline.reviewer.run.return_value = ReviewResult()
+
+    state = pipeline.run(
+        sample_id="artifact_test",
+        requirement_text="Perform an action.",
+        max_iterations=0,
+        output_dir=tmp_path,
+    )
+
+    run_dirs = [p for p in Path(tmp_path).iterdir() if p.is_dir()]
+    assert len(run_dirs) == 1
+    assert run_dirs[0].name.startswith("artifact_test_")
+    assert {
+        "01_requirement_agent.json",
+        "02_planning_agent.json",
+        "03_generator_agent.json",
+        "04_iteration_00_validation.json",
+        "08_final_state.json",
+        "final.puml",
+    }.issubset({p.name for p in run_dirs[0].iterdir()})
+    assert state.metrics["run_output_dir"] == str(run_dirs[0])
