@@ -10,14 +10,14 @@
         "agents"
       ],
       "actions": [
-        "choose among unicast, multicast and broadcast communication"
+        "broadcast a message"
       ],
       "conditions": [
         "within the same local network"
       ],
       "exceptions": [],
       "dependencies": [],
-      "source_sentence": "2.2.4 Allow agents to choose among unicast, multicast and broadcast communication."
+      "source_sentence": "2.2.1 Enable agents to broadcast a message to all the agents within the same local network."
     },
     {
       "id": "R2",
@@ -90,7 +90,7 @@
       "conditions": [],
       "exceptions": [],
       "dependencies": [],
-      "source_sentence": "2.2.7 Allow agents to choose to encrypt or not to encrypt message"
+      "source_sentence": "2.2.5 Allow agents to join and leave multicast group."
     },
     {
       "id": "R6",
@@ -153,7 +153,7 @@
       "text": "An agent shall send a notify message to join or leave a multicast group.",
       "type": "ACTION",
       "actors": [
-        "An agent"
+        "an agent"
       ],
       "actions": [
         "send notify"
@@ -175,7 +175,7 @@
       "type": "CONDITION",
       "actors": [],
       "actions": [
-        "Message is decrypted"
+        "decrypt message"
       ],
       "conditions": [
         "message is encrypted"
@@ -231,7 +231,7 @@
       "type": "CONDITION",
       "actors": [],
       "actions": [
-        "Message is decrypted"
+        "decrypt message"
       ],
       "conditions": [
         "message is encrypted"
@@ -241,7 +241,7 @@
         "R11",
         "R12"
       ],
-      "source_sentence": "4. Message is decrypted only if Message is encrypted"
+      "source_sentence": "4. Message is decrypted only if Message is encrypted."
     },
     {
       "id": "R14",
@@ -269,12 +269,14 @@
       "text": "Other agents in the multicast group shall receive the multicast message.",
       "type": "ACTION",
       "actors": [
-        "Other agents in the group"
+        "other agents in the group"
       ],
       "actions": [
         "receive message"
       ],
-      "conditions": [],
+      "conditions": [
+        "in the group"
+      ],
       "exceptions": [],
       "dependencies": [
         "R14"
@@ -314,7 +316,9 @@
         "same local network"
       ],
       "exceptions": [],
-      "dependencies": [],
+      "dependencies": [
+        "R1"
+      ],
       "source_sentence": "1. An agent sends message to everyone in the same local network"
     },
     {
@@ -329,7 +333,7 @@
         "receive message"
       ],
       "conditions": [
-        "in the same local network"
+        "same local network"
       ],
       "exceptions": [],
       "dependencies": [
@@ -347,8 +351,7 @@
       {
         "temp_id": "P1",
         "node_type": "initial",
-        "label": "Start",
-        "lane": null,
+        "label": "Start communication workflow",
         "requirement_ids": []
       },
       {
@@ -356,7 +359,7 @@
         "node_type": "decision",
         "label": "Select communication mode",
         "requirement_ids": [
-          "R1"
+          "R4"
         ]
       },
       {
@@ -506,8 +509,7 @@
       {
         "temp_id": "P19",
         "node_type": "final",
-        "label": "End",
-        "lane": null,
+        "label": "End communication workflow",
         "requirement_ids": []
       }
     ],
@@ -535,7 +537,8 @@
         "guard": "[unicast selected]",
         "edge_type": "control",
         "requirement_ids": [
-          "R1"
+          "R4",
+          "R3"
         ]
       },
       {
@@ -580,8 +583,8 @@
         ]
       },
       {
-        "source": "P10",
-        "target": "P3",
+        "source": "P4",
+        "target": "P5",
         "guard": null,
         "edge_type": "control",
         "requirement_ids": [
@@ -590,9 +593,9 @@
         ]
       },
       {
-        "source": "P3",
-        "target": "P4",
-        "guard": "Encrypted",
+        "source": "P5",
+        "target": "P6",
+        "guard": null,
         "edge_type": "control",
         "requirement_ids": [
           "R9",
@@ -618,9 +621,9 @@
         ]
       },
       {
-        "source": "P6",
-        "target": "P7",
-        "guard": "Unicast or Multicast",
+        "source": "P7",
+        "target": "P8",
+        "guard": null,
         "edge_type": "control",
         "requirement_ids": [
           "R10"
@@ -646,7 +649,7 @@
         ]
       },
       {
-        "source": "P2",
+        "source": "P11",
         "target": "P12",
         "guard": "[message encrypted]",
         "edge_type": "control",
@@ -752,7 +755,7 @@
     "decisions": [
       {
         "decision_id": "D1",
-        "condition": "Select communication type",
+        "condition": "Select communication mode",
         "branch_ids": [
           "P3",
           "P9",
@@ -877,7 +880,7 @@
         {
           "requirement_id": "R4",
           "diagram_node_ids": [
-            "P10"
+            "P2"
           ],
           "diagram_edge_ids": [
             "P2->P3",
@@ -933,7 +936,10 @@
         {
           "requirement_id": "R8",
           "diagram_node_ids": [
-            "P7"
+            "P4",
+            "P5",
+            "P9",
+            "P13"
           ],
           "diagram_edge_ids": [
             "P3->P4",
@@ -1074,8 +1080,7 @@
       {
         "id": "N1",
         "type": "initial",
-        "label": "Start",
-        "lane": null,
+        "label": "Start communication workflow",
         "requirement_ids": []
       },
       {
@@ -1083,7 +1088,7 @@
         "type": "decision",
         "label": "Select communication mode",
         "requirement_ids": [
-          "R1"
+          "R4"
         ]
       },
       {
@@ -1110,8 +1115,7 @@
       {
         "id": "N5",
         "type": "action",
-        "label": "Send unicast message to another agent",
-        "lane": null,
+        "label": "Send multicast group join/leave notification",
         "requirement_ids": [
           "R5",
           "R9",
@@ -1120,9 +1124,8 @@
       },
       {
         "id": "N6",
-        "type": "action",
-        "label": "Another agent receives message",
-        "lane": null,
+        "type": "decision",
+        "label": "Decrypt multicast join/leave notification if encrypted",
         "requirement_ids": [
           "R10"
         ]
@@ -1139,8 +1142,7 @@
       {
         "id": "N8",
         "type": "action",
-        "label": "Send multicast message to the group",
-        "lane": null,
+        "label": "Process multicast group join/leave change",
         "requirement_ids": [
           "R5",
           "R9"
@@ -1149,8 +1151,7 @@
       {
         "id": "N9",
         "type": "action",
-        "label": "Other agents in the group receive message",
-        "lane": null,
+        "label": "Send unicast message",
         "requirement_ids": [
           "R3",
           "R11",
@@ -1237,8 +1238,7 @@
       {
         "id": "N19",
         "type": "final",
-        "label": "End",
-        "lane": null,
+        "label": "End communication workflow",
         "requirement_ids": []
       }
     ],
@@ -1254,7 +1254,7 @@
       {
         "id": "E2",
         "source": "N2",
-        "target": "N5",
+        "target": "N3",
         "type": "control",
         "guard": "[encrypt selected]",
         "requirement_ids": [
@@ -1311,7 +1311,7 @@
         "source": "N3",
         "target": "N5",
         "type": "control",
-        "guard": null,
+        "guard": "[do not encrypt]",
         "requirement_ids": [
           "R7",
           "R9"
@@ -1333,7 +1333,7 @@
         "source": "N5",
         "target": "N6",
         "type": "control",
-        "guard": "encrypted",
+        "guard": null,
         "requirement_ids": [
           "R9",
           "R10"
@@ -1371,8 +1371,8 @@
       },
       {
         "id": "E13",
-        "source": "N6",
-        "target": "N7",
+        "source": "N9",
+        "target": "N10",
         "type": "control",
         "guard": null,
         "requirement_ids": [
@@ -1392,10 +1392,10 @@
       },
       {
         "id": "E15",
-        "source": "N7",
-        "target": "N16",
+        "source": "N11",
+        "target": "N12",
         "type": "control",
-        "guard": null,
+        "guard": "[message encrypted]",
         "requirement_ids": [
           "R13"
         ]
@@ -1514,11 +1514,11 @@
     "rule_counts": {
       "STRUCT-001": 0,
       "STRUCT-002": 0,
-      "STRUCT-003": 2,
+      "STRUCT-003": 0,
       "STRUCT-004": 0,
       "DECISION-001": 0,
       "DECISION-002": 0,
-      "FLOW-001": 2,
+      "FLOW-001": 0,
       "CONCURRENCY-001": 0,
       "TERM-001": 0,
       "COVERAGE-001": 0,
@@ -1528,7 +1528,7 @@
       "TOTAL_EDGES": 25,
       "TOTAL_REQUIREMENTS": 18
     },
-    "summary": "3 defect(s) detected. Structural score: 0.914. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 0.914."
+    "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
   },
   "review": {
     "overall_assessment": "The diagram covers most required communication modes and encryption/decryption paths, but it has two semantic coverage problems: the multicast join/leave notification flow is not properly separated by encryption choice, and one branch incorrectly routes the unicast flow into the multicast flow when the message is not encrypted. These issues create required-behavior ambiguity and an incorrect control path.",
@@ -1602,13 +1602,14 @@
       "The multicast join/leave notification path is not clearly modeled as an encrypted-or-not-encrypted conditional flow with decryption only on the encrypted branch.",
       "The unicast scenario is not isolated; one branch incorrectly transitions into multicast behavior."
     ],
-    "missing_requirements": [],
-    "unsupported_behaviors": []
+    "unsupported_behaviors": [
+      "Unicast flow transitioning into multicast send/receive processing on the not-encrypted branch."
+    ]
   },
   "defects": [
     {
-      "id": "D-STRUCT-003",
-      "category": "STRUCTURAL",
+      "id": "D1",
+      "category": "CONTROL_FLOW",
       "severity": "HIGH",
       "description": "The unicast flow’s 'message not encrypted' branch is incorrectly routed into the multicast flow instead of terminating the unicast scenario after the receive/decrypt handling. This makes the unicast path execute multicast behavior that is not required by the unicast use case.",
       "node_ids": [
@@ -1655,7 +1656,6 @@
         "E11",
         "E12"
       ],
-      "edge_ids": [],
       "requirement_ids": [
         "R8",
         "R9",
@@ -1820,8 +1820,7 @@
           {
             "id": "N1",
             "type": "initial",
-            "label": "Start",
-            "lane": null,
+            "label": "Start communication workflow",
             "requirement_ids": []
           },
           {
@@ -1829,7 +1828,7 @@
             "type": "decision",
             "label": "Select communication mode",
             "requirement_ids": [
-              "R1"
+              "R4"
             ]
           },
           {
@@ -1856,8 +1855,7 @@
           {
             "id": "N5",
             "type": "action",
-            "label": "Send unicast message to another agent",
-            "lane": null,
+            "label": "Send multicast group join/leave notification",
             "requirement_ids": [
               "R5",
               "R9",
@@ -1866,9 +1864,8 @@
           },
           {
             "id": "N6",
-            "type": "action",
-            "label": "Another agent receives message",
-            "lane": null,
+            "type": "decision",
+            "label": "Decrypt multicast join/leave notification if encrypted",
             "requirement_ids": [
               "R10"
             ]
@@ -1885,8 +1882,7 @@
           {
             "id": "N8",
             "type": "action",
-            "label": "Send multicast message to the group",
-            "lane": null,
+            "label": "Process multicast group join/leave change",
             "requirement_ids": [
               "R5",
               "R9"
@@ -1895,8 +1891,7 @@
           {
             "id": "N9",
             "type": "action",
-            "label": "Other agents in the group receive message",
-            "lane": null,
+            "label": "Send unicast message",
             "requirement_ids": [
               "R3",
               "R11",
@@ -1983,8 +1978,7 @@
           {
             "id": "N19",
             "type": "final",
-            "label": "End",
-            "lane": null,
+            "label": "End communication workflow",
             "requirement_ids": []
           }
         ],
@@ -2000,7 +1994,7 @@
           {
             "id": "E2",
             "source": "N2",
-            "target": "N5",
+            "target": "N3",
             "type": "control",
             "guard": "[encrypt selected]",
             "requirement_ids": [
@@ -2057,7 +2051,7 @@
             "source": "N3",
             "target": "N5",
             "type": "control",
-            "guard": null,
+            "guard": "[do not encrypt]",
             "requirement_ids": [
               "R7",
               "R8",
@@ -2080,7 +2074,7 @@
             "source": "N5",
             "target": "N6",
             "type": "control",
-            "guard": "encrypted",
+            "guard": null,
             "requirement_ids": [
               "R9",
               "R10"
@@ -2118,8 +2112,8 @@
           },
           {
             "id": "E13",
-            "source": "N6",
-            "target": "N7",
+            "source": "N9",
+            "target": "N10",
             "type": "control",
             "guard": null,
             "requirement_ids": [
@@ -2139,10 +2133,10 @@
           },
           {
             "id": "E15",
-            "source": "N7",
-            "target": "N16",
+            "source": "N11",
+            "target": "N12",
             "type": "control",
-            "guard": null,
+            "guard": "[message encrypted]",
             "requirement_ids": [
               "R13"
             ]
@@ -2264,7 +2258,7 @@
         "unsupported_behaviour_rate": 0.15789473684210525,
         "defect_count": 5,
         "defects_fixed": 0,
-        "defects_introduced": 0,
+        "defects_introduced": 5,
         "defect_reduction_rate": 0.0,
         "repair_success_rate": 1.0,
         "quality_score": 0.7450438596491228,
@@ -2353,7 +2347,6 @@
             "E9",
             "E25"
           ],
-          "edge_ids": [],
           "requirement_ids": [
             "R5",
             "R9"
@@ -2375,7 +2368,6 @@
             "E23",
             "E24"
           ],
-          "edge_ids": [],
           "requirement_ids": [
             "R1",
             "R17",
@@ -2522,8 +2514,7 @@
           {
             "id": "N1",
             "type": "initial",
-            "label": "Start",
-            "lane": null,
+            "label": "Start communication workflow",
             "requirement_ids": []
           },
           {
@@ -2531,7 +2522,7 @@
             "type": "decision",
             "label": "Select communication mode",
             "requirement_ids": [
-              "R1"
+              "R4"
             ]
           },
           {
@@ -2558,8 +2549,7 @@
           {
             "id": "N5",
             "type": "action",
-            "label": "Send unicast message to another agent",
-            "lane": null,
+            "label": "Send multicast group join/leave notification",
             "requirement_ids": [
               "R5",
               "R9",
@@ -2568,9 +2558,8 @@
           },
           {
             "id": "N6",
-            "type": "action",
-            "label": "Another agent receives message",
-            "lane": null,
+            "type": "decision",
+            "label": "Decrypt multicast join/leave notification if encrypted",
             "requirement_ids": [
               "R10"
             ]
@@ -2587,8 +2576,7 @@
           {
             "id": "N8",
             "type": "action",
-            "label": "Send multicast message to the group",
-            "lane": null,
+            "label": "Process multicast group join/leave change",
             "requirement_ids": [
               "R5",
               "R9"
@@ -2597,8 +2585,7 @@
           {
             "id": "N9",
             "type": "action",
-            "label": "Other agents in the group receive message",
-            "lane": null,
+            "label": "Send unicast message",
             "requirement_ids": [
               "R3",
               "R11",
@@ -2685,8 +2672,7 @@
           {
             "id": "N19",
             "type": "final",
-            "label": "End",
-            "lane": null,
+            "label": "End communication workflow",
             "requirement_ids": []
           }
         ],
@@ -2702,7 +2688,7 @@
           {
             "id": "E2",
             "source": "N2",
-            "target": "N5",
+            "target": "N3",
             "type": "control",
             "guard": "[encrypt selected]",
             "requirement_ids": [
@@ -2759,7 +2745,7 @@
             "source": "N3",
             "target": "N9",
             "type": "control",
-            "guard": null,
+            "guard": "[do not encrypt]",
             "requirement_ids": [
               "R7",
               "R11"
@@ -2781,7 +2767,7 @@
             "source": "N5",
             "target": "N6",
             "type": "control",
-            "guard": "encrypted",
+            "guard": null,
             "requirement_ids": [
               "R9",
               "R10"
@@ -2819,8 +2805,8 @@
           },
           {
             "id": "E13",
-            "source": "N6",
-            "target": "N7",
+            "source": "N9",
+            "target": "N10",
             "type": "control",
             "guard": null,
             "requirement_ids": [
@@ -2840,10 +2826,10 @@
           },
           {
             "id": "E15",
-            "source": "N7",
-            "target": "N16",
+            "source": "N11",
+            "target": "N12",
             "type": "control",
-            "guard": null,
+            "guard": "[message encrypted]",
             "requirement_ids": [
               "R13"
             ]
@@ -3027,17 +3013,11 @@
           "suggested_action": "Separate the encrypted and unencrypted paths so that only the encrypted branch executes decryption before join/leave processing, while the unencrypted branch bypasses decryption and proceeds directly to processing."
         },
         {
-          "id": "D1",
+          "id": "D2",
           "category": "CONTROL_FLOW",
           "severity": "MEDIUM",
           "description": "The diagram introduces an additional decision after unicast reception that diverts control from the unicast flow into the multicast/broadcast branch selection, which is not supported by the requirements for unicast communication.",
           "node_ids": [
-            "N2",
-            "N3",
-            "N5",
-            "N6",
-            "N8",
-            "N9",
             "N10",
             "N11",
             "N13"
@@ -3191,8 +3171,7 @@
           {
             "id": "N1",
             "type": "initial",
-            "label": "Start",
-            "lane": null,
+            "label": "Start communication workflow",
             "requirement_ids": []
           },
           {
@@ -3200,7 +3179,7 @@
             "type": "decision",
             "label": "Select communication mode",
             "requirement_ids": [
-              "R1"
+              "R4"
             ]
           },
           {
@@ -3227,8 +3206,7 @@
           {
             "id": "N5",
             "type": "action",
-            "label": "Send unicast message to another agent",
-            "lane": null,
+            "label": "Send multicast group join/leave notification",
             "requirement_ids": [
               "R5",
               "R9",
@@ -3237,9 +3215,8 @@
           },
           {
             "id": "N6",
-            "type": "action",
-            "label": "Another agent receives message",
-            "lane": null,
+            "type": "decision",
+            "label": "Decrypt multicast join/leave notification if encrypted",
             "requirement_ids": [
               "R10"
             ]
@@ -3256,8 +3233,7 @@
           {
             "id": "N8",
             "type": "action",
-            "label": "Send multicast message to the group",
-            "lane": null,
+            "label": "Process multicast group join/leave change",
             "requirement_ids": [
               "R5",
               "R9"
@@ -3266,8 +3242,7 @@
           {
             "id": "N9",
             "type": "action",
-            "label": "Other agents in the group receive message",
-            "lane": null,
+            "label": "Send unicast message",
             "requirement_ids": [
               "R3",
               "R11",
@@ -3354,8 +3329,7 @@
           {
             "id": "N19",
             "type": "final",
-            "label": "End",
-            "lane": null,
+            "label": "End communication workflow",
             "requirement_ids": []
           }
         ],
@@ -3371,7 +3345,7 @@
           {
             "id": "E2",
             "source": "N2",
-            "target": "N5",
+            "target": "N3",
             "type": "control",
             "guard": "[encrypt selected]",
             "requirement_ids": [
@@ -3428,7 +3402,7 @@
             "source": "N3",
             "target": "N5",
             "type": "control",
-            "guard": null,
+            "guard": "[do not encrypt]",
             "requirement_ids": [
               "R7",
               "R9"
@@ -3450,7 +3424,7 @@
             "source": "N5",
             "target": "N6",
             "type": "control",
-            "guard": "encrypted",
+            "guard": null,
             "requirement_ids": [
               "R9",
               "R10"
@@ -3488,8 +3462,8 @@
           },
           {
             "id": "E13",
-            "source": "N6",
-            "target": "N7",
+            "source": "N9",
+            "target": "N10",
             "type": "control",
             "guard": null,
             "requirement_ids": [
@@ -3509,10 +3483,10 @@
           },
           {
             "id": "E15",
-            "source": "N7",
-            "target": "N16",
+            "source": "N11",
+            "target": "N12",
             "type": "control",
-            "guard": null,
+            "guard": "[message encrypted]",
             "requirement_ids": [
               "R13"
             ]
@@ -3697,9 +3671,10 @@
             "E6",
             "E7",
             "E8",
-            "E13",
-            "E15",
-            "E20"
+            "E9",
+            "E10",
+            "E11",
+            "E12"
           ],
           "requirement_ids": [
             "R8",
@@ -3846,8 +3821,7 @@
           {
             "id": "N1",
             "type": "initial",
-            "label": "Start",
-            "lane": null,
+            "label": "Start communication workflow",
             "requirement_ids": []
           },
           {
@@ -3855,7 +3829,7 @@
             "type": "decision",
             "label": "Select communication mode",
             "requirement_ids": [
-              "R1"
+              "R4"
             ]
           },
           {
@@ -3882,8 +3856,7 @@
           {
             "id": "N5",
             "type": "action",
-            "label": "Send unicast message to another agent",
-            "lane": null,
+            "label": "Send multicast group join/leave notification",
             "requirement_ids": [
               "R5",
               "R9",
@@ -3892,9 +3865,8 @@
           },
           {
             "id": "N6",
-            "type": "action",
-            "label": "Another agent receives message",
-            "lane": null,
+            "type": "decision",
+            "label": "Decrypt multicast join/leave notification if encrypted",
             "requirement_ids": [
               "R10"
             ]
@@ -3911,8 +3883,7 @@
           {
             "id": "N8",
             "type": "action",
-            "label": "Send multicast message to the group",
-            "lane": null,
+            "label": "Process multicast group join/leave change",
             "requirement_ids": [
               "R5",
               "R9"
@@ -3921,8 +3892,7 @@
           {
             "id": "N9",
             "type": "action",
-            "label": "Other agents in the group receive message",
-            "lane": null,
+            "label": "Send unicast message",
             "requirement_ids": [
               "R3",
               "R11",
@@ -4009,8 +3979,7 @@
           {
             "id": "N19",
             "type": "final",
-            "label": "End",
-            "lane": null,
+            "label": "End communication workflow",
             "requirement_ids": []
           }
         ],
@@ -4026,7 +3995,7 @@
           {
             "id": "E2",
             "source": "N2",
-            "target": "N5",
+            "target": "N3",
             "type": "control",
             "guard": "[encrypt selected]",
             "requirement_ids": [
@@ -4083,7 +4052,7 @@
             "source": "N3",
             "target": "N5",
             "type": "control",
-            "guard": null,
+            "guard": "[do not encrypt]",
             "requirement_ids": [
               "R7",
               "R9"
@@ -4105,7 +4074,7 @@
             "source": "N5",
             "target": "N6",
             "type": "control",
-            "guard": "encrypted",
+            "guard": null,
             "requirement_ids": [
               "R9",
               "R10"
@@ -4143,8 +4112,8 @@
           },
           {
             "id": "E13",
-            "source": "N6",
-            "target": "N7",
+            "source": "N9",
+            "target": "N10",
             "type": "control",
             "guard": null,
             "requirement_ids": [
@@ -4164,10 +4133,10 @@
           },
           {
             "id": "E15",
-            "source": "N7",
-            "target": "N16",
+            "source": "N11",
+            "target": "N12",
             "type": "control",
-            "guard": null,
+            "guard": "[message encrypted]",
             "requirement_ids": [
               "R13"
             ]
@@ -4502,8 +4471,7 @@
         {
           "id": "N1",
           "type": "initial",
-          "label": "Start",
-          "lane": null,
+          "label": "Start communication workflow",
           "requirement_ids": []
         },
         {
@@ -4511,7 +4479,7 @@
           "type": "decision",
           "label": "Select communication mode",
           "requirement_ids": [
-            "R1"
+            "R4"
           ]
         },
         {
@@ -4538,8 +4506,7 @@
         {
           "id": "N5",
           "type": "action",
-          "label": "Send unicast message to another agent",
-          "lane": null,
+          "label": "Send multicast group join/leave notification",
           "requirement_ids": [
             "R5",
             "R9",
@@ -4548,9 +4515,8 @@
         },
         {
           "id": "N6",
-          "type": "action",
-          "label": "Another agent receives message",
-          "lane": null,
+          "type": "decision",
+          "label": "Decrypt multicast join/leave notification if encrypted",
           "requirement_ids": [
             "R10"
           ]
@@ -4567,8 +4533,7 @@
         {
           "id": "N8",
           "type": "action",
-          "label": "Send multicast message to the group",
-          "lane": null,
+          "label": "Process multicast group join/leave change",
           "requirement_ids": [
             "R5",
             "R9"
@@ -4577,8 +4542,7 @@
         {
           "id": "N9",
           "type": "action",
-          "label": "Other agents in the group receive message",
-          "lane": null,
+          "label": "Send unicast message",
           "requirement_ids": [
             "R3",
             "R11",
@@ -4665,8 +4629,7 @@
         {
           "id": "N19",
           "type": "final",
-          "label": "End",
-          "lane": null,
+          "label": "End communication workflow",
           "requirement_ids": []
         }
       ],
@@ -4682,7 +4645,7 @@
         {
           "id": "E2",
           "source": "N2",
-          "target": "N5",
+          "target": "N3",
           "type": "control",
           "guard": "[encrypt selected]",
           "requirement_ids": [
@@ -4739,7 +4702,7 @@
           "source": "N3",
           "target": "N5",
           "type": "control",
-          "guard": null,
+          "guard": "[do not encrypt]",
           "requirement_ids": [
             "R7",
             "R9"
@@ -4761,7 +4724,7 @@
           "source": "N5",
           "target": "N6",
           "type": "control",
-          "guard": "encrypted",
+          "guard": null,
           "requirement_ids": [
             "R9",
             "R10"
@@ -4799,8 +4762,8 @@
         },
         {
           "id": "E13",
-          "source": "N6",
-          "target": "N7",
+          "source": "N9",
+          "target": "N10",
           "type": "control",
           "guard": null,
           "requirement_ids": [
@@ -4820,10 +4783,10 @@
         },
         {
           "id": "E15",
-          "source": "N7",
-          "target": "N16",
+          "source": "N11",
+          "target": "N12",
           "type": "control",
-          "guard": null,
+          "guard": "[message encrypted]",
           "requirement_ids": [
             "R13"
           ]
@@ -5013,7 +4976,6 @@
           "E11",
           "E12"
         ],
-        "edge_ids": [],
         "requirement_ids": [
           "R8",
           "R9",

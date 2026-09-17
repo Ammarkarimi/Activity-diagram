@@ -1,32 +1,59 @@
 @startuml
-title CTS processing activity diagram
+title Central Trading System Activity Diagram
 
 start
 
-:Receive instruction from trade client serve / UI;
-fork
-:Analyze incoming instructions;
-:Divide instructions into kinds;
-:Match instructions under specified prescripts;
-:Provide interfaces to send messages to other modules;
-:Produce new messages after dealing with UI instructions;
-:Send produced new messages to network message promulgating;
+:Receive instruction from trade client serve;
+:Analyze received instruction;
+:Divide instruction into kind;
+if (Determine instruction kind) then (instruction is a buy instruction)
+:Process buy instruction;
+if (Check whether buy instruction has matched stock) then (matched stock exists for buy instruction)
+:Make buy trade by matching;
+:Modify matched buy instruction information;
+else (no matched stock exists for buy instruction)
+note right: Buy no-match exception: suspend operations and handle no matched stock case
+endif
+:Provide interface to send messages to other modules;
+:Send produced message to network message promulgating;
 stop
-fork again
-:Provide easy terminal-user operations via mouse and keyboard;
+elseif (Determine instruction kind) then (instruction is a sell instruction)
+:Process sell instruction;
+if (Check whether sell instruction has matched stock) then (matched stock exists for sell instruction)
+:Make sell trade by matching;
+:Modify matched sell instruction information;
+else (no matched stock exists for sell instruction)
+note right: Sell no-match exception: suspend operations and handle no matched stock case
+endif
+:Provide interface to send messages to other modules;
+:Send produced message to network message promulgating;
 stop
-fork again
-:Authorize system manager access to CTS information;
+elseif (Determine instruction kind) then (instruction is a cancel instruction)
+:Process cancel instruction;
+if (Check whether cancel target instruction exists and is not already implemented) then (target instruction exists and is not already implemented)
+:Cancel correlative instruction;
+else (target instruction has already been implemented or no matched instruction exists)
+note right: Cancel exception: suspend operations, already implemented instruction, or no matched instruction
+endif
+:Provide interface to send messages to other modules;
+:Send produced message to network message promulgating;
 stop
-fork again
-:Maintainers diagnose system crash cause;
-:Maintainers fix system crash;
-:Maintainers modify program for new requirements;
+elseif (Determine instruction kind) then (instruction is a save-trade-information request)
+:Process save trade information request;
+:Give out successful trade information;
+:Save trade information;
+else (instruction is a trading-information query)
+:Process trading information query;
+if (Validate query and check matched data) then (query is valid and matched data exists)
+:Implement query;
+:Structuralize queried data;
+:Send query result data to release;
+else (query is invalid or no matched data exists)
+note right: Query exception: suspend operations, invalid query, or no matched data
+endif
+:Provide interface to send messages to other modules;
+:Send produced message to network message promulgating;
 stop
-fork again
-:Accommodate frequent instruction operations and heavy transfer;
-:Use strategies to overcome crash under overload;
-stop
-end fork
+endif
 
 @enduml

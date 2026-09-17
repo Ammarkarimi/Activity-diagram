@@ -1,0 +1,40 @@
+@startuml
+title Agent communication workflow
+
+start
+
+if (Select communication mode) then (encrypt selected)
+if (Choose whether to encrypt message) then (encrypt)
+:Provide encryption for message;
+else (do not encrypt)
+endif
+:Send multicast group join/leave notification;
+if (Decrypt multicast join/leave notification if encrypted) then (message encrypted)
+:Decrypt multicast join/leave notification;
+else (message not encrypted)
+endif
+:Process multicast group join/leave change;
+stop
+elseif (Select communication mode) then (unicast selected)
+:Send unicast message;
+:Receive unicast message;
+if (Decrypt unicast message if encrypted) then (message encrypted)
+:Decrypt unicast message;
+else (message not encrypted)
+endif
+stop
+elseif (Select communication mode) then (multicast selected)
+else (broadcast selected)
+:Send broadcast message to local network;
+:Receive broadcast message by local network agents;
+stop
+endif
+:Send multicast message to group;
+:Receive multicast message by group members;
+if (Decrypt multicast message if encrypted) then (message encrypted)
+:Decrypt multicast message;
+else (message not encrypted)
+endif
+stop
+
+@enduml

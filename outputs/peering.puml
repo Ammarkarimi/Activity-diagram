@@ -1,0 +1,118 @@
+@startuml
+title CDN Peering Lifecycle
+
+start
+
+:Initiate CDN peering through resource sharing;
+if (Resource registration trigger valid?) then (resources available / update required / traffic surge / established peering encapsulation required)
+if (Is the resource new?) then (new resource)
+:Register service information and assign new resource ID;
+else (existing resource)
+:Update existing resource information;
+endif
+if (Traffic surge or established peering encapsulation required?) then (traffic surge requires mediator supply of local resources)
+:Supply available local resources and IDs to mediator;
+elseif (Traffic surge or established peering encapsulation required?) then (established peering arrangement requires SR encapsulation)
+:Encapsulate local and delegated external resource information in SR instance;
+else (neither traffic surge nor established peering encapsulation is required)
+endif
+if (Resource failure reported?) then (resource failure reported)
+:Remove failed resource service information and decrement resource ID counter;
+else (no resource failure reported)
+endif
+if (Should peering be triggered by workload conditions?) then (expected or unexpected load increase causes inability to handle workload and flash crowd exists)
+:Send initialization request to mediator to trigger peering;
+if (Are user requests acceptable under provider policy?) then (service requirements acceptable under provider policy)
+:Create negotiated relationship through a legal document, financial statement, or SLA, include service levels, storage requirements, transfer rate, service duration, penalties, other preconditions, and specify administration, coordination, and disband or re-arrangement interactions for interconnection;
+:Obtain resource and access information from SR and policies from PR;
+:Generate service requirements;
+else (service requirements not acceptable under provider policy)
+endif
+:Pass service requirements to local Peering Agent;
+:Receive service requirements;
+if (Preexisting peering arrangements exist?) then (preexisting peering arrangements exist in a long-term scenario)
+:Return preexisting peering arrangements;
+:Perform resource discovery with peers;
+repeat
+:Re-evaluate service requirements and renegotiate;
+repeat while (insufficient resources acquired) is (true)
+:Establish peering arrangement;
+:Configure CDN peering protocols and advertise CDN configuration information;
+fork
+:Exchange content availability and load information, redirect requests to optimal peer;
+if (Termination condition holds for existing peering arrangement?) then (termination condition holds)
+:Disband or re-arrange peering arrangement within negotiated scope;
+else (no termination condition holds)
+endif
+stop
+fork again
+:Deploy and administer functional policies through the Policy Repository;
+if (Termination condition holds for existing peering arrangement?) then (termination condition holds)
+:Disband or re-arrange peering arrangement within negotiated scope;
+else (no termination condition holds)
+endif
+stop
+fork again
+:Cooperate to execute common goals;
+if (Termination condition holds for existing peering arrangement?) then (termination condition holds)
+:Disband or re-arrange peering arrangement within negotiated scope;
+else (no termination condition holds)
+endif
+stop
+fork again
+:Exchange accounting information and perform billing;
+if (Termination condition holds for existing peering arrangement?) then (termination condition holds)
+:Disband or re-arrange peering arrangement within negotiated scope;
+else (no termination condition holds)
+endif
+stop
+end fork
+else (no preexisting peering arrangements exist)
+:Carry out short-term negotiation with identified peering targets;
+:Perform resource discovery with peers;
+repeat
+:Re-evaluate service requirements and renegotiate;
+repeat while (insufficient resources acquired) is (true)
+:Establish peering arrangement;
+:Configure CDN peering protocols and advertise CDN configuration information;
+fork
+:Exchange content availability and load information, redirect requests to optimal peer;
+if (Termination condition holds for existing peering arrangement?) then (termination condition holds)
+:Disband or re-arrange peering arrangement within negotiated scope;
+else (no termination condition holds)
+endif
+stop
+fork again
+:Deploy and administer functional policies through the Policy Repository;
+if (Termination condition holds for existing peering arrangement?) then (termination condition holds)
+:Disband or re-arrange peering arrangement within negotiated scope;
+else (no termination condition holds)
+endif
+stop
+fork again
+:Cooperate to execute common goals;
+if (Termination condition holds for existing peering arrangement?) then (termination condition holds)
+:Disband or re-arrange peering arrangement within negotiated scope;
+else (no termination condition holds)
+endif
+stop
+fork again
+:Exchange accounting information and perform billing;
+if (Termination condition holds for existing peering arrangement?) then (termination condition holds)
+:Disband or re-arrange peering arrangement within negotiated scope;
+else (no termination condition holds)
+endif
+stop
+end fork
+endif
+else (no workload condition requires peering trigger)
+endif
+stop
+else (none of the service registration triggers apply)
+endif
+if (Should peering be triggered by workload conditions?) then (expected or unexpected load increase causes inability to handle workload and flash crowd exists)
+else (no workload condition requires peering trigger)
+endif
+stop
+
+@enduml

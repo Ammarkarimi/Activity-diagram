@@ -1,31 +1,29 @@
 @startuml
-title Model agent communication behavior for broadcast, multicast, and unicast messaging, including optional encryption/decryption and multicast group join/leave notifications.
+title Agent Messaging Communication Activity Diagram
 
 start
 
-if (Select communication type) then (Unicast)
+if (Choose communication type) then (unicast)
+elseif (Choose communication type) then (multicast)
+else (broadcast)
+endif
+if (Choose message encryption) then (encrypted)
+:Provide encryption;
+else (not encrypted)
+endif
 :Send unicast message to another agent;
-elseif (Select communication type) then (Multicast)
-:Send multicast message to the group;
-elseif (Select communication type) then (Broadcast)
-:Send message to everyone in the same local network;
-elseif (Select communication type) then (Join multicast group)
-:Join multicast group;
-:Send notify to join multicast group;
-stop
-else (Leave multicast group)
-:Leave multicast group;
-:Send notify to leave multicast group;
-stop
-endif
-if (Encrypt message?) then (Encrypted)
-:Provide message encryption techniques;
-else (Not encrypted)
-endif
 :Another agent receives message;
-if (Another agent receives message) then (Unicast or Multicast)
-:Provide message decryption techniques;
-else (Broadcast)
+if (Another agent receives message) then (encrypted)
+:Decrypt message;
+else (not encrypted)
+endif
+:Send multicast message to the group;
+:Other agents in the group receive message;
+if (Other agents in the group receive message) then (multicast group join/leave notification)
+:Send notify to join/leave multicast group;
+else (multicast data delivery complete)
+:Send broadcast message to everyone in the same local network;
+:Other agent in the same local network receive message;
 endif
 stop
 
