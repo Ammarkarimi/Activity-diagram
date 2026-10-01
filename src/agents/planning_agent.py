@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from src.llm.openai_client import OpenAIClient
+from src.utils.json_utils import prompt_json
 from src.models.domain import ActivityPlan, Requirement, RequirementMatrix
 
 
@@ -71,11 +72,11 @@ ORIGINAL REQUIREMENTS
 
 ATOMIC REQUIREMENTS
 ===================
-{[r.model_dump() for r in requirements]}
+{prompt_json(requirements)}
 
 EXISTING TRACEABILITY
 =====================
-{matrix.model_dump()}
+{prompt_json(matrix)}
 
 Produce the complete ActivityPlan.
 """

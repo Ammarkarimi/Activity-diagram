@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from src.llm.openai_client import OpenAIClient
+from src.utils.json_utils import prompt_json
 from src.models.domain import ActivityDiagram, Defect, RepairResult, Requirement
 
 
@@ -73,15 +74,15 @@ ORIGINAL REQUIREMENTS
 
 ATOMIC REQUIREMENTS
 ===================
-{[r.model_dump() for r in requirements]}
+{prompt_json(requirements)}
 
 CURRENT ACTIVITY DIAGRAM
 ========================
-{diagram.model_dump()}
+{prompt_json(diagram)}
 
 SUPPLIED DEFECTS
 ================
-{[d.model_dump() for d in defects]}
+{prompt_json(defects)}
 
 Return the complete repaired ActivityDiagram.
 """

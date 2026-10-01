@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from collections import defaultdict
 
 import networkx as nx
@@ -36,6 +37,10 @@ class PlantUMLGenerator:
 
         self._validate(diagram)
 
+        # The compiler walks the graph recursively; diagrams composed from a
+        # long specification can have hundreds of nodes.
+        sys.setrecursionlimit(max(sys.getrecursionlimit(), 10_000))
+
         graph = self._build_graph(
             diagram
         )
@@ -63,12 +68,18 @@ class PlantUMLGenerator:
             f"title {self._escape(diagram.title)}"
         )
         lines.append("")
-        lines.append("start")
-        lines.append("")
 
         visited: set[str] = set()
         self._final_reached = False
         self._current_lane: str | None = None
+
+        # PlantUML requires the first swimlane to be declared before "start".
+        first_lane = self._first_lane(graph, nodes, initial.id)
+        if first_lane:
+            self._emit_lane(first_lane, lines)
+
+        lines.append("start")
+        lines.append("")
 
         self._compile_node(
             graph=graph,
@@ -747,6 +758,18 @@ class PlantUMLGenerator:
             return
         lines.append(f"|{self._escape_lane(lane)}|")
         self._current_lane = lane
+
+    @staticmethod
+    def _first_lane(
+        graph: nx.DiGraph,
+        nodes: dict[str, ActivityNode],
+        initial_id: str,
+    ) -> str | None:
+        for node_id in nx.bfs_tree(graph, initial_id):
+            lane = (nodes[node_id].lane or "").strip()
+            if lane:
+                return lane
+        return None
 
     @staticmethod
     def _reaches(

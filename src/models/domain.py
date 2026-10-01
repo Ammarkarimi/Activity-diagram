@@ -81,6 +81,12 @@ class Requirement(BaseModel):
 
     source_sentence: str = ""
 
+    # Provenance for long documents: the section heading path and the
+    # document chunk the requirement was extracted from.
+    section: str = ""
+
+    chunk_id: str = ""
+
 
 class RequirementMatrixItem(BaseModel):
     requirement_id: str
@@ -671,6 +677,120 @@ class PipelineState(BaseModel):
     best_candidate_iteration: int | None = None
 
     best_candidate: CandidateRecord | None = None
+
+
+# ============================================================
+# LONG-DOCUMENT / HIERARCHICAL MODELS
+# ============================================================
+
+
+class DocumentChunk(BaseModel):
+    """A token-bounded slice of a (possibly very long) specification."""
+
+    id: str
+
+    text: str
+
+    # Heading path of the section the chunk starts in, e.g.
+    # "3 System Features > 3.2 Checkout".
+    section: str = ""
+
+    # All section paths touched by this chunk.
+    sections: list[str] = Field(default_factory=list)
+
+    start_char: int = 0
+
+    end_char: int = 0
+
+    # Tail of the previous chunk. Given to agents as read-only context so
+    # behaviour split across a chunk boundary is not lost.
+    context_before: str = ""
+
+    estimated_tokens: int = 0
+
+
+class ActivityModule(BaseModel):
+    """A cohesive sub-activity (workflow / use case) of a large system."""
+
+    id: str
+
+    name: str
+
+    objective: str = ""
+
+    requirement_ids: list[str] = Field(default_factory=list)
+
+    lanes: list[str] = Field(default_factory=list)
+
+
+class ModuleTransition(BaseModel):
+    """Control flow between modules in the overview diagram.
+
+    ``source``/``target`` are module IDs, or the pseudo IDs ``START`` and
+    ``END``.
+    """
+
+    source: str
+
+    target: str
+
+    guard: str | None = None
+
+
+class DecompositionPlan(BaseModel):
+    system_name: str = "System"
+
+    summary: str = ""
+
+    modules: list[ActivityModule] = Field(default_factory=list)
+
+    transitions: list[ModuleTransition] = Field(default_factory=list)
+
+
+class ModuleResult(BaseModel):
+    module: ActivityModule
+
+    diagram: ActivityDiagram | None = None
+
+    plantuml: str = ""
+
+    remaining_defects: list[Defect] = Field(default_factory=list)
+
+    metrics: dict[str, Any] = Field(default_factory=dict)
+
+    error: str = ""
+
+
+class HierarchicalState(BaseModel):
+    """Complete state of a hierarchical (long-document) run."""
+
+    sample_id: str
+
+    document_tokens: int = 0
+
+    chunks: list[DocumentChunk] = Field(default_factory=list)
+
+    requirements: list[Requirement] = Field(default_factory=list)
+
+    extraction_errors: list[str] = Field(default_factory=list)
+
+    decomposition: DecompositionPlan | None = None
+
+    modules: list[ModuleResult] = Field(default_factory=list)
+
+    overview_diagram: ActivityDiagram | None = None
+
+    overview_plantuml: str = ""
+
+    full_diagram: ActivityDiagram | None = None
+
+    full_plantuml: str = ""
+
+    full_validation: ValidationResult | None = None
+
+    uncovered_requirement_ids: list[str] = Field(default_factory=list)
+
+    metrics: dict[str, Any] = Field(default_factory=dict)
 
 
 # ============================================================

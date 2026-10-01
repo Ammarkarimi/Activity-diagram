@@ -3,6 +3,7 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 from src.llm.openai_client import OpenAIClient
+from src.utils.json_utils import prompt_json
 from src.models.domain import Defect
 
 
@@ -37,7 +38,7 @@ that every returned defect already exists in the current defect set.
         user = f"""
 CURRENT DEFECTS
 ==============
-{[d.model_dump() for d in defects]}
+{prompt_json(defects)}
 
 Prioritize these defects for the next repair batch. Return the same defect
 objects, preferably with their original IDs.
