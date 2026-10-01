@@ -1,0 +1,929 @@
+[
+  {
+    "sample": "agentmom",
+    "generated_file": "outputs/First Run/agentmom_Run1.puml",
+    "gold_file": "Gold Standard Solutions/2003 - agentmom.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 18,
+      "decisions": 7,
+      "forks": 0,
+      "finals": 1,
+      "lanes": 2,
+      "cyclomatic": 8,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 12,
+      "decisions": 6,
+      "forks": 0,
+      "finals": 1,
+      "lanes": 0,
+      "cyclomatic": 8,
+      "vacuous_decisions": 0
+    },
+    "similarity": {
+      "action_recall": 0.611,
+      "action_precision": 0.917,
+      "action_f1": 0.733,
+      "ordering_agreement": 0.143,
+      "ordering_pairs_checked": 7,
+      "missing_gold_actions": [
+        "Compose message",
+        "Send unicast message via TCP/IP",
+        "Agent added to group",
+        "Agent removed from group",
+        "Set multicast address, port & TTL",
+        "Receive multicast message from subscribed group",
+        "Send broadcast message to local network via UDP"
+      ],
+      "extra_generated_actions": [
+        "Decrypt multicast message"
+      ],
+      "matches": [
+        {
+          "gold": "Receive unicast message",
+          "generated": "Receive unicast message",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Encrypt message",
+          "generated": "Encrypt message",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Receive broadcast message",
+          "generated": "Receive broadcast message",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Decrypt message",
+          "generated": "Decrypt unicast message",
+          "similarity": 0.73
+        },
+        {
+          "gold": "Decrypt message",
+          "generated": "Decrypt broadcast message",
+          "similarity": 0.71
+        },
+        {
+          "gold": "Process multicast message",
+          "generated": "Receive multicast message",
+          "similarity": 0.67
+        },
+        {
+          "gold": "Process broadcast message",
+          "generated": "Send broadcast message",
+          "similarity": 0.65
+        },
+        {
+          "gold": "Process unicast message",
+          "generated": "Send unicast message",
+          "similarity": 0.65
+        },
+        {
+          "gold": "Send leave request to multicast group",
+          "generated": "Send notify message to leave multicast group",
+          "similarity": 0.63
+        },
+        {
+          "gold": "Send join request to multicast group",
+          "generated": "Send notify message to join multicast group",
+          "similarity": 0.63
+        },
+        {
+          "gold": "Send multicast message to group address",
+          "generated": "Send multicast message",
+          "similarity": 0.61
+        }
+      ]
+    }
+  },
+  {
+    "sample": "central_trading",
+    "generated_file": "outputs/First Run/central_trading_Run1.puml",
+    "gold_file": "Gold Standard Solutions/2007 - central trading.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 20,
+      "decisions": 5,
+      "forks": 1,
+      "finals": 1,
+      "lanes": 4,
+      "cyclomatic": 7,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 21,
+      "decisions": 3,
+      "forks": 0,
+      "finals": 1,
+      "lanes": 0,
+      "cyclomatic": 4,
+      "vacuous_decisions": 0
+    },
+    "similarity": {
+      "action_recall": 0.05,
+      "action_precision": 0.048,
+      "action_f1": 0.049,
+      "ordering_agreement": null,
+      "ordering_pairs_checked": 0,
+      "missing_gold_actions": [
+        "Submit trading instruction (buy / sell / cancel / query)",
+        "Analyse and classify instruction buy / sell / cancel / query)",
+        "Process instruction under specific matching rules",
+        "Produce result message",
+        "Send result to Network Message Promulgating",
+        "Send result back to Trade Client Serve",
+        "Notify Trade Client Serve of failure",
+        "Process query instruction",
+        "Retrieve requested information",
+        "Send query result to requesting subsystem",
+        "Reject instruction",
+        "Notify Trade Client Serve of rejection",
+        "Request access to CTS information",
+        "Authorise and provide access to CTS data",
+        "Diagnoses cause of crash",
+        "Fix the issue",
+        "Modify program to support new requirement",
+        "Apply overload / crash management strategy",
+        "Restore system to normal operation"
+      ],
+      "extra_generated_actions": [
+        "Analyze incoming instructions",
+        "Divide instructions into kinds",
+        "Match instructions under specific prescripts",
+        "Save buy instruction",
+        "Match buy instructions with same stock id",
+        "Make trade by matching for buy",
+        "Modify matched instruction information for buy",
+        "Give out successful trade information",
+        "Save trade information",
+        "Handle no matched stock",
+        "Save sell instruction",
+        "Match sell instructions with same stock id",
+        "Make trade by matching for sell",
+        "Modify matched instruction information for sell",
+        "Save cancel instruction",
+        "Cancel correlative instruction",
+        "Send query to CTS",
+        "Implement query",
+        "Structuralize queried data",
+        "Send data to release"
+      ],
+      "matches": [
+        {
+          "gold": "Receive instruction from Trade Client Serve",
+          "generated": "Receive instructions from trade client serve",
+          "similarity": 0.85
+        }
+      ]
+    }
+  },
+  {
+    "sample": "central_trading",
+    "generated_file": "outputs/First Run/central_trading_Run2.puml",
+    "gold_file": "Gold Standard Solutions/2007 - central trading.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 20,
+      "decisions": 5,
+      "forks": 1,
+      "finals": 1,
+      "lanes": 4,
+      "cyclomatic": 7,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 16,
+      "decisions": 2,
+      "forks": 0,
+      "finals": 1,
+      "lanes": 0,
+      "cyclomatic": 3,
+      "vacuous_decisions": 0
+    },
+    "similarity": {
+      "action_recall": 0.1,
+      "action_precision": 0.125,
+      "action_f1": 0.111,
+      "ordering_agreement": null,
+      "ordering_pairs_checked": 0,
+      "missing_gold_actions": [
+        "Submit trading instruction (buy / sell / cancel / query)",
+        "Receive instruction from Trade Client Serve",
+        "Analyse and classify instruction buy / sell / cancel / query)",
+        "Process instruction under specific matching rules",
+        "Produce result message",
+        "Send result back to Trade Client Serve",
+        "Notify Trade Client Serve of failure",
+        "Retrieve requested information",
+        "Send query result to requesting subsystem",
+        "Reject instruction",
+        "Notify Trade Client Serve of rejection",
+        "Request access to CTS information",
+        "Authorise and provide access to CTS data",
+        "Diagnoses cause of crash",
+        "Fix the issue",
+        "Modify program to support new requirement",
+        "Apply overload / crash management strategy",
+        "Restore system to normal operation"
+      ],
+      "extra_generated_actions": [
+        "Analyze incoming instruction",
+        "Classify instruction into kind",
+        "Process buy instruction",
+        "Match instructions by stock id and prescripts",
+        "Make trade by matching",
+        "Modify matched instruction information",
+        "Save successful trade information",
+        "Provide interface to other modules",
+        "Process sell instruction",
+        "Process cancel instruction",
+        "Cancel correlative instruction",
+        "Implement query",
+        "Structuralize queried data",
+        "Send queried data to release system"
+      ],
+      "matches": [
+        {
+          "gold": "Process query instruction",
+          "generated": "Process query instruction",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Send result to Network Message Promulgating",
+          "generated": "Send produced message to network message promulgating subsystem",
+          "similarity": 0.69
+        }
+      ]
+    }
+  },
+  {
+    "sample": "peering",
+    "generated_file": "outputs/First Run/peering.puml",
+    "gold_file": "Gold Standard Solutions/2008 - peering.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 48,
+      "decisions": 9,
+      "forks": 1,
+      "finals": 6,
+      "lanes": 6,
+      "cyclomatic": 6,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 15,
+      "decisions": 5,
+      "forks": 0,
+      "finals": 1,
+      "lanes": 0,
+      "cyclomatic": 6,
+      "vacuous_decisions": 0
+    },
+    "similarity": {
+      "action_recall": 0.167,
+      "action_precision": 0.533,
+      "action_f1": 0.254,
+      "ordering_agreement": 1.0,
+      "ordering_pairs_checked": 1,
+      "missing_gold_actions": [
+        "Detect available local resources of CDN (CPU, storage, upload-download rate etc.)",
+        "Register resource in SR with new resource ID; Increment resource ID counter",
+        "Update existing resource information in SR",
+        "Register and update available local resources",
+        "Send content request to CDN Web Server",
+        "Receive content request",
+        "Forward request via proprietary selection algorithm",
+        "Serve content to End User",
+        "Measure current load on Web Server(s)",
+        "Continue normal content delivery",
+        "Receive initiation request from Web Server",
+        "Request resource and access information from Service Registry",
+        "Send resource and access information to mediator",
+        "Request SLA and policy information from Policy Repository",
+        "Send SLA and policy information to mediator",
+        "Generate service requirements",
+        "Reject user requests",
+        "Receive service requirements from Mediator",
+        "Return existing peering policies",
+        "Establish long-term peering arrangement",
+        "Perform short-term resource negotiation",
+        "Interact with External PAs via inter-PA communication protocol",
+        "Discover external resources from peer CDNs",
+        "Select CDNs to peer with and perform negotiation",
+        "Mediator re-evaluates service requirements",
+        "Send updated requirements to Local PA for re-negotiation",
+        "Perform re-negotiation with peer CDNs",
+        "Exchange content availability and load information with External PAs",
+        "Exchange accounting information with peers for billing based on negotiated relationships",
+        "Identify optimal peer to handle user requests",
+        "Redirect request to optimal peer Web Server",
+        "Assist in the deployment, administration and enforcement of functional policies",
+        "Perform on-demand caching, content selection and routing",
+        "Report load information to CDN gateway periodically or on threshold basis",
+        "Monitor peering arrangement and participating CDNs (agility and resilience)",
+        "Continue operational management of peering arrangement",
+        "Bypass SLA conditions; Neither disband nor re-arrange",
+        "Tune negotiated relationships with reconsidered service requirements",
+        "Disband peering arrangement",
+        "Deregister resources and decrement resource ID counter"
+      ],
+      "extra_generated_actions": [
+        "Mediator obtains resource/access info from SR and policy info from PR and generates service requirements",
+        "Return preexisting peering policies and proceed with long-term peering arrangement",
+        "Exchange content availability information and support request redirection to an optimal peer",
+        "Deploy and administer functional policies; exchange accounting information for billing",
+        "Perform short-term negotiation and inter-PA communication to discover external resources",
+        "Determine delegable resources and delegation conditions with mediator and reserve/provision resources for SLAs",
+        "Measure, report, and disseminate load information hierarchically"
+      ],
+      "matches": [
+        {
+          "gold": "Establish peering arrangement",
+          "generated": "Establish peering arrangement",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Pass service requirements to local Peering Agent (PA)",
+          "generated": "Pass service requirements to local Peering Agent",
+          "similarity": 0.91
+        },
+        {
+          "gold": "Publish resource and service information",
+          "generated": "Publish resource and service information to Service Registry",
+          "similarity": 0.76
+        },
+        {
+          "gold": "Deliver content to End User based on negotiated policies",
+          "generated": "Ensure delivery of content to end-users based on negotiated policies",
+          "similarity": 0.71
+        },
+        {
+          "gold": "Replicate content on-demand from origin server",
+          "generated": "Replicate content on-demand from origin server and store it for future use",
+          "similarity": 0.65
+        },
+        {
+          "gold": "Send initiation request to trigger peering to Mediator",
+          "generated": "Send initialization request to mediator",
+          "similarity": 0.63
+        },
+        {
+          "gold": "Re-arrange peering arrangement within negotiated scope",
+          "generated": "Disband or re-arrange peering arrangement through renegotiation",
+          "similarity": 0.55
+        },
+        {
+          "gold": "Advertise configuration information",
+          "generated": "Configure CDN peering protocols and advertise CDN configuration information",
+          "similarity": 0.51
+        }
+      ]
+    }
+  },
+  {
+    "sample": "agentmom",
+    "generated_file": "outputs/Second Run/agentmom.puml",
+    "gold_file": "Gold Standard Solutions/2003 - agentmom.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 18,
+      "decisions": 7,
+      "forks": 0,
+      "finals": 1,
+      "lanes": 2,
+      "cyclomatic": 8,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 12,
+      "decisions": 7,
+      "forks": 0,
+      "finals": 4,
+      "lanes": 0,
+      "cyclomatic": 5,
+      "vacuous_decisions": 0
+    },
+    "similarity": {
+      "action_recall": 0.5,
+      "action_precision": 0.75,
+      "action_f1": 0.6,
+      "ordering_agreement": 0.333,
+      "ordering_pairs_checked": 6,
+      "missing_gold_actions": [
+        "Compose message",
+        "Encrypt message",
+        "Send unicast message via TCP/IP",
+        "Agent added to group",
+        "Send leave request to multicast group",
+        "Agent removed from group",
+        "Set multicast address, port & TTL",
+        "Process multicast message",
+        "Process broadcast message"
+      ],
+      "extra_generated_actions": [
+        "Provide encryption for message",
+        "Decrypt multicast join/leave notification",
+        "Process multicast group join/leave change"
+      ],
+      "matches": [
+        {
+          "gold": "Receive unicast message",
+          "generated": "Receive unicast message",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Send multicast message to group address",
+          "generated": "Send multicast message to group",
+          "similarity": 0.86
+        },
+        {
+          "gold": "Send broadcast message to local network via UDP",
+          "generated": "Send broadcast message to local network",
+          "similarity": 0.83
+        },
+        {
+          "gold": "Decrypt message",
+          "generated": "Decrypt unicast message",
+          "similarity": 0.73
+        },
+        {
+          "gold": "Decrypt message",
+          "generated": "Decrypt multicast message",
+          "similarity": 0.71
+        },
+        {
+          "gold": "Process unicast message",
+          "generated": "Send unicast message",
+          "similarity": 0.65
+        },
+        {
+          "gold": "Receive multicast message from subscribed group",
+          "generated": "Receive multicast message by group members",
+          "similarity": 0.62
+        },
+        {
+          "gold": "Receive broadcast message",
+          "generated": "Receive broadcast message by local network agents",
+          "similarity": 0.55
+        },
+        {
+          "gold": "Send join request to multicast group",
+          "generated": "Send multicast group join/leave notification",
+          "similarity": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "sample": "central_trading",
+    "generated_file": "outputs/Second Run/central_trading.puml",
+    "gold_file": "Gold Standard Solutions/2007 - central trading.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 20,
+      "decisions": 5,
+      "forks": 1,
+      "finals": 1,
+      "lanes": 4,
+      "cyclomatic": 7,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 0.976,
+      "structural_defects": 1,
+      "actions": 14,
+      "decisions": 0,
+      "forks": 1,
+      "finals": 5,
+      "lanes": 0,
+      "cyclomatic": 0,
+      "vacuous_decisions": 0
+    },
+    "similarity": {
+      "action_recall": 0.2,
+      "action_precision": 0.286,
+      "action_f1": 0.235,
+      "ordering_agreement": 0.0,
+      "ordering_pairs_checked": 1,
+      "missing_gold_actions": [
+        "Submit trading instruction (buy / sell / cancel / query)",
+        "Analyse and classify instruction buy / sell / cancel / query)",
+        "Process instruction under specific matching rules",
+        "Produce result message",
+        "Send result back to Trade Client Serve",
+        "Notify Trade Client Serve of failure",
+        "Process query instruction",
+        "Retrieve requested information",
+        "Send query result to requesting subsystem",
+        "Reject instruction",
+        "Notify Trade Client Serve of rejection",
+        "Authorise and provide access to CTS data",
+        "Diagnoses cause of crash",
+        "Fix the issue",
+        "Apply overload / crash management strategy",
+        "Restore system to normal operation"
+      ],
+      "extra_generated_actions": [
+        "Analyze incoming instructions",
+        "Divide instructions into kinds",
+        "Match instructions under specified prescripts",
+        "Provide interfaces to send messages to other modules",
+        "Produce new messages after dealing with UI instructions",
+        "Provide easy terminal-user operations via mouse and keyboard",
+        "Maintainers diagnose system crash cause",
+        "Maintainers fix system crash",
+        "Accommodate frequent instruction operations and heavy transfer",
+        "Use strategies to overcome crash under overload"
+      ],
+      "matches": [
+        {
+          "gold": "Receive instruction from Trade Client Serve",
+          "generated": "Receive instruction from trade client serve / UI",
+          "similarity": 0.9
+        },
+        {
+          "gold": "Send result to Network Message Promulgating",
+          "generated": "Send produced new messages to network message promulgating",
+          "similarity": 0.67
+        },
+        {
+          "gold": "Request access to CTS information",
+          "generated": "Authorize system manager access to CTS information",
+          "similarity": 0.61
+        },
+        {
+          "gold": "Modify program to support new requirement",
+          "generated": "Maintainers modify program for new requirements",
+          "similarity": 0.54
+        }
+      ]
+    }
+  },
+  {
+    "sample": "agentmom",
+    "generated_file": "outputs/agentmom.puml",
+    "gold_file": "Gold Standard Solutions/2003 - agentmom.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 18,
+      "decisions": 7,
+      "forks": 0,
+      "finals": 1,
+      "lanes": 2,
+      "cyclomatic": 8,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 9,
+      "decisions": 5,
+      "forks": 0,
+      "finals": 1,
+      "lanes": 0,
+      "cyclomatic": 6,
+      "vacuous_decisions": 1
+    },
+    "similarity": {
+      "action_recall": 0.278,
+      "action_precision": 0.556,
+      "action_f1": 0.37,
+      "ordering_agreement": null,
+      "ordering_pairs_checked": 0,
+      "missing_gold_actions": [
+        "Compose message",
+        "Encrypt message",
+        "Receive unicast message",
+        "Decrypt message",
+        "Process unicast message",
+        "Agent added to group",
+        "Send leave request to multicast group",
+        "Agent removed from group",
+        "Set multicast address, port & TTL",
+        "Receive multicast message from subscribed group",
+        "Process multicast message",
+        "Receive broadcast message",
+        "Process broadcast message"
+      ],
+      "extra_generated_actions": [
+        "Provide encryption",
+        "Another agent receives message",
+        "Other agents in the group receive message",
+        "Other agent in the same local network receive message"
+      ],
+      "matches": [
+        {
+          "gold": "Decrypt message",
+          "generated": "Decrypt message",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Send multicast message to group address",
+          "generated": "Send multicast message to the group",
+          "similarity": 0.78
+        },
+        {
+          "gold": "Send join request to multicast group",
+          "generated": "Send notify to join/leave multicast group",
+          "similarity": 0.66
+        },
+        {
+          "gold": "Send broadcast message to local network via UDP",
+          "generated": "Send broadcast message to everyone in the same local network",
+          "similarity": 0.61
+        },
+        {
+          "gold": "Send unicast message via TCP/IP",
+          "generated": "Send unicast message to another agent",
+          "similarity": 0.52
+        }
+      ]
+    }
+  },
+  {
+    "sample": "central_trading",
+    "generated_file": "outputs/central_trading.puml",
+    "gold_file": "Gold Standard Solutions/2007 - central trading.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 20,
+      "decisions": 5,
+      "forks": 1,
+      "finals": 1,
+      "lanes": 4,
+      "cyclomatic": 7,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 0.989,
+      "structural_defects": 1,
+      "actions": 26,
+      "decisions": 8,
+      "forks": 0,
+      "finals": 4,
+      "lanes": 0,
+      "cyclomatic": 5,
+      "vacuous_decisions": 0
+    },
+    "similarity": {
+      "action_recall": 0.2,
+      "action_precision": 0.154,
+      "action_f1": 0.174,
+      "ordering_agreement": null,
+      "ordering_pairs_checked": 0,
+      "missing_gold_actions": [
+        "Submit trading instruction (buy / sell / cancel / query)",
+        "Analyse and classify instruction buy / sell / cancel / query)",
+        "Process instruction under specific matching rules",
+        "Produce result message",
+        "Send result back to Trade Client Serve",
+        "Notify Trade Client Serve of failure",
+        "Retrieve requested information",
+        "Reject instruction",
+        "Notify Trade Client Serve of rejection",
+        "Request access to CTS information",
+        "Authorise and provide access to CTS data",
+        "Diagnoses cause of crash",
+        "Fix the issue",
+        "Modify program to support new requirement",
+        "Apply overload / crash management strategy",
+        "Restore system to normal operation"
+      ],
+      "extra_generated_actions": [
+        "Analyze received instruction",
+        "Divide instruction into kind",
+        "Make buy trade by matching",
+        "Modify matched buy instruction information",
+        "Provide interface to send messages to other modules",
+        "Send produced message to network message promulgating",
+        "Process sell instruction",
+        "Make sell trade by matching",
+        "Modify matched sell instruction information",
+        "Provide interface to send messages to other modules",
+        "Send produced message to network message promulgating",
+        "Process cancel instruction",
+        "Cancel correlative instruction",
+        "Provide interface to send messages to other modules",
+        "Send produced message to network message promulgating",
+        "Process save trade information request",
+        "Give out successful trade information",
+        "Save trade information",
+        "Process trading information query",
+        "Implement query",
+        "Structuralize queried data",
+        "Provide interface to send messages to other modules"
+      ],
+      "matches": [
+        {
+          "gold": "Receive instruction from Trade Client Serve",
+          "generated": "Receive instruction from trade client serve",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Send result to Network Message Promulgating",
+          "generated": "Send produced message to network message promulgating",
+          "similarity": 0.77
+        },
+        {
+          "gold": "Process query instruction",
+          "generated": "Process buy instruction",
+          "similarity": 0.71
+        },
+        {
+          "gold": "Send query result to requesting subsystem",
+          "generated": "Send query result data to release",
+          "similarity": 0.6
+        }
+      ]
+    }
+  },
+  {
+    "sample": "peering",
+    "generated_file": "outputs/peering.puml",
+    "gold_file": "Gold Standard Solutions/2008 - peering.txt",
+    "gold": {
+      "structural_score": 1.0,
+      "structural_defects": 0,
+      "actions": 48,
+      "decisions": 9,
+      "forks": 1,
+      "finals": 6,
+      "lanes": 6,
+      "cyclomatic": 6,
+      "vacuous_decisions": 0
+    },
+    "generated": {
+      "structural_score": 0.995,
+      "structural_defects": 1,
+      "actions": 38,
+      "decisions": 19,
+      "forks": 2,
+      "finals": 10,
+      "lanes": 0,
+      "cyclomatic": 17,
+      "vacuous_decisions": 1
+    },
+    "similarity": {
+      "action_recall": 0.292,
+      "action_precision": 0.368,
+      "action_f1": 0.326,
+      "ordering_agreement": 1.0,
+      "ordering_pairs_checked": 6,
+      "missing_gold_actions": [
+        "Detect available local resources of CDN (CPU, storage, upload-download rate etc.)",
+        "Register resource in SR with new resource ID; Increment resource ID counter",
+        "Publish resource and service information",
+        "Register and update available local resources",
+        "Send content request to CDN Web Server",
+        "Receive content request",
+        "Forward request via proprietary selection algorithm",
+        "Replicate content on-demand from origin server",
+        "Serve content to End User",
+        "Measure current load on Web Server(s)",
+        "Continue normal content delivery",
+        "Receive initiation request from Web Server",
+        "Send resource and access information to mediator",
+        "Request SLA and policy information from Policy Repository",
+        "Send SLA and policy information to mediator",
+        "Reject user requests",
+        "Perform short-term resource negotiation",
+        "Interact with External PAs via inter-PA communication protocol",
+        "Discover external resources from peer CDNs",
+        "Select CDNs to peer with and perform negotiation",
+        "Send updated requirements to Local PA for re-negotiation",
+        "Perform re-negotiation with peer CDNs",
+        "Exchange accounting information with peers for billing based on negotiated relationships",
+        "Identify optimal peer to handle user requests",
+        "Redirect request to optimal peer Web Server",
+        "Assist in the deployment, administration and enforcement of functional policies",
+        "Perform on-demand caching, content selection and routing",
+        "Deliver content to End User based on negotiated policies",
+        "Report load information to CDN gateway periodically or on threshold basis",
+        "Monitor peering arrangement and participating CDNs (agility and resilience)",
+        "Continue operational management of peering arrangement",
+        "Bypass SLA conditions; Neither disband nor re-arrange",
+        "Tune negotiated relationships with reconsidered service requirements",
+        "Disband peering arrangement"
+      ],
+      "extra_generated_actions": [
+        "Initiate CDN peering through resource sharing",
+        "Register service information and assign new resource ID",
+        "Supply available local resources and IDs to mediator",
+        "Encapsulate local and delegated external resource information in SR instance",
+        "Create negotiated relationship through a legal document, financial statement, or SLA, include service levels, storage requirements, transfer rate, service duration, penalties, other preconditions, and specify administration, coordination, and disband or re-arrangement interactions for interconnection",
+        "Perform resource discovery with peers",
+        "Re-evaluate service requirements and renegotiate",
+        "Configure CDN peering protocols and advertise CDN configuration information",
+        "Exchange content availability and load information, redirect requests to optimal peer",
+        "Disband or re-arrange peering arrangement within negotiated scope",
+        "Deploy and administer functional policies through the Policy Repository",
+        "Disband or re-arrange peering arrangement within negotiated scope",
+        "Cooperate to execute common goals",
+        "Disband or re-arrange peering arrangement within negotiated scope",
+        "Exchange accounting information and perform billing",
+        "Disband or re-arrange peering arrangement within negotiated scope",
+        "Carry out short-term negotiation with identified peering targets",
+        "Perform resource discovery with peers",
+        "Disband or re-arrange peering arrangement within negotiated scope",
+        "Deploy and administer functional policies through the Policy Repository",
+        "Disband or re-arrange peering arrangement within negotiated scope",
+        "Cooperate to execute common goals",
+        "Disband or re-arrange peering arrangement within negotiated scope",
+        "Exchange accounting information and perform billing"
+      ],
+      "matches": [
+        {
+          "gold": "Establish peering arrangement",
+          "generated": "Establish peering arrangement",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Generate service requirements",
+          "generated": "Generate service requirements",
+          "similarity": 1.0
+        },
+        {
+          "gold": "Pass service requirements to local Peering Agent (PA)",
+          "generated": "Pass service requirements to local Peering Agent",
+          "similarity": 0.91
+        },
+        {
+          "gold": "Re-arrange peering arrangement within negotiated scope",
+          "generated": "Disband or re-arrange peering arrangement within negotiated scope",
+          "similarity": 0.84
+        },
+        {
+          "gold": "Update existing resource information in SR",
+          "generated": "Update existing resource information",
+          "similarity": 0.79
+        },
+        {
+          "gold": "Send initiation request to trigger peering to Mediator",
+          "generated": "Send initialization request to mediator to trigger peering",
+          "similarity": 0.75
+        },
+        {
+          "gold": "Establish long-term peering arrangement",
+          "generated": "Establish peering arrangement",
+          "similarity": 0.73
+        },
+        {
+          "gold": "Receive service requirements from Mediator",
+          "generated": "Receive service requirements",
+          "similarity": 0.7
+        },
+        {
+          "gold": "Exchange content availability and load information with External PAs",
+          "generated": "Exchange content availability and load information, redirect requests to optimal peer",
+          "similarity": 0.61
+        },
+        {
+          "gold": "Deregister resources and decrement resource ID counter",
+          "generated": "Remove failed resource service information and decrement resource ID counter",
+          "similarity": 0.6
+        },
+        {
+          "gold": "Request resource and access information from Service Registry",
+          "generated": "Obtain resource and access information from SR and policies from PR",
+          "similarity": 0.58
+        },
+        {
+          "gold": "Mediator re-evaluates service requirements",
+          "generated": "Re-evaluate service requirements and renegotiate",
+          "similarity": 0.54
+        },
+        {
+          "gold": "Return existing peering policies",
+          "generated": "Return preexisting peering arrangements",
+          "similarity": 0.53
+        },
+        {
+          "gold": "Advertise configuration information",
+          "generated": "Configure CDN peering protocols and advertise CDN configuration information",
+          "similarity": 0.51
+        }
+      ]
+    }
+  }
+]
