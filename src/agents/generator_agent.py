@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from src.llm.openai_client import OpenAIClient
+from src.utils.json_utils import prompt_json
 from src.models.domain import ActivityDiagram, ActivityPlan, Requirement
 
 
@@ -71,11 +72,11 @@ ORIGINAL REQUIREMENTS
 
 ATOMIC REQUIREMENTS
 ===================
-{[r.model_dump() for r in requirements]}
+{prompt_json(requirements)}
 
 AUTHORITATIVE ACTIVITY PLAN
 ===========================
-{plan.model_dump()}
+{prompt_json(plan)}
 
 Generate the complete ActivityDiagram.
 """

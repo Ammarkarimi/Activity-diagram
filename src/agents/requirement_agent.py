@@ -3,7 +3,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 from src.llm.openai_client import OpenAIClient
-from src.models.domain import Requirement, RequirementMatrix
+from src.models.domain import DocumentChunk, Requirement, RequirementMatrix
 
 
 class RequirementExtractionResponse(BaseModel):
@@ -11,12 +11,7 @@ class RequirementExtractionResponse(BaseModel):
     matrix: RequirementMatrix
 
 
-class RequirementAgent:
-    def __init__(self, llm: OpenAIClient) -> None:
-        self.llm = llm
-
-    def run(self, requirement_text: str) -> RequirementExtractionResponse:
-        system = """
+_SYSTEM_PROMPT = """
 You are a lead systems requirements engineer and formal specification
 specialist with expertise in software requirements and UML activity modeling.
 
@@ -53,6 +48,24 @@ TYPE GUIDANCE
 ACTION, CONDITION, DECISION, LOOP, CONCURRENCY, EXCEPTION, DATA,
 TERMINATION, ACTOR, OTHER.
 """
+
+_CHUNK_ADDENDUM = """
+LONG-DOCUMENT MODE
+You receive ONE chunk of a longer specification. Extract requirements from
+the CHUNK TEXT only. The PRECEDING CONTEXT is the end of the previous chunk;
+use it only to resolve references ("it", "the request", "this step") and
+never extract requirements from it. Use local IDs R1, R2, ... for this chunk;
+dependencies may only reference IDs from this chunk. Skip pure background,
+glossary, or marketing text that describes no behaviour.
+"""
+
+
+class RequirementAgent:
+    def __init__(self, llm: OpenAIClient) -> None:
+        self.llm = llm
+
+    def run(self, requirement_text: str) -> RequirementExtractionResponse:
+        system = _SYSTEM_PROMPT
         user = f"""
 REQUIREMENTS DOCUMENT
 =====================
@@ -62,6 +75,38 @@ Extract the complete atomic requirement set.
 """
         return self.llm.complete(
             system=system,
+            user=user,
+            response_model=RequirementExtractionResponse,
+        )
+
+    def run_chunk(
+        self,
+        chunk: DocumentChunk,
+        document_title: str = "",
+    ) -> RequirementExtractionResponse:
+        """Extract requirements from one chunk of a long specification."""
+        context = chunk.context_before.strip() or "(start of document)"
+        user = f"""
+DOCUMENT
+========
+{document_title or "Requirements specification"}
+
+SECTION
+=======
+{chunk.section or "(none)"}
+
+PRECEDING CONTEXT (read-only, do not extract)
+=============================================
+{context}
+
+CHUNK TEXT ({chunk.id})
+=================
+{chunk.text}
+
+Extract the complete atomic requirement set for this chunk.
+"""
+        return self.llm.complete(
+            system=_SYSTEM_PROMPT + _CHUNK_ADDENDUM,
             user=user,
             response_model=RequirementExtractionResponse,
         )

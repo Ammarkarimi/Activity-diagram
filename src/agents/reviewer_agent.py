@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from src.llm.openai_client import OpenAIClient
+from src.utils.json_utils import prompt_json
 from src.models.domain import (
     ActivityDiagram,
     Requirement,
@@ -88,19 +89,19 @@ ORIGINAL REQUIREMENTS
 
 ATOMIC REQUIREMENTS
 ===================
-{[r.model_dump() for r in requirements]}
+{prompt_json(requirements)}
 
 TRACEABILITY MATRIX
 ===================
-{matrix.model_dump()}
+{prompt_json(matrix)}
 
 CURRENT ACTIVITY DIAGRAM
 ========================
-{diagram.model_dump()}
+{prompt_json(diagram)}
 
 PREVIOUSLY DETECTED DEFECTS
 ============================
-{[d.model_dump() for d in existing_defects]}
+{prompt_json(existing_defects)}
 
 Review only the current diagram and return the structured ReviewResult.
 """

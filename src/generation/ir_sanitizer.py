@@ -51,6 +51,7 @@ class IRSanitizer:
                         id=new_id,
                         type=node.type,
                         label=node.label,
+                        lane=node.lane,
                         requirement_ids=new_req_ids,
                     )
                 )

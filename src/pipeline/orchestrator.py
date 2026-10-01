@@ -50,8 +50,15 @@ class MultiAgentPipeline:
         -> Best Candidate -> PlantUML -> Rendering
     """
 
-    def __init__(self, model: str | None = None, max_defects_per_repair: int = 2) -> None:
-        self.llm = OpenAIClient(model=model)
+    def __init__(
+        self,
+        model: str | None = None,
+        max_defects_per_repair: int = 2,
+        llm: OpenAIClient | None = None,
+    ) -> None:
+        # An injected client lets the hierarchical pipeline share one client
+        # (and its connection pool) across many concurrently running modules.
+        self.llm = llm or OpenAIClient(model=model)
 
         self.requirement_agent = RequirementAgent(self.llm)
         self.planning_agent = PlanningAgent(self.llm)
@@ -80,7 +87,17 @@ class MultiAgentPipeline:
         requirement_text: str,
         max_iterations: int = 3,
         output_dir: str | Path = "outputs",
+        requirements: list[Requirement] | None = None,
+        render: bool = True,
     ) -> PipelineState:
+        """Run the full agent workflow for one requirement text.
+
+        ``requirements`` may carry an already-extracted requirement set (used
+        by the hierarchical long-document pipeline, which extracts per chunk
+        and then runs this workflow per module); the Requirement Agent is then
+        skipped. ``render=False`` skips writing/rendering the image next to
+        ``output_dir`` (the caller renders instead).
+        """
         pipeline_start = time.perf_counter()
         max_iterations = max(0, max_iterations)
         llm_calls = 0
@@ -128,15 +145,26 @@ class MultiAgentPipeline:
         # --------------------------------------------------------
         # 1. Requirement extraction
         # --------------------------------------------------------
-        self.log.info("Running requirement agent...")
-        call_llm()
-        extracted = self.requirement_agent.run(requirement_text)
-        state.requirements = extracted.requirements
-        state.requirement_matrix = extracted.matrix
-        save_stage(
-            "01_requirement_agent",
-            extracted,
-        )
+        if requirements is not None:
+            state.requirements = [r.model_copy(deep=True) for r in requirements]
+            state.requirement_matrix = RequirementMatrix(items=[])
+            save_stage(
+                "01_requirement_agent",
+                {
+                    "source": "provided",
+                    "requirements": [r.model_dump(mode="json") for r in state.requirements],
+                },
+            )
+        else:
+            self.log.info("Running requirement agent...")
+            call_llm()
+            extracted = self.requirement_agent.run(requirement_text)
+            state.requirements = extracted.requirements
+            state.requirement_matrix = extracted.matrix
+            save_stage(
+                "01_requirement_agent",
+                extracted,
+            )
         self.log.info("Extracted %d requirements.", len(state.requirements))
 
         # --------------------------------------------------------
@@ -536,7 +564,9 @@ class MultiAgentPipeline:
         # --------------------------------------------------------
         render_info: dict[str, Any] = {}
 
-        if state.final_plantuml:
+        if not render:
+            render_info = {"rendered": False, "skipped": True}
+        elif state.final_plantuml:
             try:
                 render_info = self.renderer.render(
                     state.final_plantuml,
