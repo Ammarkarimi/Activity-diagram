@@ -6,6 +6,7 @@ from src.models.domain import (
     Requirement,
     Severity,
     ValidationResult,
+    modelled_requirements,
 )
 
 
@@ -30,6 +31,7 @@ class CoverageValidator:
             )
 
         defects: list[Defect] = []
+        requirements = modelled_requirements(requirements)
 
         for requirement in requirements:
 

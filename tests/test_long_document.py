@@ -264,7 +264,11 @@ def test_overview_branches_become_decision():
 # End-to-end hierarchical run with the real agents and a fake LLM
 # ------------------------------------------------------------------
 
-def test_hierarchical_pipeline_end_to_end_on_long_document(tmp_path):
+def test_hierarchical_pipeline_end_to_end_on_long_document(tmp_path, monkeypatch):
+    # Built-in syntax checks only: starting PlantUML for every iteration,
+    # module and part makes this test take minutes.
+    monkeypatch.setenv("PLANTUML_JAR", str(tmp_path / "no-plantuml.jar"))
+    monkeypatch.setattr("src.generation.plantuml_tool.shutil.which", lambda *a, **k: None)
     llm = FakeLLM()
     text = make_long_spec()
     assert estimate_tokens(text) > 12_000

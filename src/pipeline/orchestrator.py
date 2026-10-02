@@ -14,9 +14,15 @@ from src.agents.requirement_agent import RequirementAgent
 from src.agents.reviewer_agent import ReviewerAgent
 from src.generation.ir_sanitizer import IRSanitizer
 from src.generation.plantuml_generator import PlantUMLGenerator
+from src.agents.lane_agent import ActorAgent, LaneMappingAgent
+from src.agents.refinement_agent import RefinementAgent
+from src.evaluation.semantic_metrics import label_similarity
+from src.validation.structural.structural_validator import StructuralValidator
 from src.generation.renderer import PlantUMLRenderer
+from src.pipeline.lanes import apply_lanes, canonical_actors, match_actor, swimlane_instruction
 from src.llm.openai_client import OpenAIClient
 from src.models.domain import (
+    modelled_requirements,
     ActivityDiagram,
     CandidateMetrics,
     CandidateRecord,
@@ -61,6 +67,9 @@ class MultiAgentPipeline:
         self.llm = llm or OpenAIClient(model=model)
 
         self.requirement_agent = RequirementAgent(self.llm)
+        self.actor_agent = ActorAgent(self.llm)
+        self.refinement_agent = RefinementAgent(self.llm)
+        self.lane_agent = LaneMappingAgent(self.llm)
         self.planning_agent = PlanningAgent(self.llm)
         self.generator = GeneratorAgent(self.llm)
         self.reviewer = ReviewerAgent(self.llm)
@@ -168,6 +177,24 @@ class MultiAgentPipeline:
         self.log.info("Extracted %d requirements.", len(state.requirements))
 
         # --------------------------------------------------------
+        # 1b. Swimlanes: the actors are chosen once, before planning, so
+        #     every agent uses the same lanes. (Hierarchical modules get
+        #     them from the decomposition instead.)
+        # --------------------------------------------------------
+        actors: list[str] = []
+        if requirements is None:
+            self.log.info("Running actor agent...")
+            call_llm()
+            try:
+                actors = canonical_actors(self.actor_agent.run(requirement_text))
+            except Exception as exc:
+                self.log.warning("Actor agent failed (%s); lanes are left to the planner.", exc)
+            if actors:
+                save_stage("01b_actor_agent", {"actors": actors})
+                self.log.info("Swimlanes: %s", ", ".join(actors))
+                requirement_text = "\n\n".join([requirement_text, "\n".join(swimlane_instruction(actors))])
+
+        # --------------------------------------------------------
         # 2. Planning
         # --------------------------------------------------------
         self.log.info("Running planning agent...")
@@ -205,6 +232,32 @@ class MultiAgentPipeline:
             len(state.diagram.nodes),
             len(state.diagram.edges),
         )
+
+        # --------------------------------------------------------
+        # 3b. Modelling refinement: one review of the whole draft (merge
+        #     duplicated alternatives, draw shared and actor steps once).
+        #     Kept only if it loses no coverage and adds no structural defect.
+        # --------------------------------------------------------
+        self.log.info("Running refinement agent...")
+        call_llm()
+        try:
+            refinement = self.refinement_agent.run(requirement_text, state.requirements, state.diagram)
+            refined = IRSanitizer.sanitize(refinement.diagram)
+            carried = self._carry_over_traces(state.diagram, refined)
+            accepted, reason = self._accept_refinement(state.diagram, refined, state.requirements)
+            if carried:
+                reason += f"; {carried} requirement traces carried over to merged steps"
+            save_stage(
+                "03b_refinement_agent",
+                {"changes": refinement.changes, "accepted": accepted, "reason": reason,
+                 "diagram": refined.model_dump(mode="json")},
+            )
+            self.log.info("Refinement %s (%s): %d changes.", "accepted" if accepted else "rejected",
+                          reason, len(refinement.changes))
+            if accepted:
+                state.diagram = refined
+        except Exception as exc:
+            self.log.warning("Refinement agent failed (%s); keeping the first draft.", exc)
 
         best_quality = -1.0
         best_iteration = 0
@@ -544,6 +597,9 @@ class MultiAgentPipeline:
                 for defect in best_candidate.defects
             ]
 
+        if actors and state.diagram is not None:
+            self._harmonize_lanes(state.diagram, actors, call_llm)
+
         # --------------------------------------------------------
         # 10. Final PlantUML with explicit non-empty check
         # --------------------------------------------------------
@@ -686,6 +742,74 @@ class MultiAgentPipeline:
             "@enduml\n"
         )
 
+    @staticmethod
+    def _carry_over_traces(draft: ActivityDiagram, refined: ActivityDiagram, threshold: float = 0.5) -> int:
+        """Re-attach requirement IDs that merging steps dropped.
+
+        A requirement traced in the draft but not in the refinement moves to
+        the refined node of the same type whose label is most like the draft
+        node that carried it. Below ``threshold`` it is left missing, so a
+        step the refinement really deleted still fails the coverage check.
+        """
+        refined_ids = {rid for e in [*refined.nodes, *refined.edges] for rid in e.requirement_ids}
+        moved = 0
+        for node in draft.nodes:
+            for rid in node.requirement_ids:
+                if rid in refined_ids:
+                    continue
+                candidates = [n for n in refined.nodes if n.type == node.type]
+                if not candidates:
+                    continue
+                best = max(candidates, key=lambda n: label_similarity(n.label, node.label))
+                if label_similarity(best.label, node.label) >= threshold:
+                    best.requirement_ids.append(rid)
+                    refined_ids.add(rid)
+                    moved += 1
+        return moved
+
+    def _accept_refinement(
+        self,
+        original: ActivityDiagram,
+        refined: ActivityDiagram,
+        requirements: list[Requirement],
+    ) -> tuple[bool, str]:
+        try:
+            self.plantuml.render(refined)
+        except Exception as exc:
+            return False, f"does not compile: {exc}"
+
+        def serious(diagram: ActivityDiagram) -> int:
+            return sum(
+                1 for d in StructuralValidator().validate(diagram).defects
+                if d.severity in (Severity.HIGH, Severity.CRITICAL)
+            )
+
+        if serious(refined) > serious(original):
+            return False, "more structural defects"
+
+        def covered(diagram: ActivityDiagram) -> int:
+            return sum(c.covered for c in self._calculate_requirement_coverage(requirements, diagram))
+
+        if covered(refined) < covered(original):
+            return False, f"coverage {covered(original)} -> {covered(refined)}"
+        return True, "no coverage or structural loss"
+
+    def _harmonize_lanes(self, diagram: ActivityDiagram, actors: list[str], call_llm) -> None:
+        """Map lane names the agents invented onto the chosen actors."""
+        steps: dict[str, list[str]] = {}
+        for node in diagram.nodes:
+            if node.lane and node.lane.strip():
+                steps.setdefault(" ".join(node.lane.split()), []).append(node.label)
+        mapping: dict[str, str | None] = {lane: match_actor(lane, actors) for lane in steps}
+        unresolved = {lane: labels for lane, labels in steps.items() if mapping[lane] is None}
+        if unresolved:
+            call_llm()
+            try:
+                mapping.update(self.lane_agent.run(unresolved, actors))
+            except Exception as exc:
+                self.log.warning("Lane mapping failed (%s); unmatched lanes follow the preceding step.", exc)
+        apply_lanes(diagram, mapping)
+
     def _compile_plantuml(
         self,
         diagram: ActivityDiagram | None,
@@ -818,7 +942,7 @@ class MultiAgentPipeline:
         diagram: ActivityDiagram,
     ) -> list[RequirementCoverage]:
         result = []
-        for requirement in requirements:
+        for requirement in modelled_requirements(requirements):
             node_matches = [
                 n for n in diagram.nodes if requirement.id in n.requirement_ids
             ]
@@ -876,6 +1000,7 @@ class MultiAgentPipeline:
         requirements: list[Requirement],
         coverage: list[RequirementCoverage],
     ) -> float:
+        requirements = modelled_requirements(requirements)
         if not requirements:
             return 1.0
         return sum(item.covered for item in coverage) / len(requirements)

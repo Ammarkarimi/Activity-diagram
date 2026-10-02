@@ -18,7 +18,9 @@ from src.pipeline.decomposition import END, START
 # other final node means "module finished" and continues with the next module.
 _ABNORMAL_END = re.compile(
     r"\b(fail(ed|ure)?|reject(ed|ion)?|cancel(l?ed|lation)?|abort(ed)?|error|"
-    r"terminat(e|ed|ion)|den(y|ied)|invalid|timeout|timed out|exception|disband(ed)?)\b",
+    r"terminat(e|ed|ion)|den(y|ied)|invalid|timeout|timed out|exception|disband(ed)?|"
+    r"unacceptable|not (acceptable|accepted|possible|permitted|allowed)|refus(e|ed|al)|"
+    r"declin(e|ed)|ceas(e|es|ed)|stop(s|ped)?|halt(s|ed)?|abandon(s|ed)?)\b",
     re.IGNORECASE,
 )
 
@@ -213,16 +215,26 @@ def compose_full_diagram(
                 )
             )
 
-    return ActivityDiagram(title=title, nodes=nodes, edges=_merge_parallel_edges(edges))
+    return ActivityDiagram(title=title, nodes=nodes, edges=_merge_parallel_edges(edges, nodes))
 
 
-def _merge_parallel_edges(edges: list[ActivityEdge]) -> list[ActivityEdge]:
-    """Collapse edges with the same source and target (combining guards)."""
+def _merge_parallel_edges(edges: list[ActivityEdge], nodes: list[ActivityNode]) -> list[ActivityEdge]:
+    """Collapse edges with the same source and target (combining guards).
+
+    Branches of a decision or fork are kept apart: a decision whose branches
+    all lead to the same next step must still have two outgoing edges.
+    """
+    branching = {n.id for n in nodes if n.type in (NodeType.DECISION, NodeType.FORK)}
     merged: dict[tuple[str, str], ActivityEdge] = {}
+    kept: list[ActivityEdge] = []
     for edge in edges:
+        if edge.source in branching:
+            kept.append(edge)
+            continue
         key = (edge.source, edge.target)
         existing = merged.get(key)
         if existing is None:
+            kept.append(edge)
             merged[key] = edge
             continue
         guards = [g for g in (existing.guard, edge.guard) if g]
@@ -230,10 +242,136 @@ def _merge_parallel_edges(edges: list[ActivityEdge]) -> list[ActivityEdge]:
         for rid in edge.requirement_ids:
             if rid not in existing.requirement_ids:
                 existing.requirement_ids.append(rid)
-    return list(merged.values())
+    return kept
 
 
 def _inlinable(diagram: ActivityDiagram) -> bool:
     initials = [n for n in diagram.nodes if n.type == NodeType.INITIAL]
     finals = [n for n in diagram.nodes if n.type == NodeType.FINAL]
     return len(initials) == 1 and bool(finals)
+
+
+class DiagramPart:
+    """One module of the full diagram, drawn on its own with links to the others."""
+
+    def __init__(self, number: int, module_id: str, name: str, diagram: ActivityDiagram,
+                 links: dict[str, str], comes_from: list[int], continues_to: list[int]) -> None:
+        self.number = number
+        self.module_id = module_id
+        self.name = name
+        self.diagram = diagram
+        # Node ID -> "in" (entered from another part) or "out" (continues in another part).
+        self.links = links
+        self.comes_from = comes_from
+        self.continues_to = continues_to
+
+
+def split_into_parts(full: ActivityDiagram, plan: DecompositionPlan) -> list[DiagramPart]:
+    """Cut the composed full diagram into one part per module.
+
+    Each part keeps the module's nodes, lanes and edges exactly as in the
+    full diagram. Flow that enters from another part starts with a
+    "From Part N" step; flow that leaves for another part ends with a
+    "Continue in Part N" step instead of a stop.
+    """
+    modules = list(plan.modules)
+    number = {m.id: index for index, m in enumerate(modules, start=1)}
+    names = {m.id: m.name for m in modules}
+    owner: dict[str, str] = {}
+    for node in full.nodes:
+        for module in modules:
+            if node.id.startswith(f"{module.id}_") or node.id in (module_node_id(module.id), f"OV_D_{module.id}"):
+                owner[node.id] = module.id
+                break
+    if modules and "OV_D_START" in {n.id for n in full.nodes}:
+        owner["OV_D_START"] = modules[0].id
+
+    by_id = full.node_map()
+    incoming: dict[str, list[ActivityEdge]] = defaultdict(list)
+    for edge in full.edges:
+        incoming[edge.target].append(edge)
+    order = {n.id: i for i, n in enumerate(full.nodes)}
+
+    # Main entry of every part: the first node entered from outside the part.
+    entry_of: dict[str, str] = {}
+    for module in modules:
+        entered = [
+            n.id for n in full.nodes
+            if owner.get(n.id) == module.id
+            and any(owner.get(e.source) != module.id for e in incoming[n.id])
+        ]
+        if entered:
+            entry_of[module.id] = min(entered, key=order.__getitem__)
+
+    def label_for(part_id: str) -> str:
+        return f"Part {number[part_id]}: {names[part_id]}"
+
+    parts: list[DiagramPart] = []
+    for module in modules:
+        members = [n for n in full.nodes if owner.get(n.id) == module.id]
+        member_ids = {n.id for n in members}
+        if not member_ids:
+            continue
+        nodes = [n.model_copy(deep=True) for n in members]
+        edges = [e.model_copy(deep=True) for e in full.edges if e.source in member_ids and e.target in member_ids]
+        links: dict[str, str] = {}
+        nodes.insert(0, ActivityNode(id="PART_START", type=NodeType.INITIAL, label="Start"))
+
+        entry = entry_of.get(module.id)
+        sources = sorted(
+            {owner[e.source] for e in incoming.get(entry, []) if e.source in owner and owner[e.source] != module.id},
+            key=number.__getitem__,
+        )
+        if entry and sources:
+            from_label = "From " + ", ".join(label_for(s) for s in sources)
+            nodes.insert(1, ActivityNode(id="PART_FROM", type=NodeType.ACTION, label=from_label,
+                                         lane=by_id[entry].lane))
+            links["PART_FROM"] = "in"
+            edges.insert(0, ActivityEdge(id="PART_E_START", source="PART_START", target="PART_FROM"))
+            edges.insert(1, ActivityEdge(id="PART_E_FROM", source="PART_FROM", target=entry))
+        elif entry:
+            edges.insert(0, ActivityEdge(id="PART_E_START", source="PART_START", target=entry))
+
+        continues_to: list[str] = []
+        end_id = None
+        for edge in full.edges:
+            if edge.source not in member_ids or edge.target in member_ids:
+                continue
+            target = by_id[edge.target]
+            target_part = owner.get(edge.target)
+            if target_part is None or target.type == NodeType.FINAL:
+                if end_id is None:
+                    end_id = "PART_END"
+                    nodes.append(ActivityNode(id=end_id, type=NodeType.FINAL, label=target.label or "End"))
+                link_id = end_id
+            else:
+                link_id = f"PART_TO_{edge.target}"
+                if link_id not in links:
+                    label = f"Continue in {label_for(target_part)}"
+                    if entry_of.get(target_part) != edge.target:
+                        label += f" at '{target.label}'"
+                    nodes.append(ActivityNode(id=link_id, type=NodeType.FINAL, label=label,
+                                              lane=by_id[edge.source].lane))
+                    links[link_id] = "out"
+                if target_part not in continues_to:
+                    continues_to.append(target_part)
+            copy = edge.model_copy(deep=True)
+            copy.target = link_id
+            edges.append(copy)
+
+        parts.append(
+            DiagramPart(
+                number=number[module.id],
+                module_id=module.id,
+                name=module.name,
+                diagram=ActivityDiagram(
+                    title=f"{full.title} - {label_for(module.id)}",
+                    nodes=nodes,
+                    edges=_merge_parallel_edges(edges, nodes),
+                ),
+                links=links,
+                comes_from=[number[s] for s in sources] if entry else [],
+                continues_to=sorted(number[p] for p in continues_to),
+            )
+        )
+    return parts

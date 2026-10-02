@@ -28,7 +28,15 @@ class PlantUMLGenerator:
     - joins
     - merges
     - terminal nodes
+
+    ``links`` marks nodes that connect a part of a split diagram to another
+    part: "in" actions are drawn as an incoming signal ("From Part 2"),
+    "out" final nodes as an outgoing signal ("Continue in Part 4") where the
+    flow leaves this part.
     """
+
+    def __init__(self, links: dict[str, str] | None = None) -> None:
+        self.links = links or {}
 
     def render(
         self,
@@ -61,6 +69,28 @@ class PlantUMLGenerator:
 
         initial = initial_nodes[0]
 
+        self._analyze(graph, nodes, initial.id)
+
+        text = self._emit(graph, nodes, diagram, initial)
+        if self._blocks_balanced(text):
+            return text
+
+        # Loop back edges that leave from inside a nested branch cannot be
+        # expressed with repeat/while blocks. Fall back to plain branching
+        # (back edges become connector jumps) rather than emitting invalid
+        # PlantUML.
+        self._repeat_headers = set()
+        self._while_headers = set()
+        return self._emit(graph, nodes, diagram, initial)
+
+    def _emit(
+        self,
+        graph: nx.DiGraph,
+        nodes: dict[str, ActivityNode],
+        diagram: ActivityDiagram,
+        initial: ActivityNode,
+    ) -> str:
+
         lines: list[str] = []
 
         lines.append("@startuml")
@@ -72,6 +102,13 @@ class PlantUMLGenerator:
         visited: set[str] = set()
         self._final_reached = False
         self._current_lane: str | None = None
+        self._lane_names: dict[str, str] = {}
+        # Edges to a node drawn elsewhere are drawn as connector jumps:
+        # "(A)" + "detach" at the source and "(A)" just before the target.
+        self._connectors: dict[str, str] = {}
+        # Nodes control reaches by falling out of the enclosing blocks (merge
+        # points of open IF/fork blocks, head of the current while loop).
+        self._fallthrough: list[str] = []
 
         # PlantUML requires the first swimlane to be declared before "start".
         first_lane = self._first_lane(graph, nodes, initial.id)
@@ -98,7 +135,47 @@ class PlantUMLGenerator:
         lines.append("")
         lines.append("@enduml")
 
-        return "\n".join(lines)
+        # Node markers become the target side of connector jumps.
+        resolved = []
+        for line in lines:
+            if line.startswith(self._NODE_MARK):
+                target = line[len(self._NODE_MARK):]
+                if target in self._connectors:
+                    resolved.append(f"({self._connectors[target]})")
+                continue
+            resolved.append(line)
+
+        return "\n".join(resolved)
+
+    _NODE_MARK = "\x00node:"
+
+    def _emit_final(self, node: ActivityNode, lines: list[str]) -> None:
+        self._final_reached = True
+        if self.links.get(node.id) == "out":
+            self._emit_lane(node.lane, lines)
+            lines.append(f":{self._escape(node.label)}>")
+            lines.append("detach")
+        else:
+            lines.append("stop")
+
+    def _jump(
+        self,
+        target: str,
+        nodes: dict[str, ActivityNode],
+        lines: list[str],
+    ) -> None:
+        """Continue at ``target``, which is drawn somewhere else."""
+        # Leaving the innermost open block reaches its merge point anyway.
+        if self._fallthrough and target == self._fallthrough[-1]:
+            return
+        if nodes[target].type == NodeType.FINAL:
+            self._emit_final(nodes[target], lines)
+            return
+        if target not in self._connectors:
+            index = len(self._connectors)
+            self._connectors[target] = chr(ord("A") + index % 26) + (str(index // 26) if index >= 26 else "")
+        lines.append(f"({self._connectors[target]})")
+        lines.append("detach")
 
     # ============================================================
     # GRAPH
@@ -130,6 +207,155 @@ class PlantUMLGenerator:
 
         return graph
 
+    def _analyze(
+        self,
+        graph: nx.DiGraph,
+        nodes: dict[str, ActivityNode],
+        initial_id: str,
+    ) -> None:
+        """Find loops and merge points.
+
+        A back edge u -> v is one whose target dominates its source; v is
+        then a loop header. A decision header becomes a ``while`` loop, any
+        other header a ``repeat`` loop closed by its back edges. Merge points
+        are computed on the forward graph (no back edges), see _merge_for.
+        """
+        self._nodes = nodes
+        reachable = nx.descendants(graph, initial_id) | {initial_id}
+        idom = nx.immediate_dominators(graph.subgraph(reachable), initial_id)
+
+        def dominates(a: str, b: str) -> bool:
+            while True:
+                if a == b:
+                    return True
+                parent = idom.get(b)
+                if parent is None or parent == b:
+                    return False
+                b = parent
+
+        self._back_edges = {
+            (u, v)
+            for u, v in graph.edges
+            if u in reachable and dominates(v, u)
+        }
+
+        self._loop_nodes: dict[str, set[str]] = defaultdict(set)
+        for source, header in self._back_edges:
+            body = self._loop_nodes[header]
+            body.add(header)
+            stack = [source]
+            while stack:
+                current = stack.pop()
+                if current in body:
+                    continue
+                body.add(current)
+                stack.extend(graph.predecessors(current))
+
+        self._while_headers = {
+            header
+            for header in self._loop_nodes
+            if nodes[header].type == NodeType.DECISION
+        }
+        self._repeat_headers = set(self._loop_nodes) - self._while_headers
+
+        # Forward graph: no back edges, and no cycles left over from
+        # irreducible flow (cycles entered at more than one node).
+        forward = nx.DiGraph()
+        forward.add_nodes_from(graph.nodes)
+        forward.add_edges_from(
+            edge for edge in graph.edges if edge not in self._back_edges
+        )
+        while True:
+            try:
+                cycle = nx.find_cycle(forward)
+            except nx.NetworkXNoCycle:
+                break
+            forward.remove_edge(*cycle[-1][:2])
+
+        self._forward = forward
+        self._order = {
+            node_id: index
+            for index, node_id in enumerate(nx.topological_sort(forward))
+        }
+        self._reach_cache: dict[str, set[str]] = {}
+
+    def _reach(self, node_id: str) -> set[str]:
+        if node_id not in self._reach_cache:
+            self._reach_cache[node_id] = nx.descendants(self._forward, node_id) | {node_id}
+        return self._reach_cache[node_id]
+
+    def _terminates(self, node_id: str) -> bool:
+        """True when every forward path from the node ends in a final node."""
+        return all(
+            self._nodes[n].type == NodeType.FINAL
+            for n in self._reach(node_id)
+            if self._forward.out_degree(n) == 0
+        )
+
+    def _merge_for(self, targets: list[str]) -> str | None:
+        """Node where the branches towards ``targets`` rejoin.
+
+        Branches that end in a final node of their own (``stop``) are
+        ignored, so an early exit does not push the merge point to the end of
+        the diagram. When the branches never rejoin and all but the longest
+        one stop, the longest one continues after the IF block (same
+        behaviour, less nesting).
+        """
+        reach = [self._reach(target) for target in targets]
+        shared = [
+            i
+            for i in range(len(reach))
+            if any(reach[i] & reach[j] for j in range(len(reach)) if j != i)
+        ]
+        if shared:
+            common = set.intersection(*(reach[i] for i in shared))
+            if not common:
+                common = {
+                    n
+                    for i in shared
+                    for j in shared
+                    if i < j
+                    for n in reach[i] & reach[j]
+                }
+            return min(common, key=self._order.__getitem__)
+
+        if len(targets) < 2:
+            return None
+        sizes = sorted(((len(r), t) for r, t in zip(reach, targets)), reverse=True)
+        if sizes[0][0] == sizes[1][0]:
+            return None
+        longest = sizes[0][1]
+        if all(self._terminates(t) for t in targets if t != longest):
+            return longest
+        return None
+
+    def _repeat_close(
+        self,
+        graph: nx.DiGraph,
+        source: str,
+        target: str,
+    ) -> list[str] | None:
+        """Actions on a branch that leads straight back to a repeat header.
+
+        Returns the (possibly empty) chain of single-step actions between
+        the decision and the back edge, or None if the branch is no such
+        loop-back.
+        """
+        chain: list[str] = []
+        previous, current = source, target
+        while True:
+            if current in self._repeat_headers and (previous, current) in self._back_edges:
+                return chain
+            if (
+                self._nodes[current].type != NodeType.ACTION
+                or graph.out_degree(current) != 1
+                or graph.in_degree(current) != 1
+                or len(chain) == 3
+            ):
+                return None
+            chain.append(current)
+            previous, current = current, next(iter(graph.successors(current)))
+
     # ============================================================
     # NODE COMPILER
     # ============================================================
@@ -156,6 +382,9 @@ class PlantUMLGenerator:
         visited.add(node_id)
 
         node = nodes[node_id]
+        lines.append(self._NODE_MARK + node_id)
+        if node_id in self._repeat_headers:
+            lines.append("repeat")
         self._emit_lane(node.lane, lines)
 
         # --------------------------------------------------------
@@ -181,8 +410,7 @@ class PlantUMLGenerator:
         # --------------------------------------------------------
 
         if node.type == NodeType.FINAL:
-            lines.append("stop")
-            self._final_reached = True
+            self._emit_final(node, lines)
             return
 
         # --------------------------------------------------------
@@ -191,9 +419,8 @@ class PlantUMLGenerator:
 
         if node.type == NodeType.ACTION:
 
-            lines.append(
-                f":{self._escape(node.label)};"
-            )
+            end = "<" if self.links.get(node_id) == "in" else ";"
+            lines.append(f":{self._escape(node.label)}{end}")
 
             self._compile_successors(
                 graph=graph,
@@ -354,8 +581,14 @@ class PlantUMLGenerator:
 
             target = successors[0]
 
+            # Unconditional jump back to the start of a repeat loop.
+            if target in self._repeat_headers and (node_id, target) in self._back_edges:
+                lines.append("repeat while (continue)")
+                return
+
             # Don't recursively traverse cycles.
             if target in visited or target in path:
+                self._jump(target, nodes, lines)
                 return
 
             self._compile_node(
@@ -409,98 +642,107 @@ class PlantUMLGenerator:
         visited: set[str],
         path: set[str],
         lines: list[str],
+        outgoing: list[ActivityEdge] | None = None,
     ) -> None:
 
-        outgoing = [
-            edge
-            for edge in diagram.edges
-            if edge.source == node.id
-        ]
+        # ``outgoing`` is given when compiling a subset of the branches as a
+        # plain IF block (e.g. several exits of a loop).
+        handle_loops = outgoing is None
+        if outgoing is None:
+            outgoing = [
+                edge
+                for edge in diagram.edges
+                if edge.source == node.id
+            ]
 
-        if len(outgoing) < 2:
+        label = self._escape(node.label)
+        common = dict(
+            graph=graph,
+            nodes=nodes,
+            diagram=diagram,
+            visited=visited,
+            path=path,
+            lines=lines,
+        )
 
-            raise ValueError(
-                f"Decision {node.id} needs "
-                "at least two outgoing branches."
-            )
+        # --------------------------------------------------------
+        # End of a repeat loop: a branch jumps back to the header.
+        # --------------------------------------------------------
 
-        # Detect a simple loop:
-        #
-        # Decision
-        #   |
-        #   +--> body --> Decision
-        #
-        # This is a post-condition loop shape.
-
-        loop_edge = None
-        normal_edges = []
-
+        # Actions between the decision and the back edge are drawn on the
+        # backward path of the loop.
+        backward: list[str] = []
+        repeat_edges = []
         for edge in outgoing:
+            chain = self._repeat_close(graph, node.id, edge.target)
+            if chain is not None and not any(n in visited for n in chain):
+                repeat_edges.append(edge)
+                if not backward:
+                    backward = chain
 
-            if self._reaches(
-                graph,
-                edge.target,
-                node.id,
-            ):
-                loop_edge = edge
+        if handle_loops and repeat_edges:
+
+            exits = [edge for edge in outgoing if edge not in repeat_edges]
+            if backward:
+                visited.update(backward)
+                text = " / ".join(self._escape(self._nodes[n].label) for n in backward)
+                lines.append(f"backward:{text};")
+            condition = (
+                f"repeat while ({label}) "
+                f"is ({self._escape_guard(self._guard(repeat_edges[0].guard, 'yes'))})"
+            )
+
+            if len(exits) == 1:
+                lines.append(
+                    f"{condition} "
+                    f"not ({self._escape_guard(self._guard(exits[0].guard, 'no'))})"
+                )
+                self._compile_branch(target=exits[0].target, **common)
             else:
-                normal_edges.append(edge)
+                lines.append(condition)
+                if exits:
+                    self._compile_decision(node=node, outgoing=exits, **common)
+
+            return
 
         # --------------------------------------------------------
-        # Post-condition loop
+        # Head of a while loop.
         # --------------------------------------------------------
 
-        if loop_edge and normal_edges:
+        if handle_loops and node.id in self._while_headers:
 
-            exit_edge = normal_edges[0]
-
-            lines.append(
-                "repeat"
-            )
-
-            # Compile one path leading into the loop.
-            self._compile_loop_body(
-                graph=graph,
-                nodes=nodes,
-                diagram=diagram,
-                start=loop_edge.target,
-                loop_target=node.id,
-                visited=visited,
-                path=path,
-                lines=lines,
-                excluded_targets={
-                    exit_edge.target,
-                },
-            )
-
-            continue_guard = (
-                self._guard(
-                    loop_edge.guard,
-                    "continue",
-                )
-            )
+            loop = self._loop_nodes[node.id]
+            body = [edge for edge in outgoing if edge.target in loop]
+            exits = [edge for edge in outgoing if edge.target not in loop]
 
             lines.append(
-                f"repeat while "
-                f"({self._escape_guard(continue_guard)}) "
-                f"is (true)"
+                f"while ({label}) "
+                f"is ({self._escape_guard(self._guard(body[0].guard, 'yes'))})"
             )
 
-            exit_target = exit_edge.target
+            # The loop body must not swallow the nodes after the loop.
+            reserved = {edge.target for edge in exits} - visited
+            visited.update(reserved)
 
-            if exit_target not in visited:
+            body = [edge for edge in body if edge.target != node.id]
+            self._fallthrough.append(node.id)
+            if len(body) == 1:
+                self._compile_branch(target=body[0].target, **common)
+            elif body:
+                self._compile_decision(node=node, outgoing=body, **common)
+            self._fallthrough.pop()
 
-                if exit_target in path:
-                    return
-                self._compile_node(
-                    graph=graph,
-                    nodes=nodes,
-                    diagram=diagram,
-                    node_id=exit_target,
-                    visited=visited,
-                    path=path,
-                    lines=lines,
+            visited.difference_update(reserved)
+
+            if len(exits) == 1:
+                lines.append(
+                    f"endwhile ({self._escape_guard(self._guard(exits[0].guard, 'no'))})"
                 )
+                self._compile_branch(target=exits[0].target, **common)
+            else:
+                lines.append("endwhile")
+                if exits:
+                    self._compile_decision(node=node, outgoing=exits, **common)
 
             return
 
@@ -508,9 +750,28 @@ class PlantUMLGenerator:
         # Normal IF / ELSEIF / ELSE
         # --------------------------------------------------------
 
-        merge_point = self._find_merge_point(graph, node.id, outgoing)
-        branch_visited_sets = []
+        if not outgoing:
+            # Dead-end decision (flagged by the structural validator).
+            lines.append(f":{label};")
+            return
 
+        # Branches stop at the merge point; it is emitted once after endif.
+        # A merge point that is already visited belongs to an enclosing
+        # block (control falls through to it) or was drawn elsewhere.
+        merge_point = self._merge_for([edge.target for edge in outgoing])
+        # A shared final node is not a merge point: each branch stops on its
+        # own, so no "stop" follows the block.
+        if merge_point in path or (
+            merge_point is not None and nodes[merge_point].type == NodeType.FINAL
+        ):
+            merge_point = None
+        owns_merge = merge_point is not None and merge_point not in visited
+        if owns_merge:
+            self._fallthrough.append(merge_point)
+            visited.add(merge_point)
+
+        # Branches share ``visited``: a node already drawn by an earlier
+        # branch is reached by a connector jump instead of being drawn twice.
         for i, edge in enumerate(outgoing):
 
             is_first = (i == 0)
@@ -523,7 +784,7 @@ class PlantUMLGenerator:
 
             if is_first:
                 lines.append(
-                    f"if ({self._escape(node.label)}) "
+                    f"if ({label}) "
                     f"then ({self._escape_guard(guard)})"
                 )
             elif is_last:
@@ -532,34 +793,28 @@ class PlantUMLGenerator:
                 )
             else:
                 lines.append(
-                    f"elseif ({self._escape(node.label)}) "
+                    f"elseif ({label}) "
                     f"then ({self._escape_guard(guard)})"
                 )
-
-            branch_visited = visited.copy()
-            if merge_point:
-                branch_visited.add(merge_point)
 
             self._compile_branch(
                 graph=graph,
                 nodes=nodes,
                 diagram=diagram,
                 target=edge.target,
-                visited=branch_visited,
+                visited=visited,
                 path=path.copy(),
                 lines=lines,
             )
-            branch_visited_sets.append(branch_visited)
 
         lines.append("endif")
 
-        for bv in branch_visited_sets:
-            visited.update(bv)
+        if merge_point is not None and not owns_merge:
+            self._jump(merge_point, nodes, lines)
 
-        if merge_point:
+        if owns_merge:
+            self._fallthrough.pop()
             visited.discard(merge_point)
-            if merge_point in path:
-                return
             self._compile_node(
                 graph=graph,
                 nodes=nodes,
@@ -569,81 +824,6 @@ class PlantUMLGenerator:
                 path=path,
                 lines=lines,
             )
-
-    def _find_merge_point(
-        self,
-        graph: nx.DiGraph,
-        decision_id: str,
-        outgoing_edges: list[ActivityEdge],
-    ) -> str | None:
-        
-        reachable_sets = []
-        for edge in outgoing_edges:
-            target = edge.target
-            reachable = set(nx.descendants(graph, target))
-            reachable.add(target)
-            reachable_sets.append(reachable)
-            
-        intersection = set()
-        for i in range(len(reachable_sets)):
-            for j in range(i + 1, len(reachable_sets)):
-                intersection.update(reachable_sets[i].intersection(reachable_sets[j]))
-                
-        if not intersection:
-            return None
-            
-        closest = None
-        min_dist = float('inf')
-        for node in intersection:
-            try:
-                dist = nx.shortest_path_length(graph, decision_id, node)
-                if dist < min_dist:
-                    min_dist = dist
-                    closest = node
-            except nx.NetworkXNoPath:
-                pass
-                
-        return closest
-
-    # ============================================================
-    # LOOP BODY
-    # ============================================================
-
-    def _compile_loop_body(
-        self,
-        *,
-        graph: nx.DiGraph,
-        nodes: dict[str, ActivityNode],
-        diagram: ActivityDiagram,
-        start: str,
-        loop_target: str,
-        visited: set[str],
-        path: set[str],
-        lines: list[str],
-        excluded_targets: set[str],
-    ) -> None:
-
-        original_visited = visited.copy()
-        visited.add(loop_target)
-        visited.update(excluded_targets)
-
-        if start in path:
-            return
-        self._compile_node(
-            graph=graph,
-            nodes=nodes,
-            diagram=diagram,
-            node_id=start,
-            visited=visited,
-            path=path,
-            lines=lines,
-        )
-
-        if loop_target not in original_visited:
-            visited.discard(loop_target)
-        for ex in excluded_targets:
-            if ex not in original_visited:
-                visited.discard(ex)
 
     # ============================================================
     # BRANCH
@@ -666,25 +846,10 @@ class PlantUMLGenerator:
                 f"Unknown branch target {target}"
             )
 
-        if nodes[target].type in {
-            NodeType.FINAL,
-        }:
-            # Compile it to get the stop emitted if needed
-            if target in path:
-                return
-            self._compile_node(
-                graph=graph,
-                nodes=nodes,
-                diagram=diagram,
-                node_id=target,
-                visited=visited,
-                path=path,
-                lines=lines,
-            )
+        if target in path or target in visited:
+            self._jump(target, nodes, lines)
             return
 
-        if target in path:
-            return
         self._compile_node(
             graph=graph,
             nodes=nodes,
@@ -716,10 +881,30 @@ class PlantUMLGenerator:
         )
 
         if len(branches) < 2:
-            raise ValueError(
-                f"Fork {node.id} needs at least "
-                "two branches."
+            # Degenerate fork (flagged by the structural validator).
+            self._compile_successors(
+                graph=graph,
+                nodes=nodes,
+                diagram=diagram,
+                node_id=node.id,
+                visited=visited,
+                path=path,
+                lines=lines,
             )
+            return
+
+        # Branches stop at the join; it is emitted once after "end fork".
+        merge_point = self._merge_for(branches)
+        # A shared final node is not a merge point: each branch stops on its
+        # own, so no "stop" follows the block.
+        if merge_point in path or (
+            merge_point is not None and nodes[merge_point].type == NodeType.FINAL
+        ):
+            merge_point = None
+        owns_merge = merge_point is not None and merge_point not in visited
+        if owns_merge:
+            self._fallthrough.append(merge_point)
+            visited.add(merge_point)
 
         lines.append("fork")
 
@@ -730,34 +915,89 @@ class PlantUMLGenerator:
                     "fork again"
                 )
 
-            if target in path:
-                continue
-            self._compile_node(
+            self._compile_branch(
                 graph=graph,
                 nodes=nodes,
                 diagram=diagram,
-                node_id=target,
-                visited=visited.copy(),
+                target=target,
+                visited=visited,
                 path=path.copy(),
                 lines=lines,
             )
 
         lines.append("end fork")
 
+        if merge_point is not None and not owns_merge:
+            self._jump(merge_point, nodes, lines)
+
+        if owns_merge:
+            self._fallthrough.pop()
+            visited.discard(merge_point)
+            self._compile_node(
+                graph=graph,
+                nodes=nodes,
+                diagram=diagram,
+                node_id=merge_point,
+                visited=visited,
+                path=path,
+                lines=lines,
+            )
+
     # ============================================================
     # GRAPH UTILITIES
     # ============================================================
+
+    @staticmethod
+    def _blocks_balanced(text: str) -> bool:
+        """Check that if/repeat/while/fork blocks open and close in order."""
+        stack: list[str] = []
+        for raw in text.splitlines():
+            line = raw.strip()
+            if line.startswith(("elseif (", "else (")) or line == "else":
+                if not stack or stack[-1] != "if":
+                    return False
+            elif line.startswith("if ("):
+                stack.append("if")
+            elif line == "endif":
+                if not stack or stack.pop() != "if":
+                    return False
+            elif line.startswith("repeat while"):
+                if not stack or stack.pop() != "repeat":
+                    return False
+            elif line == "repeat":
+                stack.append("repeat")
+            elif line.startswith("while ("):
+                stack.append("while")
+            elif line.startswith("endwhile"):
+                if not stack or stack.pop() != "while":
+                    return False
+            elif line == "fork":
+                stack.append("fork")
+            elif line == "fork again":
+                if not stack or stack[-1] != "fork":
+                    return False
+            elif line == "end fork":
+                if not stack or stack.pop() != "fork":
+                    return False
+        return not stack
 
     def _emit_lane(
         self,
         lane: str | None,
         lines: list[str],
     ) -> None:
-        lane = (lane or "").strip()
+        lane = self._lane_name(lane)
         if not lane or lane == self._current_lane:
             return
         lines.append(f"|{self._escape_lane(lane)}|")
         self._current_lane = lane
+
+    def _lane_name(self, lane: str | None) -> str:
+        """Spellings that differ only in case or spacing share one lane."""
+        lane = " ".join((lane or "").split())
+        if not lane:
+            return ""
+        return self._lane_names.setdefault(lane.casefold(), lane)
 
     @staticmethod
     def _first_lane(
@@ -770,25 +1010,6 @@ class PlantUMLGenerator:
             if lane:
                 return lane
         return None
-
-    @staticmethod
-    def _reaches(
-        graph: nx.DiGraph,
-        source: str,
-        target: str,
-    ) -> bool:
-
-        if source == target:
-            return True
-
-        try:
-            return nx.has_path(
-                graph,
-                source,
-                target,
-            )
-        except nx.NetworkXError:
-            return False
 
     # ============================================================
     # VALIDATION

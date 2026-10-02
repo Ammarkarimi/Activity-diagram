@@ -36,6 +36,7 @@ class StructuralValidator:
             "STRUCT-004": 0,
             "DECISION-001": 0,
             "DECISION-002": 0,
+            "DECISION-003": 0,
             "FLOW-001": 0,
             "CONCURRENCY-001": 0,
             "TERM-001": 0,
@@ -378,6 +379,53 @@ class StructuralValidator:
                         suggested_action=(
                             "Add the required "
                             "decision branches."
+                        ),
+                    )
+                )
+
+            elif len({edge.target for edge in outgoing}) == 1:
+
+                rule_counts[
+                    "DECISION-003"
+                ] += 1
+
+                defects.append(
+                    Defect(
+                        id=(
+                            f"D-DECISION-003-"
+                            f"{node.id}"
+                        ),
+                        category="DECISION",
+                        severity=Severity.MEDIUM,
+                        description=(
+                            f"All branches of "
+                            f"decision {node.id} "
+                            "lead to the same "
+                            "node, so the "
+                            "decision has no "
+                            "effect."
+                        ),
+                        node_ids=[
+                            node.id
+                        ],
+                        edge_ids=[
+                            edge.id
+                            for edge
+                            in outgoing
+                        ],
+                        requirement_ids=(
+                            node.requirement_ids
+                        ),
+                        evidence=(
+                            f"Every branch "
+                            f"targets "
+                            f"{outgoing[0].target}."
+                        ),
+                        suggested_action=(
+                            "Route each branch "
+                            "to the behaviour its "
+                            "guard describes, or "
+                            "remove the decision."
                         ),
                     )
                 )

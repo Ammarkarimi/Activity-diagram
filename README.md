@@ -75,7 +75,11 @@ Output folder `outputs/<id>_<timestamp>/`:
 - `00_chunks.json`, `01_requirements.json`, `02_decomposition.json`
 - `modules/M*_*/`: every agent's intermediate output per module
 - `modules/M*.puml`: one diagram per module
-- `overview.puml`, `full.puml` (+ PNGs when `plantuml` is on PATH)
+- `viewer.html`: open in a browser to browse every diagram with scrolling, zoom and pan
+- `overview.puml`, `full.puml` (+ SVG/PNG when PlantUML is available)
+- `parts/`: the full diagram cut into one diagram per module, each with its swimlanes and
+  "From Part N" / "Continue in Part N" links to the others
+- `*.invalid.puml`: a diagram that failed the PlantUML syntax check (the error is in `report.md`)
 - `03_final_state.json`, `report.md`
 
 Inputs may be `.txt`, `.md`, `.pdf` (`pypdf`) or `.docx` (`python-docx`).
@@ -100,7 +104,10 @@ R13 Layout / Visualization
 
 - Python 3.11+
 - OpenAI API key
-- Optional: Java + PlantUML or Docker if you want rendered images
+- Recommended: Java + PlantUML, used to check every diagram's syntax and size before it is
+  written and to render SVG/PNG. Run `python -m scripts.install_plantuml` to download
+  `plantuml.jar` into `tools/` (or set `PLANTUML_JAR`, or put `plantuml` on PATH). Without it
+  only built-in syntax checks run.
 
 ## Quick start
 
@@ -150,6 +157,31 @@ Then:
 ```bash
 python -m scripts.calculate_metrics --results results/raw
 ```
+
+## Evaluating against the gold standards
+
+Run the pipeline several times per sample (results vary from run to run),
+then score the outputs two ways:
+
+```bash
+# 1. Similarity to the expert's diagram (the gold scores 1.0 by definition).
+#    Lexical label matching, plus --semantic: steps paired by meaning by an
+#    LLM judge (majority of 5 judgements). Use a stronger judge than the
+#    pipeline's model.
+python -m scripts.compare_with_gold --generated results/raw/<run> --semantic --judge-model gpt-5.5
+
+# 2. Fidelity to the SPECIFICATION, scoring gold and generated diagrams the
+#    same way: coverage of the behaviours the text states, share of steps
+#    the text does not support, and their harmonic mean.
+python -m scripts.evaluate_fidelity --generated results/raw/<run> --model gpt-5.5
+```
+
+Both write Markdown tables with mean ± std per sample. The behaviour list
+used by `evaluate_fidelity` is built once per specification (cached in
+`results/reference_behaviours/`) with an evaluation-only prompt, so every
+diagram is judged against the same list. Gold diagrams contain an expert's
+interpretation (steps from outside the given text, deliberate abstraction),
+so report both measures.
 
 ## Data layout
 

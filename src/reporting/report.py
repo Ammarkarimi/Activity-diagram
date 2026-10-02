@@ -27,11 +27,73 @@ def build_hierarchical_report(state: HierarchicalState) -> str:
         f"| LLM calls | {m.get('llm_calls', 0)} |",
         f"| Time (s) | {m.get('total_execution_time_seconds', 0):.1f} |",
         "",
-        "Outputs: `overview.puml` (one action per module), `full.puml` (all",
-        "modules inlined), and `modules/` (one diagram per module, with each",
-        "agent's intermediate output).",
+        "Outputs: `viewer.html` (open in a browser: every diagram with zoom and",
+        "scrolling), `overview.puml` (one action per module), `full.puml` (all",
+        "modules inlined), `parts/` (the full diagram cut into one linked part",
+        "per module) and `modules/` (each module's agent outputs).",
         "",
     ]
+
+    actors = m.get("actors") or []
+    if actors:
+        mapping = m.get("lane_mapping") or {}
+        renamed = {lane: actor for lane, actor in mapping.items() if lane != actor}
+        lines += [
+            "## Swimlanes",
+            "",
+            f"Actors ({len(actors)}): {', '.join(actors)}. "
+            f"The full diagram uses {m.get('full_diagram_lanes', 0)} lanes.",
+            "",
+        ]
+        if renamed:
+            lines += ["Lane names from module diagrams mapped onto these actors:", ""]
+            lines += [
+                f"- {lane} -> {actor or '(not an actor: lane of the preceding step)'}"
+                for lane, actor in sorted(renamed.items())
+            ]
+            lines.append("")
+
+    parts = m.get("parts") or []
+    if parts:
+        lines += ["## Parts", "", "| Part | Module | From | Continues in | File |", "|---|---|---|---|---|"]
+        for part in parts:
+            comes = ", ".join(f"Part {n}" for n in part["comes_from"]) or "start"
+            goes = ", ".join(f"Part {n}" for n in part["continues_to"]) or "end"
+            file = f"`parts/{part['stem']}.puml`" if part.get("stem") else "not written"
+            lines.append(f"| {part['number']}: {part['name']} | {part['module']} | {comes} | {goes} | {file} |")
+        lines.append("")
+
+    compile_errors = m.get("plantuml_errors") or {}
+    if compile_errors:
+        lines += ["## PlantUML errors", ""]
+        lines += [f"- `{name}` was not written: {error}" for name, error in compile_errors.items()]
+        lines.append("")
+
+    checks = m.get("plantuml_checks") or {}
+    if checks:
+        lines += [
+            "## PlantUML checks",
+            "",
+            "| Diagram | Syntax | Size | Notes |",
+            "|---|---|---|---|",
+        ]
+        for name, check in checks.items():
+            if not check["valid"]:
+                syntax = f"ERROR: {check['message']}"
+            elif check["verified"]:
+                syntax = "valid"
+            else:
+                syntax = "not verified: PlantUML not installed"
+            size = f"{check['width']} x {check['height']} px" if check.get("width") else "-"
+            notes = [check["note"]] if check.get("note") else []
+            if check.get("oversized"):
+                notes.append(
+                    "Larger than PlantUML's default 4096 px PNG limit, so editor previews and the "
+                    "PlantUML server crop it: open the SVG."
+                )
+            cell = " ".join(notes).replace("|", "/")
+            lines.append(f"| {name} | {syntax.replace('|', '/')} | {size} | {cell} |")
+        lines.append("")
 
     if plan is not None:
         names = {mod.id: mod.name for mod in plan.modules}

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import OrderedDict
 
+from src.pipeline.lanes import canonical_actors, match_actor
 from src.models.domain import (
     ActivityModule,
     DecompositionPlan,
@@ -131,9 +132,13 @@ def normalize_decomposition(
         if len(module.requirement_ids) <= limit:
             split_modules.append(module)
             continue
+        # Balanced parts: 27 requirements with a limit of 25 become 14 + 13,
+        # not 25 + 2.
+        count = -(-len(module.requirement_ids) // limit)
+        size = -(-len(module.requirement_ids) // count)
         parts = [
-            module.requirement_ids[i:i + limit]
-            for i in range(0, len(module.requirement_ids), limit)
+            module.requirement_ids[i:i + size]
+            for i in range(0, len(module.requirement_ids), size)
         ]
         part_ids = [f"{module.id}__p{k}" for k in range(1, len(parts) + 1)]
         for k, (part_id, ids) in enumerate(zip(part_ids, parts), start=1):
@@ -208,9 +213,17 @@ def normalize_decomposition(
     if not any(t.target == END for t in clean):
         clean.append(ModuleTransition(source=ordered_ids[-1], target=END))
 
+    # One spelling per actor; module lanes refer to those actors.
+    actors = canonical_actors(plan.actors or [lane for m in modules for lane in m.lanes])
+    for module in modules:
+        module.lanes = list(dict.fromkeys(
+            actor for actor in (match_actor(lane, actors) for lane in module.lanes) if actor
+        ))
+
     return DecompositionPlan(
         system_name=plan.system_name or "System",
         summary=plan.summary,
+        actors=actors,
         modules=modules,
         transitions=clean,
     )

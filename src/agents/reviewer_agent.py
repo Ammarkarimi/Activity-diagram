@@ -60,6 +60,10 @@ REVIEW RULES
 - Do not invent requirements or behaviors.
 - Do not suggest optional improvements as defects.
 - Do not change a defect simply because another valid modeling style exists.
+- Requirements of type OTHER (goals, benefits, background, open questions,
+  examples) and ACTOR are not drawn; their absence is not a defect. Shared
+  steps drawn once for several use cases, and alternatives modelled as
+  branches of one decision, are correct, not missing behaviour.
 - A defect requires clear evidence that required behavior is missing or that
   generated behavior conflicts with the requirements.
 - Keep defect categories stable.

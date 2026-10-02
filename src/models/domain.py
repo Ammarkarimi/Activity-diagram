@@ -24,6 +24,16 @@ class RequirementType(str, Enum):
     OTHER = "OTHER"
 
 
+# Statements an activity diagram does not draw: goals, benefits, quality
+# attributes, background, open questions, examples and actor descriptions.
+NON_BEHAVIOURAL_TYPES = frozenset({RequirementType.OTHER, RequirementType.ACTOR})
+
+
+def modelled_requirements(requirements: list["Requirement"]) -> list["Requirement"]:
+    """The requirements a diagram must trace (behaviour, not context)."""
+    return [r for r in requirements if r.type not in NON_BEHAVIOURAL_TYPES]
+
+
 class NodeType(str, Enum):
     INITIAL = "initial"
     FINAL = "final"
@@ -741,6 +751,10 @@ class DecompositionPlan(BaseModel):
     system_name: str = "System"
 
     summary: str = ""
+
+    # The swimlanes shared by every module: the participants that perform
+    # the system's steps.
+    actors: list[str] = Field(default_factory=list)
 
     modules: list[ActivityModule] = Field(default_factory=list)
 
