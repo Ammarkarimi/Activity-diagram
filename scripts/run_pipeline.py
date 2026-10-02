@@ -10,6 +10,15 @@ from src.utils.json_utils import dump_json
 from src.utils.logging import configure_logging
 
 
+def _print_usage(metrics: dict) -> None:
+    total = metrics.get("token_usage", {}).get("total")
+    if not total:
+        return
+    cost = f"${total['cost_usd']:.4f}" if total.get("cost_usd") is not None else "n/a (model not in configs/pricing.json)"
+    print(f"Tokens: {total['total_tokens']:,} ({total['input_tokens']:,} in, "
+          f"{total['output_tokens']:,} out) in {total['calls']} calls; cost: {cost}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate UML activity diagrams from natural-language requirements."
@@ -87,6 +96,7 @@ def main():
         if checks and not any(c["verified"] for c in checks.values()):
             print("PlantUML not found: syntax was checked with built-in rules only "
                   "(run: python -m scripts.install_plantuml).")
+        _print_usage(state.metrics)
         print(f"Report: {run_dir / 'report.md'}")
         print(f"Viewer: {run_dir / 'viewer.html'} (open in a browser)")
         return
@@ -105,6 +115,11 @@ def main():
     print(f"Completed: {sample_id}")
     print(f"Iterations: {state.iteration}")
     print(f"Defects remaining: {len(state.defects)}")
+    _print_usage(state.metrics)
+    for entry in state.metrics.get("candidate_scores", []):
+        cost = entry.get("iteration_cost_usd")
+        print(f"  iteration {entry['iteration']}: {entry.get('iteration_tokens', 0):,} tokens"
+              + (f", ${cost:.4f}" if cost is not None else ""))
     print(f"PlantUML: {out / f'{sample_id}.puml'}")
 
 

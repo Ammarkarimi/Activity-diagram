@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel
 
+from src.llm.usage import UsageTracker
+
 load_dotenv()
 
 T = TypeVar("T", bound=BaseModel)
@@ -38,6 +40,9 @@ class OpenAIClient:
                 )
             )
         )
+
+        # Token usage of every call (observation only, see src/llm/usage.py).
+        self.usage = UsageTracker()
 
         self.max_retries = int(
             os.getenv(
@@ -73,6 +78,13 @@ class OpenAIClient:
                         },
                     ],
                     text_format=response_model,
+                )
+
+                self.usage.record(
+                    self.model,
+                    response_model.__name__,
+                    getattr(response, "usage", None),
+                    failed=response.output_parsed is None,
                 )
 
                 if response.output_parsed is None:
