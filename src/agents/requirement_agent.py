@@ -47,6 +47,22 @@ RULES
 TYPE GUIDANCE
 ACTION, CONDITION, DECISION, LOOP, CONCURRENCY, EXCEPTION, DATA,
 TERMINATION, ACTOR, OTHER.
+- ACTION: one step that an actor or the system performs. Each numbered
+  step of a use-case scenario is one ACTION.
+- EXCEPTION: an exception or error case of a scenario and how it ends.
+- ACTOR: a statement that only names an actor or describes its role
+  ("Primary actor: Transaction User Interface").
+- OTHER: a statement that describes no behaviour: goals and objectives,
+  benefits ("reduces server load"), quality attributes, glossary entries,
+  open issues and questions, illustrative examples ("For example, Agent_B
+  wants to leave the group"), and which use case an actor or channel belongs
+  to. OTHER and ACTOR statements are kept for traceability but are not drawn.
+- Behaviour stays behaviour wherever it is written: a step described in an
+  overview, context or user section ("the CTS receives instructions from
+  trade client serve", "when the system crashes, the maintainers find the
+  cause and fix it") is an ACTION or CONDITION, not OTHER.
+- actors: the actor that performs the step, named as the specification's
+  actor lists name it, with abbreviations written out ("WS" -> "Web Server").
 """
 
 _CHUNK_ADDENDUM = """

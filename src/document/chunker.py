@@ -197,6 +197,34 @@ class DocumentChunker:
                 result.append(_Block(" ".join(piece), block.start, block.section))
         return result
 
+    def sections(self, chunk: DocumentChunk, max_level: int = 2) -> list[DocumentChunk]:
+        """Split a chunk at its headings of level ``max_level`` or higher.
+
+        "3.1 Service Registration" (level 2) starts a new part; its
+        subsections ("3.1.5 Stimulus/Response Sequences") stay inside it.
+        """
+        parts: list[tuple[str, list[str]]] = []
+        for line in chunk.text.split("\n"):
+            heading = self._heading(line.strip()) if line.strip() else None
+            if not parts or (heading is not None and heading[0] <= max_level):
+                parts.append((heading[1] if heading else chunk.section, [line]))
+            else:
+                parts[-1][1].append(line)
+        result = []
+        for index, (title, lines) in enumerate(parts, start=1):
+            text = "\n".join(lines).strip()
+            result.append(
+                DocumentChunk(
+                    id=f"{chunk.id}.{index}",
+                    text=text,
+                    section=title,
+                    sections=[title] if title else [],
+                    context_before=chunk.context_before,
+                    estimated_tokens=estimate_tokens(text),
+                )
+            )
+        return result
+
     def _sentences(self, text: str) -> list[str]:
         sentences: list[str] = []
         for sentence in _SENTENCE_SPLIT.split(text):

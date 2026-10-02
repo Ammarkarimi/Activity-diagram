@@ -1,95 +1,104 @@
 from __future__ import annotations
 
+import re
 import subprocess
-import tempfile
-from pathlib import Path
+from dataclasses import dataclass
+
+from src.generation.plantuml_generator import PlantUMLGenerator
+from src.generation.plantuml_tool import DEFAULT_LIMIT_SIZE, run_plantuml
+
+_VIEWBOX = re.compile(r'viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"')
+
+
+@dataclass
+class PlantUMLCheck:
+    valid: bool
+    message: str = ""
+    # 1-based line of the first syntax error.
+    line: int | None = None
+    # True when PlantUML itself parsed the text; False when it is not
+    # installed and only the built-in checks ran.
+    verified: bool = False
+    # Size of the rendered diagram in pixels (known only when verified).
+    width: int | None = None
+    height: int | None = None
+
+    @property
+    def oversized(self) -> bool:
+        """Larger than PlantUML's default PNG limit: most viewers crop it."""
+        return max(self.width or 0, self.height or 0) > DEFAULT_LIMIT_SIZE
+
+    @property
+    def size(self) -> str:
+        return f"{self.width} x {self.height} px" if self.width else "unknown"
 
 
 class PlantUMLSyntaxValidator:
+    """Checks PlantUML text with PlantUML itself, or built-in checks when it is missing."""
 
-    def __init__(
-        self,
-        plantuml_command: str = "plantuml",
-    ):
-        self.plantuml_command = plantuml_command
+    def check(self, plantuml_text: str) -> PlantUMLCheck:
+        try:
+            process = run_plantuml(["-tsvg", "-pipe"], input_text=plantuml_text)
+        except subprocess.TimeoutExpired:
+            return PlantUMLCheck(valid=False, message="PlantUML validation timed out.")
+        except OSError as exc:
+            process = None
+            fallback = f" (PlantUML could not be started: {exc})"
+        else:
+            fallback = " (PlantUML not installed; built-in checks only)"
 
-    def _regex_validate(self, plantuml_text: str) -> tuple[bool, str]:
-        import re
+        if process is None:
+            valid, message = self._regex_validate(plantuml_text)
+            return PlantUMLCheck(valid=valid, message=message + fallback)
+
+        if process.returncode != 0:
+            # stderr is "ERROR", the 0-based line, then the message.
+            parts = [p.strip() for p in process.stderr.splitlines() if p.strip()]
+            line = None
+            if len(parts) >= 2 and parts[0] == "ERROR" and parts[1].isdigit():
+                line = int(parts[1]) + 1
+                message = parts[2] if len(parts) > 2 else "Syntax error"
+            else:
+                message = process.stderr.strip() or f"PlantUML exited with code {process.returncode}"
+            if line is not None:
+                source = plantuml_text.splitlines()
+                if line <= len(source):
+                    message = f"line {line}: {message}: {source[line - 1].strip()}"
+            return PlantUMLCheck(valid=False, message=message, line=line, verified=True)
+
+        match = _VIEWBOX.search(process.stdout[:2000])
+        width, height = (round(float(v)) for v in match.groups()) if match else (None, None)
+        return PlantUMLCheck(
+            valid=True,
+            message="PlantUML parsed the diagram",
+            verified=True,
+            width=width,
+            height=height,
+        )
+
+    def validate(self, plantuml_text: str) -> tuple[bool, str]:
+        result = self.check(plantuml_text)
+        return result.valid, result.message
+
+    @staticmethod
+    def _regex_validate(plantuml_text: str) -> tuple[bool, str]:
+        """Built-in checks for when PlantUML is not installed.
+
+        Works line by line: block keywords are only recognised at the start
+        of a line, so labels such as ":Determine if ...;" are not mistaken
+        for an "if" block.
+        """
         text = plantuml_text.strip()
         if not text.startswith("@startuml"):
             return False, "Missing @startuml at the beginning"
         if not text.endswith("@enduml"):
             return False, "Missing @enduml at the end"
-            
-        if len(re.findall(r'\bif\b', plantuml_text)) != len(re.findall(r'\bendif\b', plantuml_text)):
-            return False, "Unbalanced if/endif pairs"
-            
-        forks = len(re.findall(r'^[ \t]*fork[ \t]*$', plantuml_text, re.MULTILINE))
-        end_forks = len(re.findall(r'^[ \t]*end fork[ \t]*$', plantuml_text, re.MULTILINE))
-        if forks != end_forks:
-            return False, "Unbalanced fork/end fork pairs"
-            
-        repeats = len(re.findall(r'^[ \t]*repeat[ \t]*$', plantuml_text, re.MULTILINE))
-        repeat_whiles = len(re.findall(r'^[ \t]*repeat while\b', plantuml_text, re.MULTILINE))
-        if repeats != repeat_whiles:
-            return False, "Unbalanced repeat/repeat while pairs"
-            
-        for line in plantuml_text.splitlines():
-            line = line.strip()
-            if line.startswith(':') and not line.endswith(';'):
-                return False, "Action lines starting with : must end with ;"
-                
-        if re.search(r'if\s*\(\s*\)', plantuml_text):
-            return False, "Empty if() condition found"
-            
-        return True, "Regex validation passed"
-
-    def validate(
-        self,
-        plantuml_text: str,
-    ) -> tuple[bool, str]:
-
-        with tempfile.TemporaryDirectory() as tmp:
-
-            source = Path(tmp) / "diagram.puml"
-
-            source.write_text(
-                plantuml_text,
-                encoding="utf-8",
-            )
-
-            try:
-
-                process = subprocess.run(
-                    [
-                        self.plantuml_command,
-                        "-syntax",
-                        str(source),
-                    ],
-                    capture_output=True,
-                    text=True,
-                    timeout=60,
-                )
-
-            except FileNotFoundError:
-
-                return self._regex_validate(plantuml_text)
-
-            except subprocess.TimeoutExpired:
-
-                return (
-                    False,
-                    "PlantUML validation timed out."
-                )
-
-            if process.returncode == 0:
-
-                return (
-                    True,
-                    process.stdout
-                )
-
-            return (
-                False,
-                process.stderr or process.stdout
-            )
+        if not PlantUMLGenerator._blocks_balanced(text):
+            return False, "Unbalanced if/repeat/while/fork blocks"
+        for number, raw in enumerate(text.splitlines(), start=1):
+            line = raw.strip()
+            if line.startswith(":") and not line.endswith(";"):
+                return False, f"line {number}: action must end with ';': {line}"
+            if re.match(r"(else)?if\s*\(\s*\)", line):
+                return False, f"line {number}: empty if() condition"
+        return True, "Built-in validation passed"

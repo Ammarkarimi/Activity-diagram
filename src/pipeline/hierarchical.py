@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import logging
+import math
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -9,13 +11,16 @@ from pathlib import Path
 from typing import Any, Callable
 
 from src.agents.decomposition_agent import DecompositionAgent
+from src.agents.lane_agent import LaneMappingAgent
 from src.agents.requirement_agent import RequirementAgent
 from src.document.chunker import DocumentChunker, estimate_tokens
 from src.generation.ir_sanitizer import IRSanitizer
 from src.generation.plantuml_generator import PlantUMLGenerator
+from src.generation.plantuml_tool import DEFAULT_LIMIT_SIZE
 from src.generation.renderer import PlantUMLRenderer
 from src.llm.openai_client import OpenAIClient
 from src.models.domain import (
+    modelled_requirements,
     ActivityModule,
     DecompositionPlan,
     DocumentChunk,
@@ -23,7 +28,9 @@ from src.models.domain import (
     ModuleResult,
     Requirement,
 )
-from src.pipeline.composer import build_overview_diagram, compose_full_diagram
+from src.pipeline.composer import build_overview_diagram, compose_full_diagram, split_into_parts
+from src.pipeline.lanes import apply_lanes, match_actor, swimlane_instruction
+from src.reporting.viewer import build_viewer
 from src.pipeline.decomposition import (
     normalize_decomposition,
     section_decomposition,
@@ -32,6 +39,11 @@ from src.pipeline.orchestrator import MultiAgentPipeline
 from src.pipeline.requirement_consolidation import consolidate_requirements
 from src.reporting.report import build_hierarchical_report
 from src.validation.structural.structural_validator import StructuralValidator
+from src.validation.syntax.plantuml_validator import PlantUMLCheck, PlantUMLSyntaxValidator
+
+# Smallest "scale" applied to fit a diagram within PlantUML's default PNG
+# size limit; below it the text is too small to read and the SVG is better.
+MIN_FIT_SCALE = 0.6
 
 
 class HierarchicalPipeline:
@@ -76,6 +88,8 @@ class HierarchicalPipeline:
             lambda: MultiAgentPipeline(llm=self.llm, max_defects_per_repair=max_defects_per_repair)
         )
         self.validator = StructuralValidator()
+        self.syntax = PlantUMLSyntaxValidator()
+        self.lane_agent = LaneMappingAgent(self.llm)
         self.renderer = PlantUMLRenderer()
         self.log = logging.getLogger(self.__class__.__name__)
 
@@ -114,7 +128,7 @@ class HierarchicalPipeline:
 
         # ---------------- 2. requirement extraction ----------------
         per_chunk, errors = self._extract(state.chunks, title)
-        llm_calls += len(state.chunks)
+        llm_calls += len(per_chunk)
         state.extraction_errors = errors
         state.requirements = consolidate_requirements(per_chunk)
         self._save(run_dir / "01_requirements.json", state.requirements)
@@ -149,10 +163,21 @@ class HierarchicalPipeline:
             state.modules = list(pool.map(run_module, state.decomposition.modules))
         llm_calls += sum(int(m.metrics.get("llm_calls", 0)) for m in state.modules)
 
+        # ---------------- 4b. one set of swimlanes ----------------
+        lane_mapping, used_llm = self._harmonize_lanes(state)
+        llm_calls += int(used_llm)
+
         # ---------------- 5. overview + full diagram ----------------
+        # Every diagram is checked with PlantUML before it is written: a
+        # syntax error is reported and the text is saved as <name>.invalid.puml
+        # instead of <name>.puml.
+        compile_errors: dict[str, str] = {}
+        checks: dict[str, dict[str, Any]] = {}
         overview = build_overview_diagram(state.decomposition)
         state.overview_diagram = overview
-        state.overview_plantuml = self._compile(overview)
+        state.overview_plantuml = self._compile_checked(
+            overview, "overview", run_dir / "overview", compile_errors, checks,
+        )
 
         full = compose_full_diagram(
             overview,
@@ -161,7 +186,36 @@ class HierarchicalPipeline:
         )
         state.full_diagram = IRSanitizer.sanitize(full)
         state.full_validation = self.validator.validate(state.full_diagram)
-        state.full_plantuml = self._compile(state.full_diagram)
+        state.full_plantuml = self._compile_checked(
+            state.full_diagram, "full", run_dir / "full", compile_errors, checks,
+        )
+
+        # The full diagram cut into one linked part per module: each part is
+        # small enough to read and keeps its swimlanes.
+        parts = split_into_parts(state.full_diagram, state.decomposition)
+        part_files: dict[int, tuple[str, str]] = {}
+        for part in parts:
+            key = f"part_{part.number:02d}"
+            stem = f"{key}_{_slug(part.name)}"
+            text = self._compile_checked(
+                part.diagram, key, run_dir / "parts" / stem, compile_errors, checks, part.links,
+            )
+            if text:
+                part_files[part.number] = (stem, text)
+
+        def check_module(module: ModuleResult) -> tuple[ModuleResult, PlantUMLCheck | None]:
+            return module, self.syntax.check(module.plantuml) if module.plantuml else None
+
+        with ThreadPoolExecutor(max_workers=self.max_workers) as pool:
+            module_checks = list(pool.map(check_module, state.modules))
+        for module, result in module_checks:
+            if result is not None:
+                name = f"{module.module.id}_{_slug(module.module.name)}"
+                module.plantuml, result, note = self._fit(module.plantuml, result)
+                self._record_check(
+                    module.module.id, module.plantuml, result, run_dir / "modules" / name,
+                    compile_errors, checks, note,
+                )
 
         # ---------------- 6. coverage + report ----------------
         covered = {
@@ -171,25 +225,29 @@ class HierarchicalPipeline:
             for element in [*m.diagram.nodes, *m.diagram.edges]
             for rid in element.requirement_ids
         }
-        state.uncovered_requirement_ids = [r.id for r in state.requirements if r.id not in covered]
+        modelled = modelled_requirements(state.requirements)
+        state.uncovered_requirement_ids = [r.id for r in modelled if r.id not in covered]
 
         renders = {
             "overview": self._render(state.overview_plantuml, run_dir, f"{sample_id}_overview"),
             "full": self._render(state.full_plantuml, run_dir, f"{sample_id}_full"),
         }
         for module in state.modules:
-            if module.plantuml:
+            if module.plantuml and module.module.id not in compile_errors:
                 renders[module.module.id] = self._render(
                     module.plantuml,
                     run_dir / "modules",
                     f"{module.module.id}_{_slug(module.module.name)}",
                 )
+        for number, (stem, text) in part_files.items():
+            renders[f"part_{number:02d}"] = self._render(text, run_dir / "parts", stem)
 
-        total = len(state.requirements)
+        total = len(modelled)
         state.metrics = {
             "document_tokens": state.document_tokens,
             "chunk_count": len(state.chunks),
-            "requirement_count": total,
+            "requirement_count": len(state.requirements),
+            "non_behavioural_requirements": len(state.requirements) - total,
             "module_count": len(state.modules),
             "failed_modules": [m.module.id for m in state.modules if m.error],
             "requirement_coverage": (total - len(state.uncovered_requirement_ids)) / total if total else 1.0,
@@ -198,6 +256,22 @@ class HierarchicalPipeline:
             "full_diagram_edges": len(state.full_diagram.edges),
             "full_diagram_structural_score": state.full_validation.score,
             "full_diagram_structural_defects": len(state.full_validation.defects),
+            "full_diagram_lanes": len({n.lane for n in state.full_diagram.nodes if n.lane}),
+            "actors": list(state.decomposition.actors),
+            "lane_mapping": lane_mapping,
+            "parts": [
+                {
+                    "number": part.number,
+                    "module": part.module_id,
+                    "name": part.name,
+                    "stem": part_files[part.number][0] if part.number in part_files else None,
+                    "comes_from": part.comes_from,
+                    "continues_to": part.continues_to,
+                }
+                for part in parts
+            ],
+            "plantuml_errors": compile_errors,
+            "plantuml_checks": checks,
             "llm_calls": llm_calls,
             "total_execution_time_seconds": time.perf_counter() - started,
             "render": renders,
@@ -205,9 +279,13 @@ class HierarchicalPipeline:
         }
 
         self._save(run_dir / "03_final_state.json", state)
-        (run_dir / "overview.puml").write_text(state.overview_plantuml, encoding="utf-8")
-        (run_dir / "full.puml").write_text(state.full_plantuml, encoding="utf-8")
+        # A failed compilation leaves no .puml file rather than an empty one;
+        # the error is in the metrics and the report.
+        for name, text in (("overview", state.overview_plantuml), ("full", state.full_plantuml)):
+            if text:
+                (run_dir / f"{name}.puml").write_text(text, encoding="utf-8")
         (run_dir / "report.md").write_text(build_hierarchical_report(state), encoding="utf-8")
+        (run_dir / "viewer.html").write_text(build_viewer(state, sample_id, {n: text for n, (_, text) in part_files.items()}), encoding="utf-8")
         self.log.info(
             "Hierarchical run finished: %d modules, coverage %.1f%%, outputs in %s",
             len(state.modules),
@@ -225,7 +303,7 @@ class HierarchicalPipeline:
         chunks: list[DocumentChunk],
         title: str,
     ) -> tuple[list[tuple[DocumentChunk, list[Requirement]]], list[str]]:
-        def extract(chunk: DocumentChunk) -> tuple[DocumentChunk, list[Requirement], str]:
+        def extract_one(chunk: DocumentChunk) -> tuple[DocumentChunk, list[Requirement], str]:
             try:
                 response = self.requirement_agent.run_chunk(chunk, document_title=title)
                 return chunk, list(response.requirements), ""
@@ -233,8 +311,22 @@ class HierarchicalPipeline:
                 self.log.error("Requirement extraction failed for %s: %s", chunk.id, exc)
                 return chunk, [], f"{chunk.id} ({chunk.section or 'no section'}): {exc}"
 
+        def extract(chunk: DocumentChunk) -> list[tuple[DocumentChunk, list[Requirement], str]]:
+            # The model sometimes skips whole sections of a long chunk; any
+            # sizeable section left without a requirement is extracted again
+            # on its own (duplicates are removed by consolidation).
+            results = [extract_one(chunk)]
+            if not results[0][2]:
+                for part in missed_sections(self.chunker.sections(chunk), results[0][1]):
+                    self.log.warning(
+                        "No requirements extracted from section '%s' of %s; extracting it separately.",
+                        part.section, chunk.id,
+                    )
+                    results.append(extract_one(part))
+            return results
+
         with ThreadPoolExecutor(max_workers=self.max_workers) as pool:
-            results = list(pool.map(extract, chunks))
+            results = [item for items in pool.map(extract, chunks) for item in items]
         per_chunk = [(chunk, requirements) for chunk, requirements, _ in results]
         errors = [error for _, _, error in results if error]
         return per_chunk, errors
@@ -310,11 +402,101 @@ class HierarchicalPipeline:
     # HELPERS
     # ============================================================
 
-    def _compile(self, diagram) -> str:
+    def _harmonize_lanes(self, state: HierarchicalState) -> tuple[dict[str, str | None], bool]:
+        """Map every module lane onto the decomposition's actors."""
+        actors = state.decomposition.actors
+        diagrams = [m.diagram for m in state.modules if m.diagram is not None]
+        if not actors or not diagrams:
+            return {}, False
+        steps: dict[str, list[str]] = {}
+        for diagram in diagrams:
+            for node in diagram.nodes:
+                if node.lane and node.lane.strip():
+                    steps.setdefault(" ".join(node.lane.split()), []).append(node.label)
+        mapping: dict[str, str | None] = {lane: match_actor(lane, actors) for lane in steps}
+        unresolved = {lane: labels for lane, labels in steps.items() if mapping[lane] is None}
+        used_llm = False
+        if unresolved:
+            used_llm = True
+            try:
+                mapping.update(self.lane_agent.run(unresolved, actors))
+            except Exception as exc:
+                self.log.warning("Lane mapping failed (%s); unmatched lanes follow the preceding step.", exc)
+        for module in state.modules:
+            if module.diagram is not None and apply_lanes(module.diagram, mapping):
+                module.plantuml = self._compile(module.diagram, module.module.id, {}) or module.plantuml
+        self.log.info("Swimlanes: %d lane names mapped onto %d actors.", len(steps), len(actors))
+        return mapping, used_llm
+
+    def _compile_checked(
+        self,
+        diagram,
+        name: str,
+        stem: Path,
+        errors: dict[str, str],
+        checks: dict[str, dict[str, Any]],
+        links: dict[str, str] | None = None,
+    ) -> str:
+        """Compile, check with PlantUML, and scale down if it is too large to view."""
+        text = self._compile(diagram, name, errors, links)
+        if not text:
+            return ""
+        text, result, note = self._fit(text, self.syntax.check(text))
+        return text if self._record_check(name, text, result, stem, errors, checks, note) else ""
+
+    def _fit(self, text: str, result: PlantUMLCheck) -> tuple[str, PlantUMLCheck, str]:
+        """Scale an oversized diagram down to PlantUML's default PNG limit while it stays readable."""
+        if not (result.valid and result.oversized):
+            return text, result, ""
+        factor = math.floor(100 * 0.98 * DEFAULT_LIMIT_SIZE / max(result.width, result.height)) / 100
+        if factor < MIN_FIT_SCALE:
+            return text, result, ""
+        scaled = text.replace("@startuml\n", f"@startuml\nscale {factor}\n", 1)
+        check = self.syntax.check(scaled)
+        if not check.valid or check.oversized:
+            return text, result, ""
+        return scaled, check, f"Scaled to {factor:.0%} (from {result.size}) to fit PlantUML's {DEFAULT_LIMIT_SIZE} px limit."
+
+    def _record_check(
+        self,
+        name: str,
+        text: str,
+        result: PlantUMLCheck,
+        stem: Path,
+        errors: dict[str, str],
+        checks: dict[str, dict[str, Any]],
+        note: str = "",
+    ) -> bool:
+        checks[name] = {
+            "valid": result.valid,
+            "verified": result.verified,
+            "message": result.message,
+            "width": result.width,
+            "height": result.height,
+            "oversized": result.oversized,
+            "note": note,
+        }
+        if result.oversized:
+            self.log.warning(
+                "%s diagram is %s; viewers that keep PlantUML's default %d px limit crop it. Open the SVG instead.",
+                name, result.size, DEFAULT_LIMIT_SIZE,
+            )
+        if not result.verified:
+            self.log.warning("%s diagram not checked by PlantUML: %s", name, result.message)
+        if result.valid:
+            return True
+        self.log.error("PlantUML syntax check failed for %s diagram: %s", name, result.message)
+        errors[name] = f"PlantUML syntax error: {result.message}"
+        stem.parent.mkdir(parents=True, exist_ok=True)
+        stem.with_name(stem.name + ".invalid.puml").write_text(text, encoding="utf-8")
+        return False
+
+    def _compile(self, diagram, name: str, errors: dict[str, str], links: dict[str, str] | None = None) -> str:
         try:
-            return PlantUMLGenerator().render(diagram)
+            return PlantUMLGenerator(links=links).render(diagram)
         except Exception as exc:
-            self.log.warning("PlantUML compilation failed for %s: %s", diagram.title, exc)
+            self.log.error("PlantUML compilation failed for %s diagram (%s): %s", name, diagram.title, exc)
+            errors[name] = str(exc)
             return ""
 
     def _render(self, plantuml_text: str, directory: Path, name: str) -> dict[str, Any]:
@@ -334,6 +516,46 @@ class HierarchicalPipeline:
         else:
             payload = value
         path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+_STOPWORDS = {
+    "the", "and", "for", "are", "that", "this", "with", "from", "its", "which",
+    "into", "has", "have", "been", "will", "can", "all", "any", "not", "but",
+}
+
+
+def _words(text: str) -> set[str]:
+    return {w for w in re.findall(r"[a-z0-9]+", text.lower()) if len(w) >= 3 and w not in _STOPWORDS}
+
+
+def missed_sections(
+    parts: list[DocumentChunk],
+    requirements: list[Requirement],
+    min_tokens: int = 80,
+) -> list[DocumentChunk]:
+    """Sections of a chunk that no extracted requirement comes from.
+
+    Each requirement is attributed to the one section whose text its source
+    sentence overlaps most, so a sentence that merely shares vocabulary with
+    another section does not count for it.
+    """
+    if len(parts) < 2:
+        return []
+    part_words = [_words(part.text) for part in parts]
+    hits = [0] * len(parts)
+    for requirement in requirements:
+        words = _words(requirement.source_sentence or requirement.text)
+        if not words:
+            continue
+        scores = [len(words & pw) / len(words) for pw in part_words]
+        best = max(range(len(parts)), key=scores.__getitem__)
+        if scores[best] >= 0.5:
+            hits[best] += 1
+    return [
+        part
+        for part, count in zip(parts, hits)
+        if count == 0 and part.estimated_tokens >= min_tokens
+    ]
 
 
 def module_requirement_text(
@@ -369,8 +591,28 @@ def module_requirement_text(
         "",
         "Model ONLY this module as a self-contained activity: begin where the",
         "module is entered and end with a final node where control passes on.",
-        "Use a final node whose label names the failure (e.g. 'Request",
-        "rejected') only for flows that terminate the whole system.",
+        "A branch where the request is rejected, cancelled or fails, or the whole",
+        "process stops, must end in its own final node whose label names that outcome",
+        "(e.g. 'Request rejected', 'Peering cancelled'); any other final node means",
+        "control passes on to the next module.",
+        "",
+    ]
+    if plan.actors:
+        lines += [*swimlane_instruction(plan.actors, module.lanes), ""]
+    lines += [
+        "MODELLING: when requirements come from use-case sections (Trigger, Preconditions,",
+        "Stimulus/Response Sequences, Exceptions, Functional Requirements), the stimulus/response",
+        "sequence is the main flow, step by step in its order. Model a decision only where the text",
+        "names alternative outcomes that change the flow (an exception, a rejection, a trigger",
+        "condition). Preconditions, postconditions and functional requirements that state a property",
+        "or constraint rather than a step are traced to the actions they constrain (requirement_ids),",
+        "not drawn as extra actions or decisions. Every requirement ID below must still appear in the",
+        "requirement_ids of at least one node or edge.",
+        "",
+        "LABELS: actions are short verb phrases (at most 8 words, e.g. 'Send initiation request to",
+        "Mediator') naming the step, with actors written out in full, no explanations. Decisions are",
+        "short questions ('Sufficient resources acquired?'); guards are a few words ('yes', 'no',",
+        "'new resource').",
         "",
         "SOURCE REQUIREMENTS:",
     ]

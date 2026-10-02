@@ -38,6 +38,8 @@ from src.validation.structural.structural_validator import StructuralValidator
 def sample_key(name: str) -> str:
     name = re.sub(r"^\d{4}\s*-\s*", "", Path(name).stem)
     name = re.sub(r"_Run\d+$", "", name, flags=re.IGNORECASE)
+    # Hierarchical runs: <sample>_full.puml is the complete diagram.
+    name = re.sub(r"_full$", "", name, flags=re.IGNORECASE)
     return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
 
 
@@ -121,8 +123,10 @@ def profile(diagram: ActivityDiagram) -> dict:
     }
 
 
-def compare(gold: ActivityDiagram, generated: ActivityDiagram, threshold: float) -> dict:
-    mapping = match_actions(gold, generated, threshold)
+def compare(gold: ActivityDiagram, generated: ActivityDiagram, threshold: float, mapping=None) -> dict:
+    """``mapping`` (gold ID -> (generated ID, score)) defaults to label matching."""
+    if mapping is None:
+        mapping = match_actions(gold, generated, threshold)
     n_gold, n_gen = len(actions(gold)), len(actions(generated))
     recall = len(mapping) / n_gold if n_gold else 0.0
     precision = len(mapping) / n_gen if n_gen else 0.0
@@ -161,7 +165,18 @@ def main() -> None:
     parser.add_argument("--generated", default="outputs")
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--output", default="results/gold_comparison")
+    parser.add_argument(
+        "--semantic",
+        action="store_true",
+        help="also pair steps by meaning with an LLM judge (majority of 5 judgements)",
+    )
+    parser.add_argument("--judge-model", default=None, help="judge model (default: OPENAI_MODEL)")
     args = parser.parse_args()
+    llm = None
+    if args.semantic:
+        from src.llm.openai_client import OpenAIClient
+
+        llm = OpenAIClient(model=args.judge_model)
 
     puml = ActivityPlantUMLParser()
     gold = {
@@ -187,6 +202,11 @@ def main() -> None:
                 "similarity": compare(gold_diagram, generated, args.threshold),
             }
         )
+        if llm is not None:
+            from src.evaluation.semantic_alignment import semantic_mapping
+
+            mapping = semantic_mapping(gold_diagram, generated, llm)
+            results[-1]["semantic"] = compare(gold_diagram, generated, args.threshold, mapping)
 
     out = Path(args.output)
     out.mkdir(parents=True, exist_ok=True)
@@ -205,6 +225,50 @@ def main() -> None:
             f"{g['actions']}/{c['actions']} | {g['decisions']}/{c['decisions']} | {g['lanes']}/{c['lanes']} | "
             f"{g['vacuous_decisions']}/{c['vacuous_decisions']} |"
         )
+    # Several runs per sample: mean and standard deviation.
+    by_sample: dict[str, list[dict]] = {}
+    for r in results:
+        by_sample.setdefault(r["sample"], []).append(r)
+
+    def spread(values) -> str:
+        values = [v for v in values if v is not None]
+        if not values:
+            return "-"
+        mean = sum(values) / len(values)
+        std = (sum((v - mean) ** 2 for v in values) / (len(values) - 1)) ** 0.5 if len(values) > 1 else 0.0
+        return f"{mean:.2f} ± {std:.2f}"
+
+    lines += [
+        "",
+        "## Summary per sample (mean ± std over runs)",
+        "",
+        "| Sample | Runs | Action F1 | Semantic F1 | Semantic ordering | Lanes (gold) | Decisions (gold) |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for sample, runs in by_sample.items():
+        lines.append(
+            f"| {sample} | {len(runs)} | {spread(r['similarity']['action_f1'] for r in runs)} | "
+            f"{spread(r['semantic']['action_f1'] for r in runs if 'semantic' in r)} | "
+            f"{spread(r['semantic']['ordering_agreement'] for r in runs if 'semantic' in r)} | "
+            f"{spread(r['generated']['lanes'] for r in runs)} ({runs[0]['gold']['lanes']}) | "
+            f"{spread(r['generated']['decisions'] for r in runs)} ({runs[0]['gold']['decisions']}) |"
+        )
+
+    semantic = [r for r in results if "semantic" in r]
+    if semantic:
+        lines += [
+            "",
+            "## Steps paired by meaning (LLM judge)",
+            "",
+            "| Sample | Generated file | Action F1 | Recall | Precision | Ordering |",
+            "|---|---|---|---|---|---|",
+        ]
+        for r in semantic:
+            s = r["semantic"]
+            lines.append(
+                f"| {r['sample']} | {r['generated_file']} | {s['action_f1']} | {s['action_recall']} | "
+                f"{s['action_precision']} | {s['ordering_agreement']} |"
+            )
     (out / "comparison.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
     print(f"\nDetails: {out / 'comparison.json'}")

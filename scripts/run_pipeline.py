@@ -64,9 +64,31 @@ def main():
         print(f"Completed: {sample_id} (hierarchical)")
         print(f"Requirements: {len(state.requirements)} in {len(state.modules)} modules")
         print(f"Requirement coverage: {100 * state.metrics['requirement_coverage']:.1f}%")
-        print(f"Overview: {run_dir / 'overview.puml'}")
-        print(f"Full diagram: {run_dir / 'full.puml'}")
+        errors = state.metrics.get("plantuml_errors", {})
+        checks = state.metrics.get("plantuml_checks", {})
+        for name, label in (("overview", "Overview"), ("full", "Full diagram")):
+            if name in errors:
+                print(f"{label}: FAILED ({errors[name]})")
+                continue
+            print(f"{label}: {run_dir / f'{name}.puml'}")
+            check = checks.get(name, {})
+            if check.get("note"):
+                print(f"  {check['note']}")
+            if check.get("oversized"):
+                print(f"  {check['width']} x {check['height']} px: open the .svg, PNG previews crop at 4096 px.")
+        parts = state.metrics.get("parts", [])
+        if parts:
+            print(f"Parts: {sum(1 for p in parts if p.get('stem'))} linked diagrams in {run_dir / 'parts'}")
+        print(f"Swimlanes: {state.metrics.get('full_diagram_lanes', 0)} "
+              f"({', '.join(state.metrics.get('actors', [])) or 'not harmonised'})")
+        module_errors = sorted(set(errors) - {"overview", "full"})
+        if module_errors:
+            print(f"Diagrams with PlantUML errors: {', '.join(module_errors)}")
+        if checks and not any(c["verified"] for c in checks.values()):
+            print("PlantUML not found: syntax was checked with built-in rules only "
+                  "(run: python -m scripts.install_plantuml).")
         print(f"Report: {run_dir / 'report.md'}")
+        print(f"Viewer: {run_dir / 'viewer.html'} (open in a browser)")
         return
 
     from src.pipeline.orchestrator import MultiAgentPipeline

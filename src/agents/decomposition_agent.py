@@ -48,7 +48,13 @@ RULES
 - Module IDs are M1, M2, M3 ... in execution order.
 - Module names are short verb phrases ("Register Service", "Negotiate SLA").
 - objective: one sentence describing what the module achieves.
-- lanes: the actors/subsystems active in the module.
+- actors: the system's swimlanes, 3 to 8 participants that perform its
+  steps (people, organisations or system components), named as in the
+  specification's actor lists, with abbreviations written out
+  ("SR" -> "Service Registry"). Never data, policies, protocols,
+  capabilities, algorithms or groups of requirements. One name per
+  participant: no singular/plural or "instance" variants.
+- lanes: the actors (copied exactly from actors) active in the module.
 - transitions use module IDs plus the pseudo IDs START and END.
 - There must be a transition from START and at least one into END.
 - Sequential phases: START -> M1 -> M2 -> ... -> END, guard null.
@@ -56,6 +62,9 @@ RULES
   non-empty guard (e.g. "[resources sufficient]" / "[insufficient]").
 - Independent use cases (no ordering between them): START -> each module
   with the guard naming the use case, and each module -> END.
+- Specifications often describe the same step twice (an overview or
+  product-features section and a detailed use-case section). Put both
+  descriptions of a step in the same module, so it is modelled once.
 - Do not invent behaviour; only structure what the requirements state.
 - Glossary/actor-only requirements still belong to the module where the
   actor or concept is used.

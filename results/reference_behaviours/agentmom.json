@@ -1,0 +1,18 @@
+[
+  "Agents broadcast a message to all the agents within the same local network.",
+  "Agents multicast a message to all the agents within the same multicast address.",
+  "Agents unicast a message to other agents within organization.",
+  "Agents choose among unicast, multicast and broadcast communication.",
+  "Agents join and leave multicast group.",
+  "The system provides message encryption and decryption techniques for secured communication.",
+  "Agents choose to encrypt or not to encrypt message.",
+  "Message is encrypted or Message is not encrypted.",
+  "An agent sends notify to join/leave multicast group.",
+  "Message is decrypted only if Message is encrypted.",
+  "An agent sends unicast message to another agent.",
+  "Another agent receives message.",
+  "An agent sends multicast message to the group (multicast address).",
+  "Other agents in the group receive message.",
+  "An agent sends message to everyone in the same local network.",
+  "Other agent in the same local network receive message."
+]

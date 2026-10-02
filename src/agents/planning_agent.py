@@ -39,18 +39,43 @@ Do not expose internal reasoning. Return only the structured ActivityPlan.
 
 RULES
 - No invented behavior.
-- No omitted requirements.
+- No omitted behaviour: every ACTION, CONDITION, DECISION, LOOP,
+    CONCURRENCY, EXCEPTION, DATA and TERMINATION requirement is traced to at
+    least one plan node or edge. Requirements of type OTHER (goals,
+    benefits, background, open questions, examples) and ACTOR are context:
+    do not draw them; use ACTOR requirements to name the lanes.
 - Every node has a unique P1, P2... temp_id.
-- Assign a concise actor/system swimlane to every action, decision, fork,
-    join, object, and note when the requirements identify an actor or subsystem.
-    Use the same lane spelling consistently; use null only for truly
-    actor-neutral control nodes such as the initial/final marker.
+- Every action, decision, fork, join, object and note has a lane: the
+    actor (person, organisation, subsystem or component) that performs it,
+    named as the specification names its actors. Use the same spelling
+    everywhere; null only for the initial and final nodes. When the same
+    kind of actor plays two roles in one exchange, name the roles
+    ("Sending Agent", "Receiving Agent").
 - Every decision has explicit, non-empty guards.
 - Guards should be mutually exclusive and collectively exhaustive.
 - Loops must be formal LoopPlan objects, not unexplained back-edges.
 - Concurrency must have matching fork_id, branch_ids and join_id.
-- Traceability must cover every atomic requirement.
+- Traceability must cover every behavioural requirement (see above).
 - No dangling references and no dead-end action nodes.
+
+MODELLING STYLE (how an experienced UML modeller draws a specification)
+- One integrated flow, not one flow per use case. When several use cases are
+    alternatives of the same activity (buy / sell / cancel; unicast /
+    multicast / broadcast), model the shared steps once and branch with ONE
+    decision on the variant where they differ ("Instruction type?",
+    "Communication type?"); rejoin after the branch when they share the rest.
+- Steps that several variants share before or after the branch (validate,
+    encrypt, save, decrypt, notify) are drawn once, outside the branch.
+- Interaction between actors: the sender's step ("Send query to Central
+    Trading System") in the sender's lane, then the receiver's step
+    ("Receive query") in the receiver's lane.
+- One action per scenario step, in the scenario's order. Labels are short
+    verb phrases (at most 8 words), without the actor's name (the lane shows
+    it); decisions are short questions; guards are a few words.
+- An exception that ends the scenario is a decision branch that leads to a
+    final node (after any reporting step it names).
+- Do not draw goals, benefits, quality attributes, background text, open
+    issues or examples.
 
 GOLD-STANDARD SHAPE
 - Prefer one readable main flow from initial to final.
