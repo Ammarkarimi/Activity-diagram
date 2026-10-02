@@ -245,6 +245,36 @@ def summary_metrics(job: dict) -> list[tuple[str, str]]:
     ]
 
 
+def _usage_row(name: str, u: dict | None) -> dict:
+    u = u or {}
+    cost = u.get("cost_usd")
+    return {
+        "Stage": name,
+        "Calls": u.get("calls", 0),
+        "Input tokens": u.get("input_tokens", 0),
+        "Cached input": u.get("cached_input_tokens", 0),
+        "Output tokens": u.get("output_tokens", 0),
+        "Reasoning": u.get("reasoning_tokens", 0),
+        "Cost (USD)": f"{cost:.4f}" if cost is not None else "n/a",
+    }
+
+
+def usage_tables(job: dict) -> tuple[dict, list[dict], list[dict]]:
+    """(total, rows per iteration or module, rows per agent)."""
+    usage = job["state"].metrics.get("token_usage") or {}
+    total = usage.get("total") or {}
+    if job["mode"] == "hierarchical":
+        stages = [_usage_row(f"Document: {agent}", u) for agent, u in usage.get("document_level", {}).items()]
+        stages += [_usage_row(f"Module {mid}", u) for mid, u in usage.get("by_module", {}).items()]
+    else:
+        stages = [_usage_row(phase.replace("_", " ").capitalize(), u) for phase, u in usage.get("by_phase", {}).items()]
+    agents = [
+        {"Agent": agent, **{k: v for k, v in _usage_row(agent, u).items() if k != "Stage"}}
+        for agent, u in usage.get("by_agent", {}).items()
+    ]
+    return total, stages, agents
+
+
 def report_markdown(job: dict) -> str | None:
     if job["mode"] == "hierarchical":
         report = Path(job["state"].metrics["run_output_dir"]) / "report.md"
@@ -374,6 +404,13 @@ if job:
     head_left, head_right = st.columns([3, 1], vertical_alignment="bottom")
     head_left.subheader("Results")
     head_left.caption(f"Model: {job['model']}  ·  Mode: {job['mode']}  ·  Output: {job['out'].relative_to(ROOT).as_posix()}")
+    usage_total, usage_stages, usage_agents = usage_tables(job)
+    if usage_total:
+        cost = usage_total.get("cost_usd")
+        head_left.caption(
+            f"LLM usage: {usage_total.get('total_tokens', 0):,} tokens in {usage_total.get('calls', 0)} calls  ·  "
+            f"Cost: {'$%.4f' % cost if cost is not None else 'n/a (model not in configs/pricing.json)'}"
+        )
     if "zip" not in st.session_state:
         st.session_state["zip"] = zip_folder(job["out"])
     head_right.download_button(
@@ -391,7 +428,7 @@ if job:
     state = job["state"]
     diagrams = collect_diagrams(job)
     report = report_markdown(job)
-    tab_names = ["Diagram", "Requirements", "PlantUML"] + (["Report"] if report else [])
+    tab_names = ["Diagram", "Requirements", "PlantUML", "Usage"] + (["Report"] if report else [])
     tabs = st.tabs(tab_names)
 
     with tabs[0]:
@@ -439,6 +476,17 @@ if job:
             name = st.selectbox("Source", list(diagrams), key="puml_source")
             st.code(diagrams[name].get("puml_text") or "", language="text")
 
+    with tabs[3]:
+        if not usage_total:
+            st.info("No token usage was recorded for this run.")
+        else:
+            label = "module" if job["mode"] == "hierarchical" else "iteration"
+            st.markdown(f"**Per {label}**")
+            st.dataframe(usage_stages + [_usage_row("Total", usage_total)], width="stretch", hide_index=True)
+            st.markdown("**Per agent**")
+            st.dataframe(usage_agents, width="stretch", hide_index=True)
+            st.caption("Prices: configs/pricing.json (USD per 1M tokens). Reasoning tokens are included in output tokens.")
+
     if report:
-        with tabs[3]:
+        with tabs[4]:
             st.markdown(report)

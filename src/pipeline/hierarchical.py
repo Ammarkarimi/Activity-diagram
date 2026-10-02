@@ -18,6 +18,7 @@ from src.generation.ir_sanitizer import IRSanitizer
 from src.generation.plantuml_generator import PlantUMLGenerator
 from src.generation.plantuml_tool import DEFAULT_LIMIT_SIZE
 from src.generation.renderer import PlantUMLRenderer
+from src.llm import usage as llm_usage
 from src.llm.openai_client import OpenAIClient
 from src.models.domain import (
     modelled_requirements,
@@ -116,6 +117,11 @@ class HierarchicalPipeline:
             document_tokens=estimate_tokens(requirement_text),
         )
         llm_calls = 0
+        # Token accounting (observation only): document-level calls carry no run.
+        usage_tracker = getattr(getattr(self, "llm", None), "usage", None)
+        usage_start = usage_tracker.count() if usage_tracker is not None else 0
+        llm_usage.set_run(None)
+        llm_usage.set_phase(None)
 
         # ---------------- 1. chunking ----------------
         state.chunks = self.chunker.chunk(requirement_text)
@@ -275,6 +281,7 @@ class HierarchicalPipeline:
             "llm_calls": llm_calls,
             "total_execution_time_seconds": time.perf_counter() - started,
             "render": renders,
+            "token_usage": self._token_usage(state, usage_tracker, usage_start),
             "run_output_dir": str(run_dir),
         }
 
@@ -392,6 +399,7 @@ class HierarchicalPipeline:
                     "best_candidate_quality": result.metrics.get("best_candidate_quality"),
                     "repair_iterations": result.metrics.get("repair_iterations", 0),
                     "run_output_dir": result.metrics.get("run_output_dir"),
+                    "token_usage": result.metrics.get("token_usage", {}).get("total"),
                 },
             )
         except Exception as exc:
@@ -401,6 +409,22 @@ class HierarchicalPipeline:
     # ============================================================
     # HELPERS
     # ============================================================
+
+    @staticmethod
+    def _token_usage(state: HierarchicalState, tracker, start: int) -> dict[str, Any]:
+        """Tokens and cost of the whole run, per agent, per module and for
+        the document-level stages (extraction, decomposition, lane mapping)."""
+        if tracker is None:
+            return {}
+        records = tracker.since(start)
+        pricing = llm_usage.load_pricing()
+        return {
+            "total": llm_usage.summarize(records, pricing),
+            "by_agent": llm_usage.group_by(records, "agent", pricing),
+            "document_level": llm_usage.group_by([r for r in records if r["run"] is None], "agent", pricing),
+            "by_module": {m.module.id: m.metrics.get("token_usage") for m in state.modules},
+            "pricing_source": str(llm_usage.PRICING_FILE) if pricing else None,
+        }
 
     def _harmonize_lanes(self, state: HierarchicalState) -> tuple[dict[str, str | None], bool]:
         """Map every module lane onto the decomposition's actors."""

@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import json
 import time
+import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -20,6 +21,7 @@ from src.evaluation.semantic_metrics import label_similarity
 from src.validation.structural.structural_validator import StructuralValidator
 from src.generation.renderer import PlantUMLRenderer
 from src.pipeline.lanes import apply_lanes, canonical_actors, match_actor, swimlane_instruction
+from src.llm import usage as llm_usage
 from src.llm.openai_client import OpenAIClient
 from src.models.domain import (
     modelled_requirements,
@@ -116,6 +118,10 @@ class MultiAgentPipeline:
             f"{sample_id}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
         )
         run_dir.mkdir(parents=True, exist_ok=False)
+        # Token accounting scope for this run (observation only).
+        usage_run_id = uuid.uuid4().hex
+        llm_usage.set_run(usage_run_id)
+        llm_usage.set_phase("setup")
 
         def save_stage(name: str, value: Any) -> None:
             stage_path = run_dir / f"{name}.json"
@@ -270,6 +276,7 @@ class MultiAgentPipeline:
         # --------------------------------------------------------
         for iteration in range(max_iterations + 1):
             state.iteration = iteration
+            llm_usage.set_phase(f"iteration_{iteration:02d}")
             iteration_start = time.perf_counter()
             self.log.info("Validation iteration %d", iteration)
 
@@ -597,6 +604,7 @@ class MultiAgentPipeline:
                 for defect in best_candidate.defects
             ]
 
+        llm_usage.set_phase("finalise")
         if actors and state.diagram is not None:
             self._harmonize_lanes(state.diagram, actors, call_llm)
 
@@ -679,6 +687,7 @@ class MultiAgentPipeline:
             }
         )
         state.metrics["research_summary"] = self._build_research_summary(state)
+        state.metrics["token_usage"] = self._token_usage(usage_run_id, state.metrics.get("candidate_scores", []))
         state.metrics["run_output_dir"] = str(run_dir)
         save_stage("08_final_state", state)
         (run_dir / "final.puml").write_text(
@@ -729,6 +738,19 @@ class MultiAgentPipeline:
         defects.extend(review.defects)
         defects = self._deduplicate_defects(defects)
         return validation, review, defects, plantuml_text
+
+    def _token_usage(self, run_id: str, candidate_scores: list[dict[str, Any]]) -> dict[str, Any]:
+        """Tokens and cost of this run, per phase and agent; adds each
+        iteration's own tokens and cost to its candidate score entry."""
+        tracker = getattr(getattr(self, "llm", None), "usage", None)
+        if tracker is None:
+            return {}
+        result = llm_usage.report(tracker.records(run=run_id))
+        for entry in candidate_scores:
+            phase = result["by_phase"].get(f"iteration_{entry['iteration']:02d}", {})
+            entry["iteration_tokens"] = phase.get("total_tokens", 0)
+            entry["iteration_cost_usd"] = phase.get("cost_usd")
+        return result
 
     @staticmethod
     def _fallback_plantuml(sample_id: str, state: PipelineState) -> str:
