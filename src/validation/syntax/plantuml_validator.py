@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 import re
 import subprocess
 from dataclasses import dataclass
@@ -8,6 +9,8 @@ from src.generation.plantuml_generator import PlantUMLGenerator
 from src.generation.plantuml_tool import DEFAULT_LIMIT_SIZE, run_plantuml
 
 _VIEWBOX = re.compile(r'viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"')
+# The first line of the error image PlantUML draws when layout crashes.
+_RENDER_ERROR = re.compile(r"An error has occur+ed\s*:?\s*([^<]*)")
 
 
 @dataclass
@@ -65,6 +68,16 @@ class PlantUMLSyntaxValidator:
                 if line <= len(source):
                     message = f"line {line}: {message}: {source[line - 1].strip()}"
             return PlantUMLCheck(valid=False, message=message, line=line, verified=True)
+
+        # A layout crash (e.g. a NullPointerException while drawing) still
+        # exits with 0: PlantUML returns an image of the error instead.
+        crash = _RENDER_ERROR.search(process.stdout)
+        if crash:
+            return PlantUMLCheck(
+                valid=False,
+                message=f"PlantUML failed to draw the diagram: {html.unescape(crash.group(1)).strip()}",
+                verified=True,
+            )
 
         match = _VIEWBOX.search(process.stdout[:2000])
         width, height = (round(float(v)) for v in match.groups()) if match else (None, None)
