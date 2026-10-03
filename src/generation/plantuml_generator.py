@@ -41,7 +41,14 @@ class PlantUMLGenerator:
     def render(
         self,
         diagram: ActivityDiagram,
+        structured_loops: bool = True,
     ) -> str:
+        """Compile the IR to PlantUML.
+
+        ``structured_loops=False`` draws every loop as plain branching with
+        connector jumps back to its head instead of repeat/while blocks; used
+        when PlantUML cannot lay out the structured version.
+        """
 
         self._validate(diagram)
 
@@ -71,12 +78,14 @@ class PlantUMLGenerator:
 
         self._analyze(graph, nodes, initial.id)
 
-        text = self._emit(graph, nodes, diagram, initial)
-        if self._blocks_balanced(text):
-            return text
+        if structured_loops:
+            text = self._emit(graph, nodes, diagram, initial)
+            if self._blocks_balanced(text):
+                return text
 
         # Loop back edges that leave from inside a nested branch cannot be
-        # expressed with repeat/while blocks. Fall back to plain branching
+        # expressed with repeat/while blocks (and some structured loops crash
+        # PlantUML's layout, see structured_loops). Fall back to plain branching
         # (back edges become connector jumps) rather than emitting invalid
         # PlantUML.
         self._repeat_headers = set()

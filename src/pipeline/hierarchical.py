@@ -210,7 +210,12 @@ class HierarchicalPipeline:
                 part_files[part.number] = (stem, text)
 
         def check_module(module: ModuleResult) -> tuple[ModuleResult, PlantUMLCheck | None]:
-            return module, self.syntax.check(module.plantuml) if module.plantuml else None
+            if not module.plantuml:
+                return module, None
+            module.plantuml, result = self._plain_loops_if_invalid(
+                module.diagram, module.plantuml, self.syntax.check(module.plantuml), module.module.id,
+            )
+            return module, result
 
         with ThreadPoolExecutor(max_workers=self.max_workers) as pool:
             module_checks = list(pool.map(check_module, state.modules))
@@ -465,8 +470,29 @@ class HierarchicalPipeline:
         text = self._compile(diagram, name, errors, links)
         if not text:
             return ""
-        text, result, note = self._fit(text, self.syntax.check(text))
+        text, result = self._plain_loops_if_invalid(diagram, text, self.syntax.check(text), name, links)
+        text, result, note = self._fit(text, result)
         return text if self._record_check(name, text, result, stem, errors, checks, note) else ""
+
+    def _plain_loops_if_invalid(
+        self, diagram, text: str, result: PlantUMLCheck, name: str, links: dict[str, str] | None = None,
+    ) -> tuple[str, PlantUMLCheck]:
+        """When PlantUML rejects or cannot draw the diagram, retry with loops
+        drawn as plain branching (some structured loops crash its layout)."""
+        if result.valid or not result.verified or diagram is None:
+            return text, result
+        try:
+            fallback = PlantUMLGenerator(links=links).render(diagram, structured_loops=False)
+        except Exception:
+            return text, result
+        if fallback == text:
+            return text, result
+        retry = self.syntax.check(fallback)
+        if not retry.valid:
+            return text, result
+        self.log.info("%s diagram: PlantUML could not draw the structured loops (%s); using plain branching.",
+                      name, result.message)
+        return fallback, retry
 
     def _fit(self, text: str, result: PlantUMLCheck) -> tuple[str, PlantUMLCheck, str]:
         """Scale an oversized diagram down to PlantUML's default PNG limit while it stays readable."""

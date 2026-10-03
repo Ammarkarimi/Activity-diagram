@@ -875,6 +875,16 @@ class MultiAgentPipeline:
 
         valid, message = self.plantuml_validator.validate(text)
         if not valid:
+            # PlantUML cannot draw some structured loops (e.g. a while body
+            # that ends in another swimlane with a jump or stop). The same IR
+            # drawn with plain branching usually renders; keep it if it does.
+            try:
+                fallback = self.plantuml.render(diagram, structured_loops=False)
+            except Exception:
+                fallback = ""
+            if fallback and fallback != text and self.plantuml_validator.validate(fallback)[0]:
+                self.log.info("PlantUML could not draw the structured loops (%s); using plain branching.", message)
+                return fallback, None
             return text, Defect(
                 id=f"PLANTUML-INVALID-{iteration}",
                 category="SYNTAX",
