@@ -1,0 +1,238 @@
+{
+  "nodes": [
+    {
+      "id": "N1",
+      "type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "id": "N2",
+      "type": "action",
+      "label": "Request content from CDN WSs",
+      "lane": "End-user",
+      "requirement_ids": [
+        "R104"
+      ]
+    },
+    {
+      "id": "N3",
+      "type": "action",
+      "label": "Generate hotspot",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R105",
+        "R106"
+      ]
+    },
+    {
+      "id": "N4",
+      "type": "action",
+      "label": "Send initialization request",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R107",
+        "R112"
+      ]
+    },
+    {
+      "id": "N5",
+      "type": "action",
+      "label": "Receive initialization request",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R118",
+        "R121"
+      ]
+    },
+    {
+      "id": "N6",
+      "type": "decision",
+      "label": "Requests acceptable by policy?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R126",
+        "R111"
+      ]
+    },
+    {
+      "id": "N7",
+      "type": "decision",
+      "label": "Service timeout reached?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R108"
+      ]
+    },
+    {
+      "id": "N8",
+      "type": "action",
+      "label": "Withhold service requirements",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R126"
+      ]
+    },
+    {
+      "id": "N9",
+      "type": "final",
+      "label": "Request rejected",
+      "lane": null,
+      "requirement_ids": [
+        "R109",
+        "R126"
+      ]
+    },
+    {
+      "id": "N10",
+      "type": "final",
+      "label": "Initiation cancelled",
+      "lane": null,
+      "requirement_ids": [
+        "R108"
+      ]
+    },
+    {
+      "id": "N11",
+      "type": "final",
+      "label": "Initialization request accepted",
+      "lane": null,
+      "requirement_ids": [
+        "R121"
+      ]
+    },
+    {
+      "id": "N12",
+      "type": "final",
+      "label": "Peering arrangement ceases",
+      "lane": null,
+      "requirement_ids": [
+        "R139"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "source": "N1",
+      "target": "N2",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R104"
+      ]
+    },
+    {
+      "id": "E2",
+      "source": "N2",
+      "target": "N3",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R105",
+        "R106"
+      ]
+    },
+    {
+      "id": "E3",
+      "source": "N3",
+      "target": "N4",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R107",
+        "R112"
+      ]
+    },
+    {
+      "id": "E4",
+      "source": "N4",
+      "target": "N5",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R107",
+        "R118",
+        "R121"
+      ]
+    },
+    {
+      "id": "E5",
+      "source": "N5",
+      "target": "N6",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R118",
+        "R121",
+        "R126",
+        "R111"
+      ]
+    },
+    {
+      "id": "E6",
+      "source": "N6",
+      "target": "N7",
+      "type": "control",
+      "guard": "yes",
+      "requirement_ids": [
+        "R126",
+        "R111"
+      ]
+    },
+    {
+      "id": "E7",
+      "source": "N6",
+      "target": "N8",
+      "type": "control",
+      "guard": "no",
+      "requirement_ids": [
+        "R126"
+      ]
+    },
+    {
+      "id": "E8",
+      "source": "N8",
+      "target": "N12",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R126",
+        "R139"
+      ]
+    },
+    {
+      "id": "E9",
+      "source": "N7",
+      "target": "N10",
+      "type": "control",
+      "guard": "yes",
+      "requirement_ids": [
+        "R108"
+      ]
+    },
+    {
+      "id": "E10",
+      "source": "N7",
+      "target": "N11",
+      "type": "control",
+      "guard": "no",
+      "requirement_ids": [
+        "R121"
+      ]
+    },
+    {
+      "id": "E11",
+      "source": "N8",
+      "target": "N9",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R126",
+        "R109"
+      ]
+    }
+  ],
+  "title": "Trigger Peering (part 2/2)"
+}

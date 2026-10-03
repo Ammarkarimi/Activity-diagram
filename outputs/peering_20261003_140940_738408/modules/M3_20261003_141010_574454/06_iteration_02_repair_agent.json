@@ -1,0 +1,193 @@
+{
+  "changed": true,
+  "repair_type": "semantic_minimal_edit",
+  "changes": [
+    "Removed unsupported Web Server registration action from the preparation flow.",
+    "Reconnected the Service Registry resource update step directly to the Mediator collection step.",
+    "Preserved all remaining preparation behavior and traceability."
+  ],
+  "rationale": "The supplied defect only concerns an unsupported Web Server registration step in this module. The smallest valid repair is to \u062d\u0630\u0641 that step and connect the existing Service Registry update/resource availability behavior directly to the Mediator\u2019s collection of resource information, which matches the module\u2019s stated flow and requirements.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Detect local resources",
+        "lane": "Service Registry",
+        "requirement_ids": [
+          "R82",
+          "R59"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Update local resources",
+        "lane": "Service Registry",
+        "requirement_ids": [
+          "R79",
+          "R58"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Collect resource information",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R80",
+          "R60",
+          "R15"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Obtain policies",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R16",
+          "R63",
+          "R64",
+          "R13"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "action",
+        "label": "Determine delegation conditions",
+        "lane": "Policy Agent",
+        "requirement_ids": [
+          "R50",
+          "R18",
+          "R65"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Generate service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R17",
+          "R53",
+          "R10",
+          "R11",
+          "R12",
+          "R14"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Pass service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R54"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "final",
+        "label": "Continue to negotiation",
+        "lane": null,
+        "requirement_ids": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": "",
+        "requirement_ids": [
+          "R80",
+          "R82"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N2",
+        "target": "N4",
+        "type": "control",
+        "guard": "",
+        "requirement_ids": [
+          "R79",
+          "R58"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": "",
+        "requirement_ids": [
+          "R80"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": "",
+        "requirement_ids": [
+          "R16",
+          "R63",
+          "R64"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": "",
+        "requirement_ids": [
+          "R50",
+          "R18",
+          "R65"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": "",
+        "requirement_ids": [
+          "R17",
+          "R53"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N8",
+        "target": "N9",
+        "type": "control",
+        "guard": "",
+        "requirement_ids": [
+          "R54"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N9",
+        "target": "N10",
+        "type": "control",
+        "guard": "",
+        "requirement_ids": []
+      }
+    ],
+    "title": "Prepare Negotiation (part 1/2)"
+  }
+}

@@ -1,0 +1,16 @@
+@startuml
+title Trigger Peering
+
+|Web Server|
+start
+
+if (Trigger peering?) then (yes)
+:Send initiation request;
+|Mediator|
+:Receive initiation request;
+stop
+else (no)
+stop
+endif
+
+@enduml

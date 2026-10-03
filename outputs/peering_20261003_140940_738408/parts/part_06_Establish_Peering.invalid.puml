@@ -1,0 +1,41 @@
+@startuml
+title peering - Part 6: Establish Peering
+
+|Mediator|
+start
+
+:From Part 5: Discover Peers<
+:Create negotiated relationship;
+|Peering Agent|
+:Configure CDN peering protocols;
+:Advertise configuration information;
+:Exchange content availability information;
+:Exchange load information;
+|Mediator|
+if (Sufficient resources acquired?) then (yes)
+|Policy Repository|
+:Deploy functional policies;
+:Administer functional policies;
+|Service Registry|
+:Create service registry instance;
+|Mediator|
+:Cooperate in common goals;
+else (no)
+|Peering Agent|
+:Update DNS records;
+if (Update DNS records) then (regular update)
+|Web Server|
+:Assign end-users via DNS;
+else (when appropriate)
+:Assign via gateway redirection;
+endif
+endif
+if (Outcome of Establish Peering?) then (peering arrangement established and operational)
+:Continue in Part 7: Operate Peering (part 1/2)>
+detach
+else (no CDN interested; re-negotiate)
+:Continue in Part 5: Discover Peers>
+detach
+endif
+
+@enduml

@@ -1,0 +1,443 @@
+{
+  "source": "provided",
+  "requirements": [
+    {
+      "id": "R9",
+      "text": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship.",
+      "type": "ACTION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [
+        "create a negotiated relationship"
+      ],
+      "conditions": [
+        "controlling interest to interconnect with other CDNs"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R27",
+      "text": "The next step is to configure CDN peering protocols at the conduit of the respective CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [
+        "configure CDN peering protocols"
+      ],
+      "conditions": [
+        "at the conduit of the respective CDNs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R26"
+      ],
+      "source_sentence": "The next step is to configure the \u2018CDN peering\u2019 protocols at the conduit of the respective CDNs in order to technically support the terms and policies implicitly specified through the negotiated relationships.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R28",
+      "text": "CDN peering protocols technically support the terms and policies implicitly specified through the negotiated relationships.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R27"
+      ],
+      "source_sentence": "The next step is to configure the \u2018CDN peering\u2019 protocols at the conduit of the respective CDNs in order to technically support the terms and policies implicitly specified through the negotiated relationships.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R29",
+      "text": "The step includes advertising the configurations of enlisted CDNs through inter-PA communication.",
+      "type": "ACTION",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [
+        "advertise the configurations of enlisted CDNs"
+      ],
+      "conditions": [
+        "through inter-PA communication"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R27"
+      ],
+      "source_sentence": "This step includes advertising the configurations (topology aspects, geographical proximity, capability, performance, etc.) of enlisted CDNs through inter-PA communication.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R30",
+      "text": "The configurations include topology aspects, geographical proximity, capability, and performance.",
+      "type": "DATA",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R29"
+      ],
+      "source_sentence": "This step includes advertising the configurations (topology aspects, geographical proximity, capability, performance, etc.) of enlisted CDNs through inter-PA communication.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R31",
+      "text": "On establishment of a peering arrangement, participating CDNs exchange information regarding content availability.",
+      "type": "ACTION",
+      "actors": [
+        "participating CDNs"
+      ],
+      "actions": [
+        "exchange information regarding content availability"
+      ],
+      "conditions": [
+        "on establishment of a peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R27",
+        "R29"
+      ],
+      "source_sentence": "On establishment of a peering arrangement, these protocols also allow participating CDNs to exchange information regarding the content availability and assists to redirect requests to an optimal peer.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R32",
+      "text": "On establishment of a peering arrangement, the protocols assist in redirecting requests to an optimal peer.",
+      "type": "ACTION",
+      "actors": [
+        "protocols"
+      ],
+      "actions": [
+        "redirect requests to an optimal peer"
+      ],
+      "conditions": [
+        "on establishment of a peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R31"
+      ],
+      "source_sentence": "On establishment of a peering arrangement, these protocols also allow participating CDNs to exchange information regarding the content availability and assists to redirect requests to an optimal peer.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R33",
+      "text": "Request-redirection depends on the content distribution and request-routing policies associated with the content and the specific algorithms and methods used for directing requests.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "content distribution policies",
+        "request-routing policies",
+        "specific algorithms",
+        "specific methods"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R32"
+      ],
+      "source_sentence": "Request-redirection in a peering arrangement depends on the content distribution and request-routing policies (specified in the CDN peering protocols) associated with the content as well as the specific algorithms and methods used for directing these requests.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R34",
+      "text": "When the primary CDN acquires sufficient resources from the peers to meet its SLA with the customer, the new peering arrangement becomes operational.",
+      "type": "CONDITION",
+      "actors": [
+        "primary CDN"
+      ],
+      "actions": [
+        "acquire sufficient resources from the peers",
+        "become operational"
+      ],
+      "conditions": [
+        "to meet its SLA with the customer"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R32",
+        "R33"
+      ],
+      "source_sentence": "When the primary CDN acquires sufficient resources from the peers to meet its SLA with the customer, the new peering arrangement becomes operational.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R35",
+      "text": "Necessary functional policies are deployed and administered in an effective way.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "deploy functional policies",
+        "administer functional policies"
+      ],
+      "conditions": [
+        "in an effective way"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R34"
+      ],
+      "source_sentence": "Hence, necessary functional policies are deployed and administered in an effective way.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R36",
+      "text": "Once a peering arrangement is established, all participating parties cooperate in the execution of common goals.",
+      "type": "ACTION",
+      "actors": [
+        "participating parties"
+      ],
+      "actions": [
+        "cooperate in the execution of common goals"
+      ],
+      "conditions": [
+        "once a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R35"
+      ],
+      "source_sentence": "Once a peering arrangement is established, all participating parties cooperate in the execution of common goal(s).",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R61",
+      "text": "When a new peering arrangement is established, an instance of the service registry is created that encapsulates all local and delegated external CDN resources.",
+      "type": "CONDITION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "creates an instance of the service registry that encapsulates all local and delegated external CDN resources"
+      ],
+      "conditions": [
+        "a new peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R60"
+      ],
+      "source_sentence": "When a new peering arrangement is established, an instance of the service registry is created that encapsulates all local and delegated external CDN resources.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R70",
+      "text": "The operations performed by the components of the CDN peering is driven by semi-autonomous logic that ensures content is served reliably through content replication, request-routing and redirection whilst maintaining constant awareness of the health (e.g. load information) of participants.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The operations performed by the components of the CDN peering is driven by semi-autonomous logic that ensures content is served reliably through content replication, request-routing and redirection whilst maintaining constant awareness of the health (e.g. load information) of participants.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R71",
+      "text": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data.",
+      "type": "ACTION",
+      "actors": [
+        "Participating CDNs"
+      ],
+      "actions": [
+        "perform content replication using a cooperative pull-based approach",
+        "assist each other in serving data"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R72",
+      "text": "Thus, content replication is featured through extending it to participating servers from the peers in a given peering arrangement, subject to the available resources they contribute.",
+      "type": "CONDITION",
+      "actors": [
+        "Participating CDNs"
+      ],
+      "actions": [
+        "extend content replication to participating servers from the peers in a given peering arrangement"
+      ],
+      "conditions": [
+        "available resources they contribute"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R71"
+      ],
+      "source_sentence": "Thus, content replication is featured through extending it to participating servers from the peers in a given peering arrangement, subject to the available resources they contribute.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R73",
+      "text": "Load distribution is performed by measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach, where current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway (i.e. mediator, PA and policy repository as a single conceptual entity) in a periodic or threshold-based manner.",
+      "type": "ACTION",
+      "actors": [
+        "CDNs",
+        "CDN gateway"
+      ],
+      "actions": [
+        "measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach",
+        "reporting current bandwidth and resource usage of web servers in a CDN to the CDN gateway in a periodic or threshold-based manner"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R72"
+      ],
+      "source_sentence": "Load distribution is performed by measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach, where current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway (i.e. mediator, PA and policy repository as a single conceptual entity) in a periodic or threshold-based manner.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R74",
+      "text": "The gateways of participating CDNs then communicate aggregated load information describing the load of their constituent servers.",
+      "type": "ACTION",
+      "actors": [
+        "Gateways of participating CDNs"
+      ],
+      "actions": [
+        "communicate aggregated load information describing the load of their constituent servers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R73"
+      ],
+      "source_sentence": "The gateways of participating CDNs then communicate aggregated load information describing the load of their constituent servers.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R75",
+      "text": "Request assignment and redirection is performed at multiple levels \u2013 at the DNS, at the gateways to local clusters, and also (redirection) between servers in a cluster.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "performs request assignment and redirection at the DNS",
+        "performs request assignment and redirection at the gateways to local clusters",
+        "performs redirection between servers in a cluster"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Request assignment and redirection is performed at multiple levels \u2013 at the DNS, at the gateways to local clusters, and also (redirection) between servers in a cluster.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R76",
+      "text": "Therefore, end-users can be assigned via DNS (by the peering agents of participating CDNs updating their DNS records regularly) and also via redirection at the CDN gateway when appropriate.",
+      "type": "CONDITION",
+      "actors": [
+        "Peering agents of participating CDNs",
+        "CDN gateway"
+      ],
+      "actions": [
+        "update their DNS records regularly",
+        "assign end-users via DNS",
+        "assign end-users via redirection at the CDN gateway when appropriate"
+      ],
+      "conditions": [
+        "when appropriate"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R75"
+      ],
+      "source_sentence": "Therefore, end-users can be assigned via DNS (by the peering agents of participating CDNs updating their DNS records regularly) and also via redirection at the CDN gateway when appropriate.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R134",
+      "text": "Once a peering arrangement is established, the initiating primary CDN through its local PA advertise configuration information to technically support the negotiated relationships between enlisted CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "advertises configuration information"
+      ],
+      "conditions": [
+        "a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. Once a peering arrangement is established, the initiating primary CDN through its local PA advertise configuration information to technically support the negotiated relationships between enlisted CDNs.",
+      "section": "3.5.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R135",
+      "text": "PAs exchange content availability and load information to identify an optimal peer to handle user requests.",
+      "type": "ACTION",
+      "actors": [
+        "External PA",
+        "Local PA"
+      ],
+      "actions": [
+        "exchange content availability information",
+        "exchange load information",
+        "identify an optimal peer to handle user requests"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R134"
+      ],
+      "source_sentence": "2. PAs exchange content availability and load information to identify an optimal peer to handle user requests.",
+      "section": "3.5.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R138",
+      "text": "The policy repository instance in the established peering arrangement assists in the deployment, administration and enforcement of the functional policies.",
+      "type": "ACTION",
+      "actors": [
+        "Policy repository instance"
+      ],
+      "actions": [
+        "assists in the deployment of the functional policies",
+        "assists in the administration of the functional policies",
+        "assists in the enforcement of the functional policies"
+      ],
+      "conditions": [
+        "the peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R134"
+      ],
+      "source_sentence": "5. The policy repository instance in the established peering arrangement assists in the deployment, administration and enforcement of the functional policies.",
+      "section": "3.5.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    }
+  ]
+}

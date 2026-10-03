@@ -1,0 +1,621 @@
+{
+  "objective": "Establish peering by configuring protocols, exchanging configuration and load information, and activating the arrangement when sufficient resources and policies are in place.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": [
+        "R34",
+        "R61",
+        "R134"
+      ]
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Create negotiated relationship",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R9"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "action",
+      "label": "Configure CDN peering protocols",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R27",
+        "R28"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Advertise configuration information",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R29",
+        "R30",
+        "R134"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "action",
+      "label": "Exchange content availability information",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R31",
+        "R135"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "action",
+      "label": "Exchange load information",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R32",
+        "R135",
+        "R73",
+        "R74"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "decision",
+      "label": "Sufficient resources acquired?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R34",
+        "R72"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "action",
+      "label": "Deploy functional policies",
+      "lane": "Policy Repository",
+      "requirement_ids": [
+        "R35",
+        "R138"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Administer functional policies",
+      "lane": "Policy Repository",
+      "requirement_ids": [
+        "R35",
+        "R138"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "action",
+      "label": "Create service registry instance",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R61"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "action",
+      "label": "Cooperate in common goals",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R36",
+        "R70"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "action",
+      "label": "Update DNS records",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R76"
+      ]
+    },
+    {
+      "temp_id": "P13",
+      "node_type": "action",
+      "label": "Assign end-users via DNS",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R75",
+        "R76"
+      ]
+    },
+    {
+      "temp_id": "P14",
+      "node_type": "action",
+      "label": "Assign via gateway redirection",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R75",
+        "R76",
+        "R33"
+      ]
+    },
+    {
+      "temp_id": "P15",
+      "node_type": "final",
+      "label": "Peering arrangement established and operational",
+      "lane": null,
+      "requirement_ids": [
+        "R34",
+        "R36",
+        "R61"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R9"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R27",
+        "R28",
+        "R134"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R29",
+        "R30",
+        "R134"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R31",
+        "R134"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R32",
+        "R135"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R33",
+        "R34",
+        "R73",
+        "R74"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P8",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R34",
+        "R35",
+        "R138"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P12",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R72",
+        "R73",
+        "R76"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P9",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R35",
+        "R138"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P10",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R61"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P11",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R36",
+        "R61",
+        "R70"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R36",
+        "R61"
+      ]
+    },
+    {
+      "source": "P12",
+      "target": "P13",
+      "guard": "regular update",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R76"
+      ]
+    },
+    {
+      "source": "P12",
+      "target": "P14",
+      "guard": "when appropriate",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R75",
+        "R76",
+        "R33"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R75",
+        "R76"
+      ]
+    },
+    {
+      "source": "P14",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R75",
+        "R76",
+        "R33"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "P7",
+      "condition": "Sufficient resources acquired?",
+      "branch_ids": [
+        "P8",
+        "P12"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [],
+  "concurrency": [],
+  "exceptions": [],
+  "decision_strategy": [
+    "Use a single decision on resource sufficiency to separate activation from continued exchange/update activity.",
+    "Treat the no branch as continuing peering coordination until sufficient resources are available.",
+    "Keep configuration, policy deployment, and registry creation on the operational branch after sufficiency is achieved."
+  ],
+  "concurrency_strategy": [
+    "Model PA-to-PA exchange as sequential information exchange actions within the module; no explicit parallel fork is required by the given requirements.",
+    "Model DNS updates and gateway redirection as alternative assignment paths under the same operational context."
+  ],
+  "exception_strategy": [
+    "No explicit exception behavior is specified in this module.",
+    "Do not invent rejection or cancellation paths."
+  ],
+  "termination_strategy": [
+    "Use one final node for successful handoff to the next module.",
+    "All modeled paths terminate at the operational final node because this module does not specify a failure or cancellation outcome."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R9",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1"
+        ],
+        "evidence": "Mediator creates the negotiated relationship as the entry behavior for peering establishment.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R27",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2"
+        ],
+        "evidence": "Peering Agent configures CDN peering protocols.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R28",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2"
+        ],
+        "evidence": "Same protocol configuration step supports the negotiated terms and policies.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R29",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3"
+        ],
+        "evidence": "Peering Agent advertises CDN configurations through inter-PA communication.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R30",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3"
+        ],
+        "evidence": "Configuration advertising includes topology, geography, capability, and performance.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R31",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P4"
+        ],
+        "evidence": "Participating CDNs exchange content availability after peering arrangement establishment.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R32",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P5"
+        ],
+        "evidence": "Protocols assist in redirecting requests to an optimal peer.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R33",
+        "diagram_node_ids": [
+          "P7",
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P14"
+        ],
+        "evidence": "Redirecting depends on policies, algorithms, and methods; represented by the gateway redirection branch under the operational decision context.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R34",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P7"
+        ],
+        "evidence": "Decision checks whether sufficient resources have been acquired to make the arrangement operational.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R35",
+        "diagram_node_ids": [
+          "P8",
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P7"
+        ],
+        "evidence": "Functional policies are deployed and administered once sufficient resources are available.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R36",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P10",
+          "P11"
+        ],
+        "evidence": "Participating parties cooperate in common goals once the arrangement is established.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R61",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P9",
+          "P10"
+        ],
+        "evidence": "Service Registry instance is created when the new peering arrangement is established.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R70",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P10",
+          "P11"
+        ],
+        "evidence": "Cooperation node reflects semi-autonomous cooperative operation after establishment.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R71",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "No explicit content replication action is specified in this module\u2019s establishment flow.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R72",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P7"
+        ],
+        "evidence": "Resource sufficiency decision captures the availability constraint for extending cooperation.",
+        "confidence": 0.82
+      },
+      {
+        "requirement_id": "R73",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P6"
+        ],
+        "evidence": "Load information exchange and reporting are represented by the load exchange step.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R74",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P6"
+        ],
+        "evidence": "Aggregated load information communication is covered by the load exchange action.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R75",
+        "diagram_node_ids": [
+          "P13",
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P12",
+          "P13",
+          "P14"
+        ],
+        "evidence": "Request assignment/redirection at DNS and gateway levels is modeled as two assignment actions.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R76",
+        "diagram_node_ids": [
+          "P12",
+          "P13",
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P12",
+          "P13",
+          "P14"
+        ],
+        "evidence": "DNS record updates and gateway redirection are captured as the two available assignment paths.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R134",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P2",
+          "P3"
+        ],
+        "evidence": "Local PA advertises configuration information once the arrangement is established.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R135",
+        "diagram_node_ids": [
+          "P5",
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P4",
+          "P5"
+        ],
+        "evidence": "PAs exchange content availability and load information to identify an optimal peer.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R138",
+        "diagram_node_ids": [
+          "P8",
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P7",
+          "P8"
+        ],
+        "evidence": "Policy Repository assists in deployment and administration of functional policies.",
+        "confidence": 0.96
+      }
+    ]
+  }
+}

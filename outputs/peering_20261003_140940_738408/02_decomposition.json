@@ -1,0 +1,335 @@
+{
+  "system_name": "peering",
+  "summary": "Decomposes CDN peering into initialization, negotiation, resource discovery, peering establishment, runtime cooperation, service registration, and lifecycle management.",
+  "actors": [
+    "End-user",
+    "Mediator",
+    "Web Server",
+    "Service Registry",
+    "Policy Repository",
+    "Peering Agent",
+    "Policy Agent",
+    "SLA-allocator"
+  ],
+  "modules": [
+    {
+      "id": "M1",
+      "name": "Trigger Peering (part 1/2)",
+      "objective": "Detect a workload or hotspot condition and submit an initialization request to start peering.",
+      "requirement_ids": [
+        "R4",
+        "R6",
+        "R7",
+        "R8",
+        "R48",
+        "R81",
+        "R89",
+        "R97",
+        "R98",
+        "R99",
+        "R100",
+        "R101",
+        "R102",
+        "R103"
+      ],
+      "lanes": [
+        "End-user",
+        "Web Server",
+        "Mediator"
+      ]
+    },
+    {
+      "id": "M2",
+      "name": "Trigger Peering (part 2/2)",
+      "objective": "Detect a workload or hotspot condition and submit an initialization request to start peering.",
+      "requirement_ids": [
+        "R104",
+        "R105",
+        "R106",
+        "R107",
+        "R108",
+        "R109",
+        "R110",
+        "R111",
+        "R112",
+        "R118",
+        "R121",
+        "R126",
+        "R139"
+      ],
+      "lanes": [
+        "End-user",
+        "Web Server",
+        "Mediator"
+      ]
+    },
+    {
+      "id": "M3",
+      "name": "Prepare Negotiation (part 1/2)",
+      "objective": "Collect resource and policy inputs and generate service requirements for the mediator to initiate negotiation.",
+      "requirement_ids": [
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R50",
+        "R53",
+        "R54",
+        "R58",
+        "R59",
+        "R60",
+        "R62",
+        "R63",
+        "R64",
+        "R65",
+        "R77",
+        "R78",
+        "R79",
+        "R80",
+        "R82"
+      ],
+      "lanes": [
+        "Mediator",
+        "Service Registry",
+        "Policy Repository",
+        "Web Server",
+        "Policy Agent"
+      ]
+    },
+    {
+      "id": "M4",
+      "name": "Prepare Negotiation (part 2/2)",
+      "objective": "Collect resource and policy inputs and generate service requirements for the mediator to initiate negotiation.",
+      "requirement_ids": [
+        "R83",
+        "R84",
+        "R85",
+        "R86",
+        "R87",
+        "R88",
+        "R90",
+        "R91",
+        "R92",
+        "R93",
+        "R94",
+        "R95",
+        "R96",
+        "R113",
+        "R114",
+        "R115",
+        "R117",
+        "R119",
+        "R120",
+        "R122",
+        "R123",
+        "R124",
+        "R125",
+        "R127"
+      ],
+      "lanes": [
+        "Mediator",
+        "Service Registry",
+        "Policy Repository",
+        "Web Server",
+        "Policy Agent"
+      ]
+    },
+    {
+      "id": "M5",
+      "name": "Discover Peers",
+      "objective": "Use service requirements to discover external resources and negotiate with candidate CDN peers.",
+      "requirement_ids": [
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25",
+        "R26",
+        "R66",
+        "R67",
+        "R68",
+        "R69",
+        "R116",
+        "R128",
+        "R129",
+        "R130",
+        "R131",
+        "R132",
+        "R133"
+      ],
+      "lanes": [
+        "Mediator",
+        "Peering Agent",
+        "Policy Agent",
+        "Service Registry",
+        "Policy Repository"
+      ]
+    },
+    {
+      "id": "M6",
+      "name": "Establish Peering",
+      "objective": "Configure peering protocols and activate the arrangement once sufficient resources and policies are in place.",
+      "requirement_ids": [
+        "R9",
+        "R27",
+        "R28",
+        "R29",
+        "R30",
+        "R31",
+        "R32",
+        "R33",
+        "R34",
+        "R35",
+        "R36",
+        "R61",
+        "R70",
+        "R71",
+        "R72",
+        "R73",
+        "R74",
+        "R75",
+        "R76",
+        "R134",
+        "R135",
+        "R138"
+      ],
+      "lanes": [
+        "Mediator",
+        "Peering Agent",
+        "Policy Repository",
+        "Service Registry",
+        "Web Server"
+      ]
+    },
+    {
+      "id": "M7",
+      "name": "Operate Peering (part 1/2)",
+      "objective": "Run the active peering arrangement to replicate content, redirect requests, exchange billing data, and enforce policies.",
+      "requirement_ids": [
+        "R1",
+        "R2",
+        "R3",
+        "R5",
+        "R37",
+        "R38",
+        "R39",
+        "R40",
+        "R41",
+        "R42",
+        "R43",
+        "R44",
+        "R45"
+      ],
+      "lanes": [
+        "Web Server",
+        "Policy Agent",
+        "SLA-allocator",
+        "Mediator",
+        "Peering Agent",
+        "Policy Repository"
+      ]
+    },
+    {
+      "id": "M8",
+      "name": "Operate Peering (part 2/2)",
+      "objective": "Run the active peering arrangement to replicate content, redirect requests, exchange billing data, and enforce policies.",
+      "requirement_ids": [
+        "R46",
+        "R47",
+        "R49",
+        "R51",
+        "R52",
+        "R55",
+        "R56",
+        "R57",
+        "R136",
+        "R137",
+        "R140",
+        "R141",
+        "R142"
+      ],
+      "lanes": [
+        "Web Server",
+        "Policy Agent",
+        "SLA-allocator",
+        "Mediator",
+        "Peering Agent",
+        "Policy Repository"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "source": "START",
+      "target": "M1",
+      "guard": "[peer initialization needed]"
+    },
+    {
+      "source": "M2",
+      "target": "M3",
+      "guard": "[initialization request accepted]"
+    },
+    {
+      "source": "M2",
+      "target": "END",
+      "guard": "[initiation cancelled or rejected]"
+    },
+    {
+      "source": "M4",
+      "target": "M5",
+      "guard": "[service requirements ready]"
+    },
+    {
+      "source": "M4",
+      "target": "END",
+      "guard": "[user requests rejected by policy]"
+    },
+    {
+      "source": "M5",
+      "target": "M6",
+      "guard": "[sufficient resources acquired]"
+    },
+    {
+      "source": "M5",
+      "target": "M3",
+      "guard": "[insufficient resources; re-negotiate]"
+    },
+    {
+      "source": "M6",
+      "target": "M7",
+      "guard": "[peering arrangement established and operational]"
+    },
+    {
+      "source": "M6",
+      "target": "M5",
+      "guard": "[no CDN interested; re-negotiate]"
+    },
+    {
+      "source": "M8",
+      "target": "END",
+      "guard": "[peering arrangement ends or is disbanded]"
+    },
+    {
+      "source": "M1",
+      "target": "M2",
+      "guard": null
+    },
+    {
+      "source": "M3",
+      "target": "M4",
+      "guard": null
+    },
+    {
+      "source": "M7",
+      "target": "M8",
+      "guard": null
+    }
+  ]
+}

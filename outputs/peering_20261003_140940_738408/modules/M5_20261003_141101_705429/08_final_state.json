@@ -1,0 +1,5039 @@
+{
+  "sample_id": "M5",
+  "requirement_text": "SYSTEM: peering\nSYSTEM SUMMARY: Decomposes CDN peering into initialization, negotiation, resource discovery, peering establishment, runtime cooperation, service registration, and lifecycle management.\nMODULE M5 (5 of 8): Discover Peers\nOBJECTIVE: Use service requirements to discover external resources and negotiate with candidate CDN peers.\nENTERED FROM: Prepare Negotiation (part 2/2) [[service requirements ready]], Establish Peering [[no CDN interested; re-negotiate]]\nCONTINUES TO: Establish Peering [[sufficient resources acquired]], Prepare Negotiation (part 1/2) [[insufficient resources; re-negotiate]]\n\nModel ONLY this module as a self-contained activity: begin where the\nmodule is entered and end with a final node where control passes on.\nA branch where the request is rejected, cancelled or fails, or the whole\nprocess stops, must end in its own final node whose label names that outcome\n(e.g. 'Request rejected', 'Peering cancelled'); any other final node means\ncontrol passes on to the next module.\n\nSWIMLANES: put every action and decision in the lane of the actor that performs it,\nusing exactly these names: Mediator, Peering Agent, Policy Agent, Service Registry, Policy Repository. Other actors of the system, only if they act here: End-user, Web Server, SLA-allocator.\nDo not create lanes for data, policies, protocols, capabilities or groups of steps.\n\nMODELLING: when requirements come from use-case sections (Trigger, Preconditions,\nStimulus/Response Sequences, Exceptions, Functional Requirements), the stimulus/response\nsequence is the main flow, step by step in its order. Model a decision only where the text\nnames alternative outcomes that change the flow (an exception, a rejection, a trigger\ncondition). Preconditions, postconditions and functional requirements that state a property\nor constraint rather than a step are traced to the actions they constrain (requirement_ids),\nnot drawn as extra actions or decisions. Every requirement ID below must still appear in the\nrequirement_ids of at least one node or edge.\n\nLABELS: actions are short verb phrases (at most 8 words, e.g. 'Send initiation request to\nMediator') naming the step, with actors written out in full, no explanations. Decisions are\nshort questions ('Sufficient resources acquired?'); guards are a few words ('yes', 'no',\n'new resource').\n\nSOURCE REQUIREMENTS:\n[(none)]\n- R19: Once the initiating CDN identifies its roles and activities through the created negotiated relationships for coordination and cooperation between CDNs, the next step is to choose potential CDNs to peer with.\n- R20: Once the initiating CDN identifies its roles and activities through the created negotiated relationships for coordination and cooperation between CDNs, the next step is to choose potential CDNs to peer with.\n- R21: The mediator instance passes the service requirements to the local PA to discover external resources from peers.\n- R22: The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.\n- R23: The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.\n- R24: The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.\n- R25: If there are any preexisting peering arrangements (for a long term scenario) then these will be returned at this point.\n- R26: Otherwise, it carries out short term negotiations with the Peering Agent (PA) identified peering targets.\n[2.2 Product Features]\n- R66: A Peering Agent carries out the following major functions,\n- R67: It acts as a policy-driven resource discovery module for establishing negotiations.\n- R68: It exchanges policy, resource information, and service requirements with external PAs.\n- R69: It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them.\n- R116: PA: Receives service requirements from the mediator.\n[3.4.5 Stimulus/Response Sequences]\n- R128: 2.  If  any  peering  policies  exist,  they  are  returned  to  establish  long-term  peering arrangement.\n- R129: 3. Else, short-term negotiation is performed.\n- R130: 4. Local  PA  in conjunction  with  the  mediator  interacts  with  external  PAs  through inter-PA communication protocol.\n- R131: 5. External resources are discovered and negotiation is performed with selected CDN peers.\n- R132: 6. If sufficient resources are acquired, a peering arrangement is established\n- R133: 7.  Else,  mediator  re-evaluates  service  requirements  and  sends  to  the  local  PA  to perform re-negotiation",
+  "requirements": [
+    {
+      "id": "R19",
+      "text": "The initiating CDN identifies its roles and activities through the created negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [
+        "identify its roles and activities"
+      ],
+      "conditions": [
+        "through the created negotiated relationships"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R14"
+      ],
+      "source_sentence": "Once the initiating CDN identifies its roles and activities through the created negotiated relationships for coordination and cooperation between CDNs, the next step is to choose potential CDNs to peer with.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R20",
+      "text": "The next step is to choose potential CDNs to peer with.",
+      "type": "ACTION",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [
+        "choose potential CDNs to peer with"
+      ],
+      "conditions": [
+        "after identifying roles and activities"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "Once the initiating CDN identifies its roles and activities through the created negotiated relationships for coordination and cooperation between CDNs, the next step is to choose potential CDNs to peer with.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R21",
+      "text": "The mediator instance passes the service requirements to the local PA to discover external resources from peers.",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance"
+      ],
+      "actions": [
+        "pass the service requirements to the local PA"
+      ],
+      "conditions": [
+        "to discover external resources from peers"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R17",
+        "R20"
+      ],
+      "source_sentence": "The mediator instance passes the service requirements to the local PA to discover external resources from peers.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R22",
+      "text": "The PA performs the resource discovery process.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "perform the resource discovery process"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R21"
+      ],
+      "source_sentence": "The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R23",
+      "text": "The PA predicts performance of the peers.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "predict performance of the peers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R22"
+      ],
+      "source_sentence": "The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R24",
+      "text": "The PA works around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "work around issues of separate administration and limited information sharing"
+      ],
+      "conditions": [
+        "among enlisted CDNs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R23"
+      ],
+      "source_sentence": "The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R25",
+      "text": "Preexisting peering arrangements are returned at this point if they exist.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [
+        "return preexisting peering arrangements"
+      ],
+      "conditions": [
+        "preexisting peering arrangements exist",
+        "long term scenario"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R24"
+      ],
+      "source_sentence": "If there are any preexisting peering arrangements (for a long term scenario) then these will be returned at this point.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R26",
+      "text": "Otherwise, the PA carries out short term negotiations with the identified peering targets.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "carry out short term negotiations"
+      ],
+      "conditions": [
+        "identified peering targets"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R25"
+      ],
+      "source_sentence": "Otherwise, it carries out short term negotiations with the Peering Agent (PA) identified peering targets.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R66",
+      "text": "A Peering Agent carries out the following major functions,",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A Peering Agent carries out the following major functions,",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R67",
+      "text": "It acts as a policy-driven resource discovery module for establishing negotiations.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent"
+      ],
+      "actions": [
+        "acts as a policy-driven resource discovery module for establishing negotiations"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R66"
+      ],
+      "source_sentence": "It acts as a policy-driven resource discovery module for establishing negotiations.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R68",
+      "text": "It exchanges policy, resource information, and service requirements with external PAs.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent"
+      ],
+      "actions": [
+        "exchanges policy, resource information, and service requirements with external PAs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R67"
+      ],
+      "source_sentence": "It exchanges policy, resource information, and service requirements with external PAs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R69",
+      "text": "It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent",
+        "Mediator"
+      ],
+      "actions": [
+        "is used as a conduit by the mediator to establish negotiations with PAs of other peers",
+        "is used as a conduit by the mediator to acquire resources from them"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R68"
+      ],
+      "source_sentence": "It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R116",
+      "text": "PA: Receives service requirements from the mediator.",
+      "type": "ACTOR",
+      "actors": [
+        "PA"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "PA: Receives service requirements from the mediator.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R128",
+      "text": "If any peering policies exist, they are returned to establish long-term peering arrangement.",
+      "type": "DECISION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "returns peering policies to establish long-term peering arrangement"
+      ],
+      "conditions": [
+        "any peering policies exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R127"
+      ],
+      "source_sentence": "2.  If  any  peering  policies  exist,  they  are  returned  to  establish  long-term  peering arrangement.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R129",
+      "text": "Else, short-term negotiation is performed.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "performs short-term negotiation"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R128"
+      ],
+      "source_sentence": "3. Else, short-term negotiation is performed.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R130",
+      "text": "Local PA in conjunction with the mediator interacts with external PAs through inter-PA communication protocol.",
+      "type": "ACTION",
+      "actors": [
+        "Local PA",
+        "Mediator",
+        "External PA"
+      ],
+      "actions": [
+        "interacts with external PAs through inter-PA communication protocol"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R127"
+      ],
+      "source_sentence": "4. Local  PA  in conjunction  with  the  mediator  interacts  with  external  PAs  through inter-PA communication protocol.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R131",
+      "text": "External resources are discovered and negotiation is performed with selected CDN peers.",
+      "type": "ACTION",
+      "actors": [
+        "Local PA",
+        "External PA"
+      ],
+      "actions": [
+        "discovers external resources",
+        "performs negotiation with selected CDN peers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R130"
+      ],
+      "source_sentence": "5. External resources are discovered and negotiation is performed with selected CDN peers.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R132",
+      "text": "If sufficient resources are acquired, a peering arrangement is established",
+      "type": "DECISION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "establishes a peering arrangement"
+      ],
+      "conditions": [
+        "sufficient resources are acquired"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R131"
+      ],
+      "source_sentence": "6. If sufficient resources are acquired, a peering arrangement is established",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R133",
+      "text": "Else, mediator re-evaluates service requirements and sends to the local PA to perform re-negotiation",
+      "type": "EXCEPTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "re-evaluates service requirements",
+        "sends service requirements to the local PA to perform re-negotiation"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R132"
+      ],
+      "source_sentence": "7.  Else,  mediator  re-evaluates  service  requirements  and  sends  to  the  local  PA  to perform re-negotiation",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    }
+  ],
+  "requirement_matrix": {
+    "items": []
+  },
+  "plan": {
+    "objective": "Discover peers using service requirements and negotiate with candidate CDN peers.",
+    "nodes": [
+      {
+        "temp_id": "P1",
+        "node_type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "temp_id": "P2",
+        "node_type": "action",
+        "label": "Identify roles and activities",
+        "lane": "initiating CDN",
+        "requirement_ids": [
+          "R19"
+        ]
+      },
+      {
+        "temp_id": "P3",
+        "node_type": "action",
+        "label": "Choose potential CDNs",
+        "lane": "initiating CDN",
+        "requirement_ids": [
+          "R20"
+        ]
+      },
+      {
+        "temp_id": "P4",
+        "node_type": "action",
+        "label": "Pass service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R21",
+          "R116"
+        ]
+      },
+      {
+        "temp_id": "P5",
+        "node_type": "action",
+        "label": "Perform resource discovery",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "temp_id": "P6",
+        "node_type": "action",
+        "label": "Predict peer performance",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R23",
+          "R67"
+        ]
+      },
+      {
+        "temp_id": "P7",
+        "node_type": "action",
+        "label": "Work around sharing limits",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "temp_id": "P8",
+        "node_type": "decision",
+        "label": "Any peering policies exist?",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "temp_id": "P9",
+        "node_type": "action",
+        "label": "Return peering policies",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "temp_id": "P10",
+        "node_type": "action",
+        "label": "Perform short-term negotiation",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R26",
+          "R129"
+        ]
+      },
+      {
+        "temp_id": "P11",
+        "node_type": "action",
+        "label": "Interact with external PAs",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R130",
+          "R69"
+        ]
+      },
+      {
+        "temp_id": "P12",
+        "node_type": "action",
+        "label": "Discover external resources",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R131",
+          "R68"
+        ]
+      },
+      {
+        "temp_id": "P13",
+        "node_type": "action",
+        "label": "Negotiate with selected peers",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R131",
+          "R68"
+        ]
+      },
+      {
+        "temp_id": "P14",
+        "node_type": "decision",
+        "label": "Sufficient resources acquired?",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "temp_id": "P15",
+        "node_type": "action",
+        "label": "Establish peering arrangement",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "temp_id": "P16",
+        "node_type": "action",
+        "label": "Re-evaluate service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "temp_id": "P17",
+        "node_type": "action",
+        "label": "Send requirements for renegotiation",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "temp_id": "P18",
+        "node_type": "final",
+        "label": "Pass control on",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "temp_id": "P19",
+        "node_type": "final",
+        "label": "Renegotiation required",
+        "lane": null,
+        "requirement_ids": [
+          "R133"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "P1",
+        "target": "P2",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": []
+      },
+      {
+        "source": "P2",
+        "target": "P3",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "source": "P3",
+        "target": "P4",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R21"
+        ]
+      },
+      {
+        "source": "P4",
+        "target": "P5",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "source": "P5",
+        "target": "P6",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "source": "P6",
+        "target": "P7",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "source": "P7",
+        "target": "P8",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R25",
+          "R128",
+          "R129"
+        ]
+      },
+      {
+        "source": "P8",
+        "target": "P9",
+        "guard": "yes",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "source": "P8",
+        "target": "P10",
+        "guard": "no",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R129"
+        ]
+      },
+      {
+        "source": "P9",
+        "target": "P18",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "source": "P10",
+        "target": "P11",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R130"
+        ]
+      },
+      {
+        "source": "P11",
+        "target": "P12",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R130",
+          "R131"
+        ]
+      },
+      {
+        "source": "P12",
+        "target": "P13",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R131"
+        ]
+      },
+      {
+        "source": "P13",
+        "target": "P14",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R131",
+          "R132"
+        ]
+      },
+      {
+        "source": "P14",
+        "target": "P15",
+        "guard": "yes",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "source": "P14",
+        "target": "P16",
+        "guard": "no",
+        "edge_type": "control",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "source": "P15",
+        "target": "P18",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "source": "P16",
+        "target": "P17",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "source": "P17",
+        "target": "P19",
+        "guard": null,
+        "edge_type": "control",
+        "requirement_ids": [
+          "R133"
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "decision_id": "D1",
+        "condition": "Any peering policies exist?",
+        "branch_ids": [
+          "B1",
+          "B2"
+        ],
+        "guards": [
+          "yes",
+          "no"
+        ]
+      },
+      {
+        "decision_id": "D2",
+        "condition": "Sufficient resources acquired?",
+        "branch_ids": [
+          "B3",
+          "B4"
+        ],
+        "guards": [
+          "yes",
+          "no"
+        ]
+      }
+    ],
+    "loops": [],
+    "concurrency": [],
+    "exceptions": [
+      {
+        "exception_id": "E1",
+        "trigger": "No peering policies exist",
+        "handler_node_id": "P10",
+        "requirement_ids": [
+          "R129"
+        ]
+      },
+      {
+        "exception_id": "E2",
+        "trigger": "Insufficient resources acquired",
+        "handler_node_id": "P16",
+        "requirement_ids": [
+          "R133"
+        ]
+      }
+    ],
+    "decision_strategy": [
+      "Use one policy-existence decision to separate long-term peering from short-term negotiation.",
+      "Use one resource-sufficiency decision to separate peering establishment from renegotiation.",
+      "Keep branches mutually exclusive and rejoin only where the flow passes onward."
+    ],
+    "concurrency_strategy": [
+      "Model mediator and local PA interaction as sequential handoff steps, since no parallel work is specified."
+    ],
+    "exception_strategy": [
+      "Treat no-policy and insufficient-resource outcomes as explicit alternate paths that terminate or redirect as specified.",
+      "Do not invent additional recovery behavior beyond re-evaluation and resend for renegotiation."
+    ],
+    "termination_strategy": [
+      "Use a normal final node for control passing to the next module.",
+      "Use a separate final node for the renegotiation-required outcome."
+    ],
+    "traceability": {
+      "items": [
+        {
+          "requirement_id": "R19",
+          "diagram_node_ids": [
+            "P2"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "Initiating CDN identifies roles and activities after negotiated relationships.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R20",
+          "diagram_node_ids": [
+            "P3"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "Next step is choosing potential CDNs to peer with.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R21",
+          "diagram_node_ids": [
+            "P4"
+          ],
+          "diagram_edge_ids": [
+            "P3->P4"
+          ],
+          "evidence": "Mediator passes service requirements to local PA.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R22",
+          "diagram_node_ids": [
+            "P5"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "PA performs resource discovery process.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R23",
+          "diagram_node_ids": [
+            "P6"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "PA predicts peer performance during discovery.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R24",
+          "diagram_node_ids": [
+            "P7"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "PA works around separate administration and limited information sharing.",
+          "confidence": 0.97
+        },
+        {
+          "requirement_id": "R25",
+          "diagram_node_ids": [
+            "P8",
+            "P9"
+          ],
+          "diagram_edge_ids": [
+            "P8->P9"
+          ],
+          "evidence": "If preexisting peering arrangements exist, return them.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R26",
+          "diagram_node_ids": [
+            "P10"
+          ],
+          "diagram_edge_ids": [
+            "P8->P10"
+          ],
+          "evidence": "Otherwise carry out short-term negotiations.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R67",
+          "diagram_node_ids": [
+            "P6"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "Peering Agent acts as policy-driven resource discovery module for establishing negotiations.",
+          "confidence": 0.9
+        },
+        {
+          "requirement_id": "R68",
+          "diagram_node_ids": [
+            "P12",
+            "P13"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "Peering Agent exchanges resource information and service requirements with external PAs.",
+          "confidence": 0.93
+        },
+        {
+          "requirement_id": "R69",
+          "diagram_node_ids": [
+            "P11"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "Mediator uses PA as conduit to establish negotiations and acquire resources.",
+          "confidence": 0.9
+        },
+        {
+          "requirement_id": "R116",
+          "diagram_node_ids": [
+            "P4"
+          ],
+          "diagram_edge_ids": [],
+          "evidence": "PA receives service requirements from mediator.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R128",
+          "diagram_node_ids": [
+            "P8",
+            "P9"
+          ],
+          "diagram_edge_ids": [
+            "P8->P9"
+          ],
+          "evidence": "Existing peering policies are returned for long-term arrangement.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R129",
+          "diagram_node_ids": [
+            "P10"
+          ],
+          "diagram_edge_ids": [
+            "P8->P10"
+          ],
+          "evidence": "Else branch performs short-term negotiation.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R130",
+          "diagram_node_ids": [
+            "P11"
+          ],
+          "diagram_edge_ids": [
+            "P10->P11"
+          ],
+          "evidence": "Local PA with mediator interacts with external PAs through protocol.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R131",
+          "diagram_node_ids": [
+            "P12",
+            "P13"
+          ],
+          "diagram_edge_ids": [
+            "P11->P12",
+            "P12->P13"
+          ],
+          "evidence": "External resources are discovered and negotiation is performed with selected peers.",
+          "confidence": 0.98
+        },
+        {
+          "requirement_id": "R132",
+          "diagram_node_ids": [
+            "P14",
+            "P15"
+          ],
+          "diagram_edge_ids": [
+            "P13->P14",
+            "P14->P15"
+          ],
+          "evidence": "If sufficient resources are acquired, establish peering arrangement.",
+          "confidence": 0.99
+        },
+        {
+          "requirement_id": "R133",
+          "diagram_node_ids": [
+            "P16",
+            "P17",
+            "P19"
+          ],
+          "diagram_edge_ids": [
+            "P14->P16",
+            "P16->P17"
+          ],
+          "evidence": "Else mediator re-evaluates service requirements and sends them for renegotiation.",
+          "confidence": 0.98
+        }
+      ]
+    }
+  },
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Identify roles and activities",
+        "lane": "initiating CDN",
+        "requirement_ids": [
+          "R19"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Choose potential CDNs",
+        "lane": "initiating CDN",
+        "requirement_ids": [
+          "R20"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Pass service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R21",
+          "R116"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Perform resource discovery",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Predict peer performance",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R23",
+          "R67"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "action",
+        "label": "Work around sharing limits",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "decision",
+        "label": "Any peering policies exist?",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Return peering policies",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "action",
+        "label": "Perform short-term negotiation",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R26",
+          "R129"
+        ]
+      },
+      {
+        "id": "N11",
+        "type": "action",
+        "label": "Interact with external PAs",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R130",
+          "R69"
+        ]
+      },
+      {
+        "id": "N12",
+        "type": "action",
+        "label": "Discover external resources",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R131",
+          "R68"
+        ]
+      },
+      {
+        "id": "N13",
+        "type": "action",
+        "label": "Negotiate with selected peers",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R131",
+          "R68"
+        ]
+      },
+      {
+        "id": "N14",
+        "type": "decision",
+        "label": "Sufficient resources acquired?",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "id": "N15",
+        "type": "action",
+        "label": "Establish peering arrangement",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "id": "N16",
+        "type": "action",
+        "label": "Re-evaluate service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "id": "N17",
+        "type": "action",
+        "label": "Send requirements for renegotiation",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "id": "N18",
+        "type": "final",
+        "label": "Long-term peering arrangement",
+        "lane": null,
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "N19",
+        "type": "final",
+        "label": "Re-negotiation",
+        "lane": null,
+        "requirement_ids": [
+          "R133"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R21"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R25",
+          "R128",
+          "R129"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N8",
+        "target": "N9",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N8",
+        "target": "N10",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R129"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N9",
+        "target": "N18",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N10",
+        "target": "N11",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R130"
+        ]
+      },
+      {
+        "id": "E12",
+        "source": "N11",
+        "target": "N12",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R130",
+          "R131"
+        ]
+      },
+      {
+        "id": "E13",
+        "source": "N12",
+        "target": "N13",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R131"
+        ]
+      },
+      {
+        "id": "E14",
+        "source": "N13",
+        "target": "N14",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R131",
+          "R132"
+        ]
+      },
+      {
+        "id": "E15",
+        "source": "N14",
+        "target": "N15",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "id": "E16",
+        "source": "N14",
+        "target": "N16",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "id": "E17",
+        "source": "N15",
+        "target": "N18",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "id": "E18",
+        "source": "N16",
+        "target": "N17",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "id": "E19",
+        "source": "N17",
+        "target": "N19",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R133"
+        ]
+      }
+    ],
+    "title": "Discover Peers"
+  },
+  "validation": {
+    "passed": true,
+    "score": 1.0,
+    "defects": [],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 0,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 0,
+      "TOTAL_NODES": 19,
+      "TOTAL_EDGES": 19,
+      "TOTAL_REQUIREMENTS": 19
+    },
+    "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers the main discovery and negotiation flow, but it contains a semantic lane mismatch and a termination labeling issue for the renegotiation branch.",
+    "semantic_score": 0.86,
+    "defects": [
+      {
+        "id": "D1",
+        "category": "SEMANTIC",
+        "severity": "MEDIUM",
+        "description": "The service-requirements handoff is modeled in the Mediator lane, but the requirements state that the mediator passes service requirements to the local PA and that PA receives them; the current node does not reflect the PA as the receiver of the handoff. This weakens traceability for the mediator-to-PA transfer required before discovery.",
+        "node_ids": [
+          "N4"
+        ],
+        "edge_ids": [
+          "E3"
+        ],
+        "requirement_ids": [
+          "R21",
+          "R116",
+          "R69"
+        ],
+        "evidence": "R21 says the mediator instance passes the service requirements to the local PA to discover external resources from peers, and R116 explicitly states that PA receives service requirements from the mediator. The diagram only has 'Pass service requirements' in the Mediator lane, with no corresponding PA-receipt action.",
+        "suggested_action": "Model the transfer with the receiving PA explicitly represented, or relabel/reassign the step so the handoff to the PA is semantically clear and traceable."
+      },
+      {
+        "id": "D2",
+        "category": "TERMINATION",
+        "severity": "MEDIUM",
+        "description": "The renegotiation branch ends in a final node labeled 'Re-negotiation', but the requirement says the branch where the process continues by re-evaluating service requirements and re-negotiating should end in its own final node whose label names that outcome. The current label is an abstract activity rather than the required outcome label.",
+        "node_ids": [
+          "N19"
+        ],
+        "edge_ids": [
+          "E19"
+        ],
+        "requirement_ids": [
+          "R133"
+        ],
+        "evidence": "R133 states that when sufficient resources are not acquired, the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. The final node label 'Re-negotiation' does not name the outcome as a terminating state, unlike the requirement's instruction for a final node whose label names that outcome.",
+        "suggested_action": "Rename the final node to an outcome label that names the branch termination, such as 'Renegotiation required' or 'Re-negotiation requested', while preserving the branch semantics."
+      }
+    ],
+    "strengths": [
+      "The main discovery sequence is present: identify roles, choose peers, pass service requirements, perform resource discovery, and negotiate.",
+      "The long-term peering policy branch and the short-term negotiation branch are both modeled.",
+      "The sufficient-resources decision and the re-evaluation/renegotiation alternative are represented."
+    ],
+    "missing_requirements": [],
+    "unsupported_behaviors": []
+  },
+  "defects": [
+    {
+      "id": "D1",
+      "category": "SEMANTIC",
+      "severity": "MEDIUM",
+      "description": "The service-requirements handoff is modeled in the Mediator lane, but the requirements state that the mediator passes service requirements to the local PA and that PA receives them; the current node does not reflect the PA as the receiver of the handoff. This weakens traceability for the mediator-to-PA transfer required before discovery.",
+      "node_ids": [
+        "N4"
+      ],
+      "edge_ids": [
+        "E3"
+      ],
+      "requirement_ids": [
+        "R21",
+        "R116",
+        "R69"
+      ],
+      "evidence": "R21 says the mediator instance passes the service requirements to the local PA to discover external resources from peers, and R116 explicitly states that PA receives service requirements from the mediator. The diagram only has 'Pass service requirements' in the Mediator lane, with no corresponding PA-receipt action.",
+      "suggested_action": "Model the transfer with the receiving PA explicitly represented, or relabel/reassign the step so the handoff to the PA is semantically clear and traceable."
+    },
+    {
+      "id": "D2",
+      "category": "TERMINATION",
+      "severity": "MEDIUM",
+      "description": "The renegotiation branch ends in a final node labeled 'Re-negotiation', but the requirement says the branch where the process continues by re-evaluating service requirements and re-negotiating should end in its own final node whose label names that outcome. The current label is an abstract activity rather than the required outcome label.",
+      "node_ids": [
+        "N19"
+      ],
+      "edge_ids": [
+        "E19"
+      ],
+      "requirement_ids": [
+        "R133"
+      ],
+      "evidence": "R133 states that when sufficient resources are not acquired, the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. The final node label 'Re-negotiation' does not name the outcome as a terminating state, unlike the requirement's instruction for a final node whose label names that outcome.",
+      "suggested_action": "Rename the final node to an outcome label that names the branch termination, such as 'Renegotiation required' or 'Re-negotiation requested', while preserving the branch semantics."
+    }
+  ],
+  "repair_history": [
+    {
+      "iteration": 0,
+      "repair_type": "minimal_targeted_fix",
+      "changed": true,
+      "accepted": false,
+      "reason": "NEW_DEFECT_WITHOUT_NET_REDUCTION",
+      "before_score": 0.8566666666666668,
+      "after_score": 0.9069298245614037,
+      "score_delta": 0.0502631578947369,
+      "before_defect_count": 2,
+      "after_defect_count": 2,
+      "defects_fixed": 2,
+      "defects_introduced": 2,
+      "changes": [
+        "Moved the initial peer-selection actions out of the unsupported 'initiating CDN' lane into the allowed 'Mediator' lane, preserving the same behavior.",
+        "Repaired the re-negotiation termination by removing the premature finalization from the no-branch of the sufficient-resources decision and routing control to the re-negotiation continuation instead."
+      ],
+      "rationale": "The only structural defects were an invalid swimlane assignment for the first two actions and an incorrect terminal outcome on the re-negotiation branch. The repair keeps the existing flow intact, uses only allowed lanes, preserves requirement traceability, and ensures the no-branch continues to re-negotiation rather than stopping.",
+      "defect_ids": [
+        "D2",
+        "D1"
+      ],
+      "defect_categories": [
+        "TERMINATION",
+        "REQUIREMENT_COVERAGE"
+      ]
+    },
+    {
+      "iteration": 1,
+      "repair_type": "minimal",
+      "changed": true,
+      "accepted": true,
+      "reason": "FEWER_DEFECTS",
+      "before_score": 0.8475,
+      "after_score": 0.9016666666666667,
+      "score_delta": 0.054166666666666696,
+      "before_defect_count": 3,
+      "after_defect_count": 2,
+      "defects_fixed": 3,
+      "defects_introduced": 2,
+      "changes": [
+        "Moved the peering-policies decision and return action from the unsupported 'Local PA' lane to the permitted 'Peering Agent' lane.",
+        "Removed the unsupported special final outcome for renegotiation and routed that branch back to the module pass-on final node.",
+        "Kept all other behavior, nodes, and requirement traceability unchanged."
+      ],
+      "rationale": "The repair fixes only the supplied defects: it replaces the invalid lane usage with a permitted lane for the PA behavior, and removes the unsupported terminal state for the re-negotiation branch so the module ends with standard control pass-on. No unrelated behavior was changed.",
+      "defect_ids": [
+        "D3",
+        "D1"
+      ],
+      "defect_categories": [
+        "TERMINATION",
+        "REQUIREMENT_COVERAGE"
+      ]
+    },
+    {
+      "iteration": 2,
+      "repair_type": "termination_fixes",
+      "changed": true,
+      "accepted": true,
+      "reason": "FEWER_DEFECTS",
+      "before_score": 0.9066666666666666,
+      "after_score": 0.955,
+      "score_delta": 0.04833333333333334,
+      "before_defect_count": 2,
+      "after_defect_count": 1,
+      "defects_fixed": 2,
+      "defects_introduced": 1,
+      "changes": [
+        "Replaced the generic final node with branch-specific final nodes for the long-term policy-return and insufficient-resources outcomes.",
+        "Rerouted the long-term peering policies branch to a final node labeled for that outcome.",
+        "Rerouted the re-negotiation branch to a final node labeled for that outcome."
+      ],
+      "rationale": "The two supplied defects concern termination labels only. The smallest valid repair is to preserve the existing flow and replace the generic pass-through termination with outcome-specific final nodes for each branch, while keeping all other behavior unchanged and maintaining requirement traceability.",
+      "defect_ids": [
+        "D1",
+        "D2"
+      ],
+      "defect_categories": [
+        "TERMINATION",
+        "TERMINATION"
+      ]
+    }
+  ],
+  "iteration": 3,
+  "final_plantuml": "@startuml\ntitle Discover Peers\n\n|initiating CDN|\nstart\n\n:Identify roles and activities;\n:Choose potential CDNs;\n|Mediator|\n:Pass service requirements;\n|Peering Agent|\n:Perform resource discovery;\n:Predict peer performance;\n:Work around sharing limits;\nif (Any peering policies exist?) then (yes)\n:Return peering policies;\nstop\nelse (no)\n:Perform short-term negotiation;\n|Mediator|\n:Interact with external PAs;\n|Local PA|\n:Discover external resources;\n:Negotiate with selected peers;\nif (Sufficient resources acquired?) then (yes)\n:Establish peering arrangement;\nstop\nelse (no)\nendif\n|Mediator|\n:Re-evaluate service requirements;\n:Send requirements for renegotiation;\nstop\nendif\n\n@enduml",
+  "metrics": {
+    "render": {
+      "rendered": false,
+      "skipped": true
+    },
+    "best_iteration": 3,
+    "best_score": 94.91666666666667,
+    "best_candidate_quality": 0.9491666666666667,
+    "repair_iterations": 3,
+    "final_defect_count": 2,
+    "initial_requirement_count": 19,
+    "candidate_count": 4,
+    "total_execution_time_seconds": 75.31808820000151,
+    "llm_calls": 16,
+    "candidate_scores": [
+      {
+        "iteration": 0,
+        "quality_score": 0.8566666666666668,
+        "quality_score_100": 85.66666666666669,
+        "defect_count": 2,
+        "defects_fixed": 0,
+        "defects_introduced": 0,
+        "defect_reduction_rate": 0.0,
+        "requirement_coverage": 1.0,
+        "correctness": 0.6099999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.125,
+        "execution_time_seconds": 4.094090599974152,
+        "llm_calls": 4,
+        "iteration_tokens": 18898,
+        "iteration_cost_usd": 0.023118
+      },
+      {
+        "iteration": 1,
+        "quality_score": 0.8475,
+        "quality_score_100": 84.75,
+        "defect_count": 3,
+        "defects_fixed": 2,
+        "defects_introduced": 3,
+        "defect_reduction_rate": 0.0,
+        "requirement_coverage": 1.0,
+        "correctness": 0.5900000000000001,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.125,
+        "execution_time_seconds": 6.189497500017751,
+        "llm_calls": 8,
+        "iteration_tokens": 19931,
+        "iteration_cost_usd": 0.023605
+      },
+      {
+        "iteration": 2,
+        "quality_score": 0.9066666666666666,
+        "quality_score_100": 90.66666666666666,
+        "defect_count": 2,
+        "defects_fixed": 3,
+        "defects_introduced": 2,
+        "defect_reduction_rate": 0.3333333333333333,
+        "requirement_coverage": 1.0,
+        "correctness": 0.7599999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.0,
+        "execution_time_seconds": 4.497227400017437,
+        "llm_calls": 12,
+        "iteration_tokens": 18844,
+        "iteration_cost_usd": 0.018118
+      },
+      {
+        "iteration": 3,
+        "quality_score": 0.9491666666666667,
+        "quality_score_100": 94.91666666666667,
+        "defect_count": 2,
+        "defects_fixed": 2,
+        "defects_introduced": 2,
+        "defect_reduction_rate": 0.0,
+        "requirement_coverage": 1.0,
+        "correctness": 0.9299999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.0,
+        "execution_time_seconds": 3.4479797000531107,
+        "llm_calls": 16,
+        "iteration_tokens": 5394,
+        "iteration_cost_usd": 0.003204
+      }
+    ],
+    "research_summary": {
+      "candidate_count": 4,
+      "initial_iteration": 0,
+      "best_iteration": 3,
+      "best_quality_score": 0.9491666666666667,
+      "final_quality_score": 0.9491666666666667,
+      "initial_defects": 2,
+      "final_defects": 2,
+      "overall_defect_reduction_rate": 0.0,
+      "best_requirement_coverage": 1.0,
+      "best_correctness": 0.9299999999999999,
+      "best_completeness": 1.0,
+      "best_structural_validity": 1.0,
+      "best_unsupported_behaviour_rate": 0.0,
+      "accepted_repairs": 2,
+      "rejected_repairs": 1,
+      "total_defects_fixed": 7,
+      "total_defects_introduced": 5
+    },
+    "token_usage": {
+      "total": {
+        "input_tokens": 68228,
+        "cached_input_tokens": 27648,
+        "output_tokens": 15049,
+        "reasoning_tokens": 0,
+        "calls": 16,
+        "failed_calls": 0,
+        "total_tokens": 83277,
+        "cost_usd": 0.100229
+      },
+      "by_phase": {
+        "setup": {
+          "input_tokens": 15347,
+          "cached_input_tokens": 1792,
+          "output_tokens": 4863,
+          "reasoning_tokens": 0,
+          "calls": 3,
+          "failed_calls": 0,
+          "total_tokens": 20210,
+          "cost_usd": 0.032184
+        },
+        "iteration_00": {
+          "input_tokens": 16006,
+          "cached_input_tokens": 2816,
+          "output_tokens": 2892,
+          "reasoning_tokens": 0,
+          "calls": 4,
+          "failed_calls": 0,
+          "total_tokens": 18898,
+          "cost_usd": 0.023118
+        },
+        "iteration_01": {
+          "input_tokens": 16148,
+          "cached_input_tokens": 8192,
+          "output_tokens": 3783,
+          "reasoning_tokens": 0,
+          "calls": 4,
+          "failed_calls": 0,
+          "total_tokens": 19931,
+          "cost_usd": 0.023605
+        },
+        "iteration_02": {
+          "input_tokens": 15892,
+          "cached_input_tokens": 10496,
+          "output_tokens": 2952,
+          "reasoning_tokens": 0,
+          "calls": 4,
+          "failed_calls": 0,
+          "total_tokens": 18844,
+          "cost_usd": 0.018118
+        },
+        "iteration_03": {
+          "input_tokens": 4835,
+          "cached_input_tokens": 4352,
+          "output_tokens": 559,
+          "reasoning_tokens": 0,
+          "calls": 1,
+          "failed_calls": 0,
+          "total_tokens": 5394,
+          "cost_usd": 0.003204
+        }
+      },
+      "by_agent": {
+        "Planning Agent": {
+          "input_tokens": 4736,
+          "cached_input_tokens": 1792,
+          "output_tokens": 2259,
+          "reasoning_tokens": 0,
+          "calls": 1,
+          "failed_calls": 0,
+          "total_tokens": 6995,
+          "cost_usd": 0.012508
+        },
+        "Generator Agent": {
+          "input_tokens": 5838,
+          "cached_input_tokens": 0,
+          "output_tokens": 1199,
+          "reasoning_tokens": 0,
+          "calls": 1,
+          "failed_calls": 0,
+          "total_tokens": 7037,
+          "cost_usd": 0.009774
+        },
+        "Refinement Agent": {
+          "input_tokens": 4773,
+          "cached_input_tokens": 0,
+          "output_tokens": 1405,
+          "reasoning_tokens": 0,
+          "calls": 1,
+          "failed_calls": 0,
+          "total_tokens": 6178,
+          "cost_usd": 0.009902
+        },
+        "Semantic Reviewer": {
+          "input_tokens": 33797,
+          "cached_input_tokens": 18176,
+          "output_tokens": 4300,
+          "reasoning_tokens": 0,
+          "calls": 7,
+          "failed_calls": 0,
+          "total_tokens": 38097,
+          "cost_usd": 0.032429
+        },
+        "Feedback Agent": {
+          "input_tokens": 2951,
+          "cached_input_tokens": 0,
+          "output_tokens": 1893,
+          "reasoning_tokens": 0,
+          "calls": 3,
+          "failed_calls": 0,
+          "total_tokens": 4844,
+          "cost_usd": 0.010732
+        },
+        "Repair Agent": {
+          "input_tokens": 16133,
+          "cached_input_tokens": 7680,
+          "output_tokens": 3993,
+          "reasoning_tokens": 0,
+          "calls": 3,
+          "failed_calls": 0,
+          "total_tokens": 20126,
+          "cost_usd": 0.024884
+        }
+      },
+      "pricing_source": "D:\\Research\\Research Papers\\_Main\\Sem 5\\AD Agentic\\Activity-diagram\\configs\\pricing.json"
+    },
+    "run_output_dir": "outputs\\peering_20261003_140940_738408\\modules\\M5_20261003_141101_705429"
+  },
+  "candidates": [
+    {
+      "iteration": 0,
+      "diagram": {
+        "nodes": [
+          {
+            "id": "N1",
+            "type": "initial",
+            "label": "Start",
+            "lane": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "N2",
+            "type": "action",
+            "label": "Identify roles and activities",
+            "lane": "initiating CDN",
+            "requirement_ids": [
+              "R19"
+            ]
+          },
+          {
+            "id": "N3",
+            "type": "action",
+            "label": "Choose potential CDNs",
+            "lane": "initiating CDN",
+            "requirement_ids": [
+              "R20"
+            ]
+          },
+          {
+            "id": "N4",
+            "type": "action",
+            "label": "Pass service requirements",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R21",
+              "R116"
+            ]
+          },
+          {
+            "id": "N5",
+            "type": "action",
+            "label": "Perform resource discovery",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R22"
+            ]
+          },
+          {
+            "id": "N6",
+            "type": "action",
+            "label": "Predict peer performance",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R23",
+              "R67"
+            ]
+          },
+          {
+            "id": "N7",
+            "type": "action",
+            "label": "Work around sharing limits",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R24"
+            ]
+          },
+          {
+            "id": "N8",
+            "type": "decision",
+            "label": "Any peering policies exist?",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N9",
+            "type": "action",
+            "label": "Return peering policies",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N10",
+            "type": "action",
+            "label": "Perform short-term negotiation",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R26",
+              "R129"
+            ]
+          },
+          {
+            "id": "N11",
+            "type": "action",
+            "label": "Interact with external PAs",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R130",
+              "R69"
+            ]
+          },
+          {
+            "id": "N12",
+            "type": "action",
+            "label": "Discover external resources",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R131",
+              "R68"
+            ]
+          },
+          {
+            "id": "N13",
+            "type": "action",
+            "label": "Negotiate with selected peers",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R131",
+              "R68"
+            ]
+          },
+          {
+            "id": "N14",
+            "type": "decision",
+            "label": "Sufficient resources acquired?",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "N15",
+            "type": "action",
+            "label": "Establish peering arrangement",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "N16",
+            "type": "action",
+            "label": "Re-evaluate service requirements",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "N17",
+            "type": "action",
+            "label": "Send requirements for renegotiation",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "N18",
+            "type": "final",
+            "label": "Pass control on",
+            "lane": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "N19",
+            "type": "final",
+            "label": "Renegotiation required",
+            "lane": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "E1",
+            "source": "N1",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "E2",
+            "source": "N2",
+            "target": "N3",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R19",
+              "R20"
+            ]
+          },
+          {
+            "id": "E3",
+            "source": "N3",
+            "target": "N4",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R21"
+            ]
+          },
+          {
+            "id": "E4",
+            "source": "N4",
+            "target": "N5",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R22"
+            ]
+          },
+          {
+            "id": "E5",
+            "source": "N5",
+            "target": "N6",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R23"
+            ]
+          },
+          {
+            "id": "E6",
+            "source": "N6",
+            "target": "N7",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R24"
+            ]
+          },
+          {
+            "id": "E7",
+            "source": "N7",
+            "target": "N8",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R25",
+              "R128",
+              "R129"
+            ]
+          },
+          {
+            "id": "E8",
+            "source": "N8",
+            "target": "N9",
+            "type": "control",
+            "guard": "yes",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "E9",
+            "source": "N8",
+            "target": "N10",
+            "type": "control",
+            "guard": "no",
+            "requirement_ids": [
+              "R129"
+            ]
+          },
+          {
+            "id": "E10",
+            "source": "N9",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "E11",
+            "source": "N10",
+            "target": "N11",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R130"
+            ]
+          },
+          {
+            "id": "E12",
+            "source": "N11",
+            "target": "N12",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R130",
+              "R131"
+            ]
+          },
+          {
+            "id": "E13",
+            "source": "N12",
+            "target": "N13",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R131"
+            ]
+          },
+          {
+            "id": "E14",
+            "source": "N13",
+            "target": "N14",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R131",
+              "R132"
+            ]
+          },
+          {
+            "id": "E15",
+            "source": "N14",
+            "target": "N15",
+            "type": "control",
+            "guard": "yes",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "E16",
+            "source": "N14",
+            "target": "N16",
+            "type": "control",
+            "guard": "no",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "E17",
+            "source": "N15",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "E18",
+            "source": "N16",
+            "target": "N17",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "E19",
+            "source": "N17",
+            "target": "N19",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          }
+        ],
+        "title": "Discover Peers"
+      },
+      "plantuml": "@startuml\ntitle Discover Peers\n\n|initiating CDN|\nstart\n\n:Identify roles and activities;\n:Choose potential CDNs;\n|Mediator|\n:Pass service requirements;\n|Peering Agent|\n:Perform resource discovery;\n:Predict peer performance;\n:Work around sharing limits;\n|Local PA|\nif (Any peering policies exist?) then (yes)\n:Return peering policies;\nstop\nelse (no)\n:Perform short-term negotiation;\n|Mediator|\n:Interact with external PAs;\n|Local PA|\n:Discover external resources;\n:Negotiate with selected peers;\nif (Sufficient resources acquired?) then (yes)\n:Establish peering arrangement;\nstop\nelse (no)\nendif\n|Mediator|\n:Re-evaluate service requirements;\n:Send requirements for renegotiation;\nstop\nendif\n\n@enduml",
+      "metrics": {
+        "iteration": 0,
+        "requirement_coverage": 1.0,
+        "correctness": 0.6099999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.125,
+        "defect_count": 2,
+        "defects_fixed": 0,
+        "defects_introduced": 0,
+        "defect_reduction_rate": 0.0,
+        "repair_success_rate": 0.0,
+        "quality_score": 0.8566666666666668,
+        "execution_time_seconds": 4.094090599974152,
+        "llm_calls": 4
+      },
+      "validation": {
+        "passed": true,
+        "score": 1.0,
+        "defects": [],
+        "rule_counts": {
+          "STRUCT-001": 0,
+          "STRUCT-002": 0,
+          "STRUCT-003": 0,
+          "STRUCT-004": 0,
+          "DECISION-001": 0,
+          "DECISION-002": 0,
+          "DECISION-003": 0,
+          "FLOW-001": 0,
+          "CONCURRENCY-001": 0,
+          "TERM-001": 0,
+          "COVERAGE-001": 0,
+          "HALL-001": 0,
+          "TOTAL_DEFECTS": 0,
+          "TOTAL_NODES": 19,
+          "TOTAL_EDGES": 19,
+          "TOTAL_REQUIREMENTS": 19
+        },
+        "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+      },
+      "review": {
+        "overall_assessment": "The diagram covers the main discovery and negotiation flow, but it has two semantic issues: it uses unsupported actor/lane names for the opening steps, and it misrepresents the no-resources outcome by ending it in a final node instead of continuing to renegotiation as required.",
+        "semantic_score": 0.82,
+        "defects": [
+          {
+            "id": "D1",
+            "category": "REQUIREMENT_COVERAGE",
+            "severity": "HIGH",
+            "description": "The first two required steps are modeled in a lane named 'initiating CDN', which is not an allowed swimlane name and is not one of the actors specified for this module. The requirements for this module require these actions to be traced to the initiating CDN / Mediator / PA flow, but the diagram introduces an unsupported actor lane rather than using the prescribed lanes.",
+            "node_ids": [
+              "N2",
+              "N3"
+            ],
+            "edge_ids": [
+              "E1",
+              "E2"
+            ],
+            "requirement_ids": [
+              "R19",
+              "R20"
+            ],
+            "evidence": "R19-R20 describe the initiating CDN choosing potential CDNs to peer with. The swimlane rules allow only Mediator, Peering Agent, Policy Agent, Service Registry, Policy Repository (plus a few optional other actors). The diagram places both actions in a lane labeled 'initiating CDN', which is not permitted.",
+            "suggested_action": "Relabel or remap these actions into one of the allowed lanes, or if the initiating CDN is not meant to be modeled here, remove these steps from this self-contained module and start at the module entry point specified by the requirements."
+          },
+          {
+            "id": "D2",
+            "category": "TERMINATION",
+            "severity": "HIGH",
+            "description": "The 'no' branch from the sufficient-resources decision ends at a final node labeled 'Renegotiation required', but the requirements say the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. This is not a stopping outcome; it is a continuation to the earlier negotiation flow.",
+            "node_ids": [
+              "N14",
+              "N16",
+              "N17",
+              "N19"
+            ],
+            "edge_ids": [
+              "E16",
+              "E18",
+              "E19"
+            ],
+            "requirement_ids": [
+              "R133"
+            ],
+            "evidence": "R133 explicitly states: 'Else, mediator re-evaluates service requirements and sends to the local PA to perform re-negotiation.' The module instruction says only request-rejected/cancelled/failed/whole-process-stops branches get their own final node; otherwise control passes on. Here, the diagram terminates the branch instead of passing control back to the re-negotiation flow.",
+            "suggested_action": "Replace the final node on the no-branch with control flow that continues to the re-negotiation step, or if a final node is needed, connect it to the next-module continuation rather than ending the process."
+          }
+        ],
+        "strengths": [
+          "The diagram captures the main discovery sequence: pass requirements, perform resource discovery, inspect preexisting peering policies, and proceed to negotiation.",
+          "The sufficient-resources decision is modeled with explicit yes/no branching.",
+          "The success path correctly terminates with a non-exceptional final node indicating control passes on."
+        ],
+        "missing_requirements": [],
+        "unsupported_behaviors": [
+          "Introducing an unsupported 'initiating CDN' swimlane name.",
+          "Ending the renegotiation-required branch as a terminating outcome rather than a continuation to re-negotiation."
+        ]
+      },
+      "defects": [
+        {
+          "id": "D1",
+          "category": "REQUIREMENT_COVERAGE",
+          "severity": "HIGH",
+          "description": "The first two required steps are modeled in a lane named 'initiating CDN', which is not an allowed swimlane name and is not one of the actors specified for this module. The requirements for this module require these actions to be traced to the initiating CDN / Mediator / PA flow, but the diagram introduces an unsupported actor lane rather than using the prescribed lanes.",
+          "node_ids": [
+            "N2",
+            "N3"
+          ],
+          "edge_ids": [
+            "E1",
+            "E2"
+          ],
+          "requirement_ids": [
+            "R19",
+            "R20"
+          ],
+          "evidence": "R19-R20 describe the initiating CDN choosing potential CDNs to peer with. The swimlane rules allow only Mediator, Peering Agent, Policy Agent, Service Registry, Policy Repository (plus a few optional other actors). The diagram places both actions in a lane labeled 'initiating CDN', which is not permitted.",
+          "suggested_action": "Relabel or remap these actions into one of the allowed lanes, or if the initiating CDN is not meant to be modeled here, remove these steps from this self-contained module and start at the module entry point specified by the requirements."
+        },
+        {
+          "id": "D2",
+          "category": "TERMINATION",
+          "severity": "HIGH",
+          "description": "The 'no' branch from the sufficient-resources decision ends at a final node labeled 'Renegotiation required', but the requirements say the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. This is not a stopping outcome; it is a continuation to the earlier negotiation flow.",
+          "node_ids": [
+            "N14",
+            "N16",
+            "N17",
+            "N19"
+          ],
+          "edge_ids": [
+            "E16",
+            "E18",
+            "E19"
+          ],
+          "requirement_ids": [
+            "R133"
+          ],
+          "evidence": "R133 explicitly states: 'Else, mediator re-evaluates service requirements and sends to the local PA to perform re-negotiation.' The module instruction says only request-rejected/cancelled/failed/whole-process-stops branches get their own final node; otherwise control passes on. Here, the diagram terminates the branch instead of passing control back to the re-negotiation flow.",
+          "suggested_action": "Replace the final node on the no-branch with control flow that continues to the re-negotiation step, or if a final node is needed, connect it to the next-module continuation rather than ending the process."
+        }
+      ],
+      "requirement_coverage": [
+        {
+          "requirement_id": "R19",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N2; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R20",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N3; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R21",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4; Edges: E3",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R22",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N5; Edges: E4",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R23",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N6; Edges: E5",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R24",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7; Edges: E6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R25",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N8, N9; Edges: E7, E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R26",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R67",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R68",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N12, N13",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R69",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N11",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R128",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N8, N9; Edges: E7, E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R129",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N10; Edges: E7, E9",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R130",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N11; Edges: E11, E12",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R131",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N12, N13; Edges: E12, E13, E14",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R132",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N14, N15; Edges: E14, E15, E17",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R133",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N16, N17, N19; Edges: E16, E18, E19",
+          "confidence": 0.0
+        }
+      ]
+    },
+    {
+      "iteration": 1,
+      "diagram": {
+        "nodes": [
+          {
+            "id": "N1",
+            "type": "initial",
+            "label": "Start",
+            "lane": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "N2",
+            "type": "action",
+            "label": "Identify roles and activities",
+            "lane": "initiating CDN",
+            "requirement_ids": [
+              "R19"
+            ]
+          },
+          {
+            "id": "N3",
+            "type": "action",
+            "label": "Choose potential CDNs",
+            "lane": "initiating CDN",
+            "requirement_ids": [
+              "R20"
+            ]
+          },
+          {
+            "id": "N4",
+            "type": "action",
+            "label": "Pass service requirements",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R21",
+              "R116"
+            ]
+          },
+          {
+            "id": "N5",
+            "type": "action",
+            "label": "Perform resource discovery",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R22"
+            ]
+          },
+          {
+            "id": "N6",
+            "type": "action",
+            "label": "Predict peer performance",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R23",
+              "R67"
+            ]
+          },
+          {
+            "id": "N7",
+            "type": "action",
+            "label": "Work around sharing limits",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R24"
+            ]
+          },
+          {
+            "id": "N8",
+            "type": "decision",
+            "label": "Any peering policies exist?",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N9",
+            "type": "action",
+            "label": "Return peering policies",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N10",
+            "type": "action",
+            "label": "Perform short-term negotiation",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R26",
+              "R129"
+            ]
+          },
+          {
+            "id": "N11",
+            "type": "action",
+            "label": "Interact with external PAs",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R130",
+              "R69"
+            ]
+          },
+          {
+            "id": "N12",
+            "type": "action",
+            "label": "Discover external resources",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R131",
+              "R68"
+            ]
+          },
+          {
+            "id": "N13",
+            "type": "action",
+            "label": "Negotiate with selected peers",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R131",
+              "R68"
+            ]
+          },
+          {
+            "id": "N14",
+            "type": "decision",
+            "label": "Sufficient resources acquired?",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "N15",
+            "type": "action",
+            "label": "Establish peering arrangement",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "N16",
+            "type": "action",
+            "label": "Re-evaluate service requirements",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "N17",
+            "type": "action",
+            "label": "Send requirements for renegotiation",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "N18",
+            "type": "final",
+            "label": "Pass control on",
+            "lane": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "N19",
+            "type": "final",
+            "label": "Renegotiation required",
+            "lane": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "E1",
+            "source": "N1",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "E2",
+            "source": "N2",
+            "target": "N3",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R19",
+              "R20"
+            ]
+          },
+          {
+            "id": "E3",
+            "source": "N3",
+            "target": "N4",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R21"
+            ]
+          },
+          {
+            "id": "E4",
+            "source": "N4",
+            "target": "N5",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R22"
+            ]
+          },
+          {
+            "id": "E5",
+            "source": "N5",
+            "target": "N6",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R23"
+            ]
+          },
+          {
+            "id": "E6",
+            "source": "N6",
+            "target": "N7",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R24"
+            ]
+          },
+          {
+            "id": "E7",
+            "source": "N7",
+            "target": "N8",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R25",
+              "R128",
+              "R129"
+            ]
+          },
+          {
+            "id": "E8",
+            "source": "N8",
+            "target": "N9",
+            "type": "control",
+            "guard": "yes",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "E9",
+            "source": "N8",
+            "target": "N10",
+            "type": "control",
+            "guard": "no",
+            "requirement_ids": [
+              "R129"
+            ]
+          },
+          {
+            "id": "E10",
+            "source": "N9",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "E11",
+            "source": "N10",
+            "target": "N11",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R130"
+            ]
+          },
+          {
+            "id": "E12",
+            "source": "N11",
+            "target": "N12",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R130",
+              "R131"
+            ]
+          },
+          {
+            "id": "E13",
+            "source": "N12",
+            "target": "N13",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R131"
+            ]
+          },
+          {
+            "id": "E14",
+            "source": "N13",
+            "target": "N14",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R131",
+              "R132"
+            ]
+          },
+          {
+            "id": "E15",
+            "source": "N14",
+            "target": "N15",
+            "type": "control",
+            "guard": "yes",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "E16",
+            "source": "N14",
+            "target": "N16",
+            "type": "control",
+            "guard": "no",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "E17",
+            "source": "N15",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "E18",
+            "source": "N16",
+            "target": "N17",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "E19",
+            "source": "N17",
+            "target": "N19",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          }
+        ],
+        "title": "Discover Peers"
+      },
+      "plantuml": "@startuml\ntitle Discover Peers\n\n|initiating CDN|\nstart\n\n:Identify roles and activities;\n:Choose potential CDNs;\n|Mediator|\n:Pass service requirements;\n|Peering Agent|\n:Perform resource discovery;\n:Predict peer performance;\n:Work around sharing limits;\n|Local PA|\nif (Any peering policies exist?) then (yes)\n:Return peering policies;\nstop\nelse (no)\n:Perform short-term negotiation;\n|Mediator|\n:Interact with external PAs;\n|Local PA|\n:Discover external resources;\n:Negotiate with selected peers;\nif (Sufficient resources acquired?) then (yes)\n:Establish peering arrangement;\nstop\nelse (no)\nendif\n|Mediator|\n:Re-evaluate service requirements;\n:Send requirements for renegotiation;\nstop\nendif\n\n@enduml",
+      "metrics": {
+        "iteration": 1,
+        "requirement_coverage": 1.0,
+        "correctness": 0.5900000000000001,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.125,
+        "defect_count": 3,
+        "defects_fixed": 2,
+        "defects_introduced": 3,
+        "defect_reduction_rate": 0.0,
+        "repair_success_rate": 0.0,
+        "quality_score": 0.8475,
+        "execution_time_seconds": 6.189497500017751,
+        "llm_calls": 8
+      },
+      "validation": {
+        "passed": true,
+        "score": 1.0,
+        "defects": [],
+        "rule_counts": {
+          "STRUCT-001": 0,
+          "STRUCT-002": 0,
+          "STRUCT-003": 0,
+          "STRUCT-004": 0,
+          "DECISION-001": 0,
+          "DECISION-002": 0,
+          "DECISION-003": 0,
+          "FLOW-001": 0,
+          "CONCURRENCY-001": 0,
+          "TERM-001": 0,
+          "COVERAGE-001": 0,
+          "HALL-001": 0,
+          "TOTAL_DEFECTS": 0,
+          "TOTAL_NODES": 19,
+          "TOTAL_EDGES": 19,
+          "TOTAL_REQUIREMENTS": 19
+        },
+        "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+      },
+      "review": {
+        "overall_assessment": "The diagram covers the main discovery-and-negotiation flow and the long-term peering policy branch, but it contains a few semantic issues: an unsupported actor/lane, a missing mediator-to-PA handoff in the main discovery flow, and an unsupported final-node outcome for the renegotiation branch.",
+        "semantic_score": 0.78,
+        "defects": [
+          {
+            "id": "D1",
+            "category": "REQUIREMENT_COVERAGE",
+            "severity": "HIGH",
+            "description": "The diagram uses an unsupported lane/actor for the policy branch: the decision and return action are placed in lane \"Local PA\", but the allowed swimlane names do not include Local PA. The requirements assign this behavior to the Local PA/PA, so the modeling should use one of the permitted lanes (typically \"Peering Agent\" or \"Mediator\" as appropriate) instead of an undeclared actor lane.",
+            "node_ids": [
+              "N8",
+              "N9"
+            ],
+            "edge_ids": [
+              "E7",
+              "E8",
+              "E9",
+              "E10"
+            ],
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ],
+            "evidence": "Requirements R25 and R128 state that the PA/local PA returns peering policies if they exist. The diagram models this branch in a lane named \"Local PA\", which is not one of the permitted swimlane names: Mediator, Peering Agent, Policy Agent, Service Registry, Policy Repository.",
+            "suggested_action": "Move the decision and return action into a permitted lane that represents the PA, and keep the branch semantics unchanged."
+          },
+          {
+            "id": "D2",
+            "category": "REQUIREMENT_COVERAGE",
+            "severity": "HIGH",
+            "description": "The main flow skips the required mediator-to-local-PA handoff after choosing peers. R21 says the mediator instance passes the service requirements to the local PA to discover external resources from peers, but the diagram sends control from \"Choose potential CDNs\" directly to \"Pass service requirements\" and then to \"Perform resource discovery\" without an explicit local-PA handoff/action in the correct actor lane before the PA begins discovery.",
+            "node_ids": [
+              "N3",
+              "N4",
+              "N5"
+            ],
+            "edge_ids": [
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "requirement_ids": [
+              "R21",
+              "R116"
+            ],
+            "evidence": "R21 requires a mediator action that passes service requirements to the local PA to discover external resources. The diagram has N4 in lane \"Mediator\" labeled \"Pass service requirements\" and then immediately N5 in lane \"Peering Agent\" labeled \"Perform resource discovery\", but no explicit local-PA receive/pass step or equivalent handoff is shown, even though R116 indicates the PA receives service requirements from the mediator.",
+            "suggested_action": "Insert or relabel an action that explicitly represents the mediator passing service requirements to the local PA, then start the PA discovery actions from that handoff."
+          },
+          {
+            "id": "D3",
+            "category": "TERMINATION",
+            "severity": "MEDIUM",
+            "description": "The no-resources branch ends in a final node labeled \"Renegotiation required\", but the requirements say this branch should re-evaluate service requirements and send them back for re-negotiation, after which control continues to the earlier module rather than terminating the module with a special end state. This final node introduces an unsupported terminal outcome for a branch that is meant to loop back out of the module.",
+            "node_ids": [
+              "N19"
+            ],
+            "edge_ids": [
+              "E16",
+              "E18",
+              "E19"
+            ],
+            "requirement_ids": [
+              "R133"
+            ],
+            "evidence": "R133 says that if sufficient resources are not acquired, the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. The module instruction says only branches that stop or are rejected/cancelled/fail need their own final node; otherwise final nodes should pass control on. \"Renegotiation required\" is not a stated stop outcome here.",
+            "suggested_action": "Replace the special final node with a control flow that exits this module to the re-negotiation entry path, or use the standard pass-on final if the module is meant to end here."
+          }
+        ],
+        "strengths": [
+          "The core discovery sequence is present: identify roles, choose peers, perform discovery, negotiate, and establish peering when sufficient resources are acquired.",
+          "The long-term peering-policy branch is modeled with a decision and a return path before short-term negotiation.",
+          "The success branch properly terminates with a pass-on final node, consistent with module handoff behavior."
+        ],
+        "missing_requirements": [
+          "An explicit mediator-to-local-PA handoff for service requirements before discovery begins, as described by R21 and R116.",
+          "Use of only the permitted swimlane names for all actions and decisions."
+        ],
+        "unsupported_behaviors": [
+          "A final node labeled \"Renegotiation required\" as a terminal outcome for the insufficient-resources branch.",
+          "A swimlane named \"Local PA\" is not permitted by the requirements."
+        ]
+      },
+      "defects": [
+        {
+          "id": "D1",
+          "category": "REQUIREMENT_COVERAGE",
+          "severity": "HIGH",
+          "description": "The diagram uses an unsupported lane/actor for the policy branch: the decision and return action are placed in lane \"Local PA\", but the allowed swimlane names do not include Local PA. The requirements assign this behavior to the Local PA/PA, so the modeling should use one of the permitted lanes (typically \"Peering Agent\" or \"Mediator\" as appropriate) instead of an undeclared actor lane.",
+          "node_ids": [
+            "N8",
+            "N9"
+          ],
+          "edge_ids": [
+            "E7",
+            "E8",
+            "E9",
+            "E10"
+          ],
+          "requirement_ids": [
+            "R25",
+            "R128"
+          ],
+          "evidence": "Requirements R25 and R128 state that the PA/local PA returns peering policies if they exist. The diagram models this branch in a lane named \"Local PA\", which is not one of the permitted swimlane names: Mediator, Peering Agent, Policy Agent, Service Registry, Policy Repository.",
+          "suggested_action": "Move the decision and return action into a permitted lane that represents the PA, and keep the branch semantics unchanged."
+        },
+        {
+          "id": "D2",
+          "category": "REQUIREMENT_COVERAGE",
+          "severity": "HIGH",
+          "description": "The main flow skips the required mediator-to-local-PA handoff after choosing peers. R21 says the mediator instance passes the service requirements to the local PA to discover external resources from peers, but the diagram sends control from \"Choose potential CDNs\" directly to \"Pass service requirements\" and then to \"Perform resource discovery\" without an explicit local-PA handoff/action in the correct actor lane before the PA begins discovery.",
+          "node_ids": [
+            "N3",
+            "N4",
+            "N5"
+          ],
+          "edge_ids": [
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "requirement_ids": [
+            "R21",
+            "R116"
+          ],
+          "evidence": "R21 requires a mediator action that passes service requirements to the local PA to discover external resources. The diagram has N4 in lane \"Mediator\" labeled \"Pass service requirements\" and then immediately N5 in lane \"Peering Agent\" labeled \"Perform resource discovery\", but no explicit local-PA receive/pass step or equivalent handoff is shown, even though R116 indicates the PA receives service requirements from the mediator.",
+          "suggested_action": "Insert or relabel an action that explicitly represents the mediator passing service requirements to the local PA, then start the PA discovery actions from that handoff."
+        },
+        {
+          "id": "D3",
+          "category": "TERMINATION",
+          "severity": "MEDIUM",
+          "description": "The no-resources branch ends in a final node labeled \"Renegotiation required\", but the requirements say this branch should re-evaluate service requirements and send them back for re-negotiation, after which control continues to the earlier module rather than terminating the module with a special end state. This final node introduces an unsupported terminal outcome for a branch that is meant to loop back out of the module.",
+          "node_ids": [
+            "N19"
+          ],
+          "edge_ids": [
+            "E16",
+            "E18",
+            "E19"
+          ],
+          "requirement_ids": [
+            "R133"
+          ],
+          "evidence": "R133 says that if sufficient resources are not acquired, the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. The module instruction says only branches that stop or are rejected/cancelled/fail need their own final node; otherwise final nodes should pass control on. \"Renegotiation required\" is not a stated stop outcome here.",
+          "suggested_action": "Replace the special final node with a control flow that exits this module to the re-negotiation entry path, or use the standard pass-on final if the module is meant to end here."
+        }
+      ],
+      "requirement_coverage": [
+        {
+          "requirement_id": "R19",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N2; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R20",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N3; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R21",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4; Edges: E3",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R22",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N5; Edges: E4",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R23",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N6; Edges: E5",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R24",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7; Edges: E6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R25",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N8, N9; Edges: E7, E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R26",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R67",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R68",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N12, N13",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R69",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N11",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R128",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N8, N9; Edges: E7, E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R129",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N10; Edges: E7, E9",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R130",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N11; Edges: E11, E12",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R131",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N12, N13; Edges: E12, E13, E14",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R132",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N14, N15; Edges: E14, E15, E17",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R133",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N16, N17, N19; Edges: E16, E18, E19",
+          "confidence": 0.0
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "diagram": {
+        "nodes": [
+          {
+            "id": "N1",
+            "type": "initial",
+            "label": "Start",
+            "lane": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "N2",
+            "type": "action",
+            "label": "Identify roles and activities",
+            "lane": "initiating CDN",
+            "requirement_ids": [
+              "R19"
+            ]
+          },
+          {
+            "id": "N3",
+            "type": "action",
+            "label": "Choose potential CDNs",
+            "lane": "initiating CDN",
+            "requirement_ids": [
+              "R20"
+            ]
+          },
+          {
+            "id": "N4",
+            "type": "action",
+            "label": "Pass service requirements",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R21",
+              "R116"
+            ]
+          },
+          {
+            "id": "N5",
+            "type": "action",
+            "label": "Perform resource discovery",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R22"
+            ]
+          },
+          {
+            "id": "N6",
+            "type": "action",
+            "label": "Predict peer performance",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R23",
+              "R67"
+            ]
+          },
+          {
+            "id": "N7",
+            "type": "action",
+            "label": "Work around sharing limits",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R24"
+            ]
+          },
+          {
+            "id": "N8",
+            "type": "decision",
+            "label": "Any peering policies exist?",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N9",
+            "type": "action",
+            "label": "Return peering policies",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N10",
+            "type": "action",
+            "label": "Perform short-term negotiation",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R26",
+              "R129"
+            ]
+          },
+          {
+            "id": "N11",
+            "type": "action",
+            "label": "Interact with external PAs",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R130",
+              "R69"
+            ]
+          },
+          {
+            "id": "N12",
+            "type": "action",
+            "label": "Discover external resources",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R131",
+              "R68"
+            ]
+          },
+          {
+            "id": "N13",
+            "type": "action",
+            "label": "Negotiate with selected peers",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R131",
+              "R68"
+            ]
+          },
+          {
+            "id": "N14",
+            "type": "decision",
+            "label": "Sufficient resources acquired?",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "N15",
+            "type": "action",
+            "label": "Establish peering arrangement",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "N16",
+            "type": "action",
+            "label": "Re-evaluate service requirements",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "N17",
+            "type": "action",
+            "label": "Send requirements for renegotiation",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "N18",
+            "type": "final",
+            "label": "Pass control on",
+            "lane": null,
+            "requirement_ids": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "E1",
+            "source": "N1",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "E2",
+            "source": "N2",
+            "target": "N3",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R19",
+              "R20"
+            ]
+          },
+          {
+            "id": "E3",
+            "source": "N3",
+            "target": "N4",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R21"
+            ]
+          },
+          {
+            "id": "E4",
+            "source": "N4",
+            "target": "N5",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R22"
+            ]
+          },
+          {
+            "id": "E5",
+            "source": "N5",
+            "target": "N6",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R23"
+            ]
+          },
+          {
+            "id": "E6",
+            "source": "N6",
+            "target": "N7",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R24"
+            ]
+          },
+          {
+            "id": "E7",
+            "source": "N7",
+            "target": "N8",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R25",
+              "R128",
+              "R129"
+            ]
+          },
+          {
+            "id": "E8",
+            "source": "N8",
+            "target": "N9",
+            "type": "control",
+            "guard": "yes",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "E9",
+            "source": "N8",
+            "target": "N10",
+            "type": "control",
+            "guard": "no",
+            "requirement_ids": [
+              "R129"
+            ]
+          },
+          {
+            "id": "E10",
+            "source": "N9",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "E11",
+            "source": "N10",
+            "target": "N11",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R130"
+            ]
+          },
+          {
+            "id": "E12",
+            "source": "N11",
+            "target": "N12",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R130",
+              "R131"
+            ]
+          },
+          {
+            "id": "E13",
+            "source": "N12",
+            "target": "N13",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R131"
+            ]
+          },
+          {
+            "id": "E14",
+            "source": "N13",
+            "target": "N14",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R131",
+              "R132"
+            ]
+          },
+          {
+            "id": "E15",
+            "source": "N14",
+            "target": "N15",
+            "type": "control",
+            "guard": "yes",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "E16",
+            "source": "N14",
+            "target": "N16",
+            "type": "control",
+            "guard": "no",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "E17",
+            "source": "N15",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "E18",
+            "source": "N16",
+            "target": "N17",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "E19",
+            "source": "N17",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          }
+        ],
+        "title": "Discover Peers"
+      },
+      "plantuml": "@startuml\ntitle Discover Peers\n\n|initiating CDN|\nstart\n\n:Identify roles and activities;\n:Choose potential CDNs;\n|Mediator|\n:Pass service requirements;\n|Peering Agent|\n:Perform resource discovery;\n:Predict peer performance;\n:Work around sharing limits;\nif (Any peering policies exist?) then (yes)\n:Return peering policies;\nstop\nelse (no)\n:Perform short-term negotiation;\n|Mediator|\n:Interact with external PAs;\n|Local PA|\n:Discover external resources;\n:Negotiate with selected peers;\nif (Sufficient resources acquired?) then (yes)\n:Establish peering arrangement;\nstop\nelse (no)\n|Mediator|\n:Re-evaluate service requirements;\n:Send requirements for renegotiation;\nstop\nendif\nendif\n\n@enduml",
+      "metrics": {
+        "iteration": 2,
+        "requirement_coverage": 1.0,
+        "correctness": 0.7599999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.0,
+        "defect_count": 2,
+        "defects_fixed": 3,
+        "defects_introduced": 2,
+        "defect_reduction_rate": 0.3333333333333333,
+        "repair_success_rate": 0.0,
+        "quality_score": 0.9066666666666666,
+        "execution_time_seconds": 4.497227400017437,
+        "llm_calls": 12
+      },
+      "validation": {
+        "passed": true,
+        "score": 1.0,
+        "defects": [],
+        "rule_counts": {
+          "STRUCT-001": 0,
+          "STRUCT-002": 0,
+          "STRUCT-003": 0,
+          "STRUCT-004": 0,
+          "DECISION-001": 0,
+          "DECISION-002": 0,
+          "DECISION-003": 0,
+          "FLOW-001": 0,
+          "CONCURRENCY-001": 0,
+          "TERM-001": 0,
+          "COVERAGE-001": 0,
+          "HALL-001": 0,
+          "TOTAL_DEFECTS": 0,
+          "TOTAL_NODES": 18,
+          "TOTAL_EDGES": 19,
+          "TOTAL_REQUIREMENTS": 19
+        },
+        "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+      },
+      "review": {
+        "overall_assessment": "The diagram covers the main discovery and negotiation flow, but it contains a couple of semantic issues around the long-term peering branch and the required final-node labeling for the re-negotiation outcome.",
+        "semantic_score": 0.82,
+        "defects": [
+          {
+            "id": "D1",
+            "category": "TERMINATION",
+            "severity": "HIGH",
+            "description": "The diagram routes the 'any peering policies exist' branch to a generic final node labeled 'Pass control on' instead of ending in a final node whose label names the long-term peering outcome. Requirement R128 says preexisting peering arrangements / peering policies are returned to establish a long-term peering arrangement, which is the branch-specific outcome, not just generic pass-through control.",
+            "node_ids": [
+              "N9",
+              "N18"
+            ],
+            "edge_ids": [
+              "E10"
+            ],
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ],
+            "evidence": "R25: 'If there are any preexisting peering arrangements ... then these will be returned at this point.' R128: 'If any peering policies exist, they are returned to establish long-term peering arrangement.' The diagram ends this branch at N18 labeled 'Pass control on'.",
+            "suggested_action": "Replace the generic final node on the long-term policy-return branch with a final node labeled to name that outcome, such as 'Long-term peering arrangement' or 'Policies returned', so the branch termination matches the requirement."
+          },
+          {
+            "id": "D2",
+            "category": "TERMINATION",
+            "severity": "MEDIUM",
+            "description": "The rejection/failure path for insufficient resources ends at the generic final node 'Pass control on' rather than in a final node whose label names the outcome of the failed/re-negotiation branch. Requirement R133 explicitly describes the mediator re-evaluating service requirements and sending them back for re-negotiation, so this branch should not terminate with an unlabeled pass-on final node if it represents the failure outcome within this self-contained module.",
+            "node_ids": [
+              "N16",
+              "N17",
+              "N18"
+            ],
+            "edge_ids": [
+              "E16",
+              "E18",
+              "E19"
+            ],
+            "requirement_ids": [
+              "R133"
+            ],
+            "evidence": "R133: 'Else, mediator re-evaluates service requirements and sends to the local PA to perform re-negotiation.' The diagram completes this branch by reaching N18 labeled 'Pass control on' rather than a branch-specific final node naming the failure/re-negotiation outcome.",
+            "suggested_action": "Use a branch-specific final node for the insufficient-resources outcome, labeled with the outcome name required by the module convention, such as 'Re-negotiation' or 'Insufficient resources', instead of the generic pass-on final node."
+          }
+        ],
+        "strengths": [
+          "Covers the required sequence: role identification, choosing peers, passing service requirements, discovery, peer performance prediction, policy check, short-term negotiation, inter-PA interaction, and resource discovery.",
+          "Includes both policy-exists and no-policy branches and the sufficient/insufficient resources decision.",
+          "Correctly assigns actions to the intended actor lanes for the main flow, including Mediator and Peering Agent."
+        ],
+        "missing_requirements": [],
+        "unsupported_behaviors": []
+      },
+      "defects": [
+        {
+          "id": "D1",
+          "category": "TERMINATION",
+          "severity": "HIGH",
+          "description": "The diagram routes the 'any peering policies exist' branch to a generic final node labeled 'Pass control on' instead of ending in a final node whose label names the long-term peering outcome. Requirement R128 says preexisting peering arrangements / peering policies are returned to establish a long-term peering arrangement, which is the branch-specific outcome, not just generic pass-through control.",
+          "node_ids": [
+            "N9",
+            "N18"
+          ],
+          "edge_ids": [
+            "E10"
+          ],
+          "requirement_ids": [
+            "R25",
+            "R128"
+          ],
+          "evidence": "R25: 'If there are any preexisting peering arrangements ... then these will be returned at this point.' R128: 'If any peering policies exist, they are returned to establish long-term peering arrangement.' The diagram ends this branch at N18 labeled 'Pass control on'.",
+          "suggested_action": "Replace the generic final node on the long-term policy-return branch with a final node labeled to name that outcome, such as 'Long-term peering arrangement' or 'Policies returned', so the branch termination matches the requirement."
+        },
+        {
+          "id": "D2",
+          "category": "TERMINATION",
+          "severity": "MEDIUM",
+          "description": "The rejection/failure path for insufficient resources ends at the generic final node 'Pass control on' rather than in a final node whose label names the outcome of the failed/re-negotiation branch. Requirement R133 explicitly describes the mediator re-evaluating service requirements and sending them back for re-negotiation, so this branch should not terminate with an unlabeled pass-on final node if it represents the failure outcome within this self-contained module.",
+          "node_ids": [
+            "N16",
+            "N17",
+            "N18"
+          ],
+          "edge_ids": [
+            "E16",
+            "E18",
+            "E19"
+          ],
+          "requirement_ids": [
+            "R133"
+          ],
+          "evidence": "R133: 'Else, mediator re-evaluates service requirements and sends to the local PA to perform re-negotiation.' The diagram completes this branch by reaching N18 labeled 'Pass control on' rather than a branch-specific final node naming the failure/re-negotiation outcome.",
+          "suggested_action": "Use a branch-specific final node for the insufficient-resources outcome, labeled with the outcome name required by the module convention, such as 'Re-negotiation' or 'Insufficient resources', instead of the generic pass-on final node."
+        }
+      ],
+      "requirement_coverage": [
+        {
+          "requirement_id": "R19",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N2; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R20",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N3; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R21",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4; Edges: E3",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R22",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N5; Edges: E4",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R23",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N6; Edges: E5",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R24",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7; Edges: E6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R25",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N8, N9; Edges: E7, E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R26",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R67",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R68",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N12, N13",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R69",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N11",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R128",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N8, N9; Edges: E7, E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R129",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N10; Edges: E7, E9",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R130",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N11; Edges: E11, E12",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R131",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N12, N13; Edges: E12, E13, E14",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R132",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N14, N15; Edges: E14, E15, E17",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R133",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N16, N17; Edges: E16, E18, E19",
+          "confidence": 0.0
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "diagram": {
+        "nodes": [
+          {
+            "id": "N1",
+            "type": "initial",
+            "label": "Start",
+            "lane": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "N2",
+            "type": "action",
+            "label": "Identify roles and activities",
+            "lane": "initiating CDN",
+            "requirement_ids": [
+              "R19"
+            ]
+          },
+          {
+            "id": "N3",
+            "type": "action",
+            "label": "Choose potential CDNs",
+            "lane": "initiating CDN",
+            "requirement_ids": [
+              "R20"
+            ]
+          },
+          {
+            "id": "N4",
+            "type": "action",
+            "label": "Pass service requirements",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R21",
+              "R116"
+            ]
+          },
+          {
+            "id": "N5",
+            "type": "action",
+            "label": "Perform resource discovery",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R22"
+            ]
+          },
+          {
+            "id": "N6",
+            "type": "action",
+            "label": "Predict peer performance",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R23",
+              "R67"
+            ]
+          },
+          {
+            "id": "N7",
+            "type": "action",
+            "label": "Work around sharing limits",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R24"
+            ]
+          },
+          {
+            "id": "N8",
+            "type": "decision",
+            "label": "Any peering policies exist?",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N9",
+            "type": "action",
+            "label": "Return peering policies",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N10",
+            "type": "action",
+            "label": "Perform short-term negotiation",
+            "lane": "Peering Agent",
+            "requirement_ids": [
+              "R26",
+              "R129"
+            ]
+          },
+          {
+            "id": "N11",
+            "type": "action",
+            "label": "Interact with external PAs",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R130",
+              "R69"
+            ]
+          },
+          {
+            "id": "N12",
+            "type": "action",
+            "label": "Discover external resources",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R131",
+              "R68"
+            ]
+          },
+          {
+            "id": "N13",
+            "type": "action",
+            "label": "Negotiate with selected peers",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R131",
+              "R68"
+            ]
+          },
+          {
+            "id": "N14",
+            "type": "decision",
+            "label": "Sufficient resources acquired?",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "N15",
+            "type": "action",
+            "label": "Establish peering arrangement",
+            "lane": "Local PA",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "N16",
+            "type": "action",
+            "label": "Re-evaluate service requirements",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "N17",
+            "type": "action",
+            "label": "Send requirements for renegotiation",
+            "lane": "Mediator",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "N18",
+            "type": "final",
+            "label": "Long-term peering arrangement",
+            "lane": null,
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "N19",
+            "type": "final",
+            "label": "Re-negotiation",
+            "lane": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "id": "E1",
+            "source": "N1",
+            "target": "N2",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": []
+          },
+          {
+            "id": "E2",
+            "source": "N2",
+            "target": "N3",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R19",
+              "R20"
+            ]
+          },
+          {
+            "id": "E3",
+            "source": "N3",
+            "target": "N4",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R21"
+            ]
+          },
+          {
+            "id": "E4",
+            "source": "N4",
+            "target": "N5",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R22"
+            ]
+          },
+          {
+            "id": "E5",
+            "source": "N5",
+            "target": "N6",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R23"
+            ]
+          },
+          {
+            "id": "E6",
+            "source": "N6",
+            "target": "N7",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R24"
+            ]
+          },
+          {
+            "id": "E7",
+            "source": "N7",
+            "target": "N8",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R25",
+              "R128",
+              "R129"
+            ]
+          },
+          {
+            "id": "E8",
+            "source": "N8",
+            "target": "N9",
+            "type": "control",
+            "guard": "yes",
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "E9",
+            "source": "N8",
+            "target": "N10",
+            "type": "control",
+            "guard": "no",
+            "requirement_ids": [
+              "R129"
+            ]
+          },
+          {
+            "id": "E10",
+            "source": "N9",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R25",
+              "R128"
+            ]
+          },
+          {
+            "id": "E11",
+            "source": "N10",
+            "target": "N11",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R130"
+            ]
+          },
+          {
+            "id": "E12",
+            "source": "N11",
+            "target": "N12",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R130",
+              "R131"
+            ]
+          },
+          {
+            "id": "E13",
+            "source": "N12",
+            "target": "N13",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R131"
+            ]
+          },
+          {
+            "id": "E14",
+            "source": "N13",
+            "target": "N14",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R131",
+              "R132"
+            ]
+          },
+          {
+            "id": "E15",
+            "source": "N14",
+            "target": "N15",
+            "type": "control",
+            "guard": "yes",
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "E16",
+            "source": "N14",
+            "target": "N16",
+            "type": "control",
+            "guard": "no",
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "E17",
+            "source": "N15",
+            "target": "N18",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R132"
+            ]
+          },
+          {
+            "id": "E18",
+            "source": "N16",
+            "target": "N17",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          },
+          {
+            "id": "E19",
+            "source": "N17",
+            "target": "N19",
+            "type": "control",
+            "guard": null,
+            "requirement_ids": [
+              "R133"
+            ]
+          }
+        ],
+        "title": "Discover Peers"
+      },
+      "plantuml": "@startuml\ntitle Discover Peers\n\n|initiating CDN|\nstart\n\n:Identify roles and activities;\n:Choose potential CDNs;\n|Mediator|\n:Pass service requirements;\n|Peering Agent|\n:Perform resource discovery;\n:Predict peer performance;\n:Work around sharing limits;\nif (Any peering policies exist?) then (yes)\n:Return peering policies;\nstop\nelse (no)\n:Perform short-term negotiation;\n|Mediator|\n:Interact with external PAs;\n|Local PA|\n:Discover external resources;\n:Negotiate with selected peers;\nif (Sufficient resources acquired?) then (yes)\n:Establish peering arrangement;\nstop\nelse (no)\nendif\n|Mediator|\n:Re-evaluate service requirements;\n:Send requirements for renegotiation;\nstop\nendif\n\n@enduml",
+      "metrics": {
+        "iteration": 3,
+        "requirement_coverage": 1.0,
+        "correctness": 0.9299999999999999,
+        "completeness": 1.0,
+        "structural_validity": 1.0,
+        "unsupported_behaviour_rate": 0.0,
+        "defect_count": 2,
+        "defects_fixed": 2,
+        "defects_introduced": 2,
+        "defect_reduction_rate": 0.0,
+        "repair_success_rate": 0.0,
+        "quality_score": 0.9491666666666667,
+        "execution_time_seconds": 3.4479797000531107,
+        "llm_calls": 16
+      },
+      "validation": {
+        "passed": true,
+        "score": 1.0,
+        "defects": [],
+        "rule_counts": {
+          "STRUCT-001": 0,
+          "STRUCT-002": 0,
+          "STRUCT-003": 0,
+          "STRUCT-004": 0,
+          "DECISION-001": 0,
+          "DECISION-002": 0,
+          "DECISION-003": 0,
+          "FLOW-001": 0,
+          "CONCURRENCY-001": 0,
+          "TERM-001": 0,
+          "COVERAGE-001": 0,
+          "HALL-001": 0,
+          "TOTAL_DEFECTS": 0,
+          "TOTAL_NODES": 19,
+          "TOTAL_EDGES": 19,
+          "TOTAL_REQUIREMENTS": 19
+        },
+        "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+      },
+      "review": {
+        "overall_assessment": "The diagram covers the main discovery and negotiation flow, but it contains a semantic lane mismatch and a termination labeling issue for the renegotiation branch.",
+        "semantic_score": 0.86,
+        "defects": [
+          {
+            "id": "D1",
+            "category": "SEMANTIC",
+            "severity": "MEDIUM",
+            "description": "The service-requirements handoff is modeled in the Mediator lane, but the requirements state that the mediator passes service requirements to the local PA and that PA receives them; the current node does not reflect the PA as the receiver of the handoff. This weakens traceability for the mediator-to-PA transfer required before discovery.",
+            "node_ids": [
+              "N4"
+            ],
+            "edge_ids": [
+              "E3"
+            ],
+            "requirement_ids": [
+              "R21",
+              "R116",
+              "R69"
+            ],
+            "evidence": "R21 says the mediator instance passes the service requirements to the local PA to discover external resources from peers, and R116 explicitly states that PA receives service requirements from the mediator. The diagram only has 'Pass service requirements' in the Mediator lane, with no corresponding PA-receipt action.",
+            "suggested_action": "Model the transfer with the receiving PA explicitly represented, or relabel/reassign the step so the handoff to the PA is semantically clear and traceable."
+          },
+          {
+            "id": "D2",
+            "category": "TERMINATION",
+            "severity": "MEDIUM",
+            "description": "The renegotiation branch ends in a final node labeled 'Re-negotiation', but the requirement says the branch where the process continues by re-evaluating service requirements and re-negotiating should end in its own final node whose label names that outcome. The current label is an abstract activity rather than the required outcome label.",
+            "node_ids": [
+              "N19"
+            ],
+            "edge_ids": [
+              "E19"
+            ],
+            "requirement_ids": [
+              "R133"
+            ],
+            "evidence": "R133 states that when sufficient resources are not acquired, the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. The final node label 'Re-negotiation' does not name the outcome as a terminating state, unlike the requirement's instruction for a final node whose label names that outcome.",
+            "suggested_action": "Rename the final node to an outcome label that names the branch termination, such as 'Renegotiation required' or 'Re-negotiation requested', while preserving the branch semantics."
+          }
+        ],
+        "strengths": [
+          "The main discovery sequence is present: identify roles, choose peers, pass service requirements, perform resource discovery, and negotiate.",
+          "The long-term peering policy branch and the short-term negotiation branch are both modeled.",
+          "The sufficient-resources decision and the re-evaluation/renegotiation alternative are represented."
+        ],
+        "missing_requirements": [],
+        "unsupported_behaviors": []
+      },
+      "defects": [
+        {
+          "id": "D1",
+          "category": "SEMANTIC",
+          "severity": "MEDIUM",
+          "description": "The service-requirements handoff is modeled in the Mediator lane, but the requirements state that the mediator passes service requirements to the local PA and that PA receives them; the current node does not reflect the PA as the receiver of the handoff. This weakens traceability for the mediator-to-PA transfer required before discovery.",
+          "node_ids": [
+            "N4"
+          ],
+          "edge_ids": [
+            "E3"
+          ],
+          "requirement_ids": [
+            "R21",
+            "R116",
+            "R69"
+          ],
+          "evidence": "R21 says the mediator instance passes the service requirements to the local PA to discover external resources from peers, and R116 explicitly states that PA receives service requirements from the mediator. The diagram only has 'Pass service requirements' in the Mediator lane, with no corresponding PA-receipt action.",
+          "suggested_action": "Model the transfer with the receiving PA explicitly represented, or relabel/reassign the step so the handoff to the PA is semantically clear and traceable."
+        },
+        {
+          "id": "D2",
+          "category": "TERMINATION",
+          "severity": "MEDIUM",
+          "description": "The renegotiation branch ends in a final node labeled 'Re-negotiation', but the requirement says the branch where the process continues by re-evaluating service requirements and re-negotiating should end in its own final node whose label names that outcome. The current label is an abstract activity rather than the required outcome label.",
+          "node_ids": [
+            "N19"
+          ],
+          "edge_ids": [
+            "E19"
+          ],
+          "requirement_ids": [
+            "R133"
+          ],
+          "evidence": "R133 states that when sufficient resources are not acquired, the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. The final node label 'Re-negotiation' does not name the outcome as a terminating state, unlike the requirement's instruction for a final node whose label names that outcome.",
+          "suggested_action": "Rename the final node to an outcome label that names the branch termination, such as 'Renegotiation required' or 'Re-negotiation requested', while preserving the branch semantics."
+        }
+      ],
+      "requirement_coverage": [
+        {
+          "requirement_id": "R19",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N2; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R20",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N3; Edges: E2",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R21",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N4; Edges: E3",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R22",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N5; Edges: E4",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R23",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N6; Edges: E5",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R24",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N7; Edges: E6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R25",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N8, N9, N18; Edges: E7, E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R26",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R67",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N6",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R68",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N12, N13",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R69",
+          "covered": true,
+          "coverage_type": "NODE",
+          "evidence": "Nodes: N11",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R128",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N8, N9, N18; Edges: E7, E8, E10",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R129",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N10; Edges: E7, E9",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R130",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N11; Edges: E11, E12",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R131",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N12, N13; Edges: E12, E13, E14",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R132",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N14, N15; Edges: E14, E15, E17",
+          "confidence": 0.0
+        },
+        {
+          "requirement_id": "R133",
+          "covered": true,
+          "coverage_type": "FULL",
+          "evidence": "Nodes: N16, N17, N19; Edges: E16, E18, E19",
+          "confidence": 0.0
+        }
+      ]
+    }
+  ],
+  "best_candidate_iteration": 3,
+  "best_candidate": {
+    "iteration": 3,
+    "diagram": {
+      "nodes": [
+        {
+          "id": "N1",
+          "type": "initial",
+          "label": "Start",
+          "lane": null,
+          "requirement_ids": []
+        },
+        {
+          "id": "N2",
+          "type": "action",
+          "label": "Identify roles and activities",
+          "lane": "initiating CDN",
+          "requirement_ids": [
+            "R19"
+          ]
+        },
+        {
+          "id": "N3",
+          "type": "action",
+          "label": "Choose potential CDNs",
+          "lane": "initiating CDN",
+          "requirement_ids": [
+            "R20"
+          ]
+        },
+        {
+          "id": "N4",
+          "type": "action",
+          "label": "Pass service requirements",
+          "lane": "Mediator",
+          "requirement_ids": [
+            "R21",
+            "R116"
+          ]
+        },
+        {
+          "id": "N5",
+          "type": "action",
+          "label": "Perform resource discovery",
+          "lane": "Peering Agent",
+          "requirement_ids": [
+            "R22"
+          ]
+        },
+        {
+          "id": "N6",
+          "type": "action",
+          "label": "Predict peer performance",
+          "lane": "Peering Agent",
+          "requirement_ids": [
+            "R23",
+            "R67"
+          ]
+        },
+        {
+          "id": "N7",
+          "type": "action",
+          "label": "Work around sharing limits",
+          "lane": "Peering Agent",
+          "requirement_ids": [
+            "R24"
+          ]
+        },
+        {
+          "id": "N8",
+          "type": "decision",
+          "label": "Any peering policies exist?",
+          "lane": "Peering Agent",
+          "requirement_ids": [
+            "R25",
+            "R128"
+          ]
+        },
+        {
+          "id": "N9",
+          "type": "action",
+          "label": "Return peering policies",
+          "lane": "Peering Agent",
+          "requirement_ids": [
+            "R25",
+            "R128"
+          ]
+        },
+        {
+          "id": "N10",
+          "type": "action",
+          "label": "Perform short-term negotiation",
+          "lane": "Peering Agent",
+          "requirement_ids": [
+            "R26",
+            "R129"
+          ]
+        },
+        {
+          "id": "N11",
+          "type": "action",
+          "label": "Interact with external PAs",
+          "lane": "Mediator",
+          "requirement_ids": [
+            "R130",
+            "R69"
+          ]
+        },
+        {
+          "id": "N12",
+          "type": "action",
+          "label": "Discover external resources",
+          "lane": "Local PA",
+          "requirement_ids": [
+            "R131",
+            "R68"
+          ]
+        },
+        {
+          "id": "N13",
+          "type": "action",
+          "label": "Negotiate with selected peers",
+          "lane": "Local PA",
+          "requirement_ids": [
+            "R131",
+            "R68"
+          ]
+        },
+        {
+          "id": "N14",
+          "type": "decision",
+          "label": "Sufficient resources acquired?",
+          "lane": "Local PA",
+          "requirement_ids": [
+            "R132"
+          ]
+        },
+        {
+          "id": "N15",
+          "type": "action",
+          "label": "Establish peering arrangement",
+          "lane": "Local PA",
+          "requirement_ids": [
+            "R132"
+          ]
+        },
+        {
+          "id": "N16",
+          "type": "action",
+          "label": "Re-evaluate service requirements",
+          "lane": "Mediator",
+          "requirement_ids": [
+            "R133"
+          ]
+        },
+        {
+          "id": "N17",
+          "type": "action",
+          "label": "Send requirements for renegotiation",
+          "lane": "Mediator",
+          "requirement_ids": [
+            "R133"
+          ]
+        },
+        {
+          "id": "N18",
+          "type": "final",
+          "label": "Long-term peering arrangement",
+          "lane": null,
+          "requirement_ids": [
+            "R25",
+            "R128"
+          ]
+        },
+        {
+          "id": "N19",
+          "type": "final",
+          "label": "Re-negotiation",
+          "lane": null,
+          "requirement_ids": [
+            "R133"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "id": "E1",
+          "source": "N1",
+          "target": "N2",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": []
+        },
+        {
+          "id": "E2",
+          "source": "N2",
+          "target": "N3",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R19",
+            "R20"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "N3",
+          "target": "N4",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R21"
+          ]
+        },
+        {
+          "id": "E4",
+          "source": "N4",
+          "target": "N5",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R22"
+          ]
+        },
+        {
+          "id": "E5",
+          "source": "N5",
+          "target": "N6",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R23"
+          ]
+        },
+        {
+          "id": "E6",
+          "source": "N6",
+          "target": "N7",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R24"
+          ]
+        },
+        {
+          "id": "E7",
+          "source": "N7",
+          "target": "N8",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R25",
+            "R128",
+            "R129"
+          ]
+        },
+        {
+          "id": "E8",
+          "source": "N8",
+          "target": "N9",
+          "type": "control",
+          "guard": "yes",
+          "requirement_ids": [
+            "R25",
+            "R128"
+          ]
+        },
+        {
+          "id": "E9",
+          "source": "N8",
+          "target": "N10",
+          "type": "control",
+          "guard": "no",
+          "requirement_ids": [
+            "R129"
+          ]
+        },
+        {
+          "id": "E10",
+          "source": "N9",
+          "target": "N18",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R25",
+            "R128"
+          ]
+        },
+        {
+          "id": "E11",
+          "source": "N10",
+          "target": "N11",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R130"
+          ]
+        },
+        {
+          "id": "E12",
+          "source": "N11",
+          "target": "N12",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R130",
+            "R131"
+          ]
+        },
+        {
+          "id": "E13",
+          "source": "N12",
+          "target": "N13",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R131"
+          ]
+        },
+        {
+          "id": "E14",
+          "source": "N13",
+          "target": "N14",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R131",
+            "R132"
+          ]
+        },
+        {
+          "id": "E15",
+          "source": "N14",
+          "target": "N15",
+          "type": "control",
+          "guard": "yes",
+          "requirement_ids": [
+            "R132"
+          ]
+        },
+        {
+          "id": "E16",
+          "source": "N14",
+          "target": "N16",
+          "type": "control",
+          "guard": "no",
+          "requirement_ids": [
+            "R133"
+          ]
+        },
+        {
+          "id": "E17",
+          "source": "N15",
+          "target": "N18",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R132"
+          ]
+        },
+        {
+          "id": "E18",
+          "source": "N16",
+          "target": "N17",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R133"
+          ]
+        },
+        {
+          "id": "E19",
+          "source": "N17",
+          "target": "N19",
+          "type": "control",
+          "guard": null,
+          "requirement_ids": [
+            "R133"
+          ]
+        }
+      ],
+      "title": "Discover Peers"
+    },
+    "plantuml": "@startuml\ntitle Discover Peers\n\n|initiating CDN|\nstart\n\n:Identify roles and activities;\n:Choose potential CDNs;\n|Mediator|\n:Pass service requirements;\n|Peering Agent|\n:Perform resource discovery;\n:Predict peer performance;\n:Work around sharing limits;\nif (Any peering policies exist?) then (yes)\n:Return peering policies;\nstop\nelse (no)\n:Perform short-term negotiation;\n|Mediator|\n:Interact with external PAs;\n|Local PA|\n:Discover external resources;\n:Negotiate with selected peers;\nif (Sufficient resources acquired?) then (yes)\n:Establish peering arrangement;\nstop\nelse (no)\nendif\n|Mediator|\n:Re-evaluate service requirements;\n:Send requirements for renegotiation;\nstop\nendif\n\n@enduml",
+    "metrics": {
+      "iteration": 3,
+      "requirement_coverage": 1.0,
+      "correctness": 0.9299999999999999,
+      "completeness": 1.0,
+      "structural_validity": 1.0,
+      "unsupported_behaviour_rate": 0.0,
+      "defect_count": 2,
+      "defects_fixed": 2,
+      "defects_introduced": 2,
+      "defect_reduction_rate": 0.0,
+      "repair_success_rate": 0.0,
+      "quality_score": 0.9491666666666667,
+      "execution_time_seconds": 3.4479797000531107,
+      "llm_calls": 16
+    },
+    "validation": {
+      "passed": true,
+      "score": 1.0,
+      "defects": [],
+      "rule_counts": {
+        "STRUCT-001": 0,
+        "STRUCT-002": 0,
+        "STRUCT-003": 0,
+        "STRUCT-004": 0,
+        "DECISION-001": 0,
+        "DECISION-002": 0,
+        "DECISION-003": 0,
+        "FLOW-001": 0,
+        "CONCURRENCY-001": 0,
+        "TERM-001": 0,
+        "COVERAGE-001": 0,
+        "HALL-001": 0,
+        "TOTAL_DEFECTS": 0,
+        "TOTAL_NODES": 19,
+        "TOTAL_EDGES": 19,
+        "TOTAL_REQUIREMENTS": 19
+      },
+      "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+    },
+    "review": {
+      "overall_assessment": "The diagram covers the main discovery and negotiation flow, but it contains a semantic lane mismatch and a termination labeling issue for the renegotiation branch.",
+      "semantic_score": 0.86,
+      "defects": [
+        {
+          "id": "D1",
+          "category": "SEMANTIC",
+          "severity": "MEDIUM",
+          "description": "The service-requirements handoff is modeled in the Mediator lane, but the requirements state that the mediator passes service requirements to the local PA and that PA receives them; the current node does not reflect the PA as the receiver of the handoff. This weakens traceability for the mediator-to-PA transfer required before discovery.",
+          "node_ids": [
+            "N4"
+          ],
+          "edge_ids": [
+            "E3"
+          ],
+          "requirement_ids": [
+            "R21",
+            "R116",
+            "R69"
+          ],
+          "evidence": "R21 says the mediator instance passes the service requirements to the local PA to discover external resources from peers, and R116 explicitly states that PA receives service requirements from the mediator. The diagram only has 'Pass service requirements' in the Mediator lane, with no corresponding PA-receipt action.",
+          "suggested_action": "Model the transfer with the receiving PA explicitly represented, or relabel/reassign the step so the handoff to the PA is semantically clear and traceable."
+        },
+        {
+          "id": "D2",
+          "category": "TERMINATION",
+          "severity": "MEDIUM",
+          "description": "The renegotiation branch ends in a final node labeled 'Re-negotiation', but the requirement says the branch where the process continues by re-evaluating service requirements and re-negotiating should end in its own final node whose label names that outcome. The current label is an abstract activity rather than the required outcome label.",
+          "node_ids": [
+            "N19"
+          ],
+          "edge_ids": [
+            "E19"
+          ],
+          "requirement_ids": [
+            "R133"
+          ],
+          "evidence": "R133 states that when sufficient resources are not acquired, the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. The final node label 'Re-negotiation' does not name the outcome as a terminating state, unlike the requirement's instruction for a final node whose label names that outcome.",
+          "suggested_action": "Rename the final node to an outcome label that names the branch termination, such as 'Renegotiation required' or 'Re-negotiation requested', while preserving the branch semantics."
+        }
+      ],
+      "strengths": [
+        "The main discovery sequence is present: identify roles, choose peers, pass service requirements, perform resource discovery, and negotiate.",
+        "The long-term peering policy branch and the short-term negotiation branch are both modeled.",
+        "The sufficient-resources decision and the re-evaluation/renegotiation alternative are represented."
+      ],
+      "missing_requirements": [],
+      "unsupported_behaviors": []
+    },
+    "defects": [
+      {
+        "id": "D1",
+        "category": "SEMANTIC",
+        "severity": "MEDIUM",
+        "description": "The service-requirements handoff is modeled in the Mediator lane, but the requirements state that the mediator passes service requirements to the local PA and that PA receives them; the current node does not reflect the PA as the receiver of the handoff. This weakens traceability for the mediator-to-PA transfer required before discovery.",
+        "node_ids": [
+          "N4"
+        ],
+        "edge_ids": [
+          "E3"
+        ],
+        "requirement_ids": [
+          "R21",
+          "R116",
+          "R69"
+        ],
+        "evidence": "R21 says the mediator instance passes the service requirements to the local PA to discover external resources from peers, and R116 explicitly states that PA receives service requirements from the mediator. The diagram only has 'Pass service requirements' in the Mediator lane, with no corresponding PA-receipt action.",
+        "suggested_action": "Model the transfer with the receiving PA explicitly represented, or relabel/reassign the step so the handoff to the PA is semantically clear and traceable."
+      },
+      {
+        "id": "D2",
+        "category": "TERMINATION",
+        "severity": "MEDIUM",
+        "description": "The renegotiation branch ends in a final node labeled 'Re-negotiation', but the requirement says the branch where the process continues by re-evaluating service requirements and re-negotiating should end in its own final node whose label names that outcome. The current label is an abstract activity rather than the required outcome label.",
+        "node_ids": [
+          "N19"
+        ],
+        "edge_ids": [
+          "E19"
+        ],
+        "requirement_ids": [
+          "R133"
+        ],
+        "evidence": "R133 states that when sufficient resources are not acquired, the mediator re-evaluates service requirements and sends them to the local PA to perform re-negotiation. The final node label 'Re-negotiation' does not name the outcome as a terminating state, unlike the requirement's instruction for a final node whose label names that outcome.",
+        "suggested_action": "Rename the final node to an outcome label that names the branch termination, such as 'Renegotiation required' or 'Re-negotiation requested', while preserving the branch semantics."
+      }
+    ],
+    "requirement_coverage": [
+      {
+        "requirement_id": "R19",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N2; Edges: E2",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R20",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N3; Edges: E2",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R21",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N4; Edges: E3",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R22",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N5; Edges: E4",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R23",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N6; Edges: E5",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R24",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N7; Edges: E6",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R25",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N8, N9, N18; Edges: E7, E8, E10",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R26",
+        "covered": true,
+        "coverage_type": "NODE",
+        "evidence": "Nodes: N10",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R67",
+        "covered": true,
+        "coverage_type": "NODE",
+        "evidence": "Nodes: N6",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R68",
+        "covered": true,
+        "coverage_type": "NODE",
+        "evidence": "Nodes: N12, N13",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R69",
+        "covered": true,
+        "coverage_type": "NODE",
+        "evidence": "Nodes: N11",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R128",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N8, N9, N18; Edges: E7, E8, E10",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R129",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N10; Edges: E7, E9",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R130",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N11; Edges: E11, E12",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R131",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N12, N13; Edges: E12, E13, E14",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R132",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N14, N15; Edges: E14, E15, E17",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R133",
+        "covered": true,
+        "coverage_type": "FULL",
+        "evidence": "Nodes: N16, N17, N19; Edges: E16, E18, E19",
+        "confidence": 0.0
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+@startuml
+title peering - Part 1: Trigger Peering (part 1/2)
+
+|Web Server|
+start
+
+if (Trigger peering?) then (yes)
+:Send initiation request;
+|Mediator|
+:Receive initiation request;
+|Web Server|
+:Continue in Part 2: Trigger Peering (part 2/2)>
+detach
+else (no)
+:Continue in Part 2: Trigger Peering (part 2/2)>
+detach
+endif
+
+@enduml

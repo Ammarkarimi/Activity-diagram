@@ -1,0 +1,460 @@
+{
+  "source": "provided",
+  "requirements": [
+    {
+      "id": "R10",
+      "text": "The negotiated relationship describes expected service levels from the involved parties.",
+      "type": "DATA",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "legal document"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R9"
+      ],
+      "source_sentence": "In the business domain, this relationship (most likely) would take the form of a legal document which describes the expected level of services from the involving parties such as storage requirements, the required rate of transfer, cost of services; the expected duration of receiving service, penalties for service violations, and other preconditions such as the initiating CDN\u2019s preference to gain resources at a particular region.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R11",
+      "text": "The negotiated relationship specifies storage requirements, required rate of transfer, cost of services, expected duration of receiving service, penalties for service violations, and other preconditions.",
+      "type": "DATA",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "legal document"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R10"
+      ],
+      "source_sentence": "In the business domain, this relationship (most likely) would take the form of a legal document which describes the expected level of services from the involving parties such as storage requirements, the required rate of transfer, cost of services; the expected duration of receiving service, penalties for service violations, and other preconditions such as the initiating CDN\u2019s preference to gain resources at a particular region.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R12",
+      "text": "The initiating CDN may specify a preference to gain resources at a particular region.",
+      "type": "DATA",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [
+        "specify a preference to gain resources at a particular region"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R10",
+        "R11"
+      ],
+      "source_sentence": "In the business domain, this relationship (most likely) would take the form of a legal document which describes the expected level of services from the involving parties such as storage requirements, the required rate of transfer, cost of services; the expected duration of receiving service, penalties for service violations, and other preconditions such as the initiating CDN\u2019s preference to gain resources at a particular region.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R13",
+      "text": "Negotiated relationships can be established through financial statements or SLAs.",
+      "type": "ACTION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [
+        "establish negotiated relationships"
+      ],
+      "conditions": [
+        "financial statement",
+        "SLAs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R9"
+      ],
+      "source_sentence": "Negotiated relationships can also be established through means non-technical terms (financial statement) or technical terms (SLAs).",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R14",
+      "text": "Negotiated relationships must specify interactions among entities including service administration, coordination, and disband or re-arrangement of internetworked CDNs.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "specify interactions among entities"
+      ],
+      "conditions": [
+        "service administration",
+        "coordination",
+        "disband",
+        "re-arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R9",
+        "R13"
+      ],
+      "source_sentence": "Thus, negotiated relationships must specify the interactions among entities including service administration, coordination and disband (or re-arrangement) of internetworked CDNs.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R15",
+      "text": "The mediator instance obtains resource and access information from the Service Registry.",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance"
+      ],
+      "actions": [
+        "obtain resource and access information"
+      ],
+      "conditions": [
+        "from the Service Registry"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R14"
+      ],
+      "source_sentence": "In the CDN peering architecture, the mediator instance obtains the resource and access information from the Service Registry (SR), whilst SLAs and other policies from the Policy Repository (PR).",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R16",
+      "text": "The mediator instance obtains SLAs and other policies from the Policy Repository.",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance"
+      ],
+      "actions": [
+        "obtain SLAs and other policies"
+      ],
+      "conditions": [
+        "from the Policy Repository"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R15"
+      ],
+      "source_sentence": "In the CDN peering architecture, the mediator instance obtains the resource and access information from the Service Registry (SR), whilst SLAs and other policies from the Policy Repository (PR).",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R17",
+      "text": "The mediator instance generates its service requirements based on the current circumstance and SLA requirements of its customers.",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance"
+      ],
+      "actions": [
+        "generate its service requirements"
+      ],
+      "conditions": [
+        "current circumstance",
+        "SLA requirements of its customers"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R16"
+      ],
+      "source_sentence": "The mediator instance on the primary CDN\u2019s behalf generates its service requirements based on the current circumstance and SLA requirements of its customer(s).",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R18",
+      "text": "Divergent policies are allowed to specify information that can be shared during interaction.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [
+        "specify information that can be shared during interaction"
+      ],
+      "conditions": [
+        "divergent policies",
+        "provide a certain level of visibility to preserve privacy"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R17"
+      ],
+      "source_sentence": "Therefore, divergent policies are allowed that specify the information that can be shared during interaction through providing a certain level of visibility to preserve privacy.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R50",
+      "text": "The policy agent is responsible (in conjunction with the mediator) for determining which resources can be delegated and under what conditions (policies) delegation is permitted.",
+      "type": "ACTION",
+      "actors": [
+        "policy agent",
+        "mediator"
+      ],
+      "actions": [
+        "determines which resources can be delegated",
+        "determines under what conditions delegation is permitted"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The policy agent is responsible (in conjunction with the mediator) for determining which resources can be delegated and under what conditions (policies) delegation is permitted.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R53",
+      "text": "It generates service requirements as the basis for negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "generates service requirements as the basis for negotiated relationships"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It generates service requirements as the basis for negotiated relationships.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R54",
+      "text": "It passes the service requirements to the PA.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "passes the service requirements to the PA"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R53"
+      ],
+      "source_sentence": "It passes the service requirements to the PA.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R58",
+      "text": "It encapsulates the resource and service information for each CDN.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "encapsulates the resource and service information for each CDN"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It encapsulates the resource and service information for each CDN.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R59",
+      "text": "It helps in discovering local resources through enabling the Web servers of CDN providers to register and publish their resource, service and policy details.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "helps in discovering local resources through enabling the Web servers of CDN providers to register and publish their resource, service and policy details"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R58"
+      ],
+      "source_sentence": "It helps in discovering local resources through enabling the Web servers of CDN providers to register and publish their resource, service and policy details.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R60",
+      "text": "In the face of traffic surges, it supplies any necessary local resource information to the mediator.",
+      "type": "CONDITION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "supplies any necessary local resource information to the mediator"
+      ],
+      "conditions": [
+        "traffic surges occur"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R59"
+      ],
+      "source_sentence": "In the face of traffic surges, it supplies any necessary local resource information to the mediator.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R62",
+      "text": "The Policy Repository is used to perform the following functions,",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Policy Repository is used to perform the following functions,",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R63",
+      "text": "It virtualizes all of the policies within a peering arrangement including PWS, P M , and P Peering (i.e. Web server-specific policies, mediator policies, peering policies), along with any delegated policies for resources as a result of the peering arrangement.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Repository"
+      ],
+      "actions": [
+        "virtualizes all of the policies within a peering arrangement including PWS, P M , and P Peering",
+        "virtualizes any delegated policies for resources as a result of the peering arrangement"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R62"
+      ],
+      "source_sentence": "It virtualizes all of the policies within a peering arrangement including PWS, P M , and P Peering (i.e. Web server-specific policies, mediator policies, peering policies), along with any delegated policies for resources as a result of the peering arrangement.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R64",
+      "text": "It provides a set of rules to the mediator to administer, manage, and control access to the resources in a peering arrangement.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Repository"
+      ],
+      "actions": [
+        "provides a set of rules to the mediator to administer, manage, and control access to the resources in a peering arrangement"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R63"
+      ],
+      "source_sentence": "It provides a set of rules to the mediator to administer, manage, and control access to the resources in a peering arrangement.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R65",
+      "text": "It returns existing peering policies to the PA during the establishment of long-term peering arrangements.",
+      "type": "CONDITION",
+      "actors": [
+        "Policy Repository"
+      ],
+      "actions": [
+        "returns existing peering policies to the PA"
+      ],
+      "conditions": [
+        "the establishment of long-term peering arrangements"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R64"
+      ],
+      "source_sentence": "It returns existing peering policies to the PA during the establishment of long-term peering arrangements.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R77",
+      "text": "This feature is associated with the registration of resource and service information of each CDN to its SR",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This feature is associated with the registration of resource and service information of each CDN to its SR",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R78",
+      "text": "WS: Publishes its resource and service information to the SR.",
+      "type": "ACTION",
+      "actors": [
+        "WS"
+      ],
+      "actions": [
+        "publishes its resource and service information to the SR"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "WS: Publishes its resource and service information to the SR.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R79",
+      "text": "SR: Registers available local resources at the CDN provider and updates them.",
+      "type": "ACTION",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "registers available local resources at the CDN provider",
+        "updates them"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R78"
+      ],
+      "source_sentence": "SR: Registers available local resources at the CDN provider and updates them.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R80",
+      "text": "Mediator: Collects up-to-date resource information from SR.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "collects up-to-date resource information from SR"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R79"
+      ],
+      "source_sentence": "Mediator: Collects up-to-date resource information from SR.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R82",
+      "text": "Available  local  resources  of a CDN  provider  are detected  along  with  their  service information  such  as CPU,  storage,  upload  and download  rate, etc.",
+      "type": "ACTION",
+      "actors": [
+        "CDN provider"
+      ],
+      "actions": [
+        "detect available local resources",
+        "detect their service information such as CPU, storage, upload and download rate"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Available  local  resources  of a CDN  provider  are detected  along  with  their  service information  such  as CPU,  storage,  upload  and download  rate, etc.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    }
+  ]
+}

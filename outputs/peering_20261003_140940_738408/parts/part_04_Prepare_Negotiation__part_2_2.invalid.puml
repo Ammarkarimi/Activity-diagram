@@ -1,0 +1,29 @@
+@startuml
+title peering - Part 4: Prepare Negotiation (part 2/2)
+
+|Mediator|
+start
+
+:From Part 3: Prepare Negotiation (part 1/2)<
+:Obtain resource and policy information;
+|Web Server|
+:Publish resource and service information;
+|Service Registry|
+:Register and update resources;
+|Mediator|
+:Generate service requirements;
+if (Requirements acceptable?) then (yes)
+else (no)
+stop
+endif
+:Send service requirements;
+|Policy Agent|
+:Receive service requirements;
+if (Outcome of Prepare Negotiation (part 2/2)?) then (service requirements ready)
+:Continue in Part 5: Discover Peers>
+detach
+else (user requests rejected by policy)
+stop
+endif
+
+@enduml

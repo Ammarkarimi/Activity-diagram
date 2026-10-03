@@ -1,0 +1,83 @@
+@startuml
+title CTS Trading and Support Activity
+
+start
+
+:Receive instructions from trade client serve;
+:Analyze incoming instructions;
+:Divide instructions into kinds;
+:Match instructions under prescripts;
+:Provide interfaces and send messages to other modules;
+if (Select instruction type) then (buy instruction received)
+:Give buy instruction;
+:Save buy instruction;
+:Match buy instructions with same stock id;
+if (Buy match result) then (matched stock exists and no exception and operations not suspended)
+:Make buy trade by matching;
+:Modify matched buy instruction information;
+:Give out successful trade information;
+:Save trade information;
+if (Trade information save result) then (operations suspended)
+:Handle save-trade operations suspended;
+else (no matched stock exists)
+:Handle no matched stock for save-trade flow;
+endif
+elseif (Buy match result) then (operations suspended)
+:Handle buy operations suspended;
+elseif (Buy match result) then (trade exception occurs)
+:Handle buy trade exceptions;
+else (no matched stock exists)
+:Report no matched stock for buy instruction;
+endif
+stop
+elseif (Select instruction type) then (sell instruction received)
+:Give sell instruction;
+:Save sell instruction;
+:Match sell instructions with same stock id;
+if (Sell match result) then (matched stock exists and no exception and operations not suspended)
+:Make sell trade by matching;
+:Modify matched sell instruction information;
+:Give out successful trade information;
+:Save trade information;
+if (Trade information save result) then (operations suspended)
+:Handle save-trade operations suspended;
+else (no matched stock exists)
+:Handle no matched stock for save-trade flow;
+endif
+elseif (Sell match result) then (operations suspended)
+:Handle sell operations suspended;
+elseif (Sell match result) then (deal exception occurs)
+:Handle sell deal exceptions;
+else (no matched stock exists)
+:Report no matched stock for sell instruction;
+endif
+elseif (Select instruction type) then (cancel instruction received)
+:Give cancel instruction;
+:Save cancel instruction;
+:Cancel correlative instruction;
+if (Cancel result) then (operations suspended)
+:Handle cancel operations suspended;
+elseif (Cancel result) then (instruction already implemented)
+:Handle already implemented instruction;
+else (no matched instruction exists)
+:Handle no matched instruction to cancel;
+endif
+else (query received)
+:Send query;
+:Implement query;
+:Structuralize queried data;
+:Send data to release;
+if (Query result) then (operations suspended)
+:Handle query operations suspended;
+elseif (Query result) then (query is invalid)
+:Handle invalid query;
+else (no matched data)
+:Handle no matched data;
+:System manager accesses CTS information under authorization;
+:Maintain CTS for crash recovery and new requirements;
+:Consider frequent operations, heavy transfer, and overload capacity;
+endif
+endif
+stop
+
+@enduml

@@ -1,0 +1,151 @@
+{
+  "changes": [
+    "Adjusted actor lanes and labels to match the specification's named actors.",
+    "Removed unsupported extra flow for local resource detection/registration details and kept only stated preparation actions.",
+    "Added explicit Policy Repository and Service Registry interactions as separate actor actions.",
+    "Merged resource and policy acquisition into the mediator preparation flow without extra behavior.",
+    "Kept service-requirement generation and handoff to the Policy Agent as the end of this module."
+  ],
+  "accepted": false,
+  "reason": "coverage 20 -> 15",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Obtain resource information",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R15",
+          "R80"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Obtain policies",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R16",
+          "R63",
+          "R64"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Determine delegation conditions",
+        "lane": "Policy Agent",
+        "requirement_ids": [
+          "R50",
+          "R18",
+          "R65"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Generate service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R17",
+          "R53",
+          "R10",
+          "R11",
+          "R12",
+          "R14"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Pass service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R54"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "final",
+        "label": "Continue to negotiation",
+        "lane": null,
+        "requirement_ids": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R15",
+          "R80"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R16",
+          "R63",
+          "R64"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R50",
+          "R18",
+          "R65"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R17",
+          "R53"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R54"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      }
+    ],
+    "title": "Prepare Negotiation (part 1/2)"
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "source": "provided",
+  "requirements": [
+    {
+      "id": "R104",
+      "text": "1. End users request for content from CDN WSs.",
+      "type": "ACTION",
+      "actors": [
+        "End-users"
+      ],
+      "actions": [
+        "request content from CDN WSs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. End users request for content from CDN WSs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R105",
+      "text": "2. Flash crowds occurred due to a sudden burst in traffic.",
+      "type": "CONDITION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [],
+      "conditions": [
+        "flash crowds occurred due to a sudden burst in traffic"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R104"
+      ],
+      "source_sentence": "2. Flash crowds occurred due to a sudden burst in traffic.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R106",
+      "text": "3. Hotspot is generated and provider is unable to handle excess load on its WSs.",
+      "type": "CONDITION",
+      "actors": [
+        "Provider"
+      ],
+      "actions": [
+        "generates hotspot",
+        "is unable to handle excess load on its WSs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R105"
+      ],
+      "source_sentence": "3. Hotspot is generated and provider is unable to handle excess load on its WSs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R107",
+      "text": "4. WS sends initialization request to the mediator to trigger peering.",
+      "type": "ACTION",
+      "actors": [
+        "WS"
+      ],
+      "actions": [
+        "sends initialization request to the mediator to trigger peering"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R106"
+      ],
+      "source_sentence": "4. WS sends initialization request to the mediator to trigger peering.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R108",
+      "text": "If  the  user  requests   experience   service  timeout  (threshold),   initiation  request  is cancelled.",
+      "type": "EXCEPTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "cancels initiation request"
+      ],
+      "conditions": [
+        "user requests experience service timeout threshold"
+      ],
+      "exceptions": [
+        "service timeout"
+      ],
+      "dependencies": [
+        "R107"
+      ],
+      "source_sentence": "If  the  user  requests   experience   service  timeout  (threshold),   initiation  request  is cancelled.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R109",
+      "text": "REQ-1: Malicious requests are detected and rejected.",
+      "type": "EXCEPTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "detects malicious requests",
+        "rejects malicious requests"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "malicious requests"
+      ],
+      "dependencies": [],
+      "source_sentence": "REQ-1: Malicious requests are detected and rejected.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R110",
+      "text": "REQ-2: Web servers have already replicated necessary content.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: Web servers have already replicated necessary content.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R111",
+      "text": "REQ-3: Both anticipated and unanticipated user requests (traffic) are considered.",
+      "type": "CONDITION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "considers anticipated user requests",
+        "considers unanticipated user requests"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: Both anticipated and unanticipated user requests (traffic) are considered.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R112",
+      "text": "REQ-4: The format of the initiation request is defined.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-4: The format of the initiation request is defined.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R118",
+      "text": "Initialization request is received.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "receives initialization request"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R117"
+      ],
+      "source_sentence": "Initialization request is received.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R121",
+      "text": "An initialization request to activate peering is received by the mediator.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "receives an initialization request to activate peering"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. An initialization request to activate peering is received by the mediator.",
+      "section": "3.3.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R126",
+      "text": "If the user requests can not be accepted according the provider policies, service requirements are not passed to the local PA.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "does not pass service requirements to the local PA"
+      ],
+      "conditions": [
+        "the user requests can not be accepted according the provider policies"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R123"
+      ],
+      "source_sentence": "If  the  user  requests  can  not  be  accepted  according  the  provider  policies,  service requirements are not passed to the local PA.",
+      "section": "3.3.6 Exceptions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R139",
+      "text": "If a peered CDN provider refuses to accept user requests, a given peering arrangement ceases.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Peered CDN provider"
+      ],
+      "actions": [
+        "refuses to accept user requests",
+        "causes a peering arrangement to cease"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R134"
+      ],
+      "source_sentence": "If a peered CDN provider refuses to accept user requests, a given peering arrangement ceases.",
+      "section": "3.5.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    }
+  ]
+}

@@ -1,0 +1,379 @@
+{
+  "nodes": [
+    {
+      "id": "N1",
+      "type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "id": "N2",
+      "type": "action",
+      "label": "Choose communication type",
+      "lane": "Agent",
+      "requirement_ids": [
+        "R4"
+      ]
+    },
+    {
+      "id": "N3",
+      "type": "decision",
+      "label": "Communication type?",
+      "lane": "Agent",
+      "requirement_ids": [
+        "R4"
+      ]
+    },
+    {
+      "id": "N4",
+      "type": "action",
+      "label": "Choose encryption",
+      "lane": "Agent",
+      "requirement_ids": [
+        "R7"
+      ]
+    },
+    {
+      "id": "N5",
+      "type": "decision",
+      "label": "Encrypt?",
+      "lane": "Agent",
+      "requirement_ids": [
+        "R7",
+        "R8",
+        "R11",
+        "R15"
+      ]
+    },
+    {
+      "id": "N6",
+      "type": "action",
+      "label": "Encrypt message",
+      "lane": "Encryption/Decryption",
+      "requirement_ids": [
+        "R6",
+        "R7"
+      ]
+    },
+    {
+      "id": "N7",
+      "type": "action",
+      "label": "Send unicast",
+      "lane": "Sending Agent",
+      "requirement_ids": [
+        "R3",
+        "R12"
+      ]
+    },
+    {
+      "id": "N8",
+      "type": "action",
+      "label": "Receive message",
+      "lane": "Receiving Agent",
+      "requirement_ids": [
+        "R13",
+        "R17",
+        "R20"
+      ]
+    },
+    {
+      "id": "N9",
+      "type": "action",
+      "label": "Decrypt message",
+      "lane": "Encryption/Decryption",
+      "requirement_ids": [
+        "R6",
+        "R10",
+        "R14",
+        "R18"
+      ]
+    },
+    {
+      "id": "N10",
+      "type": "final",
+      "label": "End",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "id": "N11",
+      "type": "action",
+      "label": "Send multicast",
+      "lane": "Sending Agent",
+      "requirement_ids": [
+        "R2",
+        "R16"
+      ]
+    },
+    {
+      "id": "N12",
+      "type": "action",
+      "label": "Send broadcast",
+      "lane": "Sending Agent",
+      "requirement_ids": [
+        "R1",
+        "R19"
+      ]
+    },
+    {
+      "id": "N13",
+      "type": "action",
+      "label": "Join multicast group",
+      "lane": "Agent",
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ]
+    },
+    {
+      "id": "N14",
+      "type": "action",
+      "label": "Leave multicast group",
+      "lane": "Agent",
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ]
+    },
+    {
+      "id": "N15",
+      "type": "decision",
+      "label": "Join or leave multicast group?",
+      "lane": "Agent",
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "source": "N1",
+      "target": "N2",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": []
+    },
+    {
+      "id": "E2",
+      "source": "N2",
+      "target": "N3",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R4"
+      ]
+    },
+    {
+      "id": "E3",
+      "source": "N3",
+      "target": "N4",
+      "type": "control",
+      "guard": "unicast / multicast / broadcast",
+      "requirement_ids": [
+        "R4",
+        "R1",
+        "R2",
+        "R3"
+      ]
+    },
+    {
+      "id": "E4",
+      "source": "N3",
+      "target": "N15",
+      "type": "control",
+      "guard": "join / leave",
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ]
+    },
+    {
+      "id": "E5",
+      "source": "N4",
+      "target": "N5",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R7"
+      ]
+    },
+    {
+      "id": "E6",
+      "source": "N5",
+      "target": "N6",
+      "type": "control",
+      "guard": "encrypted",
+      "requirement_ids": [
+        "R6",
+        "R7",
+        "R8",
+        "R11",
+        "R15"
+      ]
+    },
+    {
+      "id": "E7",
+      "source": "N5",
+      "target": "N7",
+      "type": "control",
+      "guard": "not encrypted",
+      "requirement_ids": [
+        "R3",
+        "R7",
+        "R8",
+        "R11",
+        "R15"
+      ]
+    },
+    {
+      "id": "E8",
+      "source": "N6",
+      "target": "N7",
+      "type": "control",
+      "guard": "unicast",
+      "requirement_ids": [
+        "R3",
+        "R12"
+      ]
+    },
+    {
+      "id": "E9",
+      "source": "N6",
+      "target": "N11",
+      "type": "control",
+      "guard": "multicast",
+      "requirement_ids": [
+        "R2",
+        "R16"
+      ]
+    },
+    {
+      "id": "E10",
+      "source": "N6",
+      "target": "N12",
+      "type": "control",
+      "guard": "broadcast",
+      "requirement_ids": [
+        "R1",
+        "R19"
+      ]
+    },
+    {
+      "id": "E11",
+      "source": "N7",
+      "target": "N8",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R12",
+        "R13"
+      ]
+    },
+    {
+      "id": "E12",
+      "source": "N8",
+      "target": "N9",
+      "type": "control",
+      "guard": "encrypted",
+      "requirement_ids": [
+        "R10",
+        "R14",
+        "R18"
+      ]
+    },
+    {
+      "id": "E13",
+      "source": "N8",
+      "target": "N10",
+      "type": "control",
+      "guard": "not encrypted",
+      "requirement_ids": [
+        "R13",
+        "R17",
+        "R20"
+      ]
+    },
+    {
+      "id": "E14",
+      "source": "N9",
+      "target": "N10",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R10",
+        "R14",
+        "R18"
+      ]
+    },
+    {
+      "id": "E15",
+      "source": "N11",
+      "target": "N8",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R16",
+        "R17"
+      ]
+    },
+    {
+      "id": "E16",
+      "source": "N12",
+      "target": "N8",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R19",
+        "R20"
+      ]
+    },
+    {
+      "id": "E17",
+      "source": "N15",
+      "target": "N13",
+      "type": "control",
+      "guard": "join",
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ]
+    },
+    {
+      "id": "E18",
+      "source": "N15",
+      "target": "N14",
+      "type": "control",
+      "guard": "leave",
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ]
+    },
+    {
+      "id": "E19",
+      "source": "N13",
+      "target": "N10",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ]
+    },
+    {
+      "id": "E20",
+      "source": "N14",
+      "target": "N10",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ]
+    }
+  ],
+  "title": "Integrated communication activity for choosing communication mode, optionally encrypting, sending unicast/multicast/broadcast messages, receiving and decrypting, and joining/leaving multicast groups."
+}

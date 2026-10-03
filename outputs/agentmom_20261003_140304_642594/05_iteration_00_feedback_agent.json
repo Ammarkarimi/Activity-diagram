@@ -1,0 +1,38 @@
+{
+  "prioritized_defects": [
+    {
+      "id": "D-STRUCT-003",
+      "category": "CONTROL_FLOW",
+      "severity": "HIGH",
+      "description": "The 'Leave multicast group' action is still not semantically reachable from the main workflow because the only path from the communication-type decision to N14 does not select it independently; N13 and N14 share the same outgoing edge to End, and the leave branch is not distinguishable as an executed alternative action path.",
+      "node_ids": [
+        "N14"
+      ],
+      "edge_ids": [
+        "E4",
+        "E17",
+        "E18"
+      ],
+      "requirement_ids": [
+        "R5",
+        "R9"
+      ],
+      "evidence": "Requirement R5 requires agents to join and leave a multicast group. The diagram contains both 'Join multicast group' (N13) and 'Leave multicast group' (N14), but the branch from N3 goes to N13 only, and N13/N14 both terminate via separate edges to the final node without a modeled decision that selects leave as an alternative executable path.",
+      "suggested_action": "Model join and leave as separate alternatives under the multicast-group branch, with an explicit decision or branch that can route to N14, or otherwise connect N14 into the workflow so leave is an executable path."
+    },
+    {
+      "id": "D-STRUCT-003",
+      "category": "STRUCTURAL",
+      "severity": "HIGH",
+      "description": "Unreachable diagram nodes.",
+      "node_ids": [
+        "N14"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "['N14']",
+      "suggested_action": "Connect all diagram nodes to the main workflow."
+    }
+  ],
+  "final_recommendation": "Address the control-flow reachability defect first, then resolve any remaining structural reachability issues."
+}

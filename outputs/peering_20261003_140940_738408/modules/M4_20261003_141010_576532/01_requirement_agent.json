@@ -1,0 +1,443 @@
+{
+  "source": "provided",
+  "requirements": [
+    {
+      "id": "R83",
+      "text": "These  resources could be provisioned and reserved to satisfy SLAs.",
+      "type": "CONDITION",
+      "actors": [
+        "CDN provider"
+      ],
+      "actions": [
+        "provision resources",
+        "reserve resources"
+      ],
+      "conditions": [
+        "to satisfy SLAs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R82"
+      ],
+      "source_sentence": "These  resources could be provisioned and reserved to satisfy SLAs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R84",
+      "text": "Resources are registered in the service registry and being updated in a regular basis.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "register resources in the service registry",
+        "update resources on a regular basis"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R82",
+        "R83"
+      ],
+      "source_sentence": "Resources are registered in the service registry and being updated in a regular basis.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R85",
+      "text": "1. Each CDN Web server publishes resource and service information.",
+      "type": "ACTION",
+      "actors": [
+        "CDN Web server"
+      ],
+      "actions": [
+        "publishes resource and service information"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. Each CDN Web server publishes resource and service information.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R86",
+      "text": "2. If it is a new resource, its service information  is registered  in the SR with a new resource ID.",
+      "type": "CONDITION",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "registers its service information in the SR with a new resource ID"
+      ],
+      "conditions": [
+        "it is a new resource"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R85"
+      ],
+      "source_sentence": "2. If it is a new resource, its service information  is registered  in the SR with a new resource ID. Resource ID counter is incremented.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R87",
+      "text": "Resource ID counter is incremented.",
+      "type": "ACTION",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "increments resource ID counter"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R86"
+      ],
+      "source_sentence": "2. If it is a new resource, its service information  is registered  in the SR with a new resource ID. Resource ID counter is incremented.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R88",
+      "text": "3. Else, resource information in SR is updated in a regular basis.",
+      "type": "CONDITION",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "updates resource information in SR on a regular basis"
+      ],
+      "conditions": [
+        "otherwise"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R86",
+        "R87"
+      ],
+      "source_sentence": "3. Else, resource information in SR is updated in a regular basis.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R90",
+      "text": "5.  Local  and  delegated  external  resource  information  is  encapsulated  in  the  SR instance in the established peering arrangement.",
+      "type": "ACTION",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "encapsulates local and delegated external resource information in the SR instance in the established peering arrangement"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R89"
+      ],
+      "source_sentence": "5.  Local  and  delegated  external  resource  information  is  encapsulated  in  the  SR instance in the established peering arrangement.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R91",
+      "text": "If a resource  fails, its service information  is removed  from SR and the resource  ID counter is decremented.",
+      "type": "EXCEPTION",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "removes its service information from SR",
+        "decrements the resource ID counter"
+      ],
+      "conditions": [
+        "a resource fails"
+      ],
+      "exceptions": [
+        "resource failure"
+      ],
+      "dependencies": [
+        "R90"
+      ],
+      "source_sentence": "If a resource  fails, its service information  is removed  from SR and the resource  ID counter is decremented.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R92",
+      "text": "REQ-1: The format for service information description is defined",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-1: The format for service information description is defined",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R93",
+      "text": "REQ-2: The interaction protocol between Web Server-SR, SR-mediator is defined.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: The interaction protocol between Web Server-SR, SR-mediator is defined.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R94",
+      "text": "REQ-3: Resource provisioning, delegation and reservation policies are in place.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: Resource provisioning, delegation and reservation policies are in place.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R95",
+      "text": "REQ-4: There is an established norm that any resource failure will be reported",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-4: There is an established norm that any resource failure will be reported",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R96",
+      "text": "REQ-5: The interaction protocol between Web Server-SR, SR-mediator is defined.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-5: The interaction protocol between Web Server-SR, SR-mediator is defined.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R113",
+      "text": "On receipt of the initialization  request to trigger  peering,  the mediator of the primary CDN invokes negotiation.",
+      "type": "CONDITION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "invokes negotiation"
+      ],
+      "conditions": [
+        "receipt of the initialization request to trigger peering"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R107"
+      ],
+      "source_sentence": "On receipt of the initialization  request to trigger  peering,  the mediator of the primary CDN invokes negotiation.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R114",
+      "text": "SR: Sends resource and access information.",
+      "type": "ACTOR",
+      "actors": [
+        "SR"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "SR: Sends resource and access information.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R115",
+      "text": "PR: Sends policy information for establishing negotiated relationships.",
+      "type": "ACTOR",
+      "actors": [
+        "PR"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "PR: Sends policy information for establishing negotiated relationships.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R117",
+      "text": "Upon  receiving  the  initialization  request  to trigger  peering,  the  mediator  generates service requirements and passes it to local PA.",
+      "type": "CONDITION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "generates service requirements",
+        "passes it to local PA"
+      ],
+      "conditions": [
+        "receiving the initialization request to trigger peering"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R113"
+      ],
+      "source_sentence": "Upon  receiving  the  initialization  request  to trigger  peering,  the  mediator  generates service requirements and passes it to local PA.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R119",
+      "text": "Service requirements are generated.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "generates service requirements"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Service requirements are generated and they are sent to the local PA.",
+      "section": "3.3.4 Postconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R120",
+      "text": "Service requirements are sent to the local PA.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "sends service requirements to the local PA"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R119"
+      ],
+      "source_sentence": "Service requirements are generated and they are sent to the local PA.",
+      "section": "3.3.4 Postconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R122",
+      "text": "The mediator instance obtains resource and access information from the SR and policy information from PR to establish negotiation.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator",
+        "SR",
+        "PR"
+      ],
+      "actions": [
+        "obtains resource and access information from the SR",
+        "obtains policy information from PR",
+        "establishes negotiation"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R121"
+      ],
+      "source_sentence": "2. The mediator  instance  obtains  resource  and access  information  from the SR and policy information from PR to establish negotiation.",
+      "section": "3.3.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R123",
+      "text": "The mediator generates service requirements.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "generates service requirements"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R122"
+      ],
+      "source_sentence": "3. The mediator generates service requirements.",
+      "section": "3.3.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R124",
+      "text": "If the service requirements are acceptable according to the provider\u2019s policy, mediator passes it to the local PA.",
+      "type": "DECISION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "passes service requirements to the local PA"
+      ],
+      "conditions": [
+        "the service requirements are acceptable according to the provider\u2019s policy"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R123"
+      ],
+      "source_sentence": "4.  If  the  service  requirements  are  acceptable  according  to  the  provider\u2019s  policy, mediator passes it to the local PA.",
+      "section": "3.3.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R125",
+      "text": "Else, reject user requests.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "rejects user requests"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R124"
+      ],
+      "source_sentence": "5. Else, reject user requests.",
+      "section": "3.3.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R127",
+      "text": "Local PA receives service requirements from the mediator.",
+      "type": "ACTION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "receives service requirements from the mediator"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. Local PA receives service requirements from the mediator.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    }
+  ]
+}

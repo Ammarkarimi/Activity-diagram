@@ -1,0 +1,168 @@
+@startuml
+title Agent communication selection, encryption, multicast group notification, and message delivery
+
+start
+
+if (Choose communication mode) then (communication mode is chosen for a message to be sent)
+if (Choose encryption) then (message will be encrypted)
+:Encrypt message;
+else (message will not be encrypted)
+endif
+if (Choose multicast group operation) then (join multicast group is chosen)
+:Send notify message to join multicast group;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+endif
+:Receive multicast message;
+elseif (Choose multicast group operation) then (leave multicast group is chosen)
+:Send notify message to leave multicast group;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+endif
+:Receive multicast message;
+elseif (Choose multicast group operation) then (unicast message is chosen)
+:Send unicast message to another agent;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+endif
+:Receive multicast message;
+elseif (Choose multicast group operation) then (multicast message is chosen)
+:Send multicast message to multicast group;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+endif
+:Receive multicast message;
+else (broadcast message is chosen)
+endif
+:Receive broadcast message;
+elseif (Choose communication mode) then (multicast communication is chosen)
+if (Choose multicast group operation) then (join multicast group is chosen)
+:Send notify message to join multicast group;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+endif
+:Receive multicast message;
+elseif (Choose multicast group operation) then (leave multicast group is chosen)
+:Send notify message to leave multicast group;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+endif
+:Receive multicast message;
+elseif (Choose multicast group operation) then (unicast message is chosen)
+:Send unicast message to another agent;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+endif
+:Receive multicast message;
+elseif (Choose multicast group operation) then (multicast message is chosen)
+:Send multicast message to multicast group;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+endif
+:Receive multicast message;
+else (broadcast message is chosen)
+endif
+:Receive broadcast message;
+elseif (Choose communication mode) then (unicast communication is chosen)
+:Send unicast message to another agent;
+if (Message encrypted?) then (message is encrypted)
+:Decrypt message;
+if (Decrypt message) then (after decryption for multicast delivery)
+else (after decryption for unicast delivery)
+:Receive unicast message;
+endif
+stop
+elseif (Message encrypted?) then (message is not encrypted and is unicast)
+:Receive unicast message;
+stop
+elseif (Message encrypted?) then (message is not encrypted and is multicast)
+else (message is not encrypted and is broadcast)
+:Receive broadcast message;
+stop
+endif
+:Receive multicast message;
+else (broadcast communication is chosen)
+endif
+:Send broadcast message to all agents in local network;
+
+@enduml

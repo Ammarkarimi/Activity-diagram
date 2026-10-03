@@ -1,0 +1,31 @@
+@startuml
+title peering - Part 7: Operate Peering (part 1/2)
+
+|Peering Agent|
+start
+
+:From Part 6: Establish Peering<
+:Replicate content;
+|Web Server|
+:Redirect requests;
+|Peering Agent|
+:Exchange accounting information;
+|Policy Agent|
+if (Arrange adjustments?) then (no CDN interested)
+:Tune relationships;
+stop
+elseif (Arrange adjustments?) then (conditions hold)
+|Peering Agent|
+:Disband arrangement;
+stop
+elseif (Arrange adjustments?) then (needs expansion)
+:Re-arrange arrangement;
+|Policy Agent|
+:Continue in Part 8: Operate Peering (part 2/2)>
+detach
+else (continue operation)
+:Continue in Part 8: Operate Peering (part 2/2)>
+detach
+endif
+
+@enduml

@@ -1,0 +1,252 @@
+{
+  "source": "provided",
+  "requirements": [
+    {
+      "id": "R46",
+      "text": "Assists an existing CDN to alleviate congestions by detecting and handling short-term load spikes (i.e. flash crowds) effectively.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Assists an existing CDN to alleviate congestions by detecting and handling short-term load spikes (i.e. flash crowds) effectively.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R47",
+      "text": "A Web server replicates content on-demand from the origin server and stores it for future use.",
+      "type": "ACTION",
+      "actors": [
+        "Web server"
+      ],
+      "actions": [
+        "replicates content on-demand from the origin server",
+        "stores it for future use"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A Web server replicates content on-demand from the origin server and stores it for future use.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R49",
+      "text": "The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "Web services host"
+      ],
+      "actions": [
+        "ensures the delivery of content to end-users based on the negotiated policies with other CDNs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R51",
+      "text": "The SLA-allocator performs the provisioning and reservation of Web server\u2019s resources (e.g. CPU, bandwidth, storage etc.) to satisfy both local and delegated SLAs, and ensures that the terms of the SLAs are enforced.",
+      "type": "ACTION",
+      "actors": [
+        "SLA-allocator"
+      ],
+      "actions": [
+        "performs the provisioning and reservation of Web server\u2019s resources",
+        "ensures that the terms of the SLAs are enforced"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The SLA-allocator performs the provisioning and reservation of Web server\u2019s resources (e.g. CPU, bandwidth, storage etc.) to satisfy both local and delegated SLAs, and ensures that the terms of the SLAs are enforced.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R52",
+      "text": "The Web servers\u2019 underlying algorithms perform on-demand caching, content selection, and routing between servers.",
+      "type": "ACTION",
+      "actors": [
+        "Web servers\u2019 underlying algorithms"
+      ],
+      "actions": [
+        "perform on-demand caching",
+        "perform content selection",
+        "perform routing between servers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Web servers\u2019 underlying algorithms perform on-demand caching, content selection, and routing between servers.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R55",
+      "text": "It works in conjunction with its local PA to discover external resources and to negotiate with other CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator",
+        "local PA"
+      ],
+      "actions": [
+        "works in conjunction with its local PA to discover external resources",
+        "works in conjunction with its local PA to negotiate with other CDNs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R54"
+      ],
+      "source_sentence": "It works in conjunction with its local PA to discover external resources and to negotiate with other CDNs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R56",
+      "text": "Once a peering arrangement is established, it controls what portion of the Web traffic (i.e. end-user requests) is redirected to the Web servers of the peering CDNs, which content is replicated there, how the replication decision is taken, and which replication policies are being used.",
+      "type": "CONDITION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "controls what portion of the Web traffic is redirected to the Web servers of the peering CDNs",
+        "controls which content is replicated there",
+        "controls how the replication decision is taken",
+        "controls which replication policies are being used"
+      ],
+      "conditions": [
+        "a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R55"
+      ],
+      "source_sentence": "Once a peering arrangement is established, it controls what portion of the Web traffic (i.e. end-user requests) is redirected to the Web servers of the peering CDNs, which content is replicated there, how the replication decision is taken, and which replication policies are being used.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R57",
+      "text": "It ensures that the participating entities are able to adapt to changing circumstances (agility) and are able to achieve their objectives in a dynamic and uncertain environment (resilience)",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It ensures that the participating entities are able to adapt to changing circumstances (agility) and are able to achieve their objectives in a dynamic and uncertain environment (resilience) The main functions of the Service Registry are as follows,",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R136",
+      "text": "Request is redirected to an optimal peer\u2019s Web server.",
+      "type": "ACTION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "redirects request to an optimal peer\u2019s Web server"
+      ],
+      "conditions": [
+        "an optimal peer is identified"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R135"
+      ],
+      "source_sentence": "3. Request is redirected to an optimal peer\u2019s Web server.",
+      "section": "3.5.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R137",
+      "text": "PAs exchange accounting information to perform billing based on negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "External PA",
+        "Local PA"
+      ],
+      "actions": [
+        "exchange accounting information",
+        "perform billing based on negotiated relationships"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R134"
+      ],
+      "source_sentence": "4.  PAs  exchange  accounting  information  to  perform  billing  based  on  negotiated relationships.",
+      "section": "3.5.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R140",
+      "text": "A given peering arrangement is currently in operation and peers are cooperating for effective content delivery.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "a given peering arrangement is currently in operation",
+        "peers are cooperating for effective content delivery"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. A given peering arrangement is currently in operation and peers are cooperating for effective content delivery.",
+      "section": "3.6.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R141",
+      "text": "If any of the termination condition holds, the local PA disbands or re-arranges the peering arrangement.",
+      "type": "DECISION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "disbands the peering arrangement",
+        "re-arranges the peering arrangement"
+      ],
+      "conditions": [
+        "any of the termination condition holds"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R140"
+      ],
+      "source_sentence": "2. If any of the termination condition holds, the local PA disbands or re-arranges the peering arrangement.",
+      "section": "3.6.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R142",
+      "text": "If there are exceptional circumstances such as natural disaster, theft, etc. for which any peer is unable to honor the negotiated relationships, a given peering arrangement is not disband or re-arranged and SLA conditions are bypassed.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "does not disband the peering arrangement",
+        "does not re-arrange the peering arrangement",
+        "bypasses SLA conditions"
+      ],
+      "conditions": [
+        "there are exceptional circumstances such as natural disaster, theft, etc.",
+        "any peer is unable to honor the negotiated relationships"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R140"
+      ],
+      "source_sentence": "If there are exceptional circumstances such as natural disaster, theft, etc. for which any peer is unable to honor the negotiated relationships, a given peering arrangement is not disband or re-arranged and SLA conditions are bypassed.",
+      "section": "3.6.6 Exceptions",
+      "chunk_id": "C3"
+    }
+  ]
+}

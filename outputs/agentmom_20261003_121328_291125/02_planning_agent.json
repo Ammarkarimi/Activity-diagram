@@ -1,0 +1,710 @@
+{
+  "objective": "Model agent communication selection, optional encryption, multicast group join/leave notification, and message delivery for unicast, multicast, and broadcast within the organization/local network.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "decision",
+      "label": "Choose communication mode",
+      "lane": "agents",
+      "requirement_ids": [
+        "R4"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "decision",
+      "label": "Choose encryption",
+      "lane": "agents",
+      "requirement_ids": [
+        "R9"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Encrypt message",
+      "lane": "system",
+      "requirement_ids": [
+        "R7",
+        "R10"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "decision",
+      "label": "Choose multicast group operation",
+      "lane": "agents",
+      "requirement_ids": [
+        "R5",
+        "R6",
+        "R11"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "action",
+      "label": "Send notify message to join multicast group",
+      "lane": "an agent",
+      "requirement_ids": [
+        "R5",
+        "R11"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "action",
+      "label": "Send notify message to leave multicast group",
+      "lane": "an agent",
+      "requirement_ids": [
+        "R6",
+        "R11"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "action",
+      "label": "Send unicast message to another agent",
+      "lane": "an agent",
+      "requirement_ids": [
+        "R3",
+        "R13"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Send multicast message to multicast group",
+      "lane": "an agent",
+      "requirement_ids": [
+        "R2",
+        "R15"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "action",
+      "label": "Send broadcast message to all agents in local network",
+      "lane": "an agent",
+      "requirement_ids": [
+        "R1",
+        "R17"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "decision",
+      "label": "Message encrypted?",
+      "lane": "system",
+      "requirement_ids": [
+        "R10",
+        "R12"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "action",
+      "label": "Decrypt message",
+      "lane": "system",
+      "requirement_ids": [
+        "R8",
+        "R12"
+      ]
+    },
+    {
+      "temp_id": "P13",
+      "node_type": "action",
+      "label": "Receive unicast message",
+      "lane": "another agent",
+      "requirement_ids": [
+        "R14"
+      ]
+    },
+    {
+      "temp_id": "P14",
+      "node_type": "action",
+      "label": "Receive multicast message",
+      "lane": "other agents in the group",
+      "requirement_ids": [
+        "R16"
+      ]
+    },
+    {
+      "temp_id": "P15",
+      "node_type": "action",
+      "label": "Receive broadcast message",
+      "lane": "other agent in the same local network",
+      "requirement_ids": [
+        "R18"
+      ]
+    },
+    {
+      "temp_id": "P16",
+      "node_type": "final",
+      "label": "End",
+      "lane": null,
+      "requirement_ids": []
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": []
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": "communication mode is chosen for a message to be sent",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R4"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P5",
+      "guard": "multicast communication is chosen",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R4",
+        "R2"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": "unicast communication is chosen",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R4",
+        "R3"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": "broadcast communication is chosen",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R4",
+        "R1"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": "message will be encrypted",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R9",
+        "R10",
+        "R7"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P5",
+      "guard": "message will not be encrypted",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R9"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": "after encryption",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R7",
+        "R10"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": "join multicast group is chosen",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R5",
+        "R11"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P7",
+      "guard": "leave multicast group is chosen",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R6",
+        "R11"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P8",
+      "guard": "unicast message is chosen",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R3",
+        "R13"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P9",
+      "guard": "multicast message is chosen",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R2",
+        "R15"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P10",
+      "guard": "broadcast message is chosen",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R1",
+        "R17"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P11",
+      "guard": "after join notify is sent",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R5",
+        "R11"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P11",
+      "guard": "after leave notify is sent",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R6",
+        "R11"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P11",
+      "guard": "after unicast send",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R3",
+        "R13"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P11",
+      "guard": "after multicast send",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R2",
+        "R15"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P15",
+      "guard": "broadcast delivery to local-network recipients",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R1",
+        "R17",
+        "R18"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P12",
+      "guard": "message is encrypted",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R10",
+        "R12",
+        "R8"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P13",
+      "guard": "message is not encrypted and is unicast",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R12",
+        "R14"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P14",
+      "guard": "message is not encrypted and is multicast",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R12",
+        "R16"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P15",
+      "guard": "message is not encrypted and is broadcast",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R12",
+        "R18"
+      ]
+    },
+    {
+      "source": "P12",
+      "target": "P13",
+      "guard": "after decryption",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R8",
+        "R12"
+      ]
+    },
+    {
+      "source": "P12",
+      "target": "P14",
+      "guard": "after decryption for multicast delivery",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R8",
+        "R12",
+        "R16"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P16",
+      "guard": "unicast message delivered",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R14"
+      ]
+    },
+    {
+      "source": "P14",
+      "target": "P16",
+      "guard": "multicast message delivered",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R16"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P16",
+      "guard": "broadcast message delivered",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R18"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "Select communication mode",
+      "branch_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "guards": [
+        "unicast",
+        "multicast",
+        "broadcast"
+      ]
+    },
+    {
+      "decision_id": "D2",
+      "condition": "Select whether to encrypt the message",
+      "branch_ids": [
+        "B4",
+        "B5"
+      ],
+      "guards": [
+        "encrypt",
+        "do not encrypt"
+      ]
+    },
+    {
+      "decision_id": "D3",
+      "condition": "Select multicast group operation",
+      "branch_ids": [
+        "B6",
+        "B7",
+        "B8",
+        "B9"
+      ],
+      "guards": [
+        "join multicast group",
+        "leave multicast group",
+        "send unicast message",
+        "send multicast message",
+        "send broadcast message"
+      ]
+    },
+    {
+      "decision_id": "D4",
+      "condition": "Check whether the message is encrypted",
+      "branch_ids": [
+        "B10",
+        "B11"
+      ],
+      "guards": [
+        "encrypted",
+        "not encrypted"
+      ]
+    }
+  ],
+  "loops": [],
+  "concurrency": [],
+  "exceptions": [],
+  "decision_strategy": [
+    "Use communication mode as the top-level choice.",
+    "Use an explicit encryption choice before secured transmission.",
+    "Use multicast group operation selection only when multicast-related behavior is needed.",
+    "Use message encrypted checks to control decryption only when encryption was chosen."
+  ],
+  "concurrency_strategy": [
+    "No parallel branches are required by the stated requirements."
+  ],
+  "exception_strategy": [
+    "No exception handling behavior is specified in the requirements."
+  ],
+  "termination_strategy": [
+    "All delivery paths terminate at a single final node after the corresponding receive/delivery action.",
+    "Join/leave notify paths also converge to the same termination point after encryption/decryption handling as applicable."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R1",
+        "diagram_node_ids": [
+          "P10",
+          "P15"
+        ],
+        "diagram_edge_ids": [
+          "P2->P10",
+          "P10->P15",
+          "P15->P16"
+        ],
+        "evidence": "Broadcast selection, sending to everyone in the same local network, and receipt by other agents in that network.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R2",
+        "diagram_node_ids": [
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P5->P9"
+        ],
+        "evidence": "Multicast send action to the group identified by the multicast address.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [
+          "P5->P8"
+        ],
+        "evidence": "Unicast send action to another agent within the organization.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "Explicit decision to choose among unicast, multicast, and broadcast.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R5",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P5->P6"
+        ],
+        "evidence": "Join multicast group notify path.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R6",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P5->P7"
+        ],
+        "evidence": "Leave multicast group notify path.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R7",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3->P4"
+        ],
+        "evidence": "Encryption technique provided by the system on the secured path.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R8",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P11->P12"
+        ],
+        "evidence": "Decryption technique provided by the system after encrypted receipt.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R9",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Explicit decision to encrypt or not encrypt.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R10",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3->P4"
+        ],
+        "evidence": "Encrypted branch implements message encrypted when chosen.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R11",
+        "diagram_node_ids": [
+          "P6",
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P5->P6",
+          "P5->P7"
+        ],
+        "evidence": "Notify message sent for join/leave multicast group operations.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R12",
+        "diagram_node_ids": [
+          "P11",
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P11->P12"
+        ],
+        "evidence": "Decryption occurs only when the message is encrypted.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R13",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [
+          "P5->P8"
+        ],
+        "evidence": "Unicast send action from one agent to another.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R14",
+        "diagram_node_ids": [
+          "P13"
+        ],
+        "diagram_edge_ids": [
+          "P11->P13",
+          "P12->P13"
+        ],
+        "evidence": "Unicast receive action by the other agent.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R15",
+        "diagram_node_ids": [
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P5->P9"
+        ],
+        "evidence": "Multicast send action to the group via multicast address.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R16",
+        "diagram_node_ids": [
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P11->P14",
+          "P12->P14"
+        ],
+        "evidence": "Other agents in the group receive multicast messages.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R17",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P5->P10"
+        ],
+        "evidence": "Broadcast send action to everyone in the same local network.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R18",
+        "diagram_node_ids": [
+          "P15"
+        ],
+        "diagram_edge_ids": [
+          "P10->P15",
+          "P11->P15"
+        ],
+        "evidence": "Other agents in the same local network receive broadcast messages.",
+        "confidence": 0.97
+      }
+    ]
+  }
+}

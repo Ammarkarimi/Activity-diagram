@@ -1,0 +1,1253 @@
+{
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "CDN peering allows different CDN providers to share resources in order to provide larger scale and/or reach to each participant than they could not achieve otherwise.",
+      "type": "OTHER",
+      "actors": [
+        "CDN providers"
+      ],
+      "actions": [
+        "share resources",
+        "provide larger scale",
+        "provide greater reach"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "CDN peering allows different CDN providers to share resources in order to provide larger scale and/or reach to each participant than they could not achieve otherwise."
+    },
+    {
+      "id": "R2",
+      "text": "CDN peering is formed by a set of autonomous CDNs that cooperate through a mechanism providing facilities and infrastructure for cooperation in order to virtualize multiple providers.",
+      "type": "OTHER",
+      "actors": [
+        "autonomous CDNs"
+      ],
+      "actions": [
+        "cooperate",
+        "virtualize multiple providers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "It is formed by a set of autonomous CDNs, which cooperate through a mechanism that provides facilities and infrastructure for cooperation in order to virtualize multiple providers."
+    },
+    {
+      "id": "R3",
+      "text": "An effective peering arrangement between CDNs requires multiple steps to occur.",
+      "type": "CONDITION",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [],
+      "conditions": [
+        "an effective peering arrangement exists or is being established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R1",
+        "R2"
+      ],
+      "source_sentence": "It is expected that an effective peering arrangement between CDNs would require multiple steps to occur."
+    },
+    {
+      "id": "R4",
+      "text": "A CDN\u2019s reach and scale is limited by its ability to handle peak load, cost of equipment, scalable infrastructure, and demand for increased coverage.",
+      "type": "DATA",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [],
+      "conditions": [
+        "reach and scale are constrained by peak load handling, equipment cost, scalable infrastructure, and coverage demand"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A CDN\u2019s reach and scale is limited by its ability to handle peak load, cost of equipment, scalable infrastructure, and/or demand for the increased coverage of its infrastructure."
+    },
+    {
+      "id": "R5",
+      "text": "Peering allows a particular CDN to achieve larger scale and reach through resource sharing with other CDN(s).",
+      "type": "OTHER",
+      "actors": [
+        "particular CDN",
+        "other CDN(s)"
+      ],
+      "actions": [
+        "achieve larger scale",
+        "achieve greater reach",
+        "share resources"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1",
+        "R4"
+      ],
+      "source_sentence": "Peering allows a particular CDN to achieve larger scale/reach through resource sharing with other CDN(s)."
+    },
+    {
+      "id": "R6",
+      "text": "Peering is triggered by an initialization request sent to the mediator under exceptional circumstances.",
+      "type": "ACTION",
+      "actors": [
+        "CDN",
+        "mediator"
+      ],
+      "actions": [
+        "send initialization request to the mediator"
+      ],
+      "conditions": [
+        "exceptional circumstances occur"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R4",
+        "R5"
+      ],
+      "source_sentence": "It is triggered by an initialization request sent to the mediator under exceptional circumstances, e.g. flash crowds, when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs)."
+    },
+    {
+      "id": "R7",
+      "text": "Flash crowds are an example of exceptional circumstances that can trigger peering when the primary CDN cannot handle part of the workload on its Web Servers.",
+      "type": "CONDITION",
+      "actors": [
+        "primary CDN"
+      ],
+      "actions": [],
+      "conditions": [
+        "flash crowds occur",
+        "the primary CDN cannot handle part of the workload on its Web Servers"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R6"
+      ],
+      "source_sentence": "It is triggered by an initialization request sent to the mediator under exceptional circumstances, e.g. flash crowds, when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs)."
+    },
+    {
+      "id": "R8",
+      "text": "The triggering condition must consider expected and unexpected load increases in the initiating CDN.",
+      "type": "CONDITION",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [],
+      "conditions": [
+        "expected load increases are considered",
+        "unexpected load increases are considered"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R6",
+        "R7"
+      ],
+      "source_sentence": "The triggering condition must consider the expected and unexpected load increases in the initiating CDN."
+    },
+    {
+      "id": "R9",
+      "text": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship.",
+      "type": "ACTION",
+      "actors": [
+        "CDN",
+        "other CDNs"
+      ],
+      "actions": [
+        "interconnect",
+        "create a negotiated relationship"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship."
+    },
+    {
+      "id": "R10",
+      "text": "The negotiated relationship takes the form of a legal document describing expected service levels and preconditions.",
+      "type": "DATA",
+      "actors": [
+        "involving parties"
+      ],
+      "actions": [
+        "describe service expectations",
+        "describe preconditions"
+      ],
+      "conditions": [
+        "in the business domain"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R9"
+      ],
+      "source_sentence": "In the business domain, this relationship (most likely) would take the form of a legal document which describes the expected level of services from the involving parties such as storage requirements, the required rate of transfer, cost of services; the expected duration of receiving service, penalties for service violations, and other preconditions such as the initiating CDN\u2019s preference to gain resources at a particular region."
+    },
+    {
+      "id": "R11",
+      "text": "The negotiated relationship specifies storage requirements, transfer rate, cost of services, expected service duration, penalties for service violations, and region preference.",
+      "type": "DATA",
+      "actors": [
+        "involving parties"
+      ],
+      "actions": [
+        "specify storage requirements",
+        "specify transfer rate",
+        "specify cost of services",
+        "specify expected duration",
+        "specify penalties",
+        "specify region preference"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R10"
+      ],
+      "source_sentence": "In the business domain, this relationship (most likely) would take the form of a legal document which describes the expected level of services from the involving parties such as storage requirements, the required rate of transfer, cost of services; the expected duration of receiving service, penalties for service violations, and other preconditions such as the initiating CDN\u2019s preference to gain resources at a particular region."
+    },
+    {
+      "id": "R12",
+      "text": "Negotiated relationships can be established through financial statements or through SLAs.",
+      "type": "OTHER",
+      "actors": [
+        "negotiating parties"
+      ],
+      "actions": [
+        "establish negotiated relationships"
+      ],
+      "conditions": [
+        "financial statement terms are used or SLA terms are used"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R9"
+      ],
+      "source_sentence": "Negotiated relationships can also be established through means non-technical terms (financial statement) or technical terms (SLAs)."
+    },
+    {
+      "id": "R13",
+      "text": "Negotiated relationships must specify interactions among entities including service administration, coordination, and disband or re-arrangement of internetworked CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "negotiating parties",
+        "internetworked CDNs"
+      ],
+      "actions": [
+        "specify interactions"
+      ],
+      "conditions": [
+        "a negotiated relationship is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R9",
+        "R12"
+      ],
+      "source_sentence": "Thus, negotiated relationships must specify the interactions among entities including service administration, coordination and disband (or re-arrangement) of internetworked CDNs."
+    },
+    {
+      "id": "R14",
+      "text": "In the CDN peering architecture, the mediator instance obtains resource and access information from the Service Registry and SLAs and other policies from the Policy Repository.",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance",
+        "Service Registry",
+        "Policy Repository"
+      ],
+      "actions": [
+        "obtain resource and access information",
+        "obtain SLAs and other policies"
+      ],
+      "conditions": [
+        "in the CDN peering architecture"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "In the CDN peering architecture, the mediator instance obtains the resource and access information from the Service Registry (SR), whilst SLAs and other policies from the Policy Repository (PR)."
+    },
+    {
+      "id": "R15",
+      "text": "The mediator instance on the primary CDN\u2019s behalf generates service requirements based on the current circumstance and SLA requirements of its customer(s).",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance",
+        "primary CDN"
+      ],
+      "actions": [
+        "generate service requirements"
+      ],
+      "conditions": [
+        "current circumstance and customer SLA requirements exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R14"
+      ],
+      "source_sentence": "The mediator instance on the primary CDN\u2019s behalf generates its service requirements based on the current circumstance and SLA requirements of its customer(s)."
+    },
+    {
+      "id": "R16",
+      "text": "Divergent policies are allowed to specify what information can be shared during interaction by providing a certain level of visibility to preserve privacy.",
+      "type": "OTHER",
+      "actors": [
+        "participating parties"
+      ],
+      "actions": [
+        "specify sharable information",
+        "provide visibility"
+      ],
+      "conditions": [
+        "privacy must be preserved"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R13",
+        "R14"
+      ],
+      "source_sentence": "Therefore, divergent policies are allowed that specify the information that can be shared during interaction through providing a certain level of visibility to preserve privacy."
+    },
+    {
+      "id": "R17",
+      "text": "Once the initiating CDN identifies its roles and activities through the created negotiated relationships, the next step is to choose potential CDNs to peer with.",
+      "type": "ACTION",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [
+        "identify roles and activities",
+        "choose potential CDNs"
+      ],
+      "conditions": [
+        "negotiated relationships are created"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R9",
+        "R13"
+      ],
+      "source_sentence": "Once the initiating CDN identifies its roles and activities through the created negotiated relationships for coordination and cooperation between CDNs, the next step is to choose potential CDNs to peer with."
+    },
+    {
+      "id": "R18",
+      "text": "The mediator instance passes the service requirements to the local PA to discover external resources from peers.",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance",
+        "local PA"
+      ],
+      "actions": [
+        "pass service requirements",
+        "discover external resources"
+      ],
+      "conditions": [
+        "service requirements exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R15",
+        "R17"
+      ],
+      "source_sentence": "The mediator instance passes the service requirements to the local PA to discover external resources from peers."
+    },
+    {
+      "id": "R19",
+      "text": "The PA performs the resource discovery process by predicting peer performance and working around separate administration and limited information sharing among enlisted CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "perform resource discovery",
+        "predict peer performance",
+        "work around separate administration",
+        "work around limited information sharing"
+      ],
+      "conditions": [
+        "resource discovery is initiated"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R18"
+      ],
+      "source_sentence": "The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs."
+    },
+    {
+      "id": "R20",
+      "text": "If preexisting peering arrangements exist in a long-term scenario, those arrangements are returned.",
+      "type": "DECISION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "return preexisting peering arrangements"
+      ],
+      "conditions": [
+        "preexisting peering arrangements exist",
+        "long-term scenario applies"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "If there are any preexisting peering arrangements (for a long term scenario) then these will be returned at this point."
+    },
+    {
+      "id": "R21",
+      "text": "Otherwise, the PA carries out short-term negotiations with identified peering targets.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "carry out short-term negotiations"
+      ],
+      "conditions": [
+        "no preexisting peering arrangements exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R20"
+      ],
+      "source_sentence": "Otherwise, it carries out short term negotiations with the Peering Agent (PA) identified peering targets."
+    },
+    {
+      "id": "R22",
+      "text": "CDN peering protocols are configured at the conduit of the respective CDNs to technically support the negotiated terms and policies.",
+      "type": "ACTION",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [
+        "configure CDN peering protocols"
+      ],
+      "conditions": [
+        "negotiated relationships exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "The next step is to configure the \u2018CDN peering\u2019 protocols at the conduit of the respective CDNs in order to technically support the terms and policies implicitly specified through the negotiated relationships."
+    },
+    {
+      "id": "R23",
+      "text": "The configuration step includes advertising topology aspects, geographical proximity, capability, and performance of enlisted CDNs through inter-PA communication.",
+      "type": "ACTION",
+      "actors": [
+        "enlisted CDNs",
+        "PA"
+      ],
+      "actions": [
+        "advertise configuration information"
+      ],
+      "conditions": [
+        "CDN peering protocols are configured"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R22"
+      ],
+      "source_sentence": "This step includes advertising the configurations (topology aspects, geographical proximity, capability, performance, etc.) of enlisted CDNs through inter-PA communication."
+    },
+    {
+      "id": "R24",
+      "text": "After a peering arrangement is established, participating CDNs exchange content availability information and request redirection is enabled to an optimal peer.",
+      "type": "CONCURRENCY",
+      "actors": [
+        "participating CDNs"
+      ],
+      "actions": [
+        "exchange content availability information",
+        "enable request redirection"
+      ],
+      "conditions": [
+        "a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R22",
+        "R23"
+      ],
+      "source_sentence": "On establishment of a peering arrangement, these protocols also allow participating CDNs to exchange information regarding the content availability and assists to redirect requests to an optimal peer."
+    },
+    {
+      "id": "R25",
+      "text": "Request redirection depends on content distribution and request-routing policies, as well as the algorithms and methods used for directing requests.",
+      "type": "CONDITION",
+      "actors": [
+        "request routing system"
+      ],
+      "actions": [],
+      "conditions": [
+        "content distribution policies apply",
+        "request-routing policies apply",
+        "algorithms and methods for directing requests apply"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R24"
+      ],
+      "source_sentence": "Request-redirection in a peering arrangement depends on the content distribution and request-routing policies (specified in the CDN peering protocols) associated with the content as well as the specific algorithms and methods used for directing these requests."
+    },
+    {
+      "id": "R26",
+      "text": "When the primary CDN acquires sufficient resources from the peers to meet its SLA, the peering arrangement becomes operational.",
+      "type": "TERMINATION",
+      "actors": [
+        "primary CDN",
+        "peers"
+      ],
+      "actions": [
+        "acquire sufficient resources",
+        "become operational"
+      ],
+      "conditions": [
+        "the primary CDN meets its SLA"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R5",
+        "R24"
+      ],
+      "source_sentence": "When the primary CDN acquires sufficient resources from the peers to meet its SLA with the customer, the new peering arrangement becomes operational."
+    },
+    {
+      "id": "R27",
+      "text": "Necessary functional policies are deployed and administered effectively once the peering arrangement becomes operational.",
+      "type": "ACTION",
+      "actors": [
+        "functional policy management"
+      ],
+      "actions": [
+        "deploy functional policies",
+        "administer functional policies"
+      ],
+      "conditions": [
+        "the peering arrangement is operational"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R26"
+      ],
+      "source_sentence": "Hence, necessary functional policies are deployed and administered in an effective way."
+    },
+    {
+      "id": "R28",
+      "text": "Once a peering arrangement is established, all participating parties cooperate in the execution of common goals.",
+      "type": "CONCURRENCY",
+      "actors": [
+        "participating parties"
+      ],
+      "actions": [
+        "cooperate",
+        "execute common goals"
+      ],
+      "conditions": [
+        "a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R26"
+      ],
+      "source_sentence": "Once a peering arrangement is established, all participating parties cooperate in the execution of common goal(s)."
+    },
+    {
+      "id": "R29",
+      "text": "Peering enables the CDNs to exchange accounting information for billing based on the negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [
+        "exchange accounting information",
+        "perform billing"
+      ],
+      "conditions": [
+        "a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R26",
+        "R28"
+      ],
+      "source_sentence": "Peering also enables the CDNs to exchange accounting information to perform billing based on the negotiated relationships."
+    },
+    {
+      "id": "R30",
+      "text": "If no CDN is interested in peering, peering arrangement creation through re-negotiation is resumed by tuning the negotiated relationships with reconsidered service requirements.",
+      "type": "LOOP",
+      "actors": [
+        "CDNs",
+        "mediator"
+      ],
+      "actions": [
+        "resume peering arrangement creation through re-negotiation",
+        "tune negotiated relationships"
+      ],
+      "conditions": [
+        "no CDN is interested in peering"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R21",
+        "R29"
+      ],
+      "source_sentence": "If no CDN is interested in such peering, peering arrangement creation through re-negotiation is resumed by tuning the negotiated relationships with reconsidered service requirements."
+    },
+    {
+      "id": "R31",
+      "text": "An existing peering arrangement may need to disband or re-arrange itself if the original formation circumstances no longer hold.",
+      "type": "DECISION",
+      "actors": [
+        "existing peering arrangement"
+      ],
+      "actions": [
+        "disband",
+        "re-arrange"
+      ],
+      "conditions": [
+        "the circumstances under which the arrangement was formed no longer hold"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions."
+    },
+    {
+      "id": "R32",
+      "text": "An existing peering arrangement may need to disband or re-arrange itself if peering is no longer beneficial for the participating CDNs.",
+      "type": "DECISION",
+      "actors": [
+        "existing peering arrangement"
+      ],
+      "actions": [
+        "disband",
+        "re-arrange"
+      ],
+      "conditions": [
+        "peering is no longer beneficial for the participating CDNs"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions."
+    },
+    {
+      "id": "R33",
+      "text": "An existing peering arrangement may need to disband or re-arrange itself if it needs to be expanded further to deal with additional load.",
+      "type": "DECISION",
+      "actors": [
+        "existing peering arrangement"
+      ],
+      "actions": [
+        "disband",
+        "re-arrange"
+      ],
+      "conditions": [
+        "the arrangement needs expansion for additional load"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions."
+    },
+    {
+      "id": "R34",
+      "text": "An existing peering arrangement may need to disband or re-arrange itself if participating CDNs are not meeting their agreed upon contributions.",
+      "type": "DECISION",
+      "actors": [
+        "existing peering arrangement"
+      ],
+      "actions": [
+        "disband",
+        "re-arrange"
+      ],
+      "conditions": [
+        "participating CDNs are not meeting their agreed upon contributions"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions."
+    },
+    {
+      "id": "R35",
+      "text": "A Web server replicates content on-demand from the origin server and stores it for future use.",
+      "type": "ACTION",
+      "actors": [
+        "Web server"
+      ],
+      "actions": [
+        "replicate content on-demand",
+        "store content for future use"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A Web server replicates content on-demand from the origin server and stores it for future use."
+    },
+    {
+      "id": "R36",
+      "text": "In the event of a Web hotspot, a Web server initiates a request to trigger peering.",
+      "type": "ACTION",
+      "actors": [
+        "Web server"
+      ],
+      "actions": [
+        "initiate request to trigger peering"
+      ],
+      "conditions": [
+        "a Web hotspot occurs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R35"
+      ],
+      "source_sentence": "In the event of Web hotspot, it initiates request to trigger peering."
+    },
+    {
+      "id": "R37",
+      "text": "The Web services host ensures delivery of content to end-users based on negotiated policies with other CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "Web services host",
+        "end-users"
+      ],
+      "actions": [
+        "ensure delivery of content"
+      ],
+      "conditions": [
+        "negotiated policies with other CDNs exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs."
+    },
+    {
+      "id": "R38",
+      "text": "The policy agent, in conjunction with the mediator, determines which resources can be delegated and under what conditions delegation is permitted.",
+      "type": "ACTION",
+      "actors": [
+        "policy agent",
+        "mediator"
+      ],
+      "actions": [
+        "determine delegable resources",
+        "determine delegation conditions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "The policy agent is responsible (in conjunction with the mediator) for determining which resources can be delegated and under what conditions (policies) delegation is permitted."
+    },
+    {
+      "id": "R39",
+      "text": "The SLA-allocator provisions and reserves Web server resources to satisfy local and delegated SLAs and ensures that SLA terms are enforced.",
+      "type": "ACTION",
+      "actors": [
+        "SLA-allocator"
+      ],
+      "actions": [
+        "provision resources",
+        "reserve resources",
+        "enforce SLA terms"
+      ],
+      "conditions": [
+        "local and delegated SLAs exist"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The SLA-allocator performs the provisioning and reservation of Web server\u2019s resources (e.g. CPU, bandwidth, storage etc.) to satisfy both local and delegated SLAs, and ensures that the terms of the SLAs are enforced."
+    },
+    {
+      "id": "R40",
+      "text": "The Web servers\u2019 underlying algorithms perform on-demand caching, content selection, and routing between servers.",
+      "type": "ACTION",
+      "actors": [
+        "Web servers\u2019 underlying algorithms"
+      ],
+      "actions": [
+        "perform on-demand caching",
+        "perform content selection",
+        "perform routing between servers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Web servers\u2019 underlying algorithms perform on-demand caching, content selection, and routing between servers."
+    },
+    {
+      "id": "R41",
+      "text": "The Mediator generates service requirements as the basis for negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "generate service requirements"
+      ],
+      "conditions": [
+        "negotiated relationships are being formed"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "It generates service requirements as the basis for negotiated relationships."
+    },
+    {
+      "id": "R42",
+      "text": "The Mediator passes the service requirements to the PA.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator",
+        "PA"
+      ],
+      "actions": [
+        "pass service requirements"
+      ],
+      "conditions": [
+        "service requirements exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R41"
+      ],
+      "source_sentence": "It passes the service requirements to the PA."
+    },
+    {
+      "id": "R43",
+      "text": "The Mediator works in conjunction with its local PA to discover external resources and to negotiate with other CDNs.",
+      "type": "CONCURRENCY",
+      "actors": [
+        "Mediator",
+        "local PA",
+        "other CDNs"
+      ],
+      "actions": [
+        "discover external resources",
+        "negotiate"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R42"
+      ],
+      "source_sentence": "It works in conjunction with its local PA to discover external resources and to negotiate with other CDNs."
+    },
+    {
+      "id": "R44",
+      "text": "Once a peering arrangement is established, the Mediator controls what portion of Web traffic is redirected to peering CDN Web servers, which content is replicated there, how replication decisions are taken, and which replication policies are used.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator",
+        "peering CDN Web servers"
+      ],
+      "actions": [
+        "control traffic redirection",
+        "control content replication",
+        "control replication decision",
+        "control replication policies"
+      ],
+      "conditions": [
+        "a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R26"
+      ],
+      "source_sentence": "Once a peering arrangement is established, it controls what portion of the Web traffic (i.e. end-user requests) is redirected to the Web servers of the peering CDNs, which content is replicated there, how the replication decision is taken, and which replication policies are being used."
+    },
+    {
+      "id": "R45",
+      "text": "The Mediator ensures that participating entities can adapt to changing circumstances and achieve their objectives in a dynamic and uncertain environment.",
+      "type": "OTHER",
+      "actors": [
+        "participating entities",
+        "Mediator"
+      ],
+      "actions": [
+        "adapt to changing circumstances",
+        "achieve objectives"
+      ],
+      "conditions": [
+        "a dynamic and uncertain environment exists"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R44"
+      ],
+      "source_sentence": "It ensures that the participating entities are able to adapt to changing circumstances (agility) and are able to achieve their objectives in a dynamic and uncertain environment (resilience)"
+    },
+    {
+      "id": "R46",
+      "text": "The Service Registry encapsulates the resource and service information for each CDN.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "encapsulate resource information",
+        "encapsulate service information"
+      ],
+      "conditions": [
+        "for each CDN"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It encapsulates the resource and service information for each CDN."
+    },
+    {
+      "id": "R47",
+      "text": "The Service Registry helps discover local resources by enabling Web servers of CDN providers to register and publish their resource, service, and policy details.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry",
+        "Web servers of CDN providers"
+      ],
+      "actions": [
+        "help discover local resources",
+        "enable registration",
+        "enable publication"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R46"
+      ],
+      "source_sentence": "It helps in discovering local resources through enabling the Web servers of CDN providers to register and publish their resource, service and policy details."
+    },
+    {
+      "id": "R48",
+      "text": "In traffic surges, the Service Registry supplies necessary local resource information to the mediator.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry",
+        "mediator"
+      ],
+      "actions": [
+        "supply local resource information"
+      ],
+      "conditions": [
+        "traffic surges occur"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R47"
+      ],
+      "source_sentence": "In the face of traffic surges, it supplies any necessary local resource information to the mediator."
+    },
+    {
+      "id": "R49",
+      "text": "When a new peering arrangement is established, a Service Registry instance is created that encapsulates all local and delegated external CDN resources.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "create instance",
+        "encapsulate local resources",
+        "encapsulate delegated external resources"
+      ],
+      "conditions": [
+        "a new peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R46"
+      ],
+      "source_sentence": "When a new peering arrangement is established, an instance of the service registry is created that encapsulates all local and delegated external CDN resources."
+    },
+    {
+      "id": "R50",
+      "text": "The Policy Repository virtualizes all policies within a peering arrangement, including Web server-specific policies, mediator policies, peering policies, and delegated policies for resources.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Repository"
+      ],
+      "actions": [
+        "virtualize policies"
+      ],
+      "conditions": [
+        "within a peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It virtualizes all of the policies within a peering arrangement including PWS, P M , and P Peering (i.e. Web server-specific policies, mediator policies, peering policies), along with any delegated policies for resources as a result of the peering arrangement."
+    },
+    {
+      "id": "R51",
+      "text": "The Policy Repository provides rules to the mediator to administer, manage, and control access to resources in a peering arrangement.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Repository",
+        "mediator"
+      ],
+      "actions": [
+        "provide rules",
+        "administer resources",
+        "manage resources",
+        "control access to resources"
+      ],
+      "conditions": [
+        "a peering arrangement exists"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R50"
+      ],
+      "source_sentence": "It provides a set of rules to the mediator to administer, manage, and control access to the resources in a peering arrangement."
+    },
+    {
+      "id": "R52",
+      "text": "The Policy Repository returns existing peering policies to the PA during establishment of long-term peering arrangements.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Repository",
+        "PA"
+      ],
+      "actions": [
+        "return existing peering policies"
+      ],
+      "conditions": [
+        "long-term peering arrangements are being established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R50"
+      ],
+      "source_sentence": "It returns existing peering policies to the PA during the establishment of long-term peering arrangements."
+    },
+    {
+      "id": "R53",
+      "text": "A Peering Agent acts as a policy-driven resource discovery module for establishing negotiations.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent"
+      ],
+      "actions": [
+        "act as a resource discovery module",
+        "establish negotiations"
+      ],
+      "conditions": [
+        "policy-driven operation"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It acts as a policy-driven resource discovery module for establishing negotiations."
+    },
+    {
+      "id": "R54",
+      "text": "A Peering Agent exchanges policy, resource information, and service requirements with external PAs.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent",
+        "external PAs"
+      ],
+      "actions": [
+        "exchange policy information",
+        "exchange resource information",
+        "exchange service requirements"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R53"
+      ],
+      "source_sentence": "It exchanges policy, resource information, and service requirements with external PAs."
+    },
+    {
+      "id": "R55",
+      "text": "A Peering Agent is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent",
+        "mediator",
+        "other peers"
+      ],
+      "actions": [
+        "establish negotiations",
+        "acquire resources"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R54"
+      ],
+      "source_sentence": "It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them."
+    },
+    {
+      "id": "R56",
+      "text": "The components of CDN peering are driven by semi-autonomous logic that ensures content is served reliably through content replication, request-routing, and redirection while maintaining constant awareness of participant health.",
+      "type": "OTHER",
+      "actors": [
+        "CDN peering components"
+      ],
+      "actions": [
+        "serve content reliably",
+        "replicate content",
+        "route requests",
+        "redirect requests",
+        "maintain awareness of participant health"
+      ],
+      "conditions": [
+        "semi-autonomous logic is applied"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The operations performed by the components of the CDN peering is driven by semi-autonomous logic that ensures content is served reliably through content replication, request-routing and redirection whilst maintaining constant awareness of the health (e.g. load information) of participants."
+    },
+    {
+      "id": "R57",
+      "text": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each other in serving data.",
+      "type": "ACTION",
+      "actors": [
+        "participating CDNs"
+      ],
+      "actions": [
+        "perform content replication",
+        "assist each other in serving data"
+      ],
+      "conditions": [
+        "cooperative pull-based approach is used"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R56"
+      ],
+      "source_sentence": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data."
+    },
+    {
+      "id": "R58",
+      "text": "Content replication extends content to participating servers from peers in a peering arrangement subject to the resources they contribute.",
+      "type": "CONDITION",
+      "actors": [
+        "participating servers",
+        "peers"
+      ],
+      "actions": [
+        "extend content"
+      ],
+      "conditions": [
+        "resources are available and contributed"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R57"
+      ],
+      "source_sentence": "Thus, content replication is featured through extending it to participating servers from the peers in a given peering arrangement, subject to the available resources they contribute."
+    },
+    {
+      "id": "R59",
+      "text": "Load distribution is performed by measuring load information and disseminating it within individual CDNs and among other CDNs using a hierarchical approach.",
+      "type": "ACTION",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [
+        "measure load information",
+        "disseminate load information"
+      ],
+      "conditions": [
+        "load distribution is required"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R56"
+      ],
+      "source_sentence": "Load distribution is performed by measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach, where current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway (i.e. mediator, PA and policy repository as a single conceptual entity) in a periodic or threshold-based manner."
+    },
+    {
+      "id": "R60",
+      "text": "Current bandwidth and resource usage of Web servers in a CDN is reported to the CDN gateway in a periodic or threshold-based manner.",
+      "type": "ACTION",
+      "actors": [
+        "Web servers",
+        "CDN gateway"
+      ],
+      "actions": [
+        "report current bandwidth usage",
+        "report current resource usage"
+      ],
+      "conditions": [
+        "periodic reporting or threshold-based reporting applies"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R59"
+      ],
+      "source_sentence": "Load distribution is performed by measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach, where current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway (i.e. mediator, PA and policy repository as a single conceptual entity) in a periodic or threshold-based manner."
+    },
+    {
+      "id": "R61",
+      "text": "The gateways of participating CDNs communicate aggregated load information describing the load of their constituent servers.",
+      "type": "ACTION",
+      "actors": [
+        "gateways of participating CDNs"
+      ],
+      "actions": [
+        "communicate aggregated load information"
+      ],
+      "conditions": [
+        "load information is aggregated"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R60"
+      ],
+      "source_sentence": "The gateways of participating CDNs then communicate aggregated load information describing the load of their constituent servers."
+    },
+    {
+      "id": "R62",
+      "text": "Request assignment and redirection is performed at the DNS level, at gateways to local clusters, and between servers in a cluster.",
+      "type": "ACTION",
+      "actors": [
+        "DNS",
+        "gateways",
+        "servers"
+      ],
+      "actions": [
+        "assign requests",
+        "redirect requests"
+      ],
+      "conditions": [
+        "request handling is required"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R56"
+      ],
+      "source_sentence": "Request assignment and redirection is performed at multiple levels \u2013 at the DNS, at the gateways to local clusters, and also (redirection) between servers in a cluster."
+    },
+    {
+      "id": "R63",
+      "text": "End-users can be assigned via DNS by peering agents regularly updating DNS records and via redirection at the CDN gateway when appropriate.",
+      "type": "ACTION",
+      "actors": [
+        "end-users",
+        "peering agents",
+        "CDN gateway"
+      ],
+      "actions": [
+        "assign end-users via DNS",
+        "update DNS records",
+        "redirect at CDN gateway"
+      ],
+      "conditions": [
+        "regular DNS updates are performed",
+        "redirection is appropriate"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R62"
+      ],
+      "source_sentence": "Therefore, end-users can be assigned via DNS (by the peering agents of participating CDNs updating their DNS records regularly) and also via redirection at the CDN gateway when appropriate."
+    }
+  ],
+  "matrix": {
+    "items": []
+  }
+}

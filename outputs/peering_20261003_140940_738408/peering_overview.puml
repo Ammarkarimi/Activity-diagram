@@ -1,0 +1,36 @@
+@startuml
+title peering - Overview
+
+start
+
+:Trigger Peering (part 1/2);
+:Trigger Peering (part 2/2);
+if (Outcome of Trigger Peering (part 2/2)?) then (initialization request accepted)
+(A)
+:Prepare Negotiation (part 1/2);
+:Prepare Negotiation (part 2/2);
+if (Outcome of Prepare Negotiation (part 2/2)?) then (service requirements ready)
+(B)
+:Discover Peers;
+if (Outcome of Discover Peers?) then (sufficient resources acquired)
+else (insufficient resources; re-negotiate)
+(A)
+detach
+endif
+:Establish Peering;
+if (Outcome of Establish Peering?) then (peering arrangement established and operational)
+else (no CDN interested; re-negotiate)
+(B)
+detach
+endif
+:Operate Peering (part 1/2);
+:Operate Peering (part 2/2);
+stop
+else (user requests rejected by policy)
+stop
+endif
+else (initiation cancelled or rejected)
+stop
+endif
+
+@enduml

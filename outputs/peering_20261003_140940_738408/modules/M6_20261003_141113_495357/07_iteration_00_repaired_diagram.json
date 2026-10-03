@@ -1,0 +1,328 @@
+{
+  "nodes": [
+    {
+      "id": "N1",
+      "type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": [
+        "R34",
+        "R61",
+        "R134"
+      ]
+    },
+    {
+      "id": "N2",
+      "type": "action",
+      "label": "Create negotiated relationship",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R9"
+      ]
+    },
+    {
+      "id": "N3",
+      "type": "action",
+      "label": "Configure CDN peering protocols",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R27",
+        "R28"
+      ]
+    },
+    {
+      "id": "N4",
+      "type": "action",
+      "label": "Advertise configuration information",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R29",
+        "R30",
+        "R134"
+      ]
+    },
+    {
+      "id": "N5",
+      "type": "action",
+      "label": "Exchange content availability information",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R31",
+        "R135"
+      ]
+    },
+    {
+      "id": "N6",
+      "type": "action",
+      "label": "Exchange load information",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R32",
+        "R135",
+        "R73",
+        "R74"
+      ]
+    },
+    {
+      "id": "N7",
+      "type": "decision",
+      "label": "Sufficient resources acquired?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R34",
+        "R72"
+      ]
+    },
+    {
+      "id": "N8",
+      "type": "action",
+      "label": "Deploy functional policies",
+      "lane": "Policy Repository",
+      "requirement_ids": [
+        "R35",
+        "R138"
+      ]
+    },
+    {
+      "id": "N9",
+      "type": "action",
+      "label": "Administer functional policies",
+      "lane": "Policy Repository",
+      "requirement_ids": [
+        "R35",
+        "R138"
+      ]
+    },
+    {
+      "id": "N10",
+      "type": "action",
+      "label": "Create service registry instance",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R61"
+      ]
+    },
+    {
+      "id": "N11",
+      "type": "action",
+      "label": "Cooperate in common goals",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R36",
+        "R70"
+      ]
+    },
+    {
+      "id": "N12",
+      "type": "action",
+      "label": "Update DNS records",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R76"
+      ]
+    },
+    {
+      "id": "N13",
+      "type": "action",
+      "label": "Assign end-users via DNS",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R75",
+        "R76"
+      ]
+    },
+    {
+      "id": "N15",
+      "type": "final",
+      "label": "Peering arrangement established and operational",
+      "lane": null,
+      "requirement_ids": [
+        "R34",
+        "R36",
+        "R61"
+      ]
+    },
+    {
+      "id": "N16",
+      "type": "action",
+      "label": "Perform content replication",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R71",
+        "R72"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "source": "N1",
+      "target": "N2",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R9"
+      ]
+    },
+    {
+      "id": "E2",
+      "source": "N2",
+      "target": "N3",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R27",
+        "R28",
+        "R134"
+      ]
+    },
+    {
+      "id": "E3",
+      "source": "N3",
+      "target": "N4",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R29",
+        "R30",
+        "R134"
+      ]
+    },
+    {
+      "id": "E4",
+      "source": "N4",
+      "target": "N5",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R31",
+        "R134"
+      ]
+    },
+    {
+      "id": "E5",
+      "source": "N5",
+      "target": "N6",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R32",
+        "R135"
+      ]
+    },
+    {
+      "id": "E6",
+      "source": "N6",
+      "target": "N7",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R33",
+        "R34",
+        "R73",
+        "R74"
+      ]
+    },
+    {
+      "id": "E7",
+      "source": "N7",
+      "target": "N8",
+      "type": "control",
+      "guard": "yes",
+      "requirement_ids": [
+        "R34",
+        "R35",
+        "R138"
+      ]
+    },
+    {
+      "id": "E8",
+      "source": "N7",
+      "target": "N15",
+      "type": "control",
+      "guard": "no",
+      "requirement_ids": [
+        "R72",
+        "R73"
+      ]
+    },
+    {
+      "id": "E9",
+      "source": "N8",
+      "target": "N9",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R35",
+        "R138"
+      ]
+    },
+    {
+      "id": "E10",
+      "source": "N9",
+      "target": "N10",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R61"
+      ]
+    },
+    {
+      "id": "E11",
+      "source": "N10",
+      "target": "N11",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R36",
+        "R61",
+        "R70"
+      ]
+    },
+    {
+      "id": "E12",
+      "source": "N11",
+      "target": "N16",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R36",
+        "R71",
+        "R72"
+      ]
+    },
+    {
+      "id": "E13",
+      "source": "N16",
+      "target": "N15",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R71",
+        "R72"
+      ]
+    },
+    {
+      "id": "E14",
+      "source": "N12",
+      "target": "N13",
+      "type": "control",
+      "guard": "regular update",
+      "requirement_ids": [
+        "R76"
+      ]
+    },
+    {
+      "id": "E15",
+      "source": "N13",
+      "target": "N15",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R75",
+        "R76"
+      ]
+    }
+  ],
+  "title": "Establish Peering"
+}

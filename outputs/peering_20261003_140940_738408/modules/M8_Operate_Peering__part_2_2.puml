@@ -1,0 +1,41 @@
+@startuml
+title Operate Peering (part 2/2)
+
+|Mediator|
+start
+
+:Detect load spike;
+if (External resources needed?) then (yes)
+:Discover external resources;
+:Negotiate with other CDNs;
+else (no)
+endif
+|SLA-allocator|
+:Provision server resources;
+|Web Server|
+:Replicate content;
+:Cache content;
+:Select content;
+:Route between servers;
+:Redirect request;
+if (Redirect request) then (yes)
+else (no)
+stop
+endif
+:Deliver content;
+|Peering Agent|
+:Exchange accounting information;
+:Perform billing;
+if (Termination condition holds?) then (yes)
+:Disband peering arrangement;
+stop
+elseif (Termination condition holds?) then (no)
+:Re-arrange peering arrangement;
+stop
+else (exception)
+|Policy Agent|
+:Bypass SLA conditions;
+stop
+endif
+
+@enduml

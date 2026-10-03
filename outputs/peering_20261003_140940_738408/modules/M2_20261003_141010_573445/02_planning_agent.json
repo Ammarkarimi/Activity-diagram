@@ -1,0 +1,483 @@
+{
+  "objective": "Detect a workload or hotspot condition and submit an initialization request to start peering.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Request content from CDN WSs",
+      "lane": "End-user",
+      "requirement_ids": [
+        "R104"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "decision",
+      "label": "Traffic burst detected?",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R105",
+        "R111"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Identify hotspot",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R106"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "action",
+      "label": "Send initialization request",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R107",
+        "R112"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "action",
+      "label": "Receive initialization request",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R118",
+        "R121"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "decision",
+      "label": "Requests acceptable by policy?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R111",
+        "R126"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "decision",
+      "label": "Service timeout reached?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R108"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Reject malicious requests",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R109"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "final",
+      "label": "Request rejected",
+      "lane": null,
+      "requirement_ids": [
+        "R109",
+        "R126"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "final",
+      "label": "Initiation cancelled",
+      "lane": null,
+      "requirement_ids": [
+        "R108"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "final",
+      "label": "Initialization request accepted",
+      "lane": null,
+      "requirement_ids": [
+        "R121"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R104"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R105",
+        "R111"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R105",
+        "R106",
+        "R111"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P12",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R111"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R106",
+        "R107"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R107",
+        "R112",
+        "R121"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R118",
+        "R121",
+        "R126"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P8",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R111",
+        "R126"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P9",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R109",
+        "R126"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P10",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R109"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P11",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R108"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P12",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R121"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "Traffic burst detected?",
+      "branch_ids": [
+        "P4",
+        "P12"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D2",
+      "condition": "Requests acceptable by policy?",
+      "branch_ids": [
+        "P8",
+        "P9"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D3",
+      "condition": "Service timeout reached?",
+      "branch_ids": [
+        "P11",
+        "P12"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [],
+  "concurrency": [],
+  "exceptions": [
+    {
+      "exception_id": "E1",
+      "trigger": "malicious requests",
+      "handler_node_id": "P9",
+      "requirement_ids": [
+        "R109"
+      ]
+    },
+    {
+      "exception_id": "E2",
+      "trigger": "the user requests can not be accepted according the provider policies",
+      "handler_node_id": "P10",
+      "requirement_ids": [
+        "R126"
+      ]
+    },
+    {
+      "exception_id": "E3",
+      "trigger": "user requests experience service timeout threshold",
+      "handler_node_id": "P11",
+      "requirement_ids": [
+        "R108"
+      ]
+    }
+  ],
+  "decision_strategy": [
+    "Model the main flow from end-user demand to Web Server hotspot detection, then initialization request submission to Mediator.",
+    "Use one decision for traffic burst detection to separate the peering-trigger path from the pass-through completion path.",
+    "At Mediator, evaluate provider-policy acceptability before proceeding.",
+    "If policy blocks acceptance, terminate with Request rejected; if timeout occurs, terminate with Initiation cancelled.",
+    "Treat malicious-request handling as the rejection outcome associated with policy non-acceptance."
+  ],
+  "concurrency_strategy": [
+    "No concurrency is specified in this module."
+  ],
+  "exception_strategy": [
+    "Cancel the initiation request when the service timeout threshold is reached.",
+    "Reject malicious requests and end in the Request rejected final node.",
+    "If provider policies do not accept the requests, do not pass service requirements to the local PA and terminate with Request rejected."
+  ],
+  "termination_strategy": [
+    "Use exactly one initial node and multiple final nodes to distinguish pass-through completion from rejected or cancelled termination.",
+    "Initialization request accepted means control passes to the next module.",
+    "Request rejected and Initiation cancelled are terminating outcomes for this module."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R104",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1",
+          "P2"
+        ],
+        "evidence": "End users request content from CDN WSs.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R105",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2",
+          "P3"
+        ],
+        "evidence": "Flash crowd / sudden burst condition is checked as the trigger.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R106",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3",
+          "P4"
+        ],
+        "evidence": "Web server hotspot / overload is identified before escalation.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R107",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P4",
+          "P5"
+        ],
+        "evidence": "Web server sends initialization request to mediator to trigger peering.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R108",
+        "diagram_node_ids": [
+          "P8",
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P8",
+          "P11"
+        ],
+        "evidence": "Service timeout cancels the initiation request.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R109",
+        "diagram_node_ids": [
+          "P9",
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P7",
+          "P9"
+        ],
+        "evidence": "Malicious requests are detected and rejected.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R110",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Context only; no behavior drawn in this module.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R111",
+        "diagram_node_ids": [
+          "P3",
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P2",
+          "P3",
+          "P6",
+          "P7"
+        ],
+        "evidence": "Both anticipated and unanticipated user requests are considered in trigger/policy evaluation.",
+        "confidence": 0.82
+      },
+      {
+        "requirement_id": "R112",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P4",
+          "P5"
+        ],
+        "evidence": "Initialization request format constraint is associated with sending the request.",
+        "confidence": 0.75
+      },
+      {
+        "requirement_id": "R118",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P6"
+        ],
+        "evidence": "Initialization request is received by the mediator.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R121",
+        "diagram_node_ids": [
+          "P6",
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P6",
+          "P8",
+          "P12"
+        ],
+        "evidence": "Mediator receives initialization request to activate peering and accepts it on the pass-through path.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R126",
+        "diagram_node_ids": [
+          "P7",
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P7",
+          "P9",
+          "P9",
+          "P10"
+        ],
+        "evidence": "If requests cannot be accepted per provider policies, service requirements are not passed to the local PA and the flow terminates as rejected.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R139",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Not applicable to this module; peered-provider refusal occurs later.",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

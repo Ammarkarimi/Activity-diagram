@@ -1,0 +1,225 @@
+{
+  "source": "provided",
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "CDN peering allows different CDN providers to share resources.",
+      "type": "ACTION",
+      "actors": [
+        "CDN providers"
+      ],
+      "actions": [
+        "share resources"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "CDN peering allows different CDN providers to share resources in order to provide larger scale and/or reach to each participant than they could not achieve otherwise.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R2",
+      "text": "CDN peering is formed by a set of autonomous CDNs.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It is formed by a set of autonomous CDNs, which cooperate through a mechanism that provides facilities and infrastructure for cooperation in order to virtualize multiple providers.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R3",
+      "text": "An effective peering arrangement between CDNs requires multiple steps to occur.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It is expected that an effective peering arrangement between CDNs would require multiple steps to occur.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R5",
+      "text": "Peering allows a particular CDN to achieve larger scale and reach through resource sharing with other CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [
+        "achieve larger scale and reach through resource sharing"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1",
+        "R4"
+      ],
+      "source_sentence": "Peering allows a particular CDN to achieve larger scale/reach through resource sharing with other CDN(s).",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R37",
+      "text": "Peering enables the CDNs to exchange accounting information for billing based on the negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [
+        "exchange accounting information",
+        "perform billing"
+      ],
+      "conditions": [
+        "based on the negotiated relationships"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R36"
+      ],
+      "source_sentence": "Peering also enables the CDNs to exchange accounting information to perform billing based on the negotiated relationships.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R38",
+      "text": "If no CDN is interested in such peering, peering arrangement creation through re-negotiation is resumed by tuning the negotiated relationships with reconsidered service requirements.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "resume peering arrangement creation through re-negotiation",
+        "tune the negotiated relationships"
+      ],
+      "conditions": [
+        "no CDN is interested in such peering",
+        "reconsidered service requirements"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R37"
+      ],
+      "source_sentence": "If no CDN is interested in such peering, peering arrangement creation through re-negotiation is resumed by tuning the negotiated relationships with reconsidered service requirements.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R39",
+      "text": "An existing peering arrangement may need to disband itself if the circumstances under which the arrangement was formed no longer hold.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "disband itself"
+      ],
+      "conditions": [
+        "circumstances under which the arrangement was formed no longer hold"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R40",
+      "text": "An existing peering arrangement may need to disband itself if peering is no longer beneficial for the participating CDNs.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "disband itself"
+      ],
+      "conditions": [
+        "peering is no longer beneficial for the participating CDNs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R39"
+      ],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R41",
+      "text": "An existing peering arrangement may need to re-arrange itself if it needs to be expanded further in order to deal with additional load.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "re-arrange itself"
+      ],
+      "conditions": [
+        "needs to be expanded further",
+        "additional load"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R40"
+      ],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R42",
+      "text": "An existing peering arrangement may need to disband itself if participating CDNs are not meeting their agreed upon contributions.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "disband itself"
+      ],
+      "conditions": [
+        "participating CDNs are not meeting their agreed upon contributions"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R41"
+      ],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R43",
+      "text": "The software infrastructure enabling peering between CDNs can be featured with the following major goals:",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The software infrastructure enabling peering between CDNs can be featured with the following major goals:",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R44",
+      "text": "Development and validation of peering and manage the complexity of content delivery across Web servers of multiple CDNs that scale across the globe.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Development and validation of peering and manage the complexity of content delivery across Web servers of multiple CDNs that scale across the globe.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R45",
+      "text": "Decrease cost of Web access, increase QoS through reduced latency, reduce server load, and bandwidth consumption (by a particular CDN server), thus improving the performance of content delivery.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Decrease cost of Web access, increase QoS through reduced latency, reduce server load, and bandwidth consumption (by a particular CDN server), thus improving the performance of content delivery.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    }
+  ]
+}

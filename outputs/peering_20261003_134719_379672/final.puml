@@ -1,0 +1,137 @@
+@startuml
+title CDN Peering Activity Diagram
+
+start
+
+:Web server publishes resource and service information;
+if (New resource?) then (yes)
+:Register resource in Service Registry and assign new resource ID;
+else (no)
+:Update existing resource information in Service Registry;
+endif
+if (Traffic surge or new peering instance needed?) then (traffic surge)
+:Supply local resource information to mediator;
+else (new peering instance)
+:Create Service Registry instance for established peering arrangement;
+endif
+:End-user request triggers hotspot and Web server initiates peering request;
+if (User request acceptable and non-malicious?) then (no)
+:Reject malicious or timeout-violating initiation request;
+else (yes)
+:Mediator receives initiation request and obtains resource/access info from Service Registry and policies from Policy Repository;
+:Mediator generates service requirements;
+if (Service requirements acceptable under provider policy?) then (no)
+:Reject user requests and do not pass service requirements to PA;
+else (yes)
+:Pass service requirements to local Peering Agent;
+:PA performs resource discovery and predicts peer performance;
+if (Long-term preexisting peering arrangement exists?) then (yes)
+:Return existing peering policies and arrangements;
+:Configure CDN peering protocols and advertise topology, proximity, capability, and performance;
+fork
+:Exchange content availability information and enable request redirection;
+repeat
+:Control traffic redirection, content replication, replication decisions, and replication policies;
+:Operate with agility and resilience while maintaining delivery effectiveness;
+repeat
+:Re-arrange peering arrangement and tune negotiated relationships;
+repeat while (re-arrange or expand) is (true)
+:Disband peering arrangement;
+stop
+repeat while (yes) is (true)
+:Re-evaluate service requirements and request renegotiation;
+fork again
+:Deploy and administer functional policies;
+repeat
+:Control traffic redirection, content replication, replication decisions, and replication policies;
+:Operate with agility and resilience while maintaining delivery effectiveness;
+repeat
+:Re-arrange peering arrangement and tune negotiated relationships;
+repeat while (re-arrange or expand) is (true)
+:Disband peering arrangement;
+stop
+repeat while (yes) is (true)
+:Re-evaluate service requirements and request renegotiation;
+fork again
+:Cooperate in execution of common goals and exchange accounting information for billing;
+repeat
+:Control traffic redirection, content replication, replication decisions, and replication policies;
+:Operate with agility and resilience while maintaining delivery effectiveness;
+repeat
+:Re-arrange peering arrangement and tune negotiated relationships;
+repeat while (re-arrange or expand) is (true)
+:Disband peering arrangement;
+stop
+repeat while (yes) is (true)
+:Re-evaluate service requirements and request renegotiation;
+fork again
+:Discover external resources and negotiate with other CDNs through local PA;
+repeat
+:Control traffic redirection, content replication, replication decisions, and replication policies;
+:Operate with agility and resilience while maintaining delivery effectiveness;
+repeat
+:Re-arrange peering arrangement and tune negotiated relationships;
+repeat while (re-arrange or expand) is (true)
+:Disband peering arrangement;
+stop
+repeat while (yes) is (true)
+:Re-evaluate service requirements and request renegotiation;
+end fork
+else (no)
+:Perform short-term negotiation with identified peering targets;
+:Exchange policy, resource information, and service requirements with external PAs;
+:Configure CDN peering protocols and advertise topology, proximity, capability, and performance;
+fork
+:Exchange content availability information and enable request redirection;
+repeat
+:Control traffic redirection, content replication, replication decisions, and replication policies;
+:Operate with agility and resilience while maintaining delivery effectiveness;
+repeat
+:Re-arrange peering arrangement and tune negotiated relationships;
+repeat while (re-arrange or expand) is (true)
+:Disband peering arrangement;
+stop
+repeat while (yes) is (true)
+:Re-evaluate service requirements and request renegotiation;
+fork again
+:Deploy and administer functional policies;
+repeat
+:Control traffic redirection, content replication, replication decisions, and replication policies;
+:Operate with agility and resilience while maintaining delivery effectiveness;
+repeat
+:Re-arrange peering arrangement and tune negotiated relationships;
+repeat while (re-arrange or expand) is (true)
+:Disband peering arrangement;
+stop
+repeat while (yes) is (true)
+:Re-evaluate service requirements and request renegotiation;
+fork again
+:Cooperate in execution of common goals and exchange accounting information for billing;
+repeat
+:Control traffic redirection, content replication, replication decisions, and replication policies;
+:Operate with agility and resilience while maintaining delivery effectiveness;
+repeat
+:Re-arrange peering arrangement and tune negotiated relationships;
+repeat while (re-arrange or expand) is (true)
+:Disband peering arrangement;
+stop
+repeat while (yes) is (true)
+:Re-evaluate service requirements and request renegotiation;
+fork again
+:Discover external resources and negotiate with other CDNs through local PA;
+repeat
+:Control traffic redirection, content replication, replication decisions, and replication policies;
+:Operate with agility and resilience while maintaining delivery effectiveness;
+repeat
+:Re-arrange peering arrangement and tune negotiated relationships;
+repeat while (re-arrange or expand) is (true)
+:Disband peering arrangement;
+stop
+repeat while (yes) is (true)
+:Re-evaluate service requirements and request renegotiation;
+end fork
+endif
+endif
+endif
+
+@enduml

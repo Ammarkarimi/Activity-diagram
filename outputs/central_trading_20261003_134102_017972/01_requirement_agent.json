@@ -1,0 +1,996 @@
+{
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "The central trading system shall complete stock trading.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "complete stock trading"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The central trading system (CTS) is to complete the trading of stock."
+    },
+    {
+      "id": "R2",
+      "text": "The central trading system shall analyze instructions that enter it.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "analyze instructions"
+      ],
+      "conditions": [
+        "instructions enter the central trading system"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "It analyses the instructions that enter the central trading system and divides them into several kinds of instructions."
+    },
+    {
+      "id": "R3",
+      "text": "The central trading system shall divide analyzed instructions into several kinds of instructions.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "divide instructions"
+      ],
+      "conditions": [
+        "instructions have been analyzed"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "It analyses the instructions that enter the central trading system and divides them into several kinds of instructions."
+    },
+    {
+      "id": "R4",
+      "text": "The system shall match instructions under specifically prescripts.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "match instructions"
+      ],
+      "conditions": [
+        "specifically prescripts apply"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R3"
+      ],
+      "source_sentence": "System will make a match between them under specifically prescripts."
+    },
+    {
+      "id": "R5",
+      "text": "The central trading system shall provide interfaces to send messages to other modules.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "provide interfaces",
+        "send messages"
+      ],
+      "conditions": [
+        "other modules exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "Also central trading system provides some interfaces to send messages to other modules."
+    },
+    {
+      "id": "R6",
+      "text": "The central trading system shall receive instructions from the trade client serve subsystem.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System",
+        "Trade Client Serve"
+      ],
+      "actions": [
+        "receive instructions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "The CTS receive instructions from trade client serve."
+    },
+    {
+      "id": "R7",
+      "text": "The central trading system shall produce new messages after dealing with instructions from the trade client serve subsystem.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "produce new messages"
+      ],
+      "conditions": [
+        "instructions from trade client serve have been dealt with"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R6"
+      ],
+      "source_sentence": "Then the CTS produce new messages which to be sent to network message promulgating after deal with the instructions from trade client serve."
+    },
+    {
+      "id": "R8",
+      "text": "The new messages shall be sent to network message promulgating.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System",
+        "Network Message Promulgating"
+      ],
+      "actions": [
+        "send messages"
+      ],
+      "conditions": [
+        "new messages have been produced"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R7"
+      ],
+      "source_sentence": "Then the CTS produce new messages which to be sent to network message promulgating after deal with the instructions from trade client serve."
+    },
+    {
+      "id": "R9",
+      "text": "The system manager shall be authorized to access information in the CTS.",
+      "type": "ACTOR",
+      "actors": [
+        "System Manager"
+      ],
+      "actions": [
+        "access information"
+      ],
+      "conditions": [
+        "authorization is granted"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Also the system manager is authorization to access the information in CTS."
+    },
+    {
+      "id": "R10",
+      "text": "The CTS shall provide easy operations to terminal users.",
+      "type": "ACTION",
+      "actors": [
+        "Terminal Users",
+        "CTS"
+      ],
+      "actions": [
+        "provide operations"
+      ],
+      "conditions": [
+        "users are terminal users"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The CTS provides the terminal users easy Operations that are confined to a series of mouse clicks and keyboard, which compared to other systems are really much simplified."
+    },
+    {
+      "id": "R11",
+      "text": "The terminal-user operations shall be confined to a series of mouse clicks and keyboard inputs.",
+      "type": "CONDITION",
+      "actors": [
+        "Terminal Users"
+      ],
+      "actions": [
+        "use mouse clicks",
+        "use keyboard"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R10"
+      ],
+      "source_sentence": "The CTS provides the terminal users easy Operations that are confined to a series of mouse clicks and keyboard, which compared to other systems are really much simplified."
+    },
+    {
+      "id": "R12",
+      "text": "The maintainers of the CTS must be familiar with Java programming.",
+      "type": "CONDITION",
+      "actors": [
+        "Maintainers"
+      ],
+      "actions": [
+        "be familiar with Java programming"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "the maintainers of this CTS must be familiar with java programming and the socket."
+    },
+    {
+      "id": "R13",
+      "text": "The maintainers of the CTS must be familiar with socket programming.",
+      "type": "CONDITION",
+      "actors": [
+        "Maintainers"
+      ],
+      "actions": [
+        "be familiar with the socket"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "the maintainers of this CTS must be familiar with java programming and the socket."
+    },
+    {
+      "id": "R14",
+      "text": "The maintainers shall identify the cause of a system crash.",
+      "type": "ACTION",
+      "actors": [
+        "Maintainers"
+      ],
+      "actions": [
+        "find the cause"
+      ],
+      "conditions": [
+        "the system crashes down"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "source_sentence": "When the system crashes down, they can find the cause and fix it."
+    },
+    {
+      "id": "R15",
+      "text": "The maintainers shall fix a system crash.",
+      "type": "ACTION",
+      "actors": [
+        "Maintainers"
+      ],
+      "actions": [
+        "fix it"
+      ],
+      "conditions": [
+        "the system crashes down"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R14"
+      ],
+      "source_sentence": "When the system crashes down, they can find the cause and fix it."
+    },
+    {
+      "id": "R16",
+      "text": "The maintainers shall modify the program to support new requirements.",
+      "type": "ACTION",
+      "actors": [
+        "Maintainers"
+      ],
+      "actions": [
+        "modify the program"
+      ],
+      "conditions": [
+        "new requirements should be supported"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "source_sentence": "When new requirements should be supported, they can modify the program to make it fit."
+    },
+    {
+      "id": "R17",
+      "text": "The CTS shall take frequent instruction operations into account.",
+      "type": "ACTION",
+      "actors": [
+        "CTS"
+      ],
+      "actions": [
+        "take into consideration"
+      ],
+      "conditions": [
+        "instructions are frequently operated"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "As the instruction is frequently operated in CTS such as fetch, deal with, repeal and so on, the CTS is heavily transferred."
+    },
+    {
+      "id": "R18",
+      "text": "The CTS shall accommodate heavy transfer/load conditions.",
+      "type": "ACTION",
+      "actors": [
+        "CTS"
+      ],
+      "actions": [
+        "take into consideration"
+      ],
+      "conditions": [
+        "the CTS is heavily transferred"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R17"
+      ],
+      "source_sentence": "As the instruction is frequently operated in CTS such as fetch, deal with, repeal and so on, the CTS is heavily transferred."
+    },
+    {
+      "id": "R19",
+      "text": "The program shall consider overhead exceeding capacity.",
+      "type": "ACTION",
+      "actors": [
+        "Program"
+      ],
+      "actions": [
+        "take into consideration"
+      ],
+      "conditions": [
+        "overhead exceeds the capacity of it"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R18"
+      ],
+      "source_sentence": "The program must take this into consideration."
+    },
+    {
+      "id": "R20",
+      "text": "The maintainers shall have good strategies to overcome system crashes when overhead exceeds capacity.",
+      "type": "ACTION",
+      "actors": [
+        "Maintainers"
+      ],
+      "actions": [
+        "have good strategies",
+        "overcome crash"
+      ],
+      "conditions": [
+        "overhead exceeds the capacity of the system"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "The maintainers of CTS should have good strategies to overcome crash of the system when overhead exceeds the capacity of it."
+    },
+    {
+      "id": "R21",
+      "text": "When the buy button is clicked, the transaction user interface shall give the buy instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Transaction User Interface"
+      ],
+      "actions": [
+        "give the buy instruction"
+      ],
+      "conditions": [
+        "the buy button on UI been clicked"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   transaction user interface: give the buy instruction"
+    },
+    {
+      "id": "R22",
+      "text": "The central trading system shall save the buy instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "save the buy instruction"
+      ],
+      "conditions": [
+        "the buy instruction is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R21"
+      ],
+      "source_sentence": "2.   central trading system: save the buy instruction"
+    },
+    {
+      "id": "R23",
+      "text": "The central trading system shall match instructions with the same stock id for a buy transaction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "match the instructions"
+      ],
+      "conditions": [
+        "instructions have the same stock id",
+        "buy transaction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R22"
+      ],
+      "source_sentence": "3.   central  trading  system:  match  the  instructions  with  the  same stock id"
+    },
+    {
+      "id": "R24",
+      "text": "The central trading system shall make a trade by matching for a buy transaction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "make a trade"
+      ],
+      "conditions": [
+        "matching is successful",
+        "buy transaction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R23"
+      ],
+      "source_sentence": "4.   central trading system: make a trade by matching"
+    },
+    {
+      "id": "R25",
+      "text": "The central trading system shall modify the information of matched instructions for a buy transaction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "modify the information"
+      ],
+      "conditions": [
+        "instructions are matched",
+        "buy transaction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R24"
+      ],
+      "source_sentence": "5.   central trading system: modify the information of matched instructions"
+    },
+    {
+      "id": "R26",
+      "text": "The buy transaction shall suspend all operations when operations are suspended.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Buy Transaction"
+      ],
+      "actions": [
+        "suspend all operations"
+      ],
+      "conditions": [
+        "all the operations have been suspended"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R25"
+      ],
+      "source_sentence": "1.    all the operations have been suspended"
+    },
+    {
+      "id": "R27",
+      "text": "The buy transaction shall handle trade exceptions.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Buy Transaction"
+      ],
+      "actions": [
+        "handle trade exceptions"
+      ],
+      "conditions": [
+        "some trade exceptions come up"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R25"
+      ],
+      "source_sentence": "2.    some trade exceptions come up"
+    },
+    {
+      "id": "R28",
+      "text": "The buy transaction shall report when no matched stock exists for the buy instruction.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Buy Transaction"
+      ],
+      "actions": [
+        "report no matched stock"
+      ],
+      "conditions": [
+        "no matched stock with the buy instruction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R25"
+      ],
+      "source_sentence": "3.    no matched stock with the buy instruction"
+    },
+    {
+      "id": "R29",
+      "text": "When the sell button is clicked, the transaction user interface shall give the sell instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Transaction User Interface"
+      ],
+      "actions": [
+        "give the sell instruction"
+      ],
+      "conditions": [
+        "the sell button on UI been clicked"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   transaction user interface: give the sell instruction"
+    },
+    {
+      "id": "R30",
+      "text": "The central trading system shall save the sell instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "save the sell instruction"
+      ],
+      "conditions": [
+        "the sell instruction is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R29"
+      ],
+      "source_sentence": "2.   central trading system: save the sell instruction"
+    },
+    {
+      "id": "R31",
+      "text": "The central trading system shall match instructions with the same stock id for a sell transaction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "match the instructions"
+      ],
+      "conditions": [
+        "instructions have the same stock id",
+        "sell transaction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R30"
+      ],
+      "source_sentence": "3.   central  trading  system:  match  the  instructions  with  the  same stock id"
+    },
+    {
+      "id": "R32",
+      "text": "The central trading system shall make a trade by matching for a sell transaction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "make a trade"
+      ],
+      "conditions": [
+        "matching is successful",
+        "sell transaction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R31"
+      ],
+      "source_sentence": "4.   central trading system: make a trade by matching"
+    },
+    {
+      "id": "R33",
+      "text": "The central trading system shall modify the information of matched instructions for a sell transaction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "modify the information"
+      ],
+      "conditions": [
+        "instructions are matched",
+        "sell transaction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R32"
+      ],
+      "source_sentence": "5.   central trading system: modify the information of matched instructions"
+    },
+    {
+      "id": "R34",
+      "text": "The sell transaction shall suspend all operations when operations are suspended.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Sell Transaction"
+      ],
+      "actions": [
+        "suspend all operations"
+      ],
+      "conditions": [
+        "all the operations have been suspended"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R33"
+      ],
+      "source_sentence": "1.   all the operations have been suspended"
+    },
+    {
+      "id": "R35",
+      "text": "The sell transaction shall handle deal exceptions.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Sell Transaction"
+      ],
+      "actions": [
+        "handle deal exceptions"
+      ],
+      "conditions": [
+        "some deal exceptions come up"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R33"
+      ],
+      "source_sentence": "2.   some deal exceptions come up"
+    },
+    {
+      "id": "R36",
+      "text": "The sell transaction shall report when no matched stock exists for the buy instruction.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Sell Transaction"
+      ],
+      "actions": [
+        "report no matched stock"
+      ],
+      "conditions": [
+        "no matched stock with the buy instruction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R33"
+      ],
+      "source_sentence": "3.   no matched stock with the buy instruction"
+    },
+    {
+      "id": "R37",
+      "text": "When the cancel button is clicked, the transaction user interface shall give the cancel instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Transaction User Interface"
+      ],
+      "actions": [
+        "give the cancel instruction"
+      ],
+      "conditions": [
+        "the cancel button on UI been clicked"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   transaction user interface: give the cancel instruction"
+    },
+    {
+      "id": "R38",
+      "text": "The central trading system shall save the cancel instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "save the cancel instruction"
+      ],
+      "conditions": [
+        "the cancel instruction is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R37"
+      ],
+      "source_sentence": "2.   central trading system: save the cancel instruction"
+    },
+    {
+      "id": "R39",
+      "text": "The central trading system shall cancel the correlative instruction.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "cancel the correlative instruction"
+      ],
+      "conditions": [
+        "the cancel instruction is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R38"
+      ],
+      "source_sentence": "3.   central trading system: cancel the correlative instruction"
+    },
+    {
+      "id": "R40",
+      "text": "The cancel transaction shall suspend all operations when operations are suspended.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Cancel Transaction"
+      ],
+      "actions": [
+        "suspend all operations"
+      ],
+      "conditions": [
+        "all the operations have been suspended"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R39"
+      ],
+      "source_sentence": "1.   all the operations have been suspended"
+    },
+    {
+      "id": "R41",
+      "text": "The cancel transaction shall handle the case where the instruction concerned has already been implemented.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Cancel Transaction"
+      ],
+      "actions": [
+        "handle implemented instruction"
+      ],
+      "conditions": [
+        "the instruction concerned has been implemented"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R39"
+      ],
+      "source_sentence": "2.   the instruction concerned has been implemented"
+    },
+    {
+      "id": "R42",
+      "text": "The cancel transaction shall handle the case where no matched instruction exists to be cancelled.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Cancel Transaction"
+      ],
+      "actions": [
+        "handle no matched instruction"
+      ],
+      "conditions": [
+        "no matched instruction to be cancelled"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R39"
+      ],
+      "source_sentence": "3.   no matched instruction to be cancelled"
+    },
+    {
+      "id": "R43",
+      "text": "When a trade transaction has been successfully conducted, the central trading system shall give out the successful trade information.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "give out the successful trade information"
+      ],
+      "conditions": [
+        "the correlative trade transactions have been successfully conducted"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   central  trading  system:   give  out  the  successful   trade information"
+    },
+    {
+      "id": "R44",
+      "text": "The security account management shall save the trade information.",
+      "type": "ACTION",
+      "actors": [
+        "Security Account Management"
+      ],
+      "actions": [
+        "save the trade information"
+      ],
+      "conditions": [
+        "successful trade information has been received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R43"
+      ],
+      "source_sentence": "2.   security account management: save the trade information"
+    },
+    {
+      "id": "R45",
+      "text": "The save-trade-information use case shall suspend all operations when operations are suspended.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Save Trade Information"
+      ],
+      "actions": [
+        "suspend all operations"
+      ],
+      "conditions": [
+        "all the operations have been suspended"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R44"
+      ],
+      "source_sentence": "1.   all the operations have been suspended"
+    },
+    {
+      "id": "R46",
+      "text": "The save-trade-information use case shall handle the case where no matched stock exists for the buy instruction.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Save Trade Information"
+      ],
+      "actions": [
+        "handle no matched stock"
+      ],
+      "conditions": [
+        "no matched stock with the buy instruction"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R44"
+      ],
+      "source_sentence": "2.    no matched stock with the buy instruction"
+    },
+    {
+      "id": "R47",
+      "text": "The trading information release system shall send a query.",
+      "type": "ACTION",
+      "actors": [
+        "Trading Information Release System"
+      ],
+      "actions": [
+        "send a query"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   trading information release system: send a query"
+    },
+    {
+      "id": "R48",
+      "text": "The central trading system shall implement the query.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "implement the query"
+      ],
+      "conditions": [
+        "a query is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R47"
+      ],
+      "source_sentence": "2.   central trading system: implement the query"
+    },
+    {
+      "id": "R49",
+      "text": "The central trading system shall structuralize the queried data.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "structuralize the queried data"
+      ],
+      "conditions": [
+        "the query has been implemented"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R48"
+      ],
+      "source_sentence": "3.   central trading system: structuralize the queried data"
+    },
+    {
+      "id": "R50",
+      "text": "The central trading system shall send the data to release.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "send the data"
+      ],
+      "conditions": [
+        "the queried data has been structuralized"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R49"
+      ],
+      "source_sentence": "4.   central trading system: send the data to release"
+    },
+    {
+      "id": "R51",
+      "text": "The query use case shall suspend all operations when operations are suspended.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Query Use Case"
+      ],
+      "actions": [
+        "suspend all operations"
+      ],
+      "conditions": [
+        "all the operations have been suspended"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R50"
+      ],
+      "source_sentence": "1.   all the operations have been suspended"
+    },
+    {
+      "id": "R52",
+      "text": "The query use case shall handle invalid queries.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Query Use Case"
+      ],
+      "actions": [
+        "handle invalid query"
+      ],
+      "conditions": [
+        "the query is invalid"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R50"
+      ],
+      "source_sentence": "2.   the query is invalid"
+    },
+    {
+      "id": "R53",
+      "text": "The query use case shall handle the case where no matched data exists.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Query Use Case"
+      ],
+      "actions": [
+        "handle no matched data"
+      ],
+      "conditions": [
+        "no matched data"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R50"
+      ],
+      "source_sentence": "3.    no matched data"
+    }
+  ],
+  "matrix": {
+    "items": []
+  }
+}

@@ -1,0 +1,423 @@
+{
+  "nodes": [
+    {
+      "id": "N1",
+      "type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": [
+        "R140"
+      ]
+    },
+    {
+      "id": "N2",
+      "type": "action",
+      "label": "Operate peering arrangement",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R140"
+      ]
+    },
+    {
+      "id": "N3",
+      "type": "decision",
+      "label": "External resources needed?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "id": "N4",
+      "type": "action",
+      "label": "Discover external resources",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "id": "N5",
+      "type": "action",
+      "label": "Negotiate with other CDNs",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R55",
+        "R56"
+      ]
+    },
+    {
+      "id": "N6",
+      "type": "action",
+      "label": "Provision server resources",
+      "lane": "SLA-allocator",
+      "requirement_ids": [
+        "R51"
+      ]
+    },
+    {
+      "id": "N7",
+      "type": "action",
+      "label": "Replicate content",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R47",
+        "R52",
+        "R56"
+      ]
+    },
+    {
+      "id": "N8",
+      "type": "action",
+      "label": "Cache content",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R47",
+        "R52"
+      ]
+    },
+    {
+      "id": "N9",
+      "type": "action",
+      "label": "Select content",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "id": "N10",
+      "type": "action",
+      "label": "Route between servers",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "id": "N11",
+      "type": "action",
+      "label": "Redirect request",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R136",
+        "R56"
+      ]
+    },
+    {
+      "id": "N12",
+      "type": "action",
+      "label": "Deliver content",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R49"
+      ]
+    },
+    {
+      "id": "N13",
+      "type": "action",
+      "label": "Exchange accounting information",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "id": "N14",
+      "type": "action",
+      "label": "Perform billing",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "id": "N15",
+      "type": "decision",
+      "label": "Termination condition holds?",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R140",
+        "R141"
+      ]
+    },
+    {
+      "id": "N16",
+      "type": "action",
+      "label": "Disband peering arrangement",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "id": "N17",
+      "type": "action",
+      "label": "Re-arrange peering arrangement",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "id": "N18",
+      "type": "action",
+      "label": "Bypass SLA conditions",
+      "lane": "Policy Agent",
+      "requirement_ids": [
+        "R142"
+      ]
+    },
+    {
+      "id": "N19",
+      "type": "final",
+      "label": "Peering arrangement ends",
+      "lane": null,
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "id": "N20",
+      "type": "final",
+      "label": "Request rejected",
+      "lane": null,
+      "requirement_ids": [
+        "R56"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "source": "N1",
+      "target": "N2",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R140"
+      ]
+    },
+    {
+      "id": "E2",
+      "source": "N2",
+      "target": "N3",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R140",
+        "R55",
+        "R57"
+      ]
+    },
+    {
+      "id": "E3",
+      "source": "N3",
+      "target": "N4",
+      "type": "control",
+      "guard": "yes",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "id": "E4",
+      "source": "N3",
+      "target": "N6",
+      "type": "control",
+      "guard": "no",
+      "requirement_ids": [
+        "R51"
+      ]
+    },
+    {
+      "id": "E5",
+      "source": "N4",
+      "target": "N5",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "id": "E6",
+      "source": "N5",
+      "target": "N6",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R51",
+        "R56"
+      ]
+    },
+    {
+      "id": "E7",
+      "source": "N6",
+      "target": "N7",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R51",
+        "R56"
+      ]
+    },
+    {
+      "id": "E8",
+      "source": "N7",
+      "target": "N8",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R47",
+        "R52"
+      ]
+    },
+    {
+      "id": "E9",
+      "source": "N8",
+      "target": "N9",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "id": "E10",
+      "source": "N9",
+      "target": "N10",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "id": "E11",
+      "source": "N10",
+      "target": "N11",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R56",
+        "R136"
+      ]
+    },
+    {
+      "id": "E12",
+      "source": "N11",
+      "target": "N12",
+      "type": "control",
+      "guard": "yes",
+      "requirement_ids": [
+        "R136",
+        "R49"
+      ]
+    },
+    {
+      "id": "E13",
+      "source": "N11",
+      "target": "N20",
+      "type": "control",
+      "guard": "no",
+      "requirement_ids": [
+        "R56"
+      ]
+    },
+    {
+      "id": "E14",
+      "source": "N12",
+      "target": "N13",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R49",
+        "R137"
+      ]
+    },
+    {
+      "id": "E15",
+      "source": "N13",
+      "target": "N14",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "id": "E16",
+      "source": "N14",
+      "target": "N15",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R140",
+        "R141",
+        "R142"
+      ]
+    },
+    {
+      "id": "E17",
+      "source": "N15",
+      "target": "N16",
+      "type": "control",
+      "guard": "yes",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "id": "E18",
+      "source": "N15",
+      "target": "N17",
+      "type": "control",
+      "guard": "no",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "id": "E19",
+      "source": "N15",
+      "target": "N18",
+      "type": "control",
+      "guard": "exception",
+      "requirement_ids": [
+        "R142"
+      ]
+    },
+    {
+      "id": "E20",
+      "source": "N16",
+      "target": "N19",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "id": "E21",
+      "source": "N17",
+      "target": "N19",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "id": "E22",
+      "source": "N18",
+      "target": "N2",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R142"
+      ]
+    }
+  ],
+  "title": "Operate Peering (part 2/2)"
+}

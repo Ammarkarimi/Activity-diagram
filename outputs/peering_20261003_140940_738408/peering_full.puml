@@ -1,0 +1,181 @@
+@startuml
+title peering
+
+|Web Server|
+start
+
+if (Trigger peering?) then (yes)
+:Send initiation request;
+|Mediator|
+:Receive initiation request;
+else (no)
+endif
+|End-user|
+:Request content from CDN WSs;
+|Web Server|
+:Generate hotspot;
+:Send initialization request;
+|Mediator|
+:Receive initialization request;
+if (Requests acceptable by policy?) then (yes)
+else (no)
+:Reject requests;
+stop
+endif
+if (Service timeout reached?) then (yes)
+stop
+else (no)
+endif
+if (Outcome of Trigger Peering (part 2/2)?) then (initialization request accepted)
+(A)
+|Service Registry|
+:Detect local resources;
+|Web Server|
+:Register resource details;
+|Service Registry|
+:Update local resources;
+|Mediator|
+:Collect resource information;
+:Obtain policies;
+|Policy Agent|
+:Determine delegation conditions;
+|Mediator|
+:Generate service requirements;
+:Pass service requirements;
+:Obtain resource and policy information;
+|Web Server|
+:Publish resource and service information;
+|Service Registry|
+:Register and update resources;
+|Mediator|
+:Generate service requirements;
+if (Requirements acceptable?) then (yes)
+else (no)
+stop
+endif
+:Send service requirements;
+|Policy Agent|
+:Receive service requirements;
+if (Outcome of Prepare Negotiation (part 2/2)?) then (service requirements ready)
+(B)
+|End-user|
+:Identify roles and activities;
+:Choose potential CDNs;
+|Mediator|
+:Pass service requirements;
+|Peering Agent|
+:Perform resource discovery;
+:Predict peer performance;
+:Work around sharing limits;
+if (Any peering policies exist?) then (yes)
+:Return peering policies;
+else (no)
+:Perform short-term negotiation;
+|Mediator|
+:Interact with external PAs;
+|Policy Agent|
+:Discover external resources;
+:Negotiate with selected peers;
+if (Sufficient resources acquired?) then (yes)
+:Establish peering arrangement;
+else (no)
+|Mediator|
+:Re-evaluate service requirements;
+:Send requirements for renegotiation;
+endif
+endif
+if (Outcome of Discover Peers?) then (sufficient resources acquired)
+else (insufficient resources; re-negotiate)
+(A)
+detach
+endif
+:Create negotiated relationship;
+|Peering Agent|
+:Configure CDN peering protocols;
+:Advertise configuration information;
+:Exchange content availability information;
+:Exchange load information;
+|Mediator|
+if (Sufficient resources acquired?) then (yes)
+|Policy Repository|
+:Deploy functional policies;
+:Administer functional policies;
+|Service Registry|
+:Create service registry instance;
+|Mediator|
+:Cooperate in common goals;
+else (no)
+|Peering Agent|
+:Update DNS records;
+if (Update DNS records) then (regular update)
+|Web Server|
+:Assign end-users via DNS;
+else (when appropriate)
+:Assign via gateway redirection;
+endif
+endif
+if (Outcome of Establish Peering?) then (peering arrangement established and operational)
+else (no CDN interested; re-negotiate)
+(B)
+detach
+endif
+|Peering Agent|
+:Replicate content;
+|Web Server|
+:Redirect requests;
+|Peering Agent|
+:Exchange accounting information;
+|Policy Agent|
+if (Arrange adjustments?) then (no CDN interested)
+:Tune relationships;
+stop
+elseif (Arrange adjustments?) then (conditions hold)
+|Peering Agent|
+:Disband arrangement;
+stop
+elseif (Arrange adjustments?) then (needs expansion)
+:Re-arrange arrangement;
+else (continue operation)
+endif
+|Mediator|
+:Detect load spike;
+if (External resources needed?) then (yes)
+:Discover external resources;
+:Negotiate with other CDNs;
+else (no)
+endif
+|SLA-allocator|
+:Provision server resources;
+|Web Server|
+:Replicate content;
+:Cache content;
+:Select content;
+:Route between servers;
+:Redirect request;
+if (Redirect request) then (yes)
+else (no)
+stop
+endif
+:Deliver content;
+|Peering Agent|
+:Exchange accounting information;
+:Perform billing;
+if (Termination condition holds?) then (yes)
+:Disband peering arrangement;
+stop
+elseif (Termination condition holds?) then (no)
+:Re-arrange peering arrangement;
+stop
+else (exception)
+|Policy Agent|
+:Bypass SLA conditions;
+stop
+endif
+else (user requests rejected by policy)
+stop
+endif
+else (initiation cancelled or rejected)
+stop
+endif
+
+@enduml

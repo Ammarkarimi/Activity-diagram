@@ -1,0 +1,27 @@
+@startuml
+title Operate Peering
+
+|Peering Agent|
+start
+
+:Replicate content;
+|Web Server|
+:Redirect requests;
+|Peering Agent|
+:Exchange accounting information;
+|Policy Agent|
+if (Arrange adjustments?) then (no CDN interested)
+:Tune relationships;
+stop
+elseif (Arrange adjustments?) then (conditions hold)
+|Peering Agent|
+:Disband arrangement;
+stop
+elseif (Arrange adjustments?) then (needs expansion)
+:Re-arrange arrangement;
+stop
+else (continue operation)
+stop
+endif
+
+@enduml

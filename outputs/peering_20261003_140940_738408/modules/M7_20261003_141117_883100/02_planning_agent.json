@@ -1,0 +1,532 @@
+{
+  "objective": "Operate the active peering arrangement to replicate content, redirect requests, exchange billing data, and enforce policies.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start operation",
+      "lane": null,
+      "requirement_ids": [
+        "R3"
+      ]
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Replicate content",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R1",
+        "R5",
+        "R3",
+        "R44",
+        "R45"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "action",
+      "label": "Redirect requests",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R5",
+        "R44",
+        "R45"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Exchange accounting information",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R37"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "action",
+      "label": "Evaluate peering conditions",
+      "lane": "Policy Agent",
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R41",
+        "R42"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "decision",
+      "label": "Keep arrangement active?",
+      "lane": "Policy Agent",
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R41",
+        "R42"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "action",
+      "label": "Disband arrangement",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R42"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "action",
+      "label": "Re-arrange arrangement",
+      "lane": "Peering Agent",
+      "requirement_ids": [
+        "R41"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Tune relationships",
+      "lane": "Policy Agent",
+      "requirement_ids": [
+        "R38"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "decision",
+      "label": "CDN interested?",
+      "lane": "Policy Agent",
+      "requirement_ids": [
+        "R38"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "final",
+      "label": "Peering cancelled",
+      "lane": null,
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R42"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "final",
+      "label": "Peering disbanded",
+      "lane": null,
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R42"
+      ]
+    },
+    {
+      "temp_id": "P13",
+      "node_type": "final",
+      "label": "Control passes on",
+      "lane": null,
+      "requirement_ids": [
+        "R3"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R3"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R1",
+        "R5",
+        "R44",
+        "R45"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R37"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R41",
+        "R42"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R41",
+        "R42"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R42"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P8",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R41"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P13",
+      "guard": "continue operation",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R3"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P11",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R42"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P13",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R41"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P9",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R38"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P13",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R38"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R38"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "Keep arrangement active?",
+      "branch_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "guards": [
+        "yes",
+        "no",
+        "continue operation"
+      ]
+    },
+    {
+      "decision_id": "D2",
+      "condition": "CDN interested?",
+      "branch_ids": [
+        "B4",
+        "B5"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [
+    {
+      "loop_id": "L1",
+      "condition": "Continue peering operation",
+      "entry_node": "P2",
+      "body_nodes": [
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P6"
+      ],
+      "exit_node": "P13",
+      "continue_guard": "continue operation",
+      "exit_guard": "stop or disband"
+    }
+  ],
+  "concurrency": [],
+  "exceptions": [
+    {
+      "exception_id": "E1",
+      "trigger": "No CDN is interested in such peering",
+      "handler_node_id": "P9",
+      "requirement_ids": [
+        "R38"
+      ]
+    },
+    {
+      "exception_id": "E2",
+      "trigger": "Arrangement no longer beneficial or invalid",
+      "handler_node_id": "P7",
+      "requirement_ids": [
+        "R39",
+        "R40",
+        "R42"
+      ]
+    },
+    {
+      "exception_id": "E3",
+      "trigger": "Need to expand for additional load",
+      "handler_node_id": "P8",
+      "requirement_ids": [
+        "R41"
+      ]
+    }
+  ],
+  "decision_strategy": [
+    "Model the active arrangement as a repeating operational loop.",
+    "Use a policy decision to determine whether the arrangement stays active, disbands, or re-arranges.",
+    "Model lack of interest in renewed peering as a retry branch that retunes relationships.",
+    "Use explicit terminating nodes for disbanded/cancelled outcomes.",
+    "Rejoin normal continuation at the module exit final node."
+  ],
+  "concurrency_strategy": [
+    "No concurrent behavior is specified in this module."
+  ],
+  "exception_strategy": [
+    "Treat no-interest in peering as a handled exception that resumes re-negotiation.",
+    "Treat invalid or no-longer-beneficial conditions as disbanding exceptions.",
+    "Treat additional-load expansion as a re-arrangement exception within negotiated relationships."
+  ],
+  "termination_strategy": [
+    "Normal completion passes control to the next module via the final node 'Control passes on'.",
+    "Disband/rejection outcomes terminate in their own final nodes with outcome-specific labels.",
+    "No final node is used for ordinary continuation within the module body."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R1",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P2"
+        ],
+        "evidence": "Resource sharing is represented by content replication during peering operation.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R2",
+        "diagram_node_ids": [
+          "P1"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Context only; no separate draw action required.",
+        "confidence": 0.48
+      },
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [
+          "P1",
+          "P13"
+        ],
+        "diagram_edge_ids": [
+          "P1",
+          "P6",
+          "P6"
+        ],
+        "evidence": "Module begins after entry and ends with a handoff final node.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R5",
+        "diagram_node_ids": [
+          "P2",
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2",
+          "P3"
+        ],
+        "evidence": "Operational sharing supports larger scale/reach through replication and request redirection.",
+        "confidence": 0.78
+      },
+      {
+        "requirement_id": "R37",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P4"
+        ],
+        "evidence": "Accounting information exchange for billing is explicit.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R38",
+        "diagram_node_ids": [
+          "P9",
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P10",
+          "P9"
+        ],
+        "evidence": "No-interest branch resumes re-negotiation by tuning relationships.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R39",
+        "diagram_node_ids": [
+          "P5",
+          "P6",
+          "P7",
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P7"
+        ],
+        "evidence": "Invalid formation circumstances lead to disbanding.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R40",
+        "diagram_node_ids": [
+          "P5",
+          "P6",
+          "P7",
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P7"
+        ],
+        "evidence": "No longer beneficial leads to disbanding.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R41",
+        "diagram_node_ids": [
+          "P5",
+          "P6",
+          "P8"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P8"
+        ],
+        "evidence": "Additional load leads to re-arrangement.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R42",
+        "diagram_node_ids": [
+          "P5",
+          "P6",
+          "P7",
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P7"
+        ],
+        "evidence": "Not meeting contributions leads to disbanding.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R43",
+        "diagram_node_ids": [
+          "P2",
+          "P3",
+          "P4",
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Context for product goals; not drawn as behavior.",
+        "confidence": 0.4
+      },
+      {
+        "requirement_id": "R44",
+        "diagram_node_ids": [
+          "P2",
+          "P3"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Operational replication and request redirection support complex multi-CDN delivery.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R45",
+        "diagram_node_ids": [
+          "P2",
+          "P3"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Operational actions reduce latency/load and improve delivery performance.",
+        "confidence": 0.68
+      }
+    ]
+  }
+}

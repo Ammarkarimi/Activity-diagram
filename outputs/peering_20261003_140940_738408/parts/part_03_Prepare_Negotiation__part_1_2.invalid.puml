@@ -1,0 +1,24 @@
+@startuml
+title peering - Part 3: Prepare Negotiation (part 1/2)
+
+|Service Registry|
+start
+
+:From Part 2: Trigger Peering (part 2/2), Part 5: Discover Peers<
+:Detect local resources;
+|Web Server|
+:Register resource details;
+|Service Registry|
+:Update local resources;
+|Mediator|
+:Collect resource information;
+:Obtain policies;
+|Policy Agent|
+:Determine delegation conditions;
+|Mediator|
+:Generate service requirements;
+:Pass service requirements;
+:Continue in Part 4: Prepare Negotiation (part 2/2)>
+detach
+
+@enduml

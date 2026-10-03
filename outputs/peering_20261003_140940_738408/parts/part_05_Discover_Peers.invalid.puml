@@ -1,0 +1,41 @@
+@startuml
+title peering - Part 5: Discover Peers
+
+|End-user|
+start
+
+:From Part 4: Prepare Negotiation (part 2/2), Part 6: Establish Peering<
+:Identify roles and activities;
+:Choose potential CDNs;
+|Mediator|
+:Pass service requirements;
+|Peering Agent|
+:Perform resource discovery;
+:Predict peer performance;
+:Work around sharing limits;
+if (Any peering policies exist?) then (yes)
+:Return peering policies;
+else (no)
+:Perform short-term negotiation;
+|Mediator|
+:Interact with external PAs;
+|Policy Agent|
+:Discover external resources;
+:Negotiate with selected peers;
+if (Sufficient resources acquired?) then (yes)
+:Establish peering arrangement;
+else (no)
+|Mediator|
+:Re-evaluate service requirements;
+:Send requirements for renegotiation;
+endif
+endif
+if (Outcome of Discover Peers?) then (sufficient resources acquired)
+:Continue in Part 6: Establish Peering>
+detach
+else (insufficient resources; re-negotiate)
+:Continue in Part 3: Prepare Negotiation (part 1/2)>
+detach
+endif
+
+@enduml

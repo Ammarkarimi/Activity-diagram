@@ -1,0 +1,36 @@
+@startuml
+title Establish Peering
+
+|Mediator|
+start
+
+:Create negotiated relationship;
+|Peering Agent|
+:Configure CDN peering protocols;
+:Advertise configuration information;
+:Exchange content availability information;
+:Exchange load information;
+|Mediator|
+if (Sufficient resources acquired?) then (yes)
+|Policy Repository|
+:Deploy functional policies;
+:Administer functional policies;
+|Service Registry|
+:Create service registry instance;
+|Mediator|
+:Cooperate in common goals;
+stop
+else (no)
+|Peering Agent|
+:Update DNS records;
+if (Update DNS records) then (regular update)
+|Web Server|
+:Assign end-users via DNS;
+stop
+else (when appropriate)
+:Assign via gateway redirection;
+stop
+endif
+endif
+
+@enduml

@@ -1,0 +1,418 @@
+{
+  "objective": "Collect resource and policy inputs and generate service requirements for the mediator to initiate negotiation.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Detect local resources",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R82",
+        "R59"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "action",
+      "label": "Register resource details",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R78",
+        "R77"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Update local resources",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R79",
+        "R58"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "action",
+      "label": "Collect resource information",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R80",
+        "R15"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "action",
+      "label": "Obtain policies",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R16",
+        "R63",
+        "R64"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "action",
+      "label": "Determine delegation conditions",
+      "lane": "Policy Agent",
+      "requirement_ids": [
+        "R50",
+        "R18",
+        "R65"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "action",
+      "label": "Generate service requirements",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R17",
+        "R53",
+        "R10",
+        "R11",
+        "R12",
+        "R14"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Pass service requirements",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R54"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "final",
+      "label": "Continue to negotiation",
+      "lane": null,
+      "requirement_ids": []
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R80",
+        "R82"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R78",
+        "R77"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R79",
+        "R58"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R80"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R16",
+        "R63",
+        "R64"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R50",
+        "R18",
+        "R65"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P8",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R17",
+        "R53"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P9",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R54"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P10",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": []
+    }
+  ],
+  "decisions": [],
+  "loops": [],
+  "concurrency": [],
+  "exceptions": [],
+  "decision_strategy": [],
+  "concurrency_strategy": [],
+  "exception_strategy": [],
+  "termination_strategy": [
+    "End with a normal final node that passes control to the next module."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R10",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Service requirements include expected service levels.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R11",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Service requirements include storage, transfer rate, cost, duration, penalties, and preconditions.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R12",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Preference for a particular region is included as a precondition in service requirements.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R13",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Context about relationship form; no separate behavioral step in this module.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R14",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Generated requirements specify interactions among entities.",
+        "confidence": 0.86
+      },
+      {
+        "requirement_id": "R15",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Mediator obtains resource and access information from the Service Registry.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R16",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Mediator obtains SLAs and other policies from the Policy Repository.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R17",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Mediator generates service requirements based on current circumstance and SLA requirements.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R18",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Policy Agent determines delegation conditions allowing divergent policies and privacy visibility.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R50",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Policy Agent and mediator determine which resources can be delegated and under what conditions.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R53",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Mediator generates service requirements as basis for negotiated relationships.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R54",
+        "diagram_node_ids": [
+          "P9"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Mediator passes the service requirements to the Policy Agent.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R58",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Service Registry encapsulates resource and service information for each CDN.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R59",
+        "diagram_node_ids": [
+          "P2",
+          "P3"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Web servers register and publish resource, service and policy details to support discovering local resources.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R60",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Traffic-surge supply behavior is not explicitly entered in this module's main flow.",
+        "confidence": 0.25
+      },
+      {
+        "requirement_id": "R62",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Context heading for Policy Repository functions.",
+        "confidence": 0.1
+      },
+      {
+        "requirement_id": "R63",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Policy Repository virtualizes policies within a peering arrangement.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R64",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Policy Repository provides rules to the mediator to administer/manage/control access.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R65",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Existing peering policies are returned to the Policy Agent during long-term peering establishment.",
+        "confidence": 0.82
+      },
+      {
+        "requirement_id": "R77",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Feature associated with registration of resource and service information to SR.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R78",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Web Server publishes resource and service information to the Service Registry.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R79",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Service Registry registers available local resources and updates them.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R80",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Mediator collects up-to-date resource information from Service Registry.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R82",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Available local resources and service information are detected.",
+        "confidence": 0.92
+      }
+    ]
+  }
+}

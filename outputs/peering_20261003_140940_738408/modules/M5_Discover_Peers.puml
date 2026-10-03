@@ -1,0 +1,36 @@
+@startuml
+title Discover Peers
+
+|End-user|
+start
+
+:Identify roles and activities;
+:Choose potential CDNs;
+|Mediator|
+:Pass service requirements;
+|Peering Agent|
+:Perform resource discovery;
+:Predict peer performance;
+:Work around sharing limits;
+if (Any peering policies exist?) then (yes)
+:Return peering policies;
+stop
+else (no)
+:Perform short-term negotiation;
+|Mediator|
+:Interact with external PAs;
+|Policy Agent|
+:Discover external resources;
+:Negotiate with selected peers;
+if (Sufficient resources acquired?) then (yes)
+:Establish peering arrangement;
+stop
+else (no)
+endif
+|Mediator|
+:Re-evaluate service requirements;
+:Send requirements for renegotiation;
+stop
+endif
+
+@enduml

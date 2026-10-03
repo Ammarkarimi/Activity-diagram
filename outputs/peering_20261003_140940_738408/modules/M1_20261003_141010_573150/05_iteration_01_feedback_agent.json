@@ -1,0 +1,18 @@
+{
+  "prioritized_defects": [
+    {
+      "id": "D-COV-R89",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R89 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R89"
+      ],
+      "evidence": "4. In the face of traffic surges,  information  on available  local resources  along  with their IDs is supplied to the Mediator.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    }
+  ],
+  "final_recommendation": "Address the uncovered high-severity requirement first by tracing R89 to an appropriate diagram element."
+}

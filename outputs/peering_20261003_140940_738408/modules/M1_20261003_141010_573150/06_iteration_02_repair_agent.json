@@ -1,0 +1,145 @@
+{
+  "changed": true,
+  "repair_type": "minimal_graph_repair",
+  "changes": [
+    "Added a Mediator action to represent R89 and connected the request flow to it.",
+    "Removed unrelated traceability R4 and R81 from the trigger decision and its outgoing edges; kept only the peering-initiation trigger requirements."
+  ],
+  "rationale": "The diagram now traces the missing traffic-surge resource information requirement and limits the trigger decision to the actual peering initiation conditions modeled in this module, without changing the core flow from initial detection to Mediator reception and handoff to the next module.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": [
+          "R97"
+        ]
+      },
+      {
+        "id": "N2",
+        "type": "decision",
+        "label": "Trigger peering?",
+        "lane": "Web Server",
+        "requirement_ids": [
+          "R48",
+          "R100",
+          "R101",
+          "R102"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Send initiation request",
+        "lane": "Web Server",
+        "requirement_ids": [
+          "R6",
+          "R7",
+          "R8",
+          "R99",
+          "R103"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Supply local resources",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R89"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Receive initiation request",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R99"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "final",
+        "label": "Next module",
+        "lane": null,
+        "requirement_ids": [
+          "R97"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R97"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R48",
+          "R100",
+          "R101",
+          "R102"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N2",
+        "target": "N6",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R48",
+          "R100",
+          "R101",
+          "R102"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R89",
+          "R103"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R89",
+          "R99"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R99"
+        ]
+      }
+    ],
+    "title": "Trigger Peering"
+  }
+}

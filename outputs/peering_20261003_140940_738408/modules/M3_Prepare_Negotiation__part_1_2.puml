@@ -1,0 +1,22 @@
+@startuml
+title Prepare Negotiation (part 1/2)
+
+|Service Registry|
+start
+
+:Detect local resources;
+|Web Server|
+:Register resource details;
+|Service Registry|
+:Update local resources;
+|Mediator|
+:Collect resource information;
+:Obtain policies;
+|Policy Agent|
+:Determine delegation conditions;
+|Mediator|
+:Generate service requirements;
+:Pass service requirements;
+stop
+
+@enduml

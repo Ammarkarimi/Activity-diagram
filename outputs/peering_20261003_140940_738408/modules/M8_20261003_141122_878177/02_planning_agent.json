@@ -1,0 +1,682 @@
+{
+  "objective": "Operate an active peering arrangement to replicate content, redirect requests, exchange billing data, and enforce policies.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": [
+        "R140"
+      ]
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Detect load spike",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R46",
+        "R55",
+        "R57"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "decision",
+      "label": "External resources needed?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R55",
+        "R57"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Discover external resources",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "action",
+      "label": "Negotiate with other CDNs",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "action",
+      "label": "Provision server resources",
+      "lane": "SLA-allocator",
+      "requirement_ids": [
+        "R51"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "fork",
+      "label": "Fork cooperation",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R49",
+        "R52",
+        "R56",
+        "R136",
+        "R137"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "action",
+      "label": "Replicate content",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R47",
+        "R52",
+        "R56"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Cache content",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R47",
+        "R52"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "action",
+      "label": "Select content",
+      "lane": "Web servers\u2019 underlying algorithms",
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "action",
+      "label": "Route between servers",
+      "lane": "Web servers\u2019 underlying algorithms",
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "join",
+      "label": "Join cooperation",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R49",
+        "R52",
+        "R56",
+        "R136",
+        "R137"
+      ]
+    },
+    {
+      "temp_id": "P13",
+      "node_type": "decision",
+      "label": "Request should redirect?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R56",
+        "R136"
+      ]
+    },
+    {
+      "temp_id": "P14",
+      "node_type": "action",
+      "label": "Redirect request",
+      "lane": "Local PA",
+      "requirement_ids": [
+        "R136",
+        "R56"
+      ]
+    },
+    {
+      "temp_id": "P15",
+      "node_type": "action",
+      "label": "Deliver content",
+      "lane": "Web services host",
+      "requirement_ids": [
+        "R49"
+      ]
+    },
+    {
+      "temp_id": "P16",
+      "node_type": "action",
+      "label": "Exchange accounting information",
+      "lane": "External PA",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "temp_id": "P17",
+      "node_type": "action",
+      "label": "Perform billing",
+      "lane": "Local PA",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "temp_id": "P18",
+      "node_type": "decision",
+      "label": "Termination condition holds?",
+      "lane": "Local PA",
+      "requirement_ids": [
+        "R141",
+        "R140"
+      ]
+    },
+    {
+      "temp_id": "P19",
+      "node_type": "action",
+      "label": "Disband peering arrangement",
+      "lane": "Local PA",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "temp_id": "P20",
+      "node_type": "action",
+      "label": "Re-arrange peering arrangement",
+      "lane": "Local PA",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "temp_id": "P21",
+      "node_type": "final",
+      "label": "Peering arrangement ends",
+      "lane": null,
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "temp_id": "P22",
+      "node_type": "final",
+      "label": "Request rejected",
+      "lane": null,
+      "requirement_ids": [
+        "R56"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R140"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R46",
+        "R55",
+        "R57"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P6",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R51"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R51"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R51",
+        "R56"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P8",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R47",
+        "R52",
+        "R56"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P10",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P9",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R47",
+        "R52"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P12",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R47",
+        "R52"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P11",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P12",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R52"
+      ]
+    },
+    {
+      "source": "P12",
+      "target": "P13",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R56",
+        "R136"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P14",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R136",
+        "R56"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P22",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R56"
+      ]
+    },
+    {
+      "source": "P14",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R49",
+        "R136"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P16",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R49",
+        "R137"
+      ]
+    },
+    {
+      "source": "P16",
+      "target": "P17",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "source": "P17",
+      "target": "P18",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R140",
+        "R141"
+      ]
+    },
+    {
+      "source": "P18",
+      "target": "P19",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "source": "P18",
+      "target": "P20",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "source": "P19",
+      "target": "P21",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R141"
+      ]
+    },
+    {
+      "source": "P20",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R141",
+        "R49"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "External resources needed?",
+      "branch_ids": [
+        "P4",
+        "P6"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D2",
+      "condition": "Request should redirect?",
+      "branch_ids": [
+        "P14",
+        "P22"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D3",
+      "condition": "Termination condition holds?",
+      "branch_ids": [
+        "P19",
+        "P20"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [],
+  "concurrency": [
+    {
+      "fork_id": "F1",
+      "branch_ids": [
+        "P8",
+        "P10"
+      ],
+      "join_id": "P12"
+    }
+  ],
+  "exceptions": [],
+  "decision_strategy": [
+    "Use a single decision to determine whether external resources must be discovered and negotiated before proceeding.",
+    "Use a single decision to determine whether the request is redirected to a peer Web server; a negative outcome terminates as request rejected.",
+    "Use a single decision to determine whether a termination condition holds; if not, continue cooperation."
+  ],
+  "concurrency_strategy": [
+    "Model replication and routing cooperation as parallel work split after resource provisioning and joined before redirecting requests."
+  ],
+  "exception_strategy": [
+    "No separate exception handler is modeled because the exception requirement states that SLA conditions are bypassed and the peering arrangement is not disbanded or re-arranged."
+  ],
+  "termination_strategy": [
+    "Normal completion passes to the next module via the final node 'Peering arrangement ends'.",
+    "Rejected flow terminates in the final node 'Request rejected'."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R46",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "Detect load spike reflects handling short-term load spikes and congestion alleviation.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R47",
+        "diagram_node_ids": [
+          "P8",
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P7->P8",
+          "P8->P9"
+        ],
+        "evidence": "Web Server replicates content on-demand and stores it for future use.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R49",
+        "diagram_node_ids": [
+          "P15"
+        ],
+        "diagram_edge_ids": [
+          "P14->P15"
+        ],
+        "evidence": "Web services host delivers content to end-users based on negotiated policies.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R51",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P3->P6",
+          "P5->P6"
+        ],
+        "evidence": "SLA-allocator provisions and reserves resources to satisfy SLAs and enforce terms.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R52",
+        "diagram_node_ids": [
+          "P10",
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P7->P10",
+          "P10->P11"
+        ],
+        "evidence": "Underlying algorithms perform content selection and routing between servers.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R55",
+        "diagram_node_ids": [
+          "P4",
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P3->P4",
+          "P4->P5"
+        ],
+        "evidence": "Mediator works with local PA to discover external resources and negotiate with other CDNs.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R56",
+        "diagram_node_ids": [
+          "P13",
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P6->P7",
+          "P13->P14"
+        ],
+        "evidence": "Once established, Mediator controls traffic redirection; request redirection is modeled with the decision and action.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R57",
+        "diagram_node_ids": [
+          "P2",
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Supports agility and resilience in dynamic conditions by checking for load spikes and resource needs.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R136",
+        "diagram_node_ids": [
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P13->P14"
+        ],
+        "evidence": "Request is redirected to an optimal peer\u2019s Web server.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R137",
+        "diagram_node_ids": [
+          "P16",
+          "P17"
+        ],
+        "diagram_edge_ids": [
+          "P15->P16",
+          "P16->P17"
+        ],
+        "evidence": "PAs exchange accounting information and perform billing based on negotiated relationships.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R140",
+        "diagram_node_ids": [
+          "P1",
+          "P18"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2",
+          "P17->P18"
+        ],
+        "evidence": "The arrangement is in operation and peers cooperate as the entry condition for this module.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R141",
+        "diagram_node_ids": [
+          "P18",
+          "P19",
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P18->P19",
+          "P18->P20",
+          "P19->P21",
+          "P20->P15"
+        ],
+        "evidence": "Termination condition leads the local PA to disband or re-arrange the arrangement.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R142",
+        "diagram_node_ids": [
+          "P2",
+          "P3",
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Exceptional circumstances are reflected by the resource/continuation path where SLA enforcement is not expanded into a separate disband/re-arrange branch.",
+        "confidence": 0.56
+      }
+    ]
+  }
+}

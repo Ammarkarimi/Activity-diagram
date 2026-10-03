@@ -1,0 +1,406 @@
+{
+  "objective": "Collect resource and policy inputs and generate service requirements for the mediator to initiate negotiation.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": [
+        "R113"
+      ]
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Obtain resource and access information",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R122"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "action",
+      "label": "Obtain policy information",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R122"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Generate service requirements",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R117",
+        "R119",
+        "R123"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "decision",
+      "label": "Requirements acceptable?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R124",
+        "R125"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "action",
+      "label": "Send service requirements",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R120",
+        "R127",
+        "R124"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "final",
+      "label": "Pass to Discover Peers",
+      "lane": null,
+      "requirement_ids": [
+        "R119",
+        "R120",
+        "R127"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "final",
+      "label": "Request rejected",
+      "lane": null,
+      "requirement_ids": [
+        "R125"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R113",
+        "R122"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R122"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R122",
+        "R123",
+        "R117"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R124",
+        "R125"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R124",
+        "R120",
+        "R127"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P8",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R125"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R119",
+        "R120",
+        "R127"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "Requirements acceptable?",
+      "branch_ids": [
+        "P6",
+        "P8"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [],
+  "concurrency": [],
+  "exceptions": [],
+  "decision_strategy": [
+    "Use one decision to check whether generated service requirements are acceptable according to provider policy.",
+    "The yes branch sends service requirements to the local PA and then passes control onward.",
+    "The no branch rejects the request and ends in a dedicated final node."
+  ],
+  "concurrency_strategy": [],
+  "exception_strategy": [
+    "No separate exception handler is modeled beyond the explicit rejection branch required by the requirements."
+  ],
+  "termination_strategy": [
+    "Use a normal final node to indicate control passes to the next module.",
+    "Use a separate final node labeled Request rejected for the rejection outcome."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R83",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Contextual resource provisioning/reservation capability; no direct behavioral step in this module.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R84",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Contextual registry maintenance capability; not enacted as a distinct step in this module.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R85",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Context for web server publication; this module starts after inputs are obtained.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R86",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Conditional registration behavior not performed in this module.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R87",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Increment behavior not performed in this module.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R88",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Update behavior not performed in this module.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R90",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Contextual SR encapsulation behavior outside module scope.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R91",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Exception not exercised in this module.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R92",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Format definition is a constraint, not a step.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R93",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Interaction protocol definition is a constraint, not a step.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R94",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Policy availability is a precondition, not a step.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R95",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Failure reporting norm is contextual and not a distinct flow step here.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R96",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Duplicate protocol definition constraint, not modeled as behavior.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R113",
+        "diagram_node_ids": [
+          "P1",
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1"
+        ],
+        "evidence": "Initialization receipt triggers mediation and starts this module.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R114",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Source actor for resource/access info; represented within the obtain action.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R115",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Source actor for policy info; represented within the obtain action.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R117",
+        "diagram_node_ids": [
+          "P4",
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P3",
+          "P5"
+        ],
+        "evidence": "Mediator generates requirements and passes them to the local PA.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R119",
+        "diagram_node_ids": [
+          "P4",
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P6"
+        ],
+        "evidence": "Service requirements are generated and then passed onward.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R120",
+        "diagram_node_ids": [
+          "P6",
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P7"
+        ],
+        "evidence": "Service requirements are sent to the local PA.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R122",
+        "diagram_node_ids": [
+          "P2",
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P1",
+          "P2"
+        ],
+        "evidence": "Mediator obtains resource/access information from SR and policy information from PR.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R123",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3"
+        ],
+        "evidence": "Mediator generates service requirements.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R124",
+        "diagram_node_ids": [
+          "P5",
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P4",
+          "P5"
+        ],
+        "evidence": "Acceptability decision and successful pass to local PA.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R125",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [
+          "P5"
+        ],
+        "evidence": "Rejected branch ends in dedicated final node.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R127",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P6"
+        ],
+        "evidence": "Local PA receives service requirements from the mediator; modeled as the send step leading onward.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

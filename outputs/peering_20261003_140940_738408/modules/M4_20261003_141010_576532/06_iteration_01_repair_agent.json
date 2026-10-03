@@ -1,0 +1,214 @@
+{
+  "changed": true,
+  "repair_type": "minimal_traceability_fix",
+  "changes": [
+    "Added a Web Server action to publish resource and service information.",
+    "Added a Service Registry action to register/update resources to cover regular registry maintenance."
+  ],
+  "rationale": "The diagram already modeled negotiation flow correctly. The only defects were missing traceability for R84 and R85, so the smallest valid repair was to add the corresponding resource publication and registry maintenance actions without changing the main negotiation path or outcomes.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R113"
+        ]
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Obtain resource and policy information",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R122",
+          "R83"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Generate service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R117",
+          "R119",
+          "R123"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "decision",
+        "label": "Requirements acceptable?",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R124",
+          "R125"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Send service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R120",
+          "R124"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Receive service requirements",
+        "lane": "Local PA",
+        "requirement_ids": [
+          "R127"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "final",
+        "label": "Control passes on",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R119",
+          "R120",
+          "R127"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "final",
+        "label": "Request rejected",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R125"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Publish resource and service information",
+        "lane": "Web Server",
+        "requirement_ids": [
+          "R85"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "action",
+        "label": "Register and update resources",
+        "lane": "Service Registry",
+        "requirement_ids": [
+          "R84"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": "then",
+        "requirement_ids": [
+          "R113",
+          "R122",
+          "R83"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N9",
+        "type": "control",
+        "guard": "next",
+        "requirement_ids": [
+          "R122",
+          "R85"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N9",
+        "target": "N10",
+        "type": "control",
+        "guard": "then",
+        "requirement_ids": [
+          "R85",
+          "R84"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N10",
+        "target": "N3",
+        "type": "control",
+        "guard": "continue",
+        "requirement_ids": [
+          "R84",
+          "R122",
+          "R123"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": "next",
+        "requirement_ids": [
+          "R124",
+          "R125"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R124",
+          "R120"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N4",
+        "target": "N8",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R125"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": "next",
+        "requirement_ids": [
+          "R120",
+          "R127"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": "complete",
+        "requirement_ids": [
+          "R119",
+          "R120",
+          "R127"
+        ]
+      }
+    ],
+    "title": "Prepare Negotiation (part 2/2)"
+  }
+}

@@ -1,0 +1,864 @@
+{
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "The central trading system (CTS) is to complete the trading of stock.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "complete the trading of stock"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The central trading system (CTS) is to complete the trading of stock.",
+      "section": "1.1 Goals and objectives",
+      "chunk_id": "1.1"
+    },
+    {
+      "id": "R2",
+      "text": "It analyses the instructions that enter the central trading system and divides them into several kinds of instructions.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "analyse the instructions that enter the central trading system",
+        "divide them into several kinds of instructions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "It analyses the instructions that enter the central trading system and divides them into several kinds of instructions.",
+      "section": "1.1 Goals and objectives",
+      "chunk_id": "1.1"
+    },
+    {
+      "id": "R3",
+      "text": "System will make a match between them under specifically prescripts.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "make a match between them under specifically prescripts"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "System will make a match between them under specifically prescripts.",
+      "section": "1.1 Goals and objectives",
+      "chunk_id": "1.1"
+    },
+    {
+      "id": "R4",
+      "text": "Also central trading system provides some interfaces to send messages to other modules.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "provide some interfaces to send messages to other modules"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "Also central trading system provides some interfaces to send messages to other modules.",
+      "section": "1.1 Goals and objectives",
+      "chunk_id": "1.1"
+    },
+    {
+      "id": "R5",
+      "text": "The CTS is just a subsystem of the whole stock trading system (STS) system.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The CTS is just a subsystem of the whole stock trading system (STS) system.",
+      "section": "1.2 System Context",
+      "chunk_id": "1.2"
+    },
+    {
+      "id": "R6",
+      "text": "There are mainly six subsystems involved, stock account operation, financing account operation, trade client serve, network message promulgating, central trading system and trading system manage.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "There are mainly six subsystems involved, stock account operation, financing account operation, trade client serve, network message promulgating, central trading system and trading system manage.",
+      "section": "1.2 System Context",
+      "chunk_id": "1.2"
+    },
+    {
+      "id": "R7",
+      "text": "Communications exist among these subsystems which complicates the relationships between subsystems.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Communications exist among these subsystems which complicates the relationships between subsystems.",
+      "section": "1.2 System Context",
+      "chunk_id": "1.2"
+    },
+    {
+      "id": "R8",
+      "text": "The CTS receive instructions from trade client serve.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "receive instructions from trade client serve"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R5"
+      ],
+      "source_sentence": "The CTS receive instructions from trade client serve.",
+      "section": "1.2 System Context",
+      "chunk_id": "1.2"
+    },
+    {
+      "id": "R9",
+      "text": "Then the CTS produce new messages which to be sent to network message promulgating after deal with the instructions from trade client serve.",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "deal with the instructions from trade client serve",
+        "produce new messages",
+        "send them to network message promulgating"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R8"
+      ],
+      "source_sentence": "Then the CTS produce new messages which to be sent to network message promulgating after deal with the instructions from trade client serve.",
+      "section": "1.2 System Context",
+      "chunk_id": "1.2"
+    },
+    {
+      "id": "R10",
+      "text": "Also the system manager is authorization to access the information in CTS.",
+      "type": "ACTION",
+      "actors": [
+        "System Manager"
+      ],
+      "actions": [
+        "access the information in CTS"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Also the system manager is authorization to access the information in CTS.",
+      "section": "1.2 System Context",
+      "chunk_id": "1.2"
+    },
+    {
+      "id": "R11",
+      "text": "There are mainly two kinds of users.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "There are mainly two kinds of users.",
+      "section": "1.3 Potential Users\u2019 Specification",
+      "chunk_id": "1.3"
+    },
+    {
+      "id": "R12",
+      "text": "The CTS provides the terminal users easy Operations that are confined to a series of mouse clicks and keyboard, which compared to other systems are really much simplified.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The CTS provides the terminal users easy Operations that are confined to a series of mouse clicks and keyboard, which compared to other systems are really much simplified.",
+      "section": "1.3 Potential Users\u2019 Specification",
+      "chunk_id": "1.3"
+    },
+    {
+      "id": "R13",
+      "text": "the maintainers of this CTS must be familiar with java programming and the socket.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "the maintainers of this CTS must be familiar with java programming and the socket.",
+      "section": "1.3 Potential Users\u2019 Specification",
+      "chunk_id": "1.3"
+    },
+    {
+      "id": "R14",
+      "text": "When the system crashes down, they can find the cause and fix it.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Maintainers"
+      ],
+      "actions": [
+        "find the cause",
+        "fix it"
+      ],
+      "conditions": [
+        "When the system crashes down"
+      ],
+      "exceptions": [
+        "the system crashes down"
+      ],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "When the system crashes down, they can find the cause and fix it.",
+      "section": "1.3 Potential Users\u2019 Specification",
+      "chunk_id": "1.3"
+    },
+    {
+      "id": "R15",
+      "text": "When new requirements should be supported, they can modify the program to make it fit.",
+      "type": "ACTION",
+      "actors": [
+        "Maintainers"
+      ],
+      "actions": [
+        "modify the program to make it fit"
+      ],
+      "conditions": [
+        "When new requirements should be supported"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "When new requirements should be supported, they can modify the program to make it fit.",
+      "section": "1.3 Potential Users\u2019 Specification",
+      "chunk_id": "1.3"
+    },
+    {
+      "id": "R16",
+      "text": "As the instruction is frequently operated in CTS such as fetch, deal with, repeal and so on, the CTS is heavily transferred.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "As the instruction is frequently operated in CTS such as fetch, deal with, repeal and so on, the CTS is heavily transferred.",
+      "section": "1.3 Potential Users\u2019 Specification",
+      "chunk_id": "1.3"
+    },
+    {
+      "id": "R17",
+      "text": "The program must take this into consideration.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The program must take this into consideration.",
+      "section": "1.3 Potential Users\u2019 Specification",
+      "chunk_id": "1.3"
+    },
+    {
+      "id": "R18",
+      "text": "The maintainers of CTS should have good strategies to overcome crash of the system when overhead exceeds the capacity of it.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "overhead exceeds the capacity of it"
+      ],
+      "exceptions": [
+        "crash of the system"
+      ],
+      "dependencies": [],
+      "source_sentence": "The maintainers of CTS should have good strategies to overcome crash of the system when overhead exceeds the capacity of it.",
+      "section": "1.3 Potential Users\u2019 Specification",
+      "chunk_id": "1.3"
+    },
+    {
+      "id": "R19",
+      "text": "transaction user interface: give the buy instruction",
+      "type": "ACTION",
+      "actors": [
+        "Transaction User Interface"
+      ],
+      "actions": [
+        "give the buy instruction"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   transaction user interface: give the buy instruction",
+      "section": "Use-case: Buy stock",
+      "chunk_id": "buy"
+    },
+    {
+      "id": "R20",
+      "text": "central trading system: save the buy instruction",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "save the buy instruction"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "2.   central trading system: save the buy instruction",
+      "section": "Use-case: Buy stock",
+      "chunk_id": "buy"
+    },
+    {
+      "id": "R21",
+      "text": "central trading system: match the instructions with the same stock id",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "match the instructions with the same stock id"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R20"
+      ],
+      "source_sentence": "3.   central trading system: match the instructions with the same stock id",
+      "section": "Use-case: Buy stock",
+      "chunk_id": "buy"
+    },
+    {
+      "id": "R22",
+      "text": "central trading system: make a trade by matching",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "make a trade by matching"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R21"
+      ],
+      "source_sentence": "4.   central trading system: make a trade by matching",
+      "section": "Use-case: Buy stock",
+      "chunk_id": "buy"
+    },
+    {
+      "id": "R23",
+      "text": "central trading system: modify the information of matched instructions",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "modify the information of matched instructions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R22"
+      ],
+      "source_sentence": "5.   central trading system: modify the information of matched instructions",
+      "section": "Use-case: Buy stock",
+      "chunk_id": "buy"
+    },
+    {
+      "id": "R24",
+      "text": "all the operations have been suspended",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "all the operations have been suspended"
+      ],
+      "dependencies": [],
+      "source_sentence": "1.    all the operations have been suspended",
+      "section": "Use-case: Buy stock - Exception",
+      "chunk_id": "buy"
+    },
+    {
+      "id": "R25",
+      "text": "some trade exceptions come up",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "some trade exceptions come up"
+      ],
+      "dependencies": [],
+      "source_sentence": "2.    some trade exceptions come up",
+      "section": "Use-case: Buy stock - Exception",
+      "chunk_id": "buy"
+    },
+    {
+      "id": "R26",
+      "text": "no matched stock with the buy instruction",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "no matched stock with the buy instruction"
+      ],
+      "dependencies": [],
+      "source_sentence": "3.    no matched stock with the buy instruction",
+      "section": "Use-case: Buy stock - Exception",
+      "chunk_id": "buy"
+    },
+    {
+      "id": "R27",
+      "text": "transaction user interface: give the sell instruction",
+      "type": "ACTION",
+      "actors": [
+        "Transaction User Interface"
+      ],
+      "actions": [
+        "give the sell instruction"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   transaction user interface: give the sell instruction",
+      "section": "Use-case: Sell stock",
+      "chunk_id": "sell"
+    },
+    {
+      "id": "R28",
+      "text": "central trading system: save the sell instruction",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "save the sell instruction"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R27"
+      ],
+      "source_sentence": "2.   central trading system: save the sell instruction",
+      "section": "Use-case: Sell stock",
+      "chunk_id": "sell"
+    },
+    {
+      "id": "R29",
+      "text": "central trading system: match the instructions with the same stock id",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "match the instructions with the same stock id"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R28"
+      ],
+      "source_sentence": "3.   central trading system: match the instructions with the same stock id",
+      "section": "Use-case: Sell stock",
+      "chunk_id": "sell"
+    },
+    {
+      "id": "R30",
+      "text": "central trading system: make a trade by matching",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "make a trade by matching"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R29"
+      ],
+      "source_sentence": "4.   central trading system: make a trade by matching",
+      "section": "Use-case: Sell stock",
+      "chunk_id": "sell"
+    },
+    {
+      "id": "R31",
+      "text": "central trading system: modify the information of matched instructions",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "modify the information of matched instructions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R30"
+      ],
+      "source_sentence": "5.   central trading system: modify the information of matched instructions",
+      "section": "Use-case: Sell stock",
+      "chunk_id": "sell"
+    },
+    {
+      "id": "R32",
+      "text": "all the operations have been suspended",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "all the operations have been suspended"
+      ],
+      "dependencies": [],
+      "source_sentence": "1.   all the operations have been suspended",
+      "section": "Use-case: Sell stock - Exception",
+      "chunk_id": "sell"
+    },
+    {
+      "id": "R33",
+      "text": "some deal exceptions come up",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "some deal exceptions come up"
+      ],
+      "dependencies": [],
+      "source_sentence": "2.   some deal exceptions come up",
+      "section": "Use-case: Sell stock - Exception",
+      "chunk_id": "sell"
+    },
+    {
+      "id": "R34",
+      "text": "no matched stock with the buy instruction",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "no matched stock with the buy instruction"
+      ],
+      "dependencies": [],
+      "source_sentence": "3.   no matched stock with the buy instruction",
+      "section": "Use-case: Sell stock - Exception",
+      "chunk_id": "sell"
+    },
+    {
+      "id": "R35",
+      "text": "transaction user interface: give the cancel instruction",
+      "type": "ACTION",
+      "actors": [
+        "Transaction User Interface"
+      ],
+      "actions": [
+        "give the cancel instruction"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   transaction user interface: give the cancel instruction",
+      "section": "Use-case: Cancel trading instruction",
+      "chunk_id": "cancel"
+    },
+    {
+      "id": "R36",
+      "text": "central trading system: save the cancel instruction",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "save the cancel instruction"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R35"
+      ],
+      "source_sentence": "2.   central trading system: save the cancel instruction",
+      "section": "Use-case: Cancel trading instruction",
+      "chunk_id": "cancel"
+    },
+    {
+      "id": "R37",
+      "text": "central trading system: cancel the correlative instruction",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "cancel the correlative instruction"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R36"
+      ],
+      "source_sentence": "3.   central trading system: cancel the correlative instruction",
+      "section": "Use-case: Cancel trading instruction",
+      "chunk_id": "cancel"
+    },
+    {
+      "id": "R38",
+      "text": "all the operations have been suspended",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "all the operations have been suspended"
+      ],
+      "dependencies": [],
+      "source_sentence": "1.   all the operations have been suspended",
+      "section": "Use-case: Cancel trading instruction - Exception",
+      "chunk_id": "cancel"
+    },
+    {
+      "id": "R39",
+      "text": "the instruction concerned has been implemented",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "the instruction concerned has been implemented"
+      ],
+      "dependencies": [],
+      "source_sentence": "2.   the instruction concerned has been implemented",
+      "section": "Use-case: Cancel trading instruction - Exception",
+      "chunk_id": "cancel"
+    },
+    {
+      "id": "R40",
+      "text": "no matched instruction to be cancelled",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "no matched instruction to be cancelled"
+      ],
+      "dependencies": [],
+      "source_sentence": "3.   no matched instruction to be cancelled",
+      "section": "Use-case: Cancel trading instruction - Exception",
+      "chunk_id": "cancel"
+    },
+    {
+      "id": "R41",
+      "text": "central trading system: give out the successful trade information",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "give out the successful trade information"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   central  trading  system:   give  out  the  successful   trade information",
+      "section": "Use-case: Save trade information",
+      "chunk_id": "save"
+    },
+    {
+      "id": "R42",
+      "text": "security account management: save the trade information",
+      "type": "ACTION",
+      "actors": [
+        "Security Account Management"
+      ],
+      "actions": [
+        "save the trade information"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R41"
+      ],
+      "source_sentence": "2.   security account management: save the trade information",
+      "section": "Use-case: Save trade information",
+      "chunk_id": "save"
+    },
+    {
+      "id": "R43",
+      "text": "all the operations have been suspended",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "all the operations have been suspended"
+      ],
+      "dependencies": [],
+      "source_sentence": "1.   all the operations have been suspended",
+      "section": "Use-case: Save trade information - Exception",
+      "chunk_id": "save"
+    },
+    {
+      "id": "R44",
+      "text": "no matched stock with the buy instruction",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "no matched stock with the buy instruction"
+      ],
+      "dependencies": [],
+      "source_sentence": "2.    no matched stock with the buy instruction",
+      "section": "Use-case: Save trade information - Exception",
+      "chunk_id": "save"
+    },
+    {
+      "id": "R45",
+      "text": "trading information release system: send a query",
+      "type": "ACTION",
+      "actors": [
+        "Trading Information Release"
+      ],
+      "actions": [
+        "send a query"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   trading information release system: send a query",
+      "section": "Use-case: Query trade information",
+      "chunk_id": "query"
+    },
+    {
+      "id": "R46",
+      "text": "central trading system: implement the query",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "implement the query"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R45"
+      ],
+      "source_sentence": "2.   central trading system: implement the query",
+      "section": "Use-case: Query trade information",
+      "chunk_id": "query"
+    },
+    {
+      "id": "R47",
+      "text": "central trading system: structuralize the queried data",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "structuralize the queried data"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R46"
+      ],
+      "source_sentence": "3.   central trading system: structuralize the queried data",
+      "section": "Use-case: Query trade information",
+      "chunk_id": "query"
+    },
+    {
+      "id": "R48",
+      "text": "central trading system: send the data to release",
+      "type": "ACTION",
+      "actors": [
+        "Central Trading System"
+      ],
+      "actions": [
+        "send the data to release"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R47"
+      ],
+      "source_sentence": "4.   central trading system: send the data to release",
+      "section": "Use-case: Query trade information",
+      "chunk_id": "query"
+    },
+    {
+      "id": "R49",
+      "text": "all the operations have been suspended",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "all the operations have been suspended"
+      ],
+      "dependencies": [],
+      "source_sentence": "1.   all the operations have been suspended",
+      "section": "Use-case: Query trade information - Exception",
+      "chunk_id": "query"
+    },
+    {
+      "id": "R50",
+      "text": "the query is invalid",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "the query is invalid"
+      ],
+      "dependencies": [],
+      "source_sentence": "2.   the query is invalid",
+      "section": "Use-case: Query trade information - Exception",
+      "chunk_id": "query"
+    },
+    {
+      "id": "R51",
+      "text": "no matched data",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [
+        "no matched data"
+      ],
+      "dependencies": [],
+      "source_sentence": "3.    no matched data",
+      "section": "Use-case: Query trade information - Exception",
+      "chunk_id": "query"
+    }
+  ],
+  "matrix": {
+    "items": []
+  }
+}

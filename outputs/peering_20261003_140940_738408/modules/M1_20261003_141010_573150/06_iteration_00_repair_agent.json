@@ -1,0 +1,133 @@
+{
+  "changed": true,
+  "repair_type": "minimal_traceability_fix",
+  "changes": [
+    "Traced R4 to the trigger decision by adding it to the decision node and its outgoing control edges.",
+    "Traced R81 to the initial trigger decision by adding it to the decision node and its outgoing control edges without changing flow."
+  ],
+  "rationale": "The diagram already modeled the correct initialization flow and mediator receipt. The supplied defects were traceability gaps only, so the smallest valid repair was to attach R4 and R81 to the existing trigger decision and related edges, preserving behavior and structure.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": [
+          "R97"
+        ]
+      },
+      {
+        "id": "N2",
+        "type": "decision",
+        "label": "Trigger peering?",
+        "lane": "Web Server",
+        "requirement_ids": [
+          "R48",
+          "R100",
+          "R101",
+          "R102",
+          "R4",
+          "R81"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Send initiation request",
+        "lane": "Web Server",
+        "requirement_ids": [
+          "R6",
+          "R7",
+          "R8",
+          "R99",
+          "R103",
+          "R4",
+          "R81"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Receive initiation request",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R99"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "final",
+        "label": "Next module",
+        "lane": null,
+        "requirement_ids": [
+          "R97"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R97"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R48",
+          "R100",
+          "R101",
+          "R102",
+          "R4",
+          "R81"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N2",
+        "target": "N5",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R48",
+          "R100",
+          "R101",
+          "R102",
+          "R4",
+          "R81"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R99",
+          "R103"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R99"
+        ]
+      }
+    ],
+    "title": "Trigger Peering"
+  }
+}

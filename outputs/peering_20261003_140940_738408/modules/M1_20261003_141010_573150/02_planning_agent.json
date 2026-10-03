@@ -1,0 +1,285 @@
+{
+  "objective": "Trigger peering by detecting a workload or hotspot condition and sending an initialization request to the Mediator.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": [
+        "R97"
+      ]
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "decision",
+      "label": "Load hotspot detected?",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R48",
+        "R100",
+        "R101",
+        "R102"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "action",
+      "label": "Send initialization request to Mediator",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R6",
+        "R7",
+        "R8",
+        "R99",
+        "R103"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Receive initiation request",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R99"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "final",
+      "label": "Next module",
+      "lane": null,
+      "requirement_ids": [
+        "R97"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R97"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R48",
+        "R100",
+        "R101",
+        "R102"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P5",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R48",
+        "R100",
+        "R101",
+        "R102"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R99",
+        "R103"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R99"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "Load hotspot detected?",
+      "branch_ids": [
+        "B1",
+        "B2"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [],
+  "concurrency": [],
+  "exceptions": [],
+  "decision_strategy": [
+    "Use a single decision for the triggering condition.",
+    "Treat expected and unexpected load increases, flash crowds, and inability to handle workload as the combined trigger for peering initiation.",
+    "Use the negative branch to end the module when no triggering condition is present."
+  ],
+  "concurrency_strategy": [],
+  "exception_strategy": [],
+  "termination_strategy": [
+    "The normal path terminates at the final node labeled 'Next module'.",
+    "The non-triggering path also passes to the same final node because this module ends without further action when peering is not triggered."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Hotspot/load limitation context is reflected in the trigger decision.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R6",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Initialization request is sent under exceptional circumstances.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R7",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Primary CDN cannot handle workload leading to request.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R8",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Decision considers expected and unexpected load increases.",
+        "confidence": 0.91
+      },
+      {
+        "requirement_id": "R48",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Web hotspot triggers peering request.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R81",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Not applicable to this module; service registration belongs to later lifecycle behavior.",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R89",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Not applicable to this module; resource supply to Mediator occurs in service registration behavior.",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R97",
+        "diagram_node_ids": [
+          "P1",
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2",
+          "P2->P5"
+        ],
+        "evidence": "Module scope is peering initialization.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R98",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Context only; no action drawn.",
+        "confidence": 0.0
+      },
+      {
+        "requirement_id": "R99",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3->P4"
+        ],
+        "evidence": "Mediator receives initiation request from Web Server.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R100",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Invocation occurs when primary CDN cannot handle workload.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R101",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Triggering condition considers expected and unexpected load increases.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R102",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Flash crowds / unanticipated load are included in the trigger condition.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R103",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P3->P4"
+        ],
+        "evidence": "Initialization request is sent to the Mediator to trigger peering.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

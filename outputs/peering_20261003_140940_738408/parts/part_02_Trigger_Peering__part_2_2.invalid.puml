@@ -1,0 +1,30 @@
+@startuml
+title peering - Part 2: Trigger Peering (part 2/2)
+
+|End-user|
+start
+
+:From Part 1: Trigger Peering (part 1/2)<
+:Request content from CDN WSs;
+|Web Server|
+:Generate hotspot;
+:Send initialization request;
+|Mediator|
+:Receive initialization request;
+if (Requests acceptable by policy?) then (yes)
+else (no)
+:Reject requests;
+stop
+endif
+if (Service timeout reached?) then (yes)
+stop
+else (no)
+endif
+if (Outcome of Trigger Peering (part 2/2)?) then (initialization request accepted)
+:Continue in Part 3: Prepare Negotiation (part 1/2)>
+detach
+else (initiation cancelled or rejected)
+stop
+endif
+
+@enduml

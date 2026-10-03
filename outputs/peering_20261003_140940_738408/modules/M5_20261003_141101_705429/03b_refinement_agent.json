@@ -1,0 +1,402 @@
+{
+  "changes": [
+    "Removed unsupported initiating CDN actions and started the module with Mediator passing service requirements to the Peering Agent/PA.",
+    "Merged duplicated resource-discovery steps into a single Peering Agent action chain and kept the Peering Agent lane only for the discovery/negotiation behavior.",
+    "Moved the peering-policies decision and short-term negotiation into the Peering Agent/PA lane, with the long-term return path ending in the normal pass-on final node.",
+    "Split the interaction with external PAs into sender/receiver actions to reflect actor-specific steps, and kept negotiation/discovery as Peering Agent activity.",
+    "Adjusted the sufficient-resources exception so the failure path ends in its own final node labeled for renegotiation, while the success path passes control on.",
+    "Removed unsupported intermediate final/action content and ensured all behavioral requirement IDs remain traced."
+  ],
+  "accepted": false,
+  "reason": "coverage 17 -> 15",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Pass service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R21",
+          "R116"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Receive service requirements",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R21",
+          "R116",
+          "R67"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Perform resource discovery",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Predict peer performance",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Work around sharing limits",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "decision",
+        "label": "Peering policies exist?",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Return peering policies",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Perform short-term negotiation",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R26",
+          "R129",
+          "R67",
+          "R68",
+          "R69"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "action",
+        "label": "Interact with external PAs",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R130",
+          "R69"
+        ]
+      },
+      {
+        "id": "N11",
+        "type": "action",
+        "label": "Exchange service requirements",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R68",
+          "R131"
+        ]
+      },
+      {
+        "id": "N12",
+        "type": "action",
+        "label": "Discover external resources",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R131"
+        ]
+      },
+      {
+        "id": "N13",
+        "type": "action",
+        "label": "Negotiate with selected peers",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R131"
+        ]
+      },
+      {
+        "id": "N14",
+        "type": "decision",
+        "label": "Sufficient resources acquired?",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "id": "N15",
+        "type": "action",
+        "label": "Establish peering arrangement",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "id": "N16",
+        "type": "action",
+        "label": "Re-evaluate service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "id": "N17",
+        "type": "action",
+        "label": "Send service requirements",
+        "lane": "Mediator",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "id": "N18",
+        "type": "final",
+        "label": "Pass control on",
+        "lane": null,
+        "requirement_ids": [
+          "R25",
+          "R128",
+          "R132"
+        ]
+      },
+      {
+        "id": "N19",
+        "type": "final",
+        "label": "Renegotiation required",
+        "lane": null,
+        "requirement_ids": [
+          "R133"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R21",
+          "R116"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R22"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R25",
+          "R128",
+          "R129"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N7",
+        "target": "N9",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R26",
+          "R129",
+          "R67",
+          "R68",
+          "R69"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N8",
+        "target": "N18",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R25",
+          "R128"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N9",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R130",
+          "R69"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N10",
+        "target": "N11",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R130",
+          "R68",
+          "R68"
+        ]
+      },
+      {
+        "id": "E12",
+        "source": "N11",
+        "target": "N12",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R131"
+        ]
+      },
+      {
+        "id": "E13",
+        "source": "N12",
+        "target": "N13",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R131"
+        ]
+      },
+      {
+        "id": "E14",
+        "source": "N13",
+        "target": "N14",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R131",
+          "R132"
+        ]
+      },
+      {
+        "id": "E15",
+        "source": "N14",
+        "target": "N15",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "id": "E16",
+        "source": "N14",
+        "target": "N16",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "id": "E17",
+        "source": "N15",
+        "target": "N18",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R132"
+        ]
+      },
+      {
+        "id": "E18",
+        "source": "N16",
+        "target": "N17",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R133"
+        ]
+      },
+      {
+        "id": "E19",
+        "source": "N17",
+        "target": "N19",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R133"
+        ]
+      }
+    ],
+    "title": "Discover Peers"
+  }
+}

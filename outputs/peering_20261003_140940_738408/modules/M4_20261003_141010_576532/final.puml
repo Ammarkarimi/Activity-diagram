@@ -1,0 +1,24 @@
+@startuml
+title Prepare Negotiation (part 2/2)
+
+|Mediator|
+start
+
+:Obtain resource and policy information;
+|Web Server|
+:Publish resource and service information;
+|Service Registry|
+:Register and update resources;
+|Mediator|
+:Generate service requirements;
+if (Requirements acceptable?) then (yes)
+else (no)
+stop
+endif
+:Send service requirements;
+|Local PA|
+:Receive service requirements;
+|Mediator|
+stop
+
+@enduml

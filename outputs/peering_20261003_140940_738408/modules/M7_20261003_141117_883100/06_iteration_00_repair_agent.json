@@ -1,0 +1,241 @@
+{
+  "changed": true,
+  "repair_type": "minimal_structural",
+  "changes": [
+    "Renamed the disband/cancel termination node to explicitly represent the disband outcome.",
+    "Renamed the re-arrangement action and its outgoing path to clearly state the arrangement has been re-arranged before control passes on.",
+    "Updated requirement traceability on the affected nodes and edges only."
+  ],
+  "rationale": "The defects concern only the semantic clarity of the termination outcomes for R39-R42. The smallest repair is to keep the existing branching structure, but make the disband branch terminate in a node named for disbanding and make the re-arrangement path explicitly state the rearranged outcome before continuing to the pass-on final node.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start operation",
+        "lane": null,
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Replicate content",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R1",
+          "R5",
+          "R3",
+          "R44",
+          "R45"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Redirect requests",
+        "lane": "Web Server",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Exchange accounting information",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R37"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "decision",
+        "label": "Arrange adjustments?",
+        "lane": "Policy Agent",
+        "requirement_ids": [
+          "R38",
+          "R39",
+          "R40",
+          "R41",
+          "R42"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Tune relationships",
+        "lane": "Policy Agent",
+        "requirement_ids": [
+          "R38"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "action",
+        "label": "Disband arrangement",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R39",
+          "R40",
+          "R42"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Re-arrange arrangement",
+        "lane": "Peering Agent",
+        "requirement_ids": [
+          "R41"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "final",
+        "label": "Peering disbanded",
+        "lane": null,
+        "requirement_ids": [
+          "R39",
+          "R40",
+          "R42"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "final",
+        "label": "Control passes on",
+        "lane": null,
+        "requirement_ids": [
+          "R3",
+          "R37",
+          "R38",
+          "R41"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R1",
+          "R5"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R37"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R38",
+          "R39",
+          "R40",
+          "R41",
+          "R42"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": "no CDN interested",
+        "requirement_ids": [
+          "R38"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N5",
+        "target": "N7",
+        "type": "control",
+        "guard": "conditions hold",
+        "requirement_ids": [
+          "R39",
+          "R40",
+          "R42"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N5",
+        "target": "N8",
+        "type": "control",
+        "guard": "needs expansion",
+        "requirement_ids": [
+          "R41"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N5",
+        "target": "N10",
+        "type": "control",
+        "guard": "continue operation",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N6",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R38"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N7",
+        "target": "N9",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R39",
+          "R40",
+          "R42"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N8",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R41"
+        ]
+      }
+    ],
+    "title": "Operate Peering"
+  }
+}

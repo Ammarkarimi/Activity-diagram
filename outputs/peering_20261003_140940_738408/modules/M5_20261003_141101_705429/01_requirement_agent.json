@@ -1,0 +1,379 @@
+{
+  "source": "provided",
+  "requirements": [
+    {
+      "id": "R19",
+      "text": "The initiating CDN identifies its roles and activities through the created negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [
+        "identify its roles and activities"
+      ],
+      "conditions": [
+        "through the created negotiated relationships"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R14"
+      ],
+      "source_sentence": "Once the initiating CDN identifies its roles and activities through the created negotiated relationships for coordination and cooperation between CDNs, the next step is to choose potential CDNs to peer with.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R20",
+      "text": "The next step is to choose potential CDNs to peer with.",
+      "type": "ACTION",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [
+        "choose potential CDNs to peer with"
+      ],
+      "conditions": [
+        "after identifying roles and activities"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "Once the initiating CDN identifies its roles and activities through the created negotiated relationships for coordination and cooperation between CDNs, the next step is to choose potential CDNs to peer with.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R21",
+      "text": "The mediator instance passes the service requirements to the local PA to discover external resources from peers.",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance"
+      ],
+      "actions": [
+        "pass the service requirements to the local PA"
+      ],
+      "conditions": [
+        "to discover external resources from peers"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R17",
+        "R20"
+      ],
+      "source_sentence": "The mediator instance passes the service requirements to the local PA to discover external resources from peers.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R22",
+      "text": "The PA performs the resource discovery process.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "perform the resource discovery process"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R21"
+      ],
+      "source_sentence": "The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R23",
+      "text": "The PA predicts performance of the peers.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "predict performance of the peers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R22"
+      ],
+      "source_sentence": "The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R24",
+      "text": "The PA works around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "work around issues of separate administration and limited information sharing"
+      ],
+      "conditions": [
+        "among enlisted CDNs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R23"
+      ],
+      "source_sentence": "The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R25",
+      "text": "Preexisting peering arrangements are returned at this point if they exist.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [
+        "return preexisting peering arrangements"
+      ],
+      "conditions": [
+        "preexisting peering arrangements exist",
+        "long term scenario"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R24"
+      ],
+      "source_sentence": "If there are any preexisting peering arrangements (for a long term scenario) then these will be returned at this point.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R26",
+      "text": "Otherwise, the PA carries out short term negotiations with the identified peering targets.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "carry out short term negotiations"
+      ],
+      "conditions": [
+        "identified peering targets"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R25"
+      ],
+      "source_sentence": "Otherwise, it carries out short term negotiations with the Peering Agent (PA) identified peering targets.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R66",
+      "text": "A Peering Agent carries out the following major functions,",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A Peering Agent carries out the following major functions,",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R67",
+      "text": "It acts as a policy-driven resource discovery module for establishing negotiations.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent"
+      ],
+      "actions": [
+        "acts as a policy-driven resource discovery module for establishing negotiations"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R66"
+      ],
+      "source_sentence": "It acts as a policy-driven resource discovery module for establishing negotiations.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R68",
+      "text": "It exchanges policy, resource information, and service requirements with external PAs.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent"
+      ],
+      "actions": [
+        "exchanges policy, resource information, and service requirements with external PAs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R67"
+      ],
+      "source_sentence": "It exchanges policy, resource information, and service requirements with external PAs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R69",
+      "text": "It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent",
+        "Mediator"
+      ],
+      "actions": [
+        "is used as a conduit by the mediator to establish negotiations with PAs of other peers",
+        "is used as a conduit by the mediator to acquire resources from them"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R68"
+      ],
+      "source_sentence": "It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R116",
+      "text": "PA: Receives service requirements from the mediator.",
+      "type": "ACTOR",
+      "actors": [
+        "PA"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "PA: Receives service requirements from the mediator.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R128",
+      "text": "If any peering policies exist, they are returned to establish long-term peering arrangement.",
+      "type": "DECISION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "returns peering policies to establish long-term peering arrangement"
+      ],
+      "conditions": [
+        "any peering policies exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R127"
+      ],
+      "source_sentence": "2.  If  any  peering  policies  exist,  they  are  returned  to  establish  long-term  peering arrangement.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R129",
+      "text": "Else, short-term negotiation is performed.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "performs short-term negotiation"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R128"
+      ],
+      "source_sentence": "3. Else, short-term negotiation is performed.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R130",
+      "text": "Local PA in conjunction with the mediator interacts with external PAs through inter-PA communication protocol.",
+      "type": "ACTION",
+      "actors": [
+        "Local PA",
+        "Mediator",
+        "External PA"
+      ],
+      "actions": [
+        "interacts with external PAs through inter-PA communication protocol"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R127"
+      ],
+      "source_sentence": "4. Local  PA  in conjunction  with  the  mediator  interacts  with  external  PAs  through inter-PA communication protocol.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R131",
+      "text": "External resources are discovered and negotiation is performed with selected CDN peers.",
+      "type": "ACTION",
+      "actors": [
+        "Local PA",
+        "External PA"
+      ],
+      "actions": [
+        "discovers external resources",
+        "performs negotiation with selected CDN peers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R130"
+      ],
+      "source_sentence": "5. External resources are discovered and negotiation is performed with selected CDN peers.",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R132",
+      "text": "If sufficient resources are acquired, a peering arrangement is established",
+      "type": "DECISION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "establishes a peering arrangement"
+      ],
+      "conditions": [
+        "sufficient resources are acquired"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R131"
+      ],
+      "source_sentence": "6. If sufficient resources are acquired, a peering arrangement is established",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R133",
+      "text": "Else, mediator re-evaluates service requirements and sends to the local PA to perform re-negotiation",
+      "type": "EXCEPTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "re-evaluates service requirements",
+        "sends service requirements to the local PA to perform re-negotiation"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R132"
+      ],
+      "source_sentence": "7.  Else,  mediator  re-evaluates  service  requirements  and  sends  to  the  local  PA  to perform re-negotiation",
+      "section": "3.4.5 Stimulus/Response Sequences",
+      "chunk_id": "C3"
+    }
+  ]
+}

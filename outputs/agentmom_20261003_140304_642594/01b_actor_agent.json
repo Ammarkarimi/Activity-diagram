@@ -1,0 +1,10 @@
+{
+  "actors": [
+    "Agent",
+    "Sending Agent",
+    "Receiving Agent",
+    "Multicast Group",
+    "Local Network",
+    "Encryption/Decryption"
+  ]
+}

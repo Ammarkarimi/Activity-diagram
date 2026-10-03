@@ -1,0 +1,275 @@
+{
+  "source": "provided",
+  "requirements": [
+    {
+      "id": "R4",
+      "text": "A CDN's reach and scale is limited by its ability to handle peak load, cost of equipment, scalable infrastructure, and/or demand for the increased coverage of its infrastructure.",
+      "type": "CONDITION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [],
+      "conditions": [
+        "reach and scale is limited by ability to handle peak load, cost of equipment, scalable infrastructure, and/or demand for increased coverage"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A CDN\u2019s reach and scale is limited by its ability to handle peak load, cost of equipment, scalable infrastructure, and/or demand for the increased coverage of its infrastructure.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R6",
+      "text": "Peering is triggered by an initialization request sent to the mediator under exceptional circumstances.",
+      "type": "CONDITION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [
+        "send initialization request to the mediator"
+      ],
+      "conditions": [
+        "exceptional circumstances"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "It is triggered by an initialization request sent to the mediator under exceptional circumstances, e.g. flash crowds, when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs).",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R7",
+      "text": "The primary CDN realizes that it cannot handle a part of the workload on its Web Servers.",
+      "type": "CONDITION",
+      "actors": [
+        "primary CDN"
+      ],
+      "actions": [],
+      "conditions": [
+        "cannot handle a part of the workload on its Web Servers"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R6"
+      ],
+      "source_sentence": "It is triggered by an initialization request sent to the mediator under exceptional circumstances, e.g. flash crowds, when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs).",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R8",
+      "text": "The triggering condition must consider expected and unexpected load increases in the initiating CDN.",
+      "type": "CONDITION",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [],
+      "conditions": [
+        "expected load increases",
+        "unexpected load increases"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R6",
+        "R7"
+      ],
+      "source_sentence": "The triggering condition must consider the expected and unexpected load increases in the initiating CDN.",
+      "section": "(none)",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R48",
+      "text": "In the event of Web hotspot, it initiates request to trigger peering.",
+      "type": "CONDITION",
+      "actors": [
+        "Web server"
+      ],
+      "actions": [
+        "initiates request to trigger peering"
+      ],
+      "conditions": [
+        "Web hotspot occurs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R47"
+      ],
+      "source_sentence": "In the event of Web hotspot, it initiates request to trigger peering.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R81",
+      "text": "Service registration is triggered when either one  of the following occurs: (a) resources are  available   as  a  provider   starts  operating;   (b)  previously   registered   resource information needs to be updated; (c) available local resource information is required in the event of traffic surges; and (d) local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement.",
+      "type": "DECISION",
+      "actors": [
+        "WS",
+        "SR",
+        "Mediator"
+      ],
+      "actions": [
+        "trigger service registration"
+      ],
+      "conditions": [
+        "resources are available as a provider starts operating",
+        "previously registered resource information needs to be updated",
+        "available local resource information is required in the event of traffic surges",
+        "local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R80"
+      ],
+      "source_sentence": "Service registration is triggered when either one  of the following occurs: (a) resources are  available   as  a  provider   starts  operating;   (b)  previously   registered   resource information needs to be updated; (c) available local resource information is required in the event of traffic surges; and (d) local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R89",
+      "text": "4. In the face of traffic surges,  information  on available  local resources  along  with their IDs is supplied to the Mediator.",
+      "type": "CONDITION",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "supplies information on available local resources along with their IDs to the Mediator"
+      ],
+      "conditions": [
+        "traffic surges occur"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R88"
+      ],
+      "source_sentence": "4. In the face of traffic surges,  information  on available  local resources  along  with their IDs is supplied to the Mediator.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R97",
+      "text": "This feature relates to the initialization  of peering between  CDNs.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This feature relates to the initialization  of peering between  CDNs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R98",
+      "text": "End-user: Requests for content.",
+      "type": "ACTOR",
+      "actors": [
+        "End-user"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "End-user: Requests for content.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R99",
+      "text": "Mediator: Receives initiation request from WS to trigger peering.",
+      "type": "ACTOR",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Mediator: Receives initiation request from WS to trigger peering.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R100",
+      "text": "It is invoked  when  a  (primary)  CDN  realizes  that  it  cannot  handle  a  part  of  the workload   on   its   WS(s).",
+      "type": "CONDITION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [
+        "invokes peering initiation"
+      ],
+      "conditions": [
+        "a primary CDN realizes that it cannot handle a part of the workload on its WS(s)"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R99"
+      ],
+      "source_sentence": "It is invoked  when  a  (primary)  CDN  realizes  that  it  cannot  handle  a  part  of  the workload   on   its   WS(s).",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R101",
+      "text": "The triggering condition considers the expected and unexpected load increases in the initiating (primary) CDN.",
+      "type": "CONDITION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [
+        "considers expected and unexpected load increases"
+      ],
+      "conditions": [
+        "triggering peering initiation"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R100"
+      ],
+      "source_sentence": "The triggering condition considers the expected and unexpected load increases in the initiating (primary) CDN.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R102",
+      "text": "Exceptional circumstances  such as flash crowds have occurred to place unanticipated load on CDN WSs.",
+      "type": "CONDITION",
+      "actors": [
+        "CDN WSs"
+      ],
+      "actions": [],
+      "conditions": [
+        "flash crowds have occurred",
+        "unanticipated load on CDN WSs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R101"
+      ],
+      "source_sentence": "Exceptional circumstances  such as flash crowds have occurred to place unanticipated load on CDN WSs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R103",
+      "text": "An initialization request is sent to the mediator to trigger peering.",
+      "type": "ACTION",
+      "actors": [
+        "WS"
+      ],
+      "actions": [
+        "sends an initialization request to the mediator to trigger peering"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R102"
+      ],
+      "source_sentence": "An initialization request is sent to the mediator to trigger peering.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    }
+  ]
+}
