@@ -19,6 +19,7 @@ from src.generation.plantuml_generator import PlantUMLGenerator
 from src.generation.plantuml_tool import DEFAULT_LIMIT_SIZE
 from src.generation.renderer import PlantUMLRenderer
 from src.llm import usage as llm_usage
+from src.validation.reachability import reachable_requirement_ids
 from src.llm.openai_client import OpenAIClient
 from src.models.domain import (
     modelled_requirements,
@@ -30,13 +31,14 @@ from src.models.domain import (
     Requirement,
 )
 from src.pipeline.composer import build_overview_diagram, compose_full_diagram, split_into_parts
-from src.pipeline.lanes import apply_lanes, match_actor, swimlane_instruction
+from src.pipeline.lanes import apply_lanes, match_actor, swimlane_instruction, spec_abbreviations
 from src.reporting.viewer import build_viewer
 from src.pipeline.decomposition import (
     normalize_decomposition,
     section_decomposition,
 )
 from src.pipeline.orchestrator import MultiAgentPipeline
+from src.pipeline.extraction import extract_chunked, missed_sections  # noqa: F401 (re-exported)
 from src.pipeline.requirement_consolidation import consolidate_requirements
 from src.reporting.report import build_hierarchical_report
 from src.validation.structural.structural_validator import StructuralValidator
@@ -74,9 +76,10 @@ class HierarchicalPipeline:
         overlap_tokens: int = 150,
         max_requirements_per_module: int = 25,
         max_workers: int = 4,
-        max_defects_per_repair: int = 2,
+        max_defects_per_repair: int = 3,
         decomposition_token_budget: int = 60_000,
         pipeline_factory: Callable[[], MultiAgentPipeline] | None = None,
+        planner: str = "outline",
     ) -> None:
         self.llm = llm or OpenAIClient(model=model)
         self.chunker = DocumentChunker(max_tokens=chunk_tokens, overlap_tokens=overlap_tokens)
@@ -86,7 +89,9 @@ class HierarchicalPipeline:
         self.max_workers = max(1, max_workers)
         self.decomposition_token_budget = decomposition_token_budget
         self.pipeline_factory = pipeline_factory or (
-            lambda: MultiAgentPipeline(llm=self.llm, max_defects_per_repair=max_defects_per_repair)
+            lambda: MultiAgentPipeline(
+                llm=self.llm, max_defects_per_repair=max_defects_per_repair, planner=planner
+            )
         )
         self.validator = StructuralValidator()
         self.syntax = PlantUMLSyntaxValidator()
@@ -117,6 +122,8 @@ class HierarchicalPipeline:
             document_tokens=estimate_tokens(requirement_text),
         )
         llm_calls = 0
+        # Abbreviations the specification defines ("Peering Agent (PA)").
+        self._abbreviations = spec_abbreviations(requirement_text)
         # Token accounting (observation only): document-level calls carry no run.
         usage_tracker = getattr(getattr(self, "llm", None), "usage", None)
         usage_start = usage_tracker.count() if usage_tracker is not None else 0
@@ -229,12 +236,12 @@ class HierarchicalPipeline:
                 )
 
         # ---------------- 6. coverage + report ----------------
+        # Only reachable elements count: unreachable ones are never drawn.
         covered = {
             rid
             for m in state.modules
             if m.diagram is not None
-            for element in [*m.diagram.nodes, *m.diagram.edges]
-            for rid in element.requirement_ids
+            for rid in reachable_requirement_ids(m.diagram)
         }
         modelled = modelled_requirements(state.requirements)
         state.uncovered_requirement_ids = [r.id for r in modelled if r.id not in covered]
@@ -315,33 +322,9 @@ class HierarchicalPipeline:
         chunks: list[DocumentChunk],
         title: str,
     ) -> tuple[list[tuple[DocumentChunk, list[Requirement]]], list[str]]:
-        def extract_one(chunk: DocumentChunk) -> tuple[DocumentChunk, list[Requirement], str]:
-            try:
-                response = self.requirement_agent.run_chunk(chunk, document_title=title)
-                return chunk, list(response.requirements), ""
-            except Exception as exc:  # one bad chunk must not sink a 20-page run
-                self.log.error("Requirement extraction failed for %s: %s", chunk.id, exc)
-                return chunk, [], f"{chunk.id} ({chunk.section or 'no section'}): {exc}"
-
-        def extract(chunk: DocumentChunk) -> list[tuple[DocumentChunk, list[Requirement], str]]:
-            # The model sometimes skips whole sections of a long chunk; any
-            # sizeable section left without a requirement is extracted again
-            # on its own (duplicates are removed by consolidation).
-            results = [extract_one(chunk)]
-            if not results[0][2]:
-                for part in missed_sections(self.chunker.sections(chunk), results[0][1]):
-                    self.log.warning(
-                        "No requirements extracted from section '%s' of %s; extracting it separately.",
-                        part.section, chunk.id,
-                    )
-                    results.append(extract_one(part))
-            return results
-
-        with ThreadPoolExecutor(max_workers=self.max_workers) as pool:
-            results = [item for items in pool.map(extract, chunks) for item in items]
-        per_chunk = [(chunk, requirements) for chunk, requirements, _ in results]
-        errors = [error for _, _, error in results if error]
-        return per_chunk, errors
+        return extract_chunked(
+            self.requirement_agent, self.chunker, chunks, title, self.max_workers, self.log
+        )
 
     def _decompose(
         self,
@@ -442,13 +425,14 @@ class HierarchicalPipeline:
             for node in diagram.nodes:
                 if node.lane and node.lane.strip():
                     steps.setdefault(" ".join(node.lane.split()), []).append(node.label)
-        mapping: dict[str, str | None] = {lane: match_actor(lane, actors) for lane in steps}
+        abbreviations = getattr(self, "_abbreviations", {})
+        mapping: dict[str, str | None] = {lane: match_actor(lane, actors, abbreviations) for lane in steps}
         unresolved = {lane: labels for lane, labels in steps.items() if mapping[lane] is None}
         used_llm = False
         if unresolved:
             used_llm = True
             try:
-                mapping.update(self.lane_agent.run(unresolved, actors))
+                mapping.update(self.lane_agent.run(unresolved, actors, abbreviations))
             except Exception as exc:
                 self.log.warning("Lane mapping failed (%s); unmatched lanes follow the preceding step.", exc)
         for module in state.modules:
@@ -566,46 +550,6 @@ class HierarchicalPipeline:
         else:
             payload = value
         path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-
-
-_STOPWORDS = {
-    "the", "and", "for", "are", "that", "this", "with", "from", "its", "which",
-    "into", "has", "have", "been", "will", "can", "all", "any", "not", "but",
-}
-
-
-def _words(text: str) -> set[str]:
-    return {w for w in re.findall(r"[a-z0-9]+", text.lower()) if len(w) >= 3 and w not in _STOPWORDS}
-
-
-def missed_sections(
-    parts: list[DocumentChunk],
-    requirements: list[Requirement],
-    min_tokens: int = 80,
-) -> list[DocumentChunk]:
-    """Sections of a chunk that no extracted requirement comes from.
-
-    Each requirement is attributed to the one section whose text its source
-    sentence overlaps most, so a sentence that merely shares vocabulary with
-    another section does not count for it.
-    """
-    if len(parts) < 2:
-        return []
-    part_words = [_words(part.text) for part in parts]
-    hits = [0] * len(parts)
-    for requirement in requirements:
-        words = _words(requirement.source_sentence or requirement.text)
-        if not words:
-            continue
-        scores = [len(words & pw) / len(words) for pw in part_words]
-        best = max(range(len(parts)), key=scores.__getitem__)
-        if scores[best] >= 0.5:
-            hits[best] += 1
-    return [
-        part
-        for part, count in zip(parts, hits)
-        if count == 0 and part.estimated_tokens >= min_tokens
-    ]
 
 
 def module_requirement_text(

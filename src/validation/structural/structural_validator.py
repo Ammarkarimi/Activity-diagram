@@ -38,6 +38,7 @@ class StructuralValidator:
             "DECISION-002": 0,
             "DECISION-003": 0,
             "FLOW-001": 0,
+            "FLOW-002": 0,
             "CONCURRENCY-001": 0,
             "TERM-001": 0,
         }
@@ -243,7 +244,9 @@ class StructuralValidator:
                     Defect(
                         id="D-STRUCT-003",
                         category="STRUCTURAL",
-                        severity=Severity.HIGH,
+                        # Unreachable nodes are never drawn: the behaviour
+                        # they carry is silently missing from the diagram.
+                        severity=Severity.CRITICAL,
                         description=(
                             "Unreachable "
                             "diagram nodes."
@@ -513,6 +516,66 @@ class StructuralValidator:
                             "to its next "
                             "workflow step or "
                             "final node."
+                        ),
+                    )
+                )
+
+        # ============================================================
+        # ACTIONS THAT BRANCH (a decision hidden in an action)
+        # ============================================================
+
+        for node in diagram.nodes:
+
+            if node.type != NodeType.ACTION:
+                continue
+
+            outgoing = [
+                edge
+                for edge in diagram.edges
+                if edge.source == node.id
+            ]
+
+            if len(outgoing) > 1:
+
+                rule_counts[
+                    "FLOW-002"
+                ] += 1
+
+                defects.append(
+                    Defect(
+                        id=(
+                            f"D-FLOW-002-"
+                            f"{node.id}"
+                        ),
+                        category="STRUCTURAL",
+                        severity=Severity.HIGH,
+                        description=(
+                            f"Action {node.id} has "
+                            f"{len(outgoing)} outgoing "
+                            "flows; a choice between "
+                            "flows needs a decision node."
+                        ),
+                        node_ids=[
+                            node.id
+                        ],
+                        edge_ids=[
+                            edge.id
+                            for edge in outgoing
+                        ],
+                        requirement_ids=(
+                            node.requirement_ids
+                        ),
+                        evidence=(
+                            f"{node.label}: "
+                            + ", ".join(
+                                str(edge.guard or edge.target)
+                                for edge in outgoing
+                            )
+                        ),
+                        suggested_action=(
+                            "Insert a decision node "
+                            "after the action and move "
+                            "the guarded flows to it."
                         ),
                     )
                 )

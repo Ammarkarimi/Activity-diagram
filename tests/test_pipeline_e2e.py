@@ -112,6 +112,7 @@ def test_pipeline_persists_timestamped_stage_artifacts(tmp_path):
     from src.validation.validator import HybridValidator
 
     pipeline = MultiAgentPipeline.__new__(MultiAgentPipeline)
+    pipeline.planner = "graph"
     pipeline.log = MagicMock()
     pipeline.requirement_agent = MagicMock()
     pipeline.planning_agent = MagicMock()

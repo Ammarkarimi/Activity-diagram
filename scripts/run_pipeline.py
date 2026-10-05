@@ -36,13 +36,31 @@ def main():
         "extraction + per-module diagrams (for long documents); auto picks "
         "hierarchical above --long-doc-tokens.",
     )
-    parser.add_argument("--long-doc-tokens", type=int, default=3000)
+    # Below this size one model of the whole document stays coherent: loops,
+    # forks and steps that span use cases are not cut apart by modules.
+    parser.add_argument("--long-doc-tokens", type=int, default=12000)
     parser.add_argument("--chunk-tokens", type=int, default=2500)
     parser.add_argument("--max-requirements-per-module", type=int, default=25)
     parser.add_argument("--max-workers", type=int, default=4)
+    parser.add_argument(
+        "--planner",
+        choices=["outline", "graph"],
+        default="outline",
+        help="outline: plan, repair and draw the diagram as nested blocks "
+        "(if/while/fork); graph: Planning -> Generator -> Refinement agents.",
+    )
     args = parser.parse_args()
 
     configure_logging()
+
+    from src.generation.plantuml_tool import plantuml_command
+
+    if plantuml_command() is None:
+        print(
+            "WARNING: PlantUML (Java + tools/plantuml.jar) was not found. Diagrams cannot be "
+            "checked or rendered, so layout errors go unnoticed.\n"
+            "         Install it with: python -m scripts.install_plantuml"
+        )
 
     input_path = Path(args.input)
     sample_id = args.sample_id or input_path.stem
@@ -62,6 +80,7 @@ def main():
             chunk_tokens=args.chunk_tokens,
             max_requirements_per_module=args.max_requirements_per_module,
             max_workers=args.max_workers,
+            planner=args.planner,
         ).run(
             sample_id=sample_id,
             requirement_text=text,
@@ -103,7 +122,7 @@ def main():
 
     from src.pipeline.orchestrator import MultiAgentPipeline
 
-    state = MultiAgentPipeline(model=args.model).run(
+    state = MultiAgentPipeline(model=args.model, planner=args.planner).run(
         sample_id=sample_id,
         requirement_text=text,
         max_iterations=args.max_iterations,
@@ -120,6 +139,13 @@ def main():
         cost = entry.get("iteration_cost_usd")
         print(f"  iteration {entry['iteration']}: {entry.get('iteration_tokens', 0):,} tokens"
               + (f", ${cost:.4f}" if cost is not None else ""))
+    before = state.metrics.get("before_repair")
+    after = state.metrics.get("after_repair")
+    if before and after:
+        print(f"Before repair: {before['defect_count']} defects ({before['blocking_defects']} blocking), "
+              f"coverage {100 * before['requirement_coverage']:.0f}% -> {out / f'{sample_id}_before_repair.puml'}")
+        print(f"After repair:  {after['defect_count']} defects ({after['blocking_defects']} blocking), "
+              f"coverage {100 * (after['requirement_coverage'] or 0):.0f}%")
     print(f"PlantUML: {out / f'{sample_id}.puml'}")
 
 

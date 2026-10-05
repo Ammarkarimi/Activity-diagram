@@ -8,6 +8,7 @@ from src.models.domain import (
     ValidationResult,
     modelled_requirements,
 )
+from src.validation.reachability import reachable_requirement_ids
 
 
 class CoverageValidator:
@@ -18,17 +19,13 @@ class CoverageValidator:
         requirements: list[Requirement],
     ) -> ValidationResult:
 
-        represented: set[str] = set()
-
-        for node in diagram.nodes:
-            represented.update(
-                node.requirement_ids
-            )
-
-        for edge in diagram.edges:
-            represented.update(
-                edge.requirement_ids
-            )
+        # Only reachable elements count: an unreachable node is never drawn.
+        represented = reachable_requirement_ids(diagram)
+        traced_anywhere = {
+            rid
+            for element in [*diagram.nodes, *diagram.edges]
+            for rid in element.requirement_ids
+        }
 
         defects: list[Defect] = []
         requirements = modelled_requirements(requirements)
@@ -43,6 +40,12 @@ class CoverageValidator:
                         category="REQUIREMENT_COVERAGE",
                         severity=Severity.HIGH,
                         description=(
+                            f"Requirement "
+                            f"{requirement.id} is only "
+                            "traced to unreachable "
+                            "elements, so it is not shown."
+                            if requirement.id in traced_anywhere
+                            else
                             f"Requirement "
                             f"{requirement.id} is not "
                             "traced to any diagram "

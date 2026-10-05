@@ -27,7 +27,10 @@ class ReviewerAgent:
         matrix: RequirementMatrix,
         diagram: ActivityDiagram,
         existing_defects=None,
+        diagram_text: str | None = None,
     ) -> ReviewResult:
+        """``diagram_text``: a readable block outline of the diagram (node IDs,
+        lanes, traces), shown instead of the graph JSON."""
         existing_defects = existing_defects or []
 
         system = """
@@ -101,7 +104,7 @@ TRACEABILITY MATRIX
 
 CURRENT ACTIVITY DIAGRAM
 ========================
-{prompt_json(diagram)}
+{diagram_text or prompt_json(diagram)}
 
 PREVIOUSLY DETECTED DEFECTS
 ============================

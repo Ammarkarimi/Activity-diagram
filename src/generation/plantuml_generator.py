@@ -79,15 +79,22 @@ class PlantUMLGenerator:
         self._analyze(graph, nodes, initial.id)
 
         if structured_loops:
-            text = self._emit(graph, nodes, diagram, initial)
-            if self._blocks_balanced(text):
-                return text
+            # Loop back edges that leave from inside a nested branch cannot be
+            # expressed with repeat/while blocks. Only those loops fall back to
+            # connector jumps: largest loops first, the others stay blocks.
+            repeat, whiles = set(self._repeat_headers), set(self._while_headers)
+            headers = sorted(self._loop_nodes, key=lambda h: (-len(self._loop_nodes[h]), h))
+            attempts = [[]] + [[h] for h in headers] + [headers[:k] for k in range(2, len(headers))]
+            for dropped in attempts:
+                self._repeat_headers = repeat - set(dropped)
+                self._while_headers = whiles - set(dropped)
+                text = self._emit(graph, nodes, diagram, initial)
+                if self._blocks_balanced(text):
+                    return text
 
-        # Loop back edges that leave from inside a nested branch cannot be
-        # expressed with repeat/while blocks (and some structured loops crash
-        # PlantUML's layout, see structured_loops). Fall back to plain branching
-        # (back edges become connector jumps) rather than emitting invalid
-        # PlantUML.
+        # No loop as a block (some structured loops crash PlantUML's layout,
+        # see structured_loops): plain branching, back edges become connector
+        # jumps, rather than emitting invalid PlantUML.
         self._repeat_headers = set()
         self._while_headers = set()
         return self._emit(graph, nodes, diagram, initial)
@@ -106,6 +113,13 @@ class PlantUMLGenerator:
         lines.append(
             f"title {self._escape(diagram.title)}"
         )
+        # Swimlanes change how branches must be written (see _compile_decision).
+        self._multi_lane = len({
+            " ".join(n.lane.split()).casefold() for n in diagram.nodes if n.lane and n.lane.strip()
+        }) > 1
+        if self._multi_lane:
+            # A long lane name over a narrow lane runs into its neighbour.
+            lines.append(f"skinparam swimlaneWrapTitleWidth {self._LANE_TITLE_WIDTH}")
         lines.append("")
 
         visited: set[str] = set()
@@ -157,6 +171,8 @@ class PlantUMLGenerator:
         return "\n".join(resolved)
 
     _NODE_MARK = "\x00node:"
+
+    _LANE_TITLE_WIDTH = 150
 
     def _emit_final(self, node: ActivityNode, lines: list[str]) -> None:
         self._final_reached = True
@@ -724,6 +740,7 @@ class PlantUMLGenerator:
             body = [edge for edge in outgoing if edge.target in loop]
             exits = [edge for edge in outgoing if edge.target not in loop]
 
+            loop_lane = self._current_lane
             lines.append(
                 f"while ({label}) "
                 f"is ({self._escape_guard(self._guard(body[0].guard, 'yes'))})"
@@ -747,9 +764,11 @@ class PlantUMLGenerator:
                 lines.append(
                     f"endwhile ({self._escape_guard(self._guard(exits[0].guard, 'no'))})"
                 )
+                self._force_lane(loop_lane, lines)
                 self._compile_branch(target=exits[0].target, **common)
             else:
                 lines.append("endwhile")
+                self._force_lane(loop_lane, lines)
                 if exits:
                     self._compile_decision(node=node, outgoing=exits, **common)
 
@@ -779,6 +798,14 @@ class PlantUMLGenerator:
             self._fallthrough.append(merge_point)
             visited.add(merge_point)
 
+        # Every branch starts in the decision's lane: a branch that is only
+        # "stop", or that opens with a lane change, otherwise loses its
+        # incoming arrow. With swimlanes, PlantUML also drops arrows of
+        # elseif chains whose branches change lane, so more than two branches
+        # are written as nested if/else instead.
+        decision_lane = self._current_lane
+        nested = self._multi_lane and len(outgoing) > 2
+
         # Branches share ``visited``: a node already drawn by an earlier
         # branch is reached by a connector jump instead of being drawn twice.
         for i, edge in enumerate(outgoing):
@@ -800,12 +827,20 @@ class PlantUMLGenerator:
                 lines.append(
                     f"else ({self._escape_guard(guard)})"
                 )
+            elif nested:
+                lines.append("else")
+                self._force_lane(decision_lane, lines)
+                lines.append(
+                    f"if ({label}) "
+                    f"then ({self._escape_guard(guard)})"
+                )
             else:
                 lines.append(
                     f"elseif ({label}) "
                     f"then ({self._escape_guard(guard)})"
                 )
 
+            self._force_lane(decision_lane, lines)
             self._compile_branch(
                 graph=graph,
                 nodes=nodes,
@@ -816,7 +851,7 @@ class PlantUMLGenerator:
                 lines=lines,
             )
 
-        lines.append("endif")
+        lines.extend(["endif"] * (len(outgoing) - 1 if nested else 1))
 
         if merge_point is not None and not owns_merge:
             self._jump(merge_point, nodes, lines)
@@ -915,6 +950,7 @@ class PlantUMLGenerator:
             self._fallthrough.append(merge_point)
             visited.add(merge_point)
 
+        fork_lane = self._current_lane
         lines.append("fork")
 
         for index, target in enumerate(branches):
@@ -923,6 +959,7 @@ class PlantUMLGenerator:
                 lines.append(
                     "fork again"
                 )
+                self._force_lane(fork_lane, lines)
 
             self._compile_branch(
                 graph=graph,
@@ -1000,6 +1037,17 @@ class PlantUMLGenerator:
             return
         lines.append(f"|{self._escape_lane(lane)}|")
         self._current_lane = lane
+
+    def _force_lane(self, lane: str | None, lines: list[str]) -> None:
+        """Declare ``lane`` at the start of a branch, even if it is current.
+
+        After a block header PlantUML places the branch in the lane the
+        previous branch ended in; only an explicit declaration resets it.
+        """
+        if not lane or not self._multi_lane:
+            return
+        self._current_lane = None
+        self._emit_lane(lane, lines)
 
     def _lane_name(self, lane: str | None) -> str:
         """Spellings that differ only in case or spacing share one lane."""

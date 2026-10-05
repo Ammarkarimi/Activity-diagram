@@ -61,6 +61,23 @@ TERMINATION, ACTOR, OTHER.
   overview, context or user section ("the CTS receives instructions from
   trade client serve", "when the system crashes, the maintainers find the
   cause and fix it") is an ACTION or CONDITION, not OTHER.
+- One step, one requirement: when the same step is stated in several places
+  (an overview, a component's list of functions and a use-case sequence),
+  extract it ONCE, from the most specific statement (usually the numbered
+  scenario step); the other statements of that step are OTHER.
+- Explanations of HOW a step is carried out (named algorithms, protocols,
+  mechanisms such as DNS or gateway redirection, techniques, examples of
+  means) are OTHER: they belong to the step they explain and are not steps
+  of their own. But what a component DOES, as its description states it
+  ("A Web server replicates content on-demand from the origin server",
+  "ensures the delivery of content to end-users"), is an ACTION of that
+  component.
+- Constraints and assumptions are OTHER: statements that something is
+  defined, identified, in place, already done, or a norm ("REQ-4: The format
+  of the initiation request is defined", "Interaction protocols between PAs
+  are identified", "Malicious requests are identified and acted upon",
+  "Web servers have already replicated necessary content") and
+  preconditions/postconditions that restate a scenario's start or end.
 - actors: the actor that performs the step, named as the specification's
   actor lists name it, with abbreviations written out ("WS" -> "Web Server").
 """

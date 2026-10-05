@@ -277,7 +277,7 @@ def test_hierarchical_pipeline_end_to_end_on_long_document(tmp_path, monkeypatch
         chunk_tokens=900,
         max_requirements_per_module=20,
         max_workers=4,
-        pipeline_factory=lambda: MultiAgentPipeline(llm=llm),
+        pipeline_factory=lambda: MultiAgentPipeline(llm=llm, planner="graph"),
     )
     state = pipeline.run("retail", text, max_iterations=1, output_dir=tmp_path)
 

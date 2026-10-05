@@ -44,6 +44,7 @@ AGENT_NAMES = {
     "FeedbackResult": "Feedback Agent",
     "RepairResult": "Repair Agent",
     "LaneMapping": "Lane Mapping Agent",
+    "ConsolidationResult": "Consolidation Agent",
 }
 
 TOKEN_FIELDS = ("input_tokens", "cached_input_tokens", "output_tokens", "reasoning_tokens")

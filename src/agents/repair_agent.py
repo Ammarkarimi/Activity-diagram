@@ -62,6 +62,16 @@ REPAIR RULES
     decisions. Keep them in lanes or as actions/notes.
 16. If a defect cannot be fixed without unrelated changes, make the minimum
     necessary change and describe it briefly.
+17. Unreachable nodes are never drawn. Connect each one where the
+    requirements say it happens: add the edge from the step (or decision
+    branch) that leads to it, so it is reachable from the initial node and
+    reaches a final node. Remove an unreachable node only if it duplicates a
+    reachable one, and then move its requirement IDs to that node.
+18. A requirement that is not traced (or only traced to unreachable nodes)
+    must end up on a reachable node or edge: trace it to the existing step
+    that performs it, or add the missing step in the correct place.
+19. An action has exactly one outgoing flow. A choice between flows is a
+    decision node with guarded edges, labelled with the question it decides.
 
 SUCCESS CONDITION
 The supplied defects should be resolved without introducing new structural

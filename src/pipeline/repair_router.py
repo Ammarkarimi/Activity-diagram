@@ -9,7 +9,6 @@ from src.models.domain import (
     Requirement,
 )
 from src.repair.deterministic_repairs import (
-    DecisionRepair,
     StructuralRepair,
 )
 
@@ -30,12 +29,13 @@ class RepairRouter:
     REPAIR_PRIORITY: dict[str, int] = {
         "SYNTAX": 1,
         "STRUCTURAL": 2,
-        "DECISION": 3,
-        "CONTROL_FLOW": 4,
-        "CONCURRENCY": 5,
-        "TERMINATION": 6,
-        "EXCEPTION": 7,
-        "REQUIREMENT_COVERAGE": 8,
+        "CONTROL_FLOW": 3,
+        "TERMINATION": 4,
+        # Missing behaviour is repaired before refinements of what is drawn.
+        "REQUIREMENT_COVERAGE": 5,
+        "DECISION": 6,
+        "CONCURRENCY": 7,
+        "EXCEPTION": 8,
         "SEMANTIC": 9,
         "HALLUCINATION": 10,
         "DATA_FLOW": 11,
@@ -43,16 +43,16 @@ class RepairRouter:
         "LAYOUT": 13,
     }
 
-    # Defects that can safely be handled with deterministic logic.
-    DETERMINISTIC_CATEGORIES = {
-        "STRUCTURAL",
-        "DECISION",
-    }
+    # Defects the deterministic rules actually fix (missing initial or final
+    # node, an action with several exits). Missing guards go to the LLM,
+    # which names them; the old rule wrote "branch_1".
+    DETERMINISTIC_IDS = ("D-STRUCT-001", "D-STRUCT-002", "D-FLOW-002")
+
 
     def __init__(
         self,
         llm: OpenAIClient,
-        max_defects_per_repair: int = 2,
+        max_defects_per_repair: int = 3,
     ) -> None:
 
         self.llm = llm
@@ -65,13 +65,13 @@ class RepairRouter:
             StructuralRepair()
         )
 
-        self.decision_repair = (
-            DecisionRepair()
-        )
 
         self.llm_repair = (
             LLMRepairAgent(llm)
         )
+
+        # Whether the last repair() call used the LLM (for call counting).
+        self.last_used_llm = False
 
     # ============================================================
     # PUBLIC API
@@ -101,121 +101,54 @@ class RepairRouter:
             )
         )
 
-        categories = {
-            defect.category
-            for defect in selected_defects
-        }
+        self.last_used_llm = False
 
-        # --------------------------------------------------------
-        # Deterministic structural repair
-        # --------------------------------------------------------
+        # Rules fix only the defects they are written for; the rest of the
+        # batch (unreachable nodes, decisions without effect, ...) is a
+        # semantic question for the LLM. Sending a mixed batch to the rules
+        # alone left those defects unrepaired, and a batch the rules could
+        # not change at all stopped the repair loop.
+        fixable = [d for d in selected_defects if d.id.startswith(self.DETERMINISTIC_IDS)]
+        rest = [d for d in selected_defects if d not in fixable]
 
-        if categories <= {
-            "STRUCTURAL"
-        }:
-
-            return self.structural_repair.repair(
-                diagram,
-                selected_defects,
-            )
-
-        # --------------------------------------------------------
-        # Deterministic decision repair
-        # --------------------------------------------------------
-
-        if categories <= {
-            "DECISION"
-        }:
-
-            return self.decision_repair.repair(
-                diagram,
-                selected_defects,
-            )
-
-        # --------------------------------------------------------
-        # Mixed structural + decision defects
-        #
-        # Apply deterministic repair first.
-        # The orchestrator will validate again.
-        # --------------------------------------------------------
-
-        if categories.issubset(
-            self.DETERMINISTIC_CATEGORIES
-        ):
-
-            current = diagram
-            changes: list[str] = []
-            changed = False
-
-            structural_defects = [
-                defect
-                for defect in selected_defects
-                if defect.category
-                == "STRUCTURAL"
-            ]
-
-            decision_defects = [
-                defect
-                for defect in selected_defects
-                if defect.category
-                == "DECISION"
-            ]
-
-            if structural_defects:
-
-                result = (
-                    self.structural_repair.repair(
-                        current,
-                        structural_defects,
-                    )
-                )
-
+        current = diagram
+        changes: list[str] = []
+        if fixable:
+            result = self.structural_repair.repair(diagram, fixable)
+            if result.changed:
                 current = result.diagram
+                changes = list(result.changes)
 
-                changes.extend(
-                    result.changes
+        if not rest:
+            if changes:
+                return RepairResult(
+                    changed=True,
+                    repair_type="DETERMINISTIC",
+                    changes=changes,
+                    rationale="Applied deterministic structural repairs.",
+                    diagram=current,
                 )
+            rest = selected_defects
 
-                changed |= result.changed
-
-            if decision_defects:
-
-                result = (
-                    self.decision_repair.repair(
-                        current,
-                        decision_defects,
-                    )
-                )
-
-                current = result.diagram
-
-                changes.extend(
-                    result.changes
-                )
-
-                changed |= result.changed
-
-            return RepairResult(
-                changed=changed,
-                repair_type="DETERMINISTIC",
-                changes=changes,
-                rationale=(
-                    "Applied deterministic "
-                    "structural/decision repairs."
-                ),
-                diagram=current,
-            )
-
-        # --------------------------------------------------------
-        # LLM semantic/behavioral repair
-        # --------------------------------------------------------
-
-        return self.llm_repair.run(
+        self.last_used_llm = True
+        llm_result = self.llm_repair.run(
             requirement_text=requirement_text,
             requirements=requirements,
-            diagram=diagram,
-            defects=selected_defects,
+            diagram=current,
+            defects=rest,
         )
+        if not changes:
+            return llm_result
+        if not llm_result.changed:
+            return RepairResult(
+                changed=True,
+                repair_type="DETERMINISTIC",
+                changes=changes,
+                rationale="Applied deterministic structural repairs; the LLM repair changed nothing.",
+                diagram=current,
+            )
+        llm_result.changes = changes + list(llm_result.changes)
+        return llm_result
 
     # ============================================================
     # DEFECT SELECTION

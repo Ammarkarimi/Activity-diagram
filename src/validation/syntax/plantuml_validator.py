@@ -110,7 +110,9 @@ class PlantUMLSyntaxValidator:
             return False, "Unbalanced if/repeat/while/fork blocks"
         for number, raw in enumerate(text.splitlines(), start=1):
             line = raw.strip()
-            if line.startswith(":") and not line.endswith(";"):
+            # ";" ends a plain action; ">", "<", "|", "/", "]" and "}" end
+            # PlantUML's other action shapes (used for links between parts).
+            if line.startswith(":") and not line.endswith((";", ">", "<", "|", "/", "]", "}")):
                 return False, f"line {number}: action must end with ';': {line}"
             if re.match(r"(else)?if\s*\(\s*\)", line):
                 return False, f"line {number}: empty if() condition"

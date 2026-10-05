@@ -25,6 +25,7 @@ from dotenv import load_dotenv
 
 from src.document.chunker import estimate_tokens
 from src.document.loader import load_document
+from src.generation.plantuml_tool import plantuml_command
 
 load_dotenv()
 
@@ -101,6 +102,7 @@ def _run_pipeline(job: dict) -> None:
                 chunk_tokens=job["chunk_tokens"],
                 max_requirements_per_module=job["max_reqs"],
                 max_workers=job["max_workers"],
+                planner=job["planner"],
             ).run(
                 sample_id=job["sample_id"],
                 requirement_text=text,
@@ -111,7 +113,7 @@ def _run_pipeline(job: dict) -> None:
         else:
             from src.pipeline.orchestrator import MultiAgentPipeline
 
-            state = MultiAgentPipeline(model=job["model"]).run(
+            state = MultiAgentPipeline(model=job["model"], planner=job["planner"]).run(
                 sample_id=job["sample_id"],
                 requirement_text=text,
                 max_iterations=job["max_iterations"],
@@ -188,6 +190,15 @@ def collect_diagrams(job: dict) -> dict[str, dict]:
 
     if job["mode"] != "hierarchical":
         diagrams["Activity diagram"] = {**renders, "puml_text": state.final_plantuml}
+        # The diagram as first drawn, before validation and repair.
+        sid = job["sample_id"]
+        before = {ext: job["out"] / f"{sid}_before_repair.{ext}" for ext in ("svg", "png", "puml")}
+        if before["puml"].exists():
+            diagrams["Before repair"] = {
+                "svg": str(before["svg"]) if before["svg"].exists() else None,
+                "png": str(before["png"]) if before["png"].exists() else None,
+                "puml_text": before["puml"].read_text(encoding="utf-8"),
+            }
         return diagrams
 
     modules = {m.module.id: m for m in state.modules}
@@ -300,10 +311,17 @@ with st.sidebar:
         help="Hierarchical mode chunks long documents and generates one diagram per module "
         "before composing the full diagram.",
     )
+    planner = st.selectbox(
+        "Planner",
+        ["outline", "graph"],
+        format_func={"outline": "Outline (nested blocks)", "graph": "Graph (plan + generator)"}.get,
+        help="Outline plans, repairs and draws the diagram as nested if/while/fork blocks, "
+        "like an expert's diagram.",
+    )
     max_iterations = st.slider("Max repair iterations", 0, 6, 3)
 
     with st.expander("Advanced (hierarchical)"):
-        long_doc_tokens = st.number_input("Auto threshold (tokens)", 500, 50000, 3000, step=500)
+        long_doc_tokens = st.number_input("Auto threshold (tokens)", 500, 50000, 12000, step=500)
         chunk_tokens = st.number_input("Chunk size (tokens)", 500, 20000, 2500, step=250)
         max_reqs = st.number_input("Max requirements per module", 5, 100, 25)
         max_workers = st.number_input("Parallel workers", 1, 16, 4)
@@ -311,12 +329,17 @@ with st.sidebar:
     st.divider()
     st.markdown(
         '<div class="pipeline"><b>Agent pipeline</b><br>'
-        "Requirement → Planning → Generator → Validator → Semantic Reviewer → "
-        "Feedback → Typed Repair → Regression check</div>",
+        "Requirement → Outline planner (or Planning → Generator) → Validator → "
+        "Semantic Reviewer → Feedback → Repair → Regression check</div>",
         unsafe_allow_html=True,
     )
     if not os.getenv("OPENAI_API_KEY"):
         st.error("OPENAI_API_KEY is not set (add it to `.env`).")
+    if plantuml_command() is None:
+        st.warning(
+            "PlantUML (Java + `tools/plantuml.jar`) not found: diagrams can't be checked or rendered. "
+            "Run `python -m scripts.install_plantuml`."
+        )
 
 
 # ------------------------------------------------------------------
@@ -376,6 +399,7 @@ if st.button("Generate activity diagram", type="primary", disabled=not can_run):
         "model": model,
         "mode": resolved,
         "max_iterations": int(max_iterations),
+        "planner": planner,
         "chunk_tokens": int(chunk_tokens),
         "max_reqs": int(max_reqs),
         "max_workers": int(max_workers),

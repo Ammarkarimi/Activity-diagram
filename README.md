@@ -64,7 +64,7 @@ degrades quality, so long inputs go through a hierarchical pipeline
    in `report.md`.
 
 ```bash
-# auto picks hierarchical mode when the input exceeds ~3000 tokens
+# auto picks hierarchical mode when the input exceeds ~12000 tokens (about 20 pages)
 python -m scripts.run_pipeline --input data/pure/peering.txt
 python -m scripts.run_pipeline --input specs/srs.pdf --mode hierarchical \
     --chunk-tokens 2500 --max-requirements-per-module 25 --max-workers 4
@@ -83,6 +83,76 @@ Output folder `outputs/<id>_<timestamp>/`:
 - `03_final_state.json`, `report.md`
 
 Inputs may be `.txt`, `.md`, `.pdf` (`pypdf`) or `.docx` (`python-docx`).
+
+## Before a diagram is final
+
+A diagram is only finalised after these checks:
+
+- **Outline checks**: a stop inside a fork, two outcomes of a decision with
+  the same guard, and a loop or fork the outline's own analysis lists but
+  does not draw are blocking; a step drawn twice is reported.
+- **Stable comparison**: an unchanged candidate is not reviewed twice, repairs
+  stop when only LOW findings remain, and candidates are ranked by blocking,
+  then serious defects (reviewer scores only break ties).
+
+- **Blocking defects** (unreachable nodes, broken flow or termination, an action
+  with several exits, PlantUML errors, requirements not shown) get up to 3 extra
+  repair rounds after `--max-iterations`, and a candidate without them always
+  beats one with them. Structural defects no rule can fix go to the LLM repair
+  agent instead of stopping the loop.
+- **Coverage** only counts requirements traced to reachable nodes: an
+  unreachable node is never drawn.
+- **Decisions hidden in actions** (an action with several guarded exits) are
+  split into an action plus a decision automatically.
+- **PlantUML** must actually draw the diagram (a layout crash counts as an
+  error); if it cannot, the loops are redrawn as plain branches and checked
+  again.
+- **Swimlanes**: every branch starts in its decision's lane, multi-way
+  decisions with lanes are nested `if`/`else` (PlantUML drops arrows of
+  cross-lane `elseif` chains), and long lane titles wrap. Lane names are
+  matched to actors using the specification's own abbreviations
+  ("Peering Agent (PA)").
+
+`tools/plantuml.jar` is not in git: run `python -m scripts.install_plantuml`
+on every new checkout, otherwise diagrams cannot be checked (the CLI and the
+UI warn about this).
+
+## Planners
+
+`--planner outline` (default) plans the diagram as a block-structured outline
+(steps, if/else, while loops and forks, each step in its actor's lane), the
+way an expert writes an activity diagram. The outline is converted to the IR
+for validation and review, repaired by editing the outline, and drawn
+directly as PlantUML blocks, so the diagram never needs jumps between distant
+parts of the flow. `--planner graph` keeps the earlier
+Planning -> Generator -> Refinement agents.
+
+Specifications above ~2000 tokens are extracted chunk by chunk and merged by
+the Consolidation Agent (restatements and explanations are kept for
+traceability but not drawn) before one diagram is planned.
+
+## Output files (single mode)
+
+`outputs/<sample>.puml/.svg/.png` is the final diagram and
+`outputs/<sample>_before_repair.puml/.svg/.png` the diagram as first drawn,
+before validation and repair. `outputs/<sample>_state.json` holds the final
+state, including `metrics.before_repair` / `metrics.after_repair` (defects,
+blocking defects, coverage, quality). Every stage is kept in
+`outputs/<sample>_<timestamp>/`:
+
+| File | Content |
+|---|---|
+| `01_requirement_agent.json` | extracted requirements |
+| `01a_consolidation_agent.json` | restatements / details set aside (long specs) |
+| `01b_actor_agent.json` | swimlanes (chosen and proposed) |
+| `02_outline_agent.json` | the outline (outline planner) |
+| `02_planning_agent.json`, `03_generator_agent.json`, `03b_refinement_agent.json` | graph planner stages |
+| `initial.puml` | diagram before validation and repair |
+| `04_iteration_NN_validation.json`, `04_iteration_NN.puml` | validation, review, defects and PlantUML per iteration |
+| `05_iteration_NN_feedback_agent.json` | defect prioritisation |
+| `06_iteration_NN_repair_agent.json` | repair and its changes |
+| `07_iteration_NN_repaired_diagram.json`, `07_iteration_NN_repaired_outline.json` | repaired candidate |
+| `08_final_state.json`, `final.puml` | final state and diagram |
 
 ## Repair taxonomy
 

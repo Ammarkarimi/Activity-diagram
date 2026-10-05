@@ -684,6 +684,9 @@ class PipelineState(BaseModel):
         default_factory=list
     )
 
+    # Block-structured outline the diagram was built from (outline planner).
+    outline: dict[str, Any] | None = None
+
     best_candidate_iteration: int | None = None
 
     best_candidate: CandidateRecord | None = None

@@ -25,6 +25,15 @@ _ABNORMAL_END = re.compile(
 )
 
 
+_PART_SUFFIX = re.compile(r"\s*\(part \d+/\d+\)\s*$")
+
+
+def _base_name(name: str) -> str:
+    """Module name without the "(part k/n)" a size split adds: the split is
+    internal, the reader sees one activity."""
+    return _PART_SUFFIX.sub("", name)
+
+
 def module_node_id(module_id: str) -> str:
     return f"OV_{module_id}"
 
@@ -84,7 +93,7 @@ def build_overview_diagram(plan: DecompositionPlan) -> ActivityDiagram:
             ActivityNode(
                 id=decision_id,
                 type=NodeType.DECISION,
-                label="Select use case" if source == START else f"Outcome of {module_names.get(source, source)}?",
+                label="Select use case" if source == START else f"Outcome of {_base_name(module_names.get(source, source))}?",
             )
         )
         add_edge(source_node, decision_id)

@@ -123,4 +123,9 @@ class IRSanitizer:
         # 10: Fix title
         new_title = diagram.title if diagram.title else "Activity Diagram"
 
-        return ActivityDiagram(nodes=new_nodes, edges=new_edges, title=new_title)
+        sanitized = ActivityDiagram(nodes=new_nodes, edges=new_edges, title=new_title)
+        # An action with several outgoing flows is a decision in disguise;
+        # PlantUML would draw a diamond labelled like the action.
+        from src.repair.deterministic_repairs import StructuralRepair
+        StructuralRepair._split_branching_actions(sanitized)
+        return sanitized

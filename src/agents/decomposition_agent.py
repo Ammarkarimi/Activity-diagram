@@ -51,9 +51,12 @@ RULES
 - actors: the system's swimlanes, 3 to 8 participants that perform its
   steps (people, organisations or system components), named as in the
   specification's actor lists, with abbreviations written out
-  ("SR" -> "Service Registry"). Never data, policies, protocols,
-  capabilities, algorithms or groups of requirements. One name per
-  participant: no singular/plural or "instance" variants.
+  ("SR" -> "Service Registry"), exactly as the specification defines them
+  ("Peering Agent (PA)": "PA" is "Peering Agent"). Never data, policies,
+  protocols, capabilities, functions ("Encryption/Decryption"), algorithms
+  or groups of requirements. Every actor must perform steps in some module;
+  do not list one that is only mentioned. One name per participant: no
+  singular/plural or "instance" variants.
 - lanes: the actors (copied exactly from actors) active in the module.
 - transitions use module IDs plus the pseudo IDs START and END.
 - There must be a transition from START and at least one into END.

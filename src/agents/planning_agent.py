@@ -72,6 +72,38 @@ MODELLING STYLE (how an experienced UML modeller draws a specification)
 - One action per scenario step, in the scenario's order. Labels are short
     verb phrases (at most 8 words), without the actor's name (the lane shows
     it); decisions are short questions; guards are a few words.
+- Model at the level of the specification's main steps. Several
+    requirements that describe the same step, or details of how a step is
+    done, are traced to that ONE node (list all their IDs), and the same
+    step is never drawn twice (e.g. "Receive initiation request" once, in
+    the receiver's lane).
+- But every distinct step is its own node: steps of different actors, send
+    and receive, prepare/compose, encrypt, decrypt, process, and each
+    variant's own steps. Do not fold two steps into one label ("Send and
+    receive"), and do not skip a step the specification states.
+- A branch that skips an optional step (encrypt only if requested) rejoins
+    the main flow right after that step; it never skips the steps that
+    follow (sending still happens for an unencrypted message).
+- Use cases that are alternatives (different requests or instruction types
+    a user may give: buy / sell / cancel / query) are branches of ONE
+    decision, never a sequence ("give buy instruction" is never followed by
+    "give sell instruction").
+- Use cases that are phases of one lifecycle (a use case whose trigger or
+    precondition is another's postcondition) follow each other directly. The flow runs from the first
+    use case to the last; a later use case is never reached by jumping back.
+- "If not sufficient / otherwise, re-evaluate and repeat (re-negotiate,
+    retry)" is a LOOP around the repeated steps, with the condition as its
+    guard, not a jump to an earlier use case.
+- Activities with no order between them that go on together (peers
+    exchanging different kinds of information while operating, sending a
+    result to two receivers) are concurrent: fork, one branch each, join.
+- Nested conditions follow the specification's wording: "if the termination
+    condition holds, disband or re-arrange; except in exceptional
+    circumstances, where neither happens" is: termination condition? ->
+    exceptional circumstances? -> re-arrange or disband.
+- Each step goes in the lane of the actor the sentence names as its subject
+    ("Local PA, in conjunction with the mediator, interacts with external
+    PAs" is a Local PA step).
 - An exception that ends the scenario is a decision branch that leads to a
     final node (after any reporting step it names).
 - Do not draw goals, benefits, quality attributes, background text, open
