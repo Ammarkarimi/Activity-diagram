@@ -8,6 +8,7 @@ HierarchicalPipeline); it does not change their behaviour.
 from __future__ import annotations
 
 import base64
+import html
 import io
 import json
 import logging
@@ -25,7 +26,9 @@ from dotenv import load_dotenv
 
 from src.document.chunker import estimate_tokens
 from src.document.loader import load_document
-from src.generation.plantuml_tool import plantuml_command
+from src.generation.plantuml_tool import plantuml_command, run_plantuml
+from src.models.domain import PipelineState
+from src.reporting.iterations import ADDED, FLAGGED, iteration_views
 
 load_dotenv()
 
@@ -193,11 +196,13 @@ def collect_diagrams(job: dict) -> dict[str, dict]:
         # The diagram as first drawn, before validation and repair.
         sid = job["sample_id"]
         before = {ext: job["out"] / f"{sid}_before_repair.{ext}" for ext in ("svg", "png", "puml")}
-        if before["puml"].exists():
+        before_text = before["puml"].read_text(encoding="utf-8") if before["puml"].exists() else ""
+        job["before_same"] = bool(before_text) and before_text.strip() == (state.final_plantuml or "").strip()
+        if before_text and not job["before_same"]:
             diagrams["Before repair"] = {
                 "svg": str(before["svg"]) if before["svg"].exists() else None,
                 "png": str(before["png"]) if before["png"].exists() else None,
-                "puml_text": before["puml"].read_text(encoding="utf-8"),
+                "puml_text": before_text,
             }
         return diagrams
 
@@ -219,10 +224,10 @@ def collect_diagrams(job: dict) -> dict[str, dict]:
     return diagrams
 
 
-def show_svg(svg_path: str, fit: bool, height: int = 700) -> None:
+def show_svg(svg_path: str | None, fit: bool, height: int = 700, svg_bytes: bytes | None = None) -> None:
     # Shown as an <img> so the SVG (whose labels come from LLM output) is never
     # executed as markup.
-    data = base64.b64encode(Path(svg_path).read_bytes()).decode("ascii")
+    data = base64.b64encode(svg_bytes if svg_bytes is not None else Path(svg_path).read_bytes()).decode("ascii")
     size = "max-width:100%;height:auto;" if fit else "max-width:none;"
     st.html(
         f'''<div style="height:{height}px;overflow:auto;background:#fff;border:1px solid #e3e8ef;
@@ -230,6 +235,157 @@ def show_svg(svg_path: str, fit: bool, height: int = 700) -> None:
              <img src="data:image/svg+xml;base64,{data}" style="{size}" alt="Activity diagram">
            </div>'''
     )
+
+
+@st.cache_data(show_spinner=False, max_entries=64)
+def plantuml_svg(text: str) -> bytes | None:
+    proc = run_plantuml(["-tsvg", "-pipe"], input_text=text)
+    if proc is None or proc.returncode != 0 or "<svg" not in proc.stdout:
+        return None
+    return proc.stdout.encode("utf-8")
+
+
+def saved_runs() -> dict[str, Path]:
+    """Label -> state file of every finished run under outputs/, newest first."""
+    root = ROOT / "outputs"
+    files = [p for p in root.rglob("*_state.json") if not p.name[:1].isdigit()] if root.exists() else []
+    return {
+        p.relative_to(ROOT).as_posix(): p
+        for p in sorted(files, key=lambda p: p.stat().st_mtime, reverse=True)
+    }
+
+
+def open_saved_run(path: Path) -> dict:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if "candidates" not in data:
+        raise ValueError("only single-diagram runs can be opened here")
+    state = PipelineState.model_validate(data)
+    config = path.parent / "ui_run_config.json"
+    model = json.loads(config.read_text(encoding="utf-8")).get("model") if config.exists() else None
+    run_dir = Path(state.metrics.get("run_output_dir") or path.parent)
+    run_dir = run_dir if run_dir.is_absolute() else ROOT / run_dir
+    return {
+        "state": state,
+        "sample_id": path.name[: -len("_state.json")],
+        "mode": "single",
+        "planner": state.metrics.get("planner", "outline"),
+        "model": model or os.getenv("OPENAI_MODEL", "n/a"),
+        "out": path.parent,
+        "zip_dir": run_dir if run_dir.exists() else path.parent,
+    }
+
+
+_SEVERITY_COLOURS = {"CRITICAL": "#b71c1c", "HIGH": "#d84315", "MEDIUM": "#f9a825", "LOW": "#78909c"}
+
+
+def _tag(text: str, colour: str) -> str:
+    return (f'<span style="background:{colour};color:#fff;border-radius:4px;padding:1px 6px;'
+            f'font-size:0.72rem;font-weight:600;margin-right:4px;">{html.escape(text)}</span>')
+
+
+def _defect_card(defect, *, blocking: bool, selected: bool, requirements: dict[str, str],
+                 resolved: bool = False) -> str:
+    severity = getattr(defect.severity, "value", str(defect.severity))
+    tags = _tag(severity, _SEVERITY_COLOURS.get(severity, "#78909c"))
+    if blocking:
+        tags += _tag("BLOCKING", "#6a1b9a")
+    if selected:
+        tags += _tag("SENT TO REPAIR", "#1565c0")
+    if resolved:
+        tags = _tag("RESOLVED", "#2e7d32") + tags
+    traced = "".join(
+        f'<div style="margin-top:3px;color:#37474f;"><b>{html.escape(r)}</b>: {html.escape(requirements[r])}</div>'
+        for r in defect.requirement_ids if r in requirements
+    )
+    border = "#2e7d32" if resolved else ("#1565c0" if selected else "#e3e8ef")
+    return (f'<div style="border:1px solid {border};border-left:4px solid {border};border-radius:6px;'
+            f'padding:6px 9px;margin-bottom:6px;font-size:0.85rem;background:#fff;">'
+            f'{tags}<span style="color:#5f6b7a;font-size:0.75rem;">{html.escape(defect.category)}</span>'
+            f'<div style="margin-top:4px;">{html.escape(defect.description)}</div>{traced}</div>')
+
+
+def show_iterations(job: dict) -> None:
+    """Every candidate the loop evaluated: issues found, the repair, and what the next one fixed."""
+    from src.pipeline.orchestrator import BLOCKING_DEFECT_PREFIXES
+
+    state = job["state"]
+    views = iteration_views(state, BLOCKING_DEFECT_PREFIXES)
+    if not views:
+        st.info("This run has no recorded iterations.")
+        return
+    best = state.best_candidate_iteration
+    names = {
+        v.iteration: f"Iteration {v.iteration + 1}"
+        + (" · initial" if v.iteration == 0 else "")
+        + (" · final" if v.iteration == best else "")
+        for v in views
+    }
+    chosen = st.radio("Iteration", list(names), format_func=names.get, horizontal=True, key="iteration_pick")
+    index = next(i for i, v in enumerate(views) if v.iteration == chosen)
+    view = views[index]
+    previous = views[index - 1] if index else None
+    requirements = {r.id: r.text for r in state.requirements}
+
+    def change(now, before, fmt="{:+d}"):
+        return fmt.format(now - before) if previous is not None and now != before else None
+
+    cols = st.columns(4)
+    cols[0].metric("Defects", len(view.defects),
+                   change(len(view.defects), len(previous.defects) if previous else 0), delta_color="inverse")
+    cols[1].metric("Blocking defects", len(view.blocking_ids),
+                   change(len(view.blocking_ids), len(previous.blocking_ids) if previous else 0), delta_color="inverse")
+    coverage = round(100 * view.candidate.metrics.requirement_coverage)
+    before = round(100 * previous.candidate.metrics.requirement_coverage) if previous else coverage
+    cols[2].metric("Requirement coverage", f"{coverage}%", change(coverage, before, "{:+d} pts"))
+    cols[3].metric("Steps drawn", sum(1 for n in view.candidate.diagram.nodes if n.type.value == "action"))
+
+    svg = plantuml_svg(view.plantuml)
+    if svg:
+        show_svg(None, True, height=560, svg_bytes=svg)
+    else:
+        st.code(view.plantuml, language="text")
+    st.html(
+        '<div style="font-size:0.8rem;color:#5f6b7a;">'
+        f'<span style="background:{FLAGGED};border:1px solid #c62828;padding:0 10px;margin-right:4px;"></span>'
+        'step named by a defect sent to repair &nbsp;&nbsp;'
+        f'<span style="background:{ADDED};border:1px solid #2e7d32;padding:0 10px;margin-right:4px;"></span>'
+        'step added by the previous repair</div>'
+    )
+
+    issues, outcome = st.columns(2)
+    with outcome:
+        if view.resolved:
+            st.markdown(f"**Resolved since Iteration {view.iteration}**")
+            st.html("".join(_defect_card(d, blocking=False, selected=False, requirements=requirements, resolved=True)
+                            for d in view.resolved))
+        if view.added_steps:
+            st.caption("Added: " + ", ".join(view.added_steps))
+        if view.removed_steps:
+            st.caption("Removed: " + ", ".join(view.removed_steps))
+
+        st.markdown("**Repair**")
+        if not view.repairs:
+            last = view.iteration == views[-1].iteration
+            st.info("No repair in this iteration: the loop stopped here." if last else "No repair in this iteration.")
+        for repair in view.repairs:
+            reason = str(repair.get("reason", "")).replace("_", " ").lower()
+            if repair.get("accepted"):
+                st.success(f"Accepted ({reason}). The repaired diagram is Iteration {view.iteration + 2}.")
+            else:
+                st.error(f"Rejected ({reason}). Rolled back to this diagram.")
+            for item in repair.get("changes") or []:
+                st.markdown(f"- {item}")
+
+    with issues:
+        st.markdown("**Issues found by verification**")
+        order = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3}
+        ranked = sorted(view.defects, key=lambda d: (d.id not in view.selected_ids, d.id not in view.blocking_ids,
+                                                     order.get(getattr(d.severity, "value", d.severity), 4)))
+        if ranked:
+            st.html("".join(_defect_card(d, blocking=d.id in view.blocking_ids, selected=d.id in view.selected_ids,
+                                         requirements=requirements) for d in ranked))
+        else:
+            st.success("No defects: the diagram passed every check.")
 
 
 def summary_metrics(job: dict) -> list[tuple[str, str]]:
@@ -353,7 +509,7 @@ st.markdown(
 )
 
 examples = {p.name: p for d in EXAMPLE_DIRS if d.exists() for p in sorted(d.glob("*.txt"))}
-source = st.radio("Requirements source", ["Upload document", "Paste text", "Example"], horizontal=True)
+source = st.radio("Requirements source", ["Upload document", "Paste text", "Example", "Saved run"], horizontal=True)
 
 text, sample_id = "", "requirements"
 if source == "Upload document":
@@ -370,6 +526,18 @@ if source == "Upload document":
 elif source == "Paste text":
     text = st.text_area("Requirements", height=220, placeholder="The customer enters their card details…")
     sample_id = "pasted_requirements"
+elif source == "Saved run":
+    runs = saved_runs()
+    if runs:
+        picked = st.selectbox("Finished run (opens its results without calling the LLM)", list(runs))
+        if st.button("Open run", type="primary"):
+            try:
+                st.session_state["job"] = open_saved_run(runs[picked])
+                st.session_state.pop("zip", None)
+            except Exception as exc:
+                st.error(f"Could not open the run: {exc}")
+    else:
+        st.info("No finished runs found under outputs/.")
 else:
     if examples:
         name = st.selectbox("Example specification", list(examples))
@@ -387,7 +555,7 @@ if text.strip():
 sample_id = re.sub(r"[^A-Za-z0-9_-]+", "_", sample_id).strip("_") or "requirements"
 can_run = bool(text.strip()) and bool(model) and bool(os.getenv("OPENAI_API_KEY"))
 
-if st.button("Generate activity diagram", type="primary", disabled=not can_run):
+if source != "Saved run" and st.button("Generate activity diagram", type="primary", disabled=not can_run):
     tokens = estimate_tokens(text)
     resolved = mode if mode != "auto" else ("hierarchical" if tokens > long_doc_tokens else "single")
     out = UI_OUTPUT_DIR / f"{sample_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -436,11 +604,11 @@ if job:
             f"Cost: {'$%.4f' % cost if cost is not None else 'n/a (model not in configs/pricing.json)'}"
         )
     if "zip" not in st.session_state:
-        st.session_state["zip"] = zip_folder(job["out"])
+        st.session_state["zip"] = zip_folder(job.get("zip_dir") or job["out"])
     head_right.download_button(
         "Download full output (.zip)",
         data=st.session_state["zip"],
-        file_name=f"{job['out'].name}.zip",
+        file_name=f"{(job.get('zip_dir') or job['out']).name}.zip",
         mime="application/zip",
         type="primary",
         width="stretch",
@@ -452,10 +620,14 @@ if job:
     state = job["state"]
     diagrams = collect_diagrams(job)
     report = report_markdown(job)
-    tab_names = ["Diagram", "Requirements", "PlantUML", "Usage"] + (["Report"] if report else [])
-    tabs = st.tabs(tab_names)
+    has_iterations = job["mode"] != "hierarchical" and bool(getattr(state, "candidates", None))
+    tab_names = ["Diagram"] + (["Iterations"] if has_iterations else []) + ["Requirements", "PlantUML", "Usage"]
+    tab_names += ["Report"] if report else []
+    tabs = dict(zip(tab_names, st.tabs(tab_names)))
 
-    with tabs[0]:
+    with tabs["Diagram"]:
+        if job.get("before_same"):
+            st.caption("No repair changed the diagram, so the diagram before repair is also the final one.")
         if not diagrams:
             st.warning("No diagram was rendered.")
         else:
@@ -479,7 +651,11 @@ if job:
                 d3.download_button("Download .puml", entry["puml_text"],
                                    file_name=f"{job['sample_id']}.puml", width="stretch")
 
-    with tabs[1]:
+    if has_iterations:
+        with tabs["Iterations"]:
+            show_iterations(job)
+
+    with tabs["Requirements"]:
         rows = [
             {
                 "ID": r.id,
@@ -495,12 +671,12 @@ if job:
                 row.pop("Section")
         st.dataframe(rows, width="stretch", hide_index=True)
 
-    with tabs[2]:
+    with tabs["PlantUML"]:
         if diagrams:
             name = st.selectbox("Source", list(diagrams), key="puml_source")
             st.code(diagrams[name].get("puml_text") or "", language="text")
 
-    with tabs[3]:
+    with tabs["Usage"]:
         if not usage_total:
             st.info("No token usage was recorded for this run.")
         else:
@@ -512,5 +688,5 @@ if job:
             st.caption("Prices: configs/pricing.json (USD per 1M tokens). Reasoning tokens are included in output tokens.")
 
     if report:
-        with tabs[4]:
+        with tabs["Report"]:
             st.markdown(report)

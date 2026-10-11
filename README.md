@@ -173,44 +173,146 @@ R13 Layout / Visualization
 ## Requirements
 
 - Python 3.11+
-- OpenAI API key
-- Recommended: Java + PlantUML, used to check every diagram's syntax and size before it is
-  written and to render SVG/PNG. Run `python -m scripts.install_plantuml` to download
-  `plantuml.jar` into `tools/` (or set `PLANTUML_JAR`, or put `plantuml` on PATH). Without it
-  only built-in syntax checks run.
+- An OpenAI API key
+- Java and PlantUML (recommended): every diagram's syntax is checked by
+  PlantUML before it is accepted, and SVG/PNG images are rendered with it.
+  Without Java only built-in syntax checks run and no images are drawn.
 
-## Quick start
+## Setup
 
 ```bash
+git clone https://github.com/Ammarkarimi/Activity-diagram.git
+cd Activity-diagram
+git checkout enhanced-activity-diagram
+
 python -m venv .venv
-# Windows:
-# .venv\Scripts\activate
-# Linux/macOS:
-# source .venv/bin/activate
+# Windows (PowerShell):  .venv\Scripts\Activate.ps1
+# Windows (cmd):         .venv\Scripts\activate.bat
+# Linux/macOS:           source .venv/bin/activate
 
 pip install -r requirements.txt
 
-cp .env.example .env
-# Put your OPENAI_API_KEY in .env
+# PlantUML: downloads tools/plantuml.jar (needs Java on PATH or JAVA_HOME)
+python -m scripts.install_plantuml
 
-python -m scripts.run_pipeline --input data/examples/login_requirement.txt
+# API key and model
+cp .env.example .env        # Windows: copy .env.example .env
+# then edit .env and set OPENAI_API_KEY
 ```
 
-Output is written to `outputs/`.
+`.env` settings:
 
-## Model
+| Variable | Meaning | Default |
+|---|---|---|
+| `OPENAI_API_KEY` | OpenAI API key (required) | none |
+| `OPENAI_MODEL` | model used by every agent | `gpt-5.4-mini` |
+| `OPENAI_TIMEOUT` | seconds per LLM call; raise it for long documents | `120` |
+| `LOG_LEVEL` | `INFO` or `DEBUG` | `INFO` |
 
-The default model is `gpt-5.6-luna`, selected for cost-sensitive/high-volume use in this prototype. Change `OPENAI_MODEL` in `.env` as needed.
+The OpenAI integration uses the Responses API with JSON Schema structured
+outputs, so every agent returns a typed object.
 
-The OpenAI integration uses the Responses API and JSON Schema Structured Outputs so agent boundaries stay machine-readable.
-
-## Example
+## Running the UI
 
 ```bash
-python -m scripts.run_pipeline \
-  --input data/examples/payment_requirement.txt \
-  --max-iterations 3
+streamlit run app.py
 ```
+
+Streamlit opens the app in the browser (by default http://localhost:8501).
+To keep it reachable only from your own machine, add
+`--server.address 127.0.0.1`.
+
+### Generate a diagram
+
+1. **Configuration** (left sidebar)
+   - *LLM model*: any OpenAI model with structured outputs (or *Custom…*).
+   - *Pipeline mode*: *Auto* picks *Single diagram* for normal
+     specifications and *Hierarchical* above about 12,000 tokens (about
+     20 pages).
+   - *Planner*: *Outline* (default) plans the diagram as nested
+     if/while/fork blocks; *Graph* uses the Planning → Generator agents.
+   - *Max repair iterations*: rounds of the verify-and-repair loop (default 3;
+     up to 3 more rounds run while blocking defects remain).
+2. **Requirements source**: upload a `.txt`, `.md`, `.pdf` or `.docx` file,
+   paste text, or pick an example (`data/examples`, `data/pure`). The preview
+   shows the word and token count and which mode will run.
+3. Click **Generate activity diagram**. The live log shows each agent at
+   work; a short specification takes one to three minutes.
+
+### Read the results
+
+- **Summary**: requirements, coverage, quality score, nodes/edges, open
+  defects, runtime, tokens and cost.
+- **Diagram**: the final diagram (zoom with *Fit to width*), downloadable as
+  SVG, PNG or `.puml`. *Before repair* shows the diagram as first drawn; it is
+  listed only when the repair loop changed the diagram.
+- **Iterations**: one view per pass of the repair loop. The candidate
+  diagram (red: steps named by a defect sent to repair; green: steps the
+  previous repair added), the defects found (severity, blocking, sent to
+  repair), the repair and whether it was accepted or rolled back, and the
+  defects resolved since the previous iteration.
+- **Requirements**: the extracted requirements R1..Rn with type and actors.
+- **PlantUML**: the source of every diagram.
+- **Usage**: tokens and cost per iteration and per agent
+  (prices in `configs/pricing.json`).
+- **Download full output (.zip)**: every intermediate file of the run.
+
+### Open a finished run
+
+Choose **Saved run** as the requirements source, pick a `*_state.json` file
+under `outputs/` and click **Open run**. The results open without calling
+the LLM, which is useful for demonstrations.
+
+### Where the UI stores results
+
+Each UI run gets its own folder `outputs/ui/<name>_<timestamp>/`:
+
+| File | Content |
+|---|---|
+| `<name>.puml/.svg/.png` | final diagram |
+| `<name>_before_repair.puml/.svg/.png` | diagram before validation and repair |
+| `<name>_state.json` | final state, metrics, all candidates and repair history |
+| `<name>_input.txt`, `ui_run_config.json`, `pipeline.log` | input, settings and log |
+| `<name>_<timestamp>/` | every agent's output (see *Output files* above) |
+
+## Generating results from the command line
+
+One specification:
+
+```bash
+python -m scripts.run_pipeline --input data/pure/agentmom.txt
+python -m scripts.run_pipeline --input data/pure/peering.txt --max-iterations 3 --planner outline
+python -m scripts.run_pipeline --input specs/srs.pdf --mode hierarchical
+```
+
+Options: `--model`, `--max-iterations`, `--planner {outline,graph}`,
+`--mode {auto,single,hierarchical}`, `--output-dir` (default `outputs`),
+`--sample-id`. The CLI prints the before/after-repair defect counts and
+writes the files listed under *Output files* above.
+
+Several runs of the three PURE specifications (LLM output varies between
+runs, so use at least three), each run in its own folder:
+
+```bash
+for run in 1 2 3; do
+  for spec in agentmom central_trading peering; do
+    python -m scripts.run_pipeline --input data/pure/$spec.txt --output-dir results/raw/run$run
+  done
+done
+```
+
+Score them against the gold-standard diagrams in `Gold Standard Solutions/`:
+copy the final diagrams into one folder named `<spec>_Run<N>.puml`
+(for example `agentmom_Run1.puml`), so runs of the same specification are
+averaged, then
+
+```bash
+python -m scripts.compare_with_gold --generated results/raw/scored --semantic --judge-model gpt-5.4
+```
+
+To score the diagrams before repair, copy the `<spec>_before_repair.puml`
+files the same way and run the command again. See
+*Evaluating against the gold standards* below for both metrics.
 
 ## Experiments
 
