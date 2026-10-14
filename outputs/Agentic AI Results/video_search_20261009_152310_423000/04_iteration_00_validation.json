@@ -1,0 +1,187 @@
+{
+  "validation": {
+    "passed": true,
+    "score": 1.0,
+    "defects": [],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 0,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 0,
+      "TOTAL_NODES": 32,
+      "TOTAL_EDGES": 33,
+      "TOTAL_REQUIREMENTS": 38
+    },
+    "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers many core search, display, sort, pagination, and no-results behaviors for both torrent and video search, but it still has a few semantic gaps and one duplicate no-results action already seen previously. The main remaining issue is that the video-search path does not clearly satisfy the requirement to choose between video-host and video-link searching via independent tick boxes, because the search-type decision is modeled as an either/or branch rather than supporting both selected options in one search. There is also an over-broad termination on the no-results path for torrent search, which can prematurely stop rather than simply display the message and allow the flow to end normally.",
+    "semantic_score": 0.78,
+    "defects": [
+      {
+        "id": "D-CONT-VIDEO-OPTION-COMBINATION",
+        "category": "CONTROL_FLOW",
+        "severity": "HIGH",
+        "description": "The video search selection is modeled as mutually exclusive branches from a single 'Search type selected?' decision, so the diagram does not clearly support the required independent selection of video host searching and video link searching in the same search. Requirements R10 and R11 each define separate tick boxes, and R32 depends on both R28 and R30. The current branching structure suggests only one of the video modes can be taken at a time instead of allowing either or both to be included.",
+        "node_ids": [
+          "N9",
+          "N18",
+          "N21"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R10",
+          "R11",
+          "R28",
+          "R30",
+          "R32"
+        ],
+        "evidence": "R28 and R30 require separate tick boxes for hosting and link sites, and R32 states the search sends queries to the video websites based on the search term after both selection steps. In the diagram, N9 branches into [torrent], [video hosting], and [video link], but there is no structure showing the video hosting and video link queries can both be executed for one search when both boxes are ticked.",
+        "suggested_action": "Replace the mutually exclusive video branches with conditional paths that can both be taken when both tick boxes are selected, or use separate guarded actions under a shared search-start flow so hosting and link queries can run independently."
+      },
+      {
+        "id": "D-TERM-TORRENT-NO-RESULTS",
+        "category": "TERMINATION",
+        "severity": "MEDIUM",
+        "description": "On the torrent no-results path, the diagram immediately stops after displaying the message. The requirement only asks for the message to be displayed; it does not require an explicit early termination of the whole activity from that point. This termination is not supported by the requirements and may prevent the user from continuing with other flows in the combined diagram.",
+        "node_ids": [
+          "N13",
+          "N14",
+          "N15"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R5"
+        ],
+        "evidence": "R5 only states that if no results are found, the system displays 'No results were found for this search.' The diagram adds N15 stop immediately after N14 on the torrent branch.",
+        "suggested_action": "Remove the explicit stop from the torrent no-results branch unless the model is intended to terminate the entire activity there for a documented reason; let the branch end naturally or rejoin the common flow."
+      },
+      {
+        "id": "D-GRAN-DUP-N14",
+        "category": "GRANULARITY",
+        "severity": "MEDIUM",
+        "description": "Step 'Display no results message' is drawn twice, once for torrent search and once for video search. This duplicates the same exception behavior instead of modeling it once where the shared no-results condition is handled.",
+        "node_ids": [
+          "N14",
+          "N26"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R5",
+          "R14"
+        ],
+        "evidence": "The current diagram contains N14 and N26 with the same action text 'Display no results message'. The previously detected defect list already identified this duplication, and it remains present in the current diagram.",
+        "suggested_action": "Model the no-results message once in a shared exception/merge path that both search modes can reach, rather than duplicating the same action in two branches."
+      }
+    ],
+    "strengths": [
+      "Correctly includes the torrent and video database update behaviors.",
+      "Covers the main search-entry and search-start flow for both feature areas.",
+      "Includes retrieval/display details for torrent results and the two video result variants.",
+      "Includes sorting and next-page navigation behaviors for both torrent and video search.",
+      "Includes the required no-results message text in both search areas."
+    ],
+    "missing_requirements": [
+      "The video search flow does not clearly allow independent inclusion of both video host and video link searching in the same search.",
+      "The diagram does not explicitly show the search bar being shared between torrent search and streaming search, though this may be implicit in the combined flow.",
+      "The diagram does not explicitly model the torrent/video column-header sorting distinctions as size/date/alphabetical versus length/date/alphabetical, though the general sort behavior is present."
+    ],
+    "unsupported_behaviors": [
+      "The torrent no-results branch explicitly terminates the entire activity with a stop, which is not stated by the requirement.",
+      "The video search branching is modeled as a mutually exclusive search-type choice, which implies behavior not specified by the requirements."
+    ]
+  },
+  "defects": [
+    {
+      "id": "D-CON-OUT-FORK",
+      "category": "CONCURRENCY",
+      "severity": "HIGH",
+      "description": "The outline's analysis lists parallel activities (Torrent search and video stream search can be configured independently before a search is started.) but no step is a fork.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw the parallel activities as a fork step, or remove the entry from parallel_activities if they happen in sequence."
+    },
+    {
+      "id": "D-GRAN-DUP-N14",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'display no results message' is drawn 2 times (N14, N26).",
+      "node_ids": [
+        "N14",
+        "N26"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    },
+    {
+      "id": "D-CONT-VIDEO-OPTION-COMBINATION",
+      "category": "CONTROL_FLOW",
+      "severity": "HIGH",
+      "description": "The video search selection is modeled as mutually exclusive branches from a single 'Search type selected?' decision, so the diagram does not clearly support the required independent selection of video host searching and video link searching in the same search. Requirements R10 and R11 each define separate tick boxes, and R32 depends on both R28 and R30. The current branching structure suggests only one of the video modes can be taken at a time instead of allowing either or both to be included.",
+      "node_ids": [
+        "N9",
+        "N18",
+        "N21"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R10",
+        "R11",
+        "R28",
+        "R30",
+        "R32"
+      ],
+      "evidence": "R28 and R30 require separate tick boxes for hosting and link sites, and R32 states the search sends queries to the video websites based on the search term after both selection steps. In the diagram, N9 branches into [torrent], [video hosting], and [video link], but there is no structure showing the video hosting and video link queries can both be executed for one search when both boxes are ticked.",
+      "suggested_action": "Replace the mutually exclusive video branches with conditional paths that can both be taken when both tick boxes are selected, or use separate guarded actions under a shared search-start flow so hosting and link queries can run independently."
+    },
+    {
+      "id": "D-TERM-TORRENT-NO-RESULTS",
+      "category": "TERMINATION",
+      "severity": "MEDIUM",
+      "description": "On the torrent no-results path, the diagram immediately stops after displaying the message. The requirement only asks for the message to be displayed; it does not require an explicit early termination of the whole activity from that point. This termination is not supported by the requirements and may prevent the user from continuing with other flows in the combined diagram.",
+      "node_ids": [
+        "N13",
+        "N14",
+        "N15"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R5"
+      ],
+      "evidence": "R5 only states that if no results are found, the system displays 'No results were found for this search.' The diagram adds N15 stop immediately after N14 on the torrent branch.",
+      "suggested_action": "Remove the explicit stop from the torrent no-results branch unless the model is intended to terminate the entire activity there for a documented reason; let the branch end naturally or rejoin the common flow."
+    },
+    {
+      "id": "D-GRAN-DUP-N14",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'Display no results message' is drawn twice, once for torrent search and once for video search. This duplicates the same exception behavior instead of modeling it once where the shared no-results condition is handled.",
+      "node_ids": [
+        "N14",
+        "N26"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R5",
+        "R14"
+      ],
+      "evidence": "The current diagram contains N14 and N26 with the same action text 'Display no results message'. The previously detected defect list already identified this duplication, and it remains present in the current diagram.",
+      "suggested_action": "Model the no-results message once in a shared exception/merge path that both search modes can reach, rather than duplicating the same action in two branches."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Torrent and Video Stream Search\nskinparam swimlaneWrapTitleWidth 150\n\n|Development Team|\nstart\n:Update torrent site database;\n:Update video site databases;\n|User|\n:Tick torrent search box;\n:Tick video host box;\n:Tick video link box;\n:Enter search term;\n:Start search;\n|Program|\nif (Search type selected?) then (torrent)\n|Program|\n  :Query torrent websites;\n|Torrent Websites|\n  :Send torrent results;\n|Program|\n  :Display torrent results;\n  if (Any torrent results?) then (yes)\n|Program|\n  else (no)\n|Program|\n    :Display no results message;\n    stop\n  endif\n|User|\n  :Sort torrent results;\n  :Show next torrent page;\nelse\n|Program|\nif (Search type selected?) then (video hosting)\n|Program|\n  :Query video hosting sites;\n|Video Hosting Websites|\n  :Send hosting results;\n|Program|\n  :Display hosting results;\nelse (video link)\n|Program|\n  :Query video link sites;\n|Video Link Websites|\n  :Send link results;\n|Program|\n  :Display link results;\nendif\nendif\n:Display video results;\nif (Any video results?) then (yes)\n|Program|\nelse (no)\n|Program|\n  :Display no results message;\n  stop\nendif\n|User|\n:Filter websites;\n:Sort video results;\n:Show next video page;\nstop\n\n@enduml"
+}

@@ -1,0 +1,84 @@
+@startuml
+title Libra scheduler activity diagram
+skinparam swimlaneWrapTitleWidth 150
+
+|Sun Grid Engine|
+start
+:Receive submitted job;
+:Delegate job for scheduling;
+|Libra scheduler|
+:Communicate allocation decision;
+|Resource manager|
+:Dispatch job to workstation;
+|Libra scheduler|
+:Implement scheduling policy;
+|Sun Grid Engine|
+if (Submission allowed and user valid?) then (no)
+|Sun Grid Engine|
+  stop
+else (yes)
+|Sun Grid Engine|
+|User|
+  if (Feature selected?) then (view job status)
+|User|
+|Libra scheduler|
+    :Show job options;
+    if (Options selected?) then (yes)
+|Libra scheduler|
+      :Process selected options;
+    else (no)
+|Libra scheduler|
+    endif
+  else
+|User|
+  if (Feature selected?) then (delete/change job)
+|User|
+    if (Change requested?) then (yes)
+|User|
+|Libra scheduler|
+      :Remove job from queue;
+      :Update cluster status;
+      :Revise scheduling decisions;
+    else (no)
+|User|
+|Libra scheduler|
+      :Cancel job;
+      :Remove job from queue;
+      :Update cluster status;
+      :Revise scheduling decisions;
+    endif
+  else (submit job)
+|User|
+|Libra scheduler|
+    :Receive job information;
+    :Prepare scheduler;
+    :Retrieve job details;
+    :Set cluster variables;
+    :Pass parameters to scheduling;
+    :Determine accept or reject;
+    if (Job accepted?) then (no)
+|Libra scheduler|
+      :Give suggested deadline or cost;
+      stop
+    else (yes)
+|Libra scheduler|
+      :Allocate tickets;
+      :Calculate stride and pass;
+      :Look at host loads;
+      :Choose least loaded host;
+      :Select appropriate queue;
+      :Send job to queue;
+      :Update cluster status;
+      while (As long as there are jobs in the queues?) is (no)
+        :Select minimum pass job;
+        :Allot quantum;
+        :Advance pass by stride;
+      endwhile (yes)
+|Libra scheduler|
+    endif
+  endif
+  endif
+endif
+stop
+
+@enduml

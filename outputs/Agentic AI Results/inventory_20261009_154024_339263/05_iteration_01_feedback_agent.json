@@ -1,0 +1,164 @@
+{
+  "prioritized_defects": [
+    {
+      "id": "D-SEM-R18",
+      "category": "SEMANTIC",
+      "severity": "HIGH",
+      "description": "The diagram draws IT/new-location actions as performed by User, which conflicts with the requirement that IT group members create a new space and modify floor structure after an exception request from an administrative level.",
+      "node_ids": [
+        "N25",
+        "N26",
+        "N27",
+        "N61"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R18"
+      ],
+      "evidence": "R18 states: 'IT group members can create a new space and modify floor structure when they receive an exception request from any administrative level.' The diagram routes the exception path to N25 'Send exception request' and then has N26 'Create new space' and N27 'Modify floor structure' in the [User] lane, not an IT group lane. N61 'Create exception request' is also in the User lane, but the requirement makes IT the performer of the creation/modification steps.",
+      "suggested_action": "Move the 'create new space' and 'modify floor structure' actions to the Inventory system lane only if it represents IT group behavior, and show the exception request being received from an administrative-level source."
+    },
+    {
+      "id": "D-COV-R11",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R11 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R11"
+      ],
+      "evidence": "Any DA group member or authorised inventory group member can add inventory assets owned by the department.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R12",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R12 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R12"
+      ],
+      "evidence": "Any faculty member can add all related departments inventory.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R13",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R13 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R13"
+      ],
+      "evidence": "Any university group member can add all assets in the inventory.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-SEM-R19-R22",
+      "category": "SEMANTIC",
+      "severity": "MEDIUM",
+      "description": "The approval flow does not clearly implement the required approval/execution sequence: approved requests should be added to a waiting-for-execution list, and inventory is updated when the user receives the requested asset.",
+      "node_ids": [
+        "N39",
+        "N40",
+        "N41",
+        "N34",
+        "N35",
+        "N36",
+        "N37",
+        "N38"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R19",
+        "R20",
+        "R21",
+        "R22"
+      ],
+      "evidence": "R19 requires approval by administration-level or authorised inventory member, R21 says the request is added to the waiting-for-execution list, and R22 says inventory is updated when the user receives the requested asset. The diagram shows N39 'Display pending request list', N40 'Approve request', N41 'Notify user by email', but there is no explicit waiting-for-execution list state and no explicit 'receive requested asset' event preceding the inventory update. N34-N38 similarly create/check/update without showing the required execution queue semantics.",
+      "suggested_action": "Add an explicit step/state for adding the approved request to the waiting-for-execution list and a separate execution/receipt step before inventory is updated."
+    },
+    {
+      "id": "D-SEM-R27-R29",
+      "category": "SEMANTIC",
+      "severity": "MEDIUM",
+      "description": "The report use case is modeled too generically: the diagram displays and filters/sorts a report, but it does not distinguish the three required report types as produced outputs.",
+      "node_ids": [
+        "N49",
+        "N50",
+        "N51",
+        "N52"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R27",
+        "R28",
+        "R29"
+      ],
+      "evidence": "R27-R29 require the system to produce an asset-by-location report, a request report, and a user-permission report. The diagram has N49 'Display report types' and N50 'Display report' with generic filter/sort steps, but no explicit branching or representation of the three distinct report outputs.",
+      "suggested_action": "Model separate report branches or clearly label the generic report step as one of the three required report types, with all three types explicitly reachable."
+    },
+    {
+      "id": "D-GRAN-DUP-N13",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'display error message' is drawn 3 times (N13, N16, N47).",
+      "node_ids": [
+        "N13",
+        "N16",
+        "N47"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    },
+    {
+      "id": "D-GRAN-DUP-N31",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'submit request' is drawn 2 times (N31, N33).",
+      "node_ids": [
+        "N31",
+        "N33"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    },
+    {
+      "id": "D-GRAN-DUP-N37",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'update inventory' is drawn 2 times (N37, N38).",
+      "node_ids": [
+        "N37",
+        "N38"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    },
+    {
+      "id": "D-GRAN-DUP-N56",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'approve transfer' is drawn 2 times (N56, N60).",
+      "node_ids": [
+        "N56",
+        "N60"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    }
+  ],
+  "final_recommendation": "Prioritize the high-severity semantic and coverage defects first, especially the R18 role/ownership violation and the uncovered requirements R11-R13. Then address the medium-severity semantic flow issues, followed by the granularity duplicates."
+}

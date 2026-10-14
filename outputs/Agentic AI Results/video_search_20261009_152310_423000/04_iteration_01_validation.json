@@ -1,0 +1,93 @@
+{
+  "validation": {
+    "passed": true,
+    "score": 1.0,
+    "defects": [],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 0,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 0,
+      "TOTAL_NODES": 38,
+      "TOTAL_EDGES": 44,
+      "TOTAL_REQUIREMENTS": 38
+    },
+    "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers many of the core search, query, display, sort, and paging behaviors, but it still has one confirmed semantic defect: the no-results handling is duplicated across torrent and video search with the same action drawn twice. No additional evidence-backed functional omissions are clear from the current diagram.",
+    "semantic_score": 88.0,
+    "defects": [
+      {
+        "id": "D-GRAN-DUP-N15",
+        "category": "GRANULARITY",
+        "severity": "MEDIUM",
+        "description": "The no-results message action is drawn twice instead of once for the shared exception behavior.",
+        "node_ids": [
+          "N15",
+          "N28"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R5",
+          "R14"
+        ],
+        "evidence": "Both torrent and video search requirements specify the same message for the same exception condition: 'If no results are found on a search it will display a message \u201cNo results were found for this search.\u201d' The diagram models this as two separate nodes: N15 under torrent search and N28 under video search.",
+        "suggested_action": "Model the no-results message as a single shared exception action used by both branches, or merge the duplicate action into one common node reached from both no-results decisions."
+      }
+    ],
+    "strengths": [
+      "Correctly models separate torrent and video search branches with user-selected tick boxes.",
+      "Includes database update actions for torrent and video site databases.",
+      "Retrieval/display of torrent and video fields is represented, including seeds/peers for torrent and full video name/length/date for hosting results.",
+      "Includes sorting and next-page navigation behaviors for both search types.",
+      "Includes the video search split into hosting and link queries, matching the two selectable video modes."
+    ],
+    "missing_requirements": [],
+    "unsupported_behaviors": []
+  },
+  "defects": [
+    {
+      "id": "D-GRAN-DUP-N15",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'display no results message' is drawn 2 times (N15, N28).",
+      "node_ids": [
+        "N15",
+        "N28"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    },
+    {
+      "id": "D-GRAN-DUP-N15",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "The no-results message action is drawn twice instead of once for the shared exception behavior.",
+      "node_ids": [
+        "N15",
+        "N28"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R5",
+        "R14"
+      ],
+      "evidence": "Both torrent and video search requirements specify the same message for the same exception condition: 'If no results are found on a search it will display a message \u201cNo results were found for this search.\u201d' The diagram models this as two separate nodes: N15 under torrent search and N28 under video search.",
+      "suggested_action": "Model the no-results message as a single shared exception action used by both branches, or merge the duplicate action into one common node reached from both no-results decisions."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Torrent and Video Stream Search\nskinparam swimlaneWrapTitleWidth 150\n\n|Development Team|\nstart\n:Update torrent site database;\n:Update video site databases;\nfork\n|User|\n  :Tick torrent search box;\nfork again\n|Development Team|\n|User|\n  :Tick video host box;\nfork again\n|Development Team|\n|User|\n  :Tick video link box;\nend fork\n|Development Team|\n|User|\n:Enter search term;\n:Start search;\n|Program|\nif (Torrent search selected?) then (yes)\n|Program|\n  :Query torrent websites;\n|Torrent Websites|\n  :Send torrent results;\n|Program|\n  :Display torrent results;\n  if (Any torrent results?) then (yes)\n|Program|\n  else (no)\n|Program|\n    :Display no results message;\n  endif\n|User|\n  :Sort torrent results;\n  :Show next torrent page;\nelse (no)\n|Program|\nendif\nif (Video host search selected?) then (yes)\n|Program|\n  :Query video hosting sites;\n|Video Hosting Websites|\n  :Send hosting results;\n|Program|\n  :Display hosting results;\nelse (no)\n|Program|\nendif\nif (Video link search selected?) then (yes)\n|Program|\n  :Query video link sites;\n|Video Link Websites|\n  :Send link results;\n|Program|\n  :Display link results;\nelse (no)\n|Program|\nendif\n:Display video results;\nif (Any video results?) then (yes)\n|Program|\nelse (no)\n|Program|\n  :Display no results message;\nendif\n|User|\n:Filter websites;\n:Sort video results;\n:Show next video page;\nstop\n\n@enduml"
+}

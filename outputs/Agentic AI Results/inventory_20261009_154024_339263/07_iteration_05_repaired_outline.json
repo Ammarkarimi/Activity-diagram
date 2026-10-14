@@ -1,0 +1,1224 @@
+{
+  "title": "Inventory system activities",
+  "use_cases": [
+    {
+      "name": "Authentication Use Case",
+      "relation": "first"
+    },
+    {
+      "name": "Search Use Case",
+      "relation": "follows"
+    },
+    {
+      "name": "Edit Use Case",
+      "relation": "follows"
+    },
+    {
+      "name": "Modify Use Case Identifier: MOD.UC",
+      "relation": "follows"
+    },
+    {
+      "name": "Add New Asset Use Case",
+      "relation": "follows"
+    },
+    {
+      "name": "Create request Use Case",
+      "relation": "follows"
+    },
+    {
+      "name": "Returning Asset",
+      "relation": "follows"
+    },
+    {
+      "name": "Approving Request",
+      "relation": "follows"
+    },
+    {
+      "name": "change permissions Use Case",
+      "relation": "follows"
+    },
+    {
+      "name": "Create Reports Use Case",
+      "relation": "follows"
+    },
+    {
+      "name": "Transferring Assets",
+      "relation": "follows"
+    },
+    {
+      "name": "Creating a new location",
+      "relation": "follows"
+    }
+  ],
+  "shared_steps": [
+    "Authenticate user",
+    "Search for asset",
+    "Edit asset",
+    "Modify asset properties",
+    "Display pending request list",
+    "Approve or reject request",
+    "Display report",
+    "Filter report",
+    "Sort report"
+  ],
+  "loops": [],
+  "parallel_activities": [],
+  "steps": [
+    {
+      "id": "N2",
+      "kind": "action",
+      "label": "Start application",
+      "lane": "User",
+      "requirement_ids": [
+        "R99"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N3",
+      "kind": "action",
+      "label": "Enter credentials",
+      "lane": "User",
+      "requirement_ids": [
+        "R23",
+        "R100"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N4",
+      "kind": "action",
+      "label": "Login",
+      "lane": "User",
+      "requirement_ids": [
+        "R23"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N5",
+      "kind": "decision",
+      "label": "Authenticated?",
+      "lane": "Authentication system",
+      "requirement_ids": [
+        "R102",
+        "R75",
+        "R90",
+        "R30",
+        "R47",
+        "R16",
+        "R23"
+      ],
+      "branches": [
+        {
+          "guard": "yes",
+          "steps": [
+            {
+              "id": "N6",
+              "kind": "action",
+              "label": "Log on main page",
+              "lane": "User",
+              "requirement_ids": [
+                "R102"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "no",
+          "steps": [
+            {
+              "id": "N7",
+              "kind": "action",
+              "label": "Display error message",
+              "lane": "Authentication system",
+              "requirement_ids": [
+                "R101"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N8",
+              "kind": "stop",
+              "label": "",
+              "lane": null,
+              "requirement_ids": [],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    },
+    {
+      "id": "N9",
+      "kind": "decision",
+      "label": "Asset belongs to department?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R31",
+        "R32",
+        "R34",
+        "R6",
+        "R7",
+        "R8",
+        "R36",
+        "R37",
+        "R38"
+      ],
+      "branches": [
+        {
+          "guard": "yes",
+          "steps": [
+            {
+              "id": "N10",
+              "kind": "decision",
+              "label": "User role authorized?",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R6",
+                "R7",
+                "R8",
+                "R34"
+              ],
+              "branches": [
+                {
+                  "guard": "admin or inventory",
+                  "steps": [
+                    {
+                      "id": "N11",
+                      "kind": "action",
+                      "label": "Edit asset",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R6"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                },
+                {
+                  "guard": "faculty",
+                  "steps": [
+                    {
+                      "id": "N12",
+                      "kind": "action",
+                      "label": "Edit asset",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R7"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                },
+                {
+                  "guard": "university",
+                  "steps": [
+                    {
+                      "id": "N13",
+                      "kind": "action",
+                      "label": "Edit asset",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R8"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                },
+                {
+                  "guard": "not authorized",
+                  "steps": [
+                    {
+                      "id": "N14",
+                      "kind": "action",
+                      "label": "Display error message",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R37",
+                        "R36"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    },
+                    {
+                      "id": "N15",
+                      "kind": "stop",
+                      "label": "",
+                      "lane": null,
+                      "requirement_ids": [],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                }
+              ],
+              "exit_guard": null
+            },
+            {
+              "id": "N16",
+              "kind": "action",
+              "label": "Modify asset properties",
+              "lane": "User",
+              "requirement_ids": [
+                "R39"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "no",
+          "steps": [
+            {
+              "id": "N17",
+              "kind": "action",
+              "label": "Display error message",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R38",
+                "R37",
+                "R36"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N18",
+              "kind": "stop",
+              "label": "",
+              "lane": null,
+              "requirement_ids": [],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    },
+    {
+      "id": "N19",
+      "kind": "decision",
+      "label": "Sufficient privileges?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R37",
+        "R36",
+        "R6",
+        "R7",
+        "R8",
+        "R34"
+      ],
+      "branches": [
+        {
+          "guard": "yes",
+          "steps": []
+        },
+        {
+          "guard": "no",
+          "steps": [
+            {
+              "id": "N20",
+              "kind": "action",
+              "label": "Display error message",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R37",
+                "R36"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N21",
+              "kind": "stop",
+              "label": "",
+              "lane": null,
+              "requirement_ids": [],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    },
+    {
+      "id": "N22",
+      "kind": "action",
+      "label": "Start new asset",
+      "lane": "User",
+      "requirement_ids": [
+        "R40"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N23",
+      "kind": "action",
+      "label": "Select asset type",
+      "lane": "User",
+      "requirement_ids": [
+        "R41"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N24",
+      "kind": "decision",
+      "label": "Type exists?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R45"
+      ],
+      "branches": [
+        {
+          "guard": "yes",
+          "steps": [
+            {
+              "id": "N25",
+              "kind": "action",
+              "label": "Select asset location",
+              "lane": "User",
+              "requirement_ids": [
+                "R42"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N26",
+              "kind": "action",
+              "label": "Select owner",
+              "lane": "User",
+              "requirement_ids": [
+                "R43"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N27",
+              "kind": "action",
+              "label": "Fill asset properties",
+              "lane": "User",
+              "requirement_ids": [
+                "R44"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N28",
+              "kind": "action",
+              "label": "Update database",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R46",
+                "R1"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "no",
+          "steps": [
+            {
+              "id": "N29",
+              "kind": "action",
+              "label": "Send exception request",
+              "lane": "User",
+              "requirement_ids": [
+                "R45",
+                "R18"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N30",
+              "kind": "action",
+              "label": "Create new space",
+              "lane": "User",
+              "requirement_ids": [
+                "R18"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N31",
+              "kind": "action",
+              "label": "Modify floor structure",
+              "lane": "User",
+              "requirement_ids": [
+                "R18"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    },
+    {
+      "id": "N32",
+      "kind": "action",
+      "label": "Select request form",
+      "lane": "User",
+      "requirement_ids": [
+        "R48",
+        "R51"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N33",
+      "kind": "decision",
+      "label": "Request form type?",
+      "lane": "User",
+      "requirement_ids": [
+        "R48",
+        "R51",
+        "R52",
+        "R53",
+        "R50",
+        "R49"
+      ],
+      "branches": [
+        {
+          "guard": "basic",
+          "steps": [
+            {
+              "id": "N34",
+              "kind": "action",
+              "label": "Type request text",
+              "lane": "User",
+              "requirement_ids": [
+                "R49"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N35",
+              "kind": "action",
+              "label": "Submit request",
+              "lane": "User",
+              "requirement_ids": [
+                "R50"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "advanced",
+          "steps": [
+            {
+              "id": "N36",
+              "kind": "action",
+              "label": "Enter asset details",
+              "lane": "User",
+              "requirement_ids": [
+                "R52",
+                "R53"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N37",
+              "kind": "action",
+              "label": "Submit request",
+              "lane": "User",
+              "requirement_ids": [
+                "R50"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    },
+    {
+      "id": "N38",
+      "kind": "action",
+      "label": "Create request",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R15",
+        "R16",
+        "R21"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N39",
+      "kind": "action",
+      "label": "Check returned asset",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R17"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N40",
+      "kind": "decision",
+      "label": "Asset state?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R78",
+        "R79"
+      ],
+      "branches": [
+        {
+          "guard": "available",
+          "steps": [
+            {
+              "id": "N41",
+              "kind": "action",
+              "label": "Update inventory",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R17",
+                "R22"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "damaged",
+          "steps": [
+            {
+              "id": "N42",
+              "kind": "action",
+              "label": "Update inventory",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R17",
+                "R22"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    },
+    {
+      "id": "N43",
+      "kind": "action",
+      "label": "Display pending request list",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R19"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N44",
+      "kind": "action",
+      "label": "Approve request",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R19",
+        "R20"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N45",
+      "kind": "action",
+      "label": "Add to execution list",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R21"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N46",
+      "kind": "action",
+      "label": "Notify user by email",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R20",
+        "R19"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N47",
+      "kind": "action",
+      "label": "Receive requested asset",
+      "lane": "User",
+      "requirement_ids": [
+        "R22"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N48",
+      "kind": "action",
+      "label": "Update inventory",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R22"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N49",
+      "kind": "action",
+      "label": "Change permissions",
+      "lane": "User",
+      "requirement_ids": [
+        "R93",
+        "R25"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N50",
+      "kind": "action",
+      "label": "Select user",
+      "lane": "User",
+      "requirement_ids": [
+        "R25"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N51",
+      "kind": "action",
+      "label": "Modify permissions",
+      "lane": "User",
+      "requirement_ids": [
+        "R25"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N52",
+      "kind": "decision",
+      "label": "Within granted permissions?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R26"
+      ],
+      "branches": [
+        {
+          "guard": "yes",
+          "steps": [
+            {
+              "id": "N53",
+              "kind": "action",
+              "label": "Assign inventory administrator role",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R26"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "no",
+          "steps": [
+            {
+              "id": "N54",
+              "kind": "action",
+              "label": "Display error message",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R26"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N55",
+              "kind": "stop",
+              "label": "",
+              "lane": null,
+              "requirement_ids": [],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    },
+    {
+      "id": "N56",
+      "kind": "action",
+      "label": "Display report types",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R109",
+        "R27",
+        "R28",
+        "R29"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N57",
+      "kind": "action",
+      "label": "Display report",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R27",
+        "R28",
+        "R29",
+        "R109"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N58",
+      "kind": "action",
+      "label": "Filter report",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R109"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N59",
+      "kind": "action",
+      "label": "Sort report",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R109"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N60",
+      "kind": "decision",
+      "label": "Transfer type?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "branches": [
+        {
+          "guard": "same department",
+          "steps": [
+            {
+              "id": "N61",
+              "kind": "action",
+              "label": "Update database directly",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R1"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "inter department",
+          "steps": [
+            {
+              "id": "N62",
+              "kind": "decision",
+              "label": "Higher level group?",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R2"
+              ],
+              "branches": [
+                {
+                  "guard": "yes",
+                  "steps": [
+                    {
+                      "id": "N63",
+                      "kind": "action",
+                      "label": "Approve transfer",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R2"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                },
+                {
+                  "guard": "no",
+                  "steps": [
+                    {
+                      "id": "N64",
+                      "kind": "action",
+                      "label": "Approve by DA group",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R2"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    },
+                    {
+                      "id": "N65",
+                      "kind": "action",
+                      "label": "Approve by faculty group",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R2"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                }
+              ],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "inter faculty",
+          "steps": [
+            {
+              "id": "N66",
+              "kind": "action",
+              "label": "Create transfer request",
+              "lane": "User",
+              "requirement_ids": [
+                "R3"
+              ],
+              "branches": [],
+              "exit_guard": null
+            },
+            {
+              "id": "N67",
+              "kind": "decision",
+              "label": "Approved by faculty or higher?",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R4"
+              ],
+              "branches": [
+                {
+                  "guard": "yes",
+                  "steps": [
+                    {
+                      "id": "N68",
+                      "kind": "action",
+                      "label": "Approve transfer request",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R4"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                },
+                {
+                  "guard": "no",
+                  "steps": [
+                    {
+                      "id": "N69",
+                      "kind": "stop",
+                      "label": "",
+                      "lane": null,
+                      "requirement_ids": [],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                }
+              ],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "outside university",
+          "steps": [
+            {
+              "id": "N70",
+              "kind": "decision",
+              "label": "University group approves?",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R5"
+              ],
+              "branches": [
+                {
+                  "guard": "yes",
+                  "steps": [
+                    {
+                      "id": "N71",
+                      "kind": "action",
+                      "label": "Approve transfer",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R5"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                },
+                {
+                  "guard": "no",
+                  "steps": [
+                    {
+                      "id": "N72",
+                      "kind": "stop",
+                      "label": "",
+                      "lane": null,
+                      "requirement_ids": [],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                }
+              ],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    },
+    {
+      "id": "N73",
+      "kind": "action",
+      "label": "Create exception request",
+      "lane": "User",
+      "requirement_ids": [
+        "R18"
+      ],
+      "branches": [],
+      "exit_guard": null
+    },
+    {
+      "id": "N74",
+      "kind": "decision",
+      "label": "Add asset scope?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R11",
+        "R12",
+        "R13",
+        "R14"
+      ],
+      "branches": [
+        {
+          "guard": "department owned",
+          "steps": [
+            {
+              "id": "N75",
+              "kind": "decision",
+              "label": "Bulk entry?",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R14"
+              ],
+              "branches": [
+                {
+                  "guard": "yes",
+                  "steps": [
+                    {
+                      "id": "N76",
+                      "kind": "action",
+                      "label": "Add department inventory asset",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R11"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    },
+                    {
+                      "id": "N77",
+                      "kind": "action",
+                      "label": "Add many assets",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R14"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                },
+                {
+                  "guard": "no",
+                  "steps": [
+                    {
+                      "id": "N78",
+                      "kind": "action",
+                      "label": "Add department inventory asset",
+                      "lane": "Inventory system",
+                      "requirement_ids": [
+                        "R11"
+                      ],
+                      "branches": [],
+                      "exit_guard": null
+                    }
+                  ]
+                }
+              ],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "related departments",
+          "steps": [
+            {
+              "id": "N79",
+              "kind": "action",
+              "label": "Add related inventory assets",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R12"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        },
+        {
+          "guard": "all inventory",
+          "steps": [
+            {
+              "id": "N80",
+              "kind": "action",
+              "label": "Add all inventory assets",
+              "lane": "Inventory system",
+              "requirement_ids": [
+                "R13"
+              ],
+              "branches": [],
+              "exit_guard": null
+            }
+          ]
+        }
+      ],
+      "exit_guard": null
+    }
+  ],
+  "not_drawn": [
+    {
+      "requirement_id": "R16",
+      "reason": "DETAIL of R15"
+    },
+    {
+      "requirement_id": "R21",
+      "reason": "DETAIL of R15"
+    },
+    {
+      "requirement_id": "R22",
+      "reason": "DETAIL of R17"
+    },
+    {
+      "requirement_id": "R27",
+      "reason": "DUPLICATE of R109"
+    },
+    {
+      "requirement_id": "R28",
+      "reason": "DUPLICATE of R109"
+    },
+    {
+      "requirement_id": "R29",
+      "reason": "DUPLICATE of R109"
+    },
+    {
+      "requirement_id": "R30",
+      "reason": "DETAIL of R75"
+    },
+    {
+      "requirement_id": "R39",
+      "reason": "DETAIL of R32"
+    },
+    {
+      "requirement_id": "R46",
+      "reason": "DUPLICATE of R1"
+    },
+    {
+      "requirement_id": "R47",
+      "reason": "DETAIL of R102"
+    },
+    {
+      "requirement_id": "R75",
+      "reason": "DETAIL of R30"
+    },
+    {
+      "requirement_id": "R77",
+      "reason": "DETAIL of R17"
+    },
+    {
+      "requirement_id": "R96",
+      "reason": "DETAIL of R102"
+    },
+    {
+      "requirement_id": "R109",
+      "reason": "DUPLICATE of R27"
+    },
+    {
+      "requirement_id": "R11",
+      "reason": "DUPLICATE of R13"
+    },
+    {
+      "requirement_id": "R12",
+      "reason": "DUPLICATE of R13"
+    }
+  ]
+}

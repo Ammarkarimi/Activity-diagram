@@ -1,0 +1,116 @@
+@startuml
+title CDN Peering Lifecycle
+skinparam swimlaneWrapTitleWidth 150
+
+|Web Server|
+start
+:Web Server publishes resource information;
+|Service Registry|
+if (New resource?) then (yes)
+|Service Registry|
+  :Register service information;
+  :Increment resource ID counter;
+else (no)
+|Service Registry|
+  :Update resource information;
+endif
+if (Resource failed?) then (yes)
+|Service Registry|
+  :Remove service information;
+  :Decrement resource ID counter;
+else (no)
+|Service Registry|
+endif
+while (Traffic surge?) is (no)
+  :Supply local resource information;
+|Mediator|
+  :Receive local resource information;
+endwhile (yes)
+|Service Registry|
+|Web Server|
+if (Flash crowds occurred?) then (yes)
+|Web Server|
+  if (Service timeout?) then (yes)
+|Web Server|
+    stop
+  else (no)
+|Web Server|
+    :Initiate peering request;
+|Mediator|
+    :Receive initiation request;
+  endif
+else (no)
+|Web Server|
+  :Reject malicious requests;
+endif
+|Mediator|
+:Obtain registry information;
+:Obtain policy information;
+:Generate service requirements;
+if (Requirements acceptable?) then (yes)
+|Mediator|
+  :Pass service requirements;
+|Local Peering Agent|
+  :Receive service requirements;
+else (no)
+|Mediator|
+  :Reject user requests;
+endif
+|Local Peering Agent|
+if (Peering policies exist?) then (yes)
+|Local Peering Agent|
+|Policy Repository|
+  :Return peering policies;
+else (no)
+|Local Peering Agent|
+  :Perform short-term negotiation;
+endif
+:Interact with external PAs;
+:Discover external resources;
+if (Sufficient resources acquired?) then (yes)
+|Local Peering Agent|
+  :Establish peering arrangement;
+|Service Registry|
+  :Create SR instance;
+else (no)
+|Local Peering Agent|
+|Mediator|
+  :Re-evaluate service requirements;
+  :Send service requirements;
+|Local Peering Agent|
+  :Receive service requirements;
+  :Renegotiate service requirements;
+endif
+:Configure peering protocols;
+:Exchange content availability;
+:Redirect requests to optimal peer;
+|Mediator|
+if (Sufficient resources for SLA?) then (yes)
+|Mediator|
+  :Deploy functional policies;
+|Policy Repository|
+  :Assist policy enforcement;
+|Local Peering Agent|
+  :Cooperate on common goals;
+  :Exchange accounting information;
+else (no)
+|Mediator|
+  stop
+endif
+|Local Peering Agent|
+if (Termination condition holds?) then (yes)
+|Local Peering Agent|
+  if (Exceptional circumstances?) then (yes)
+|Local Peering Agent|
+    :Preserve current arrangement;
+    :Bypass SLA conditions;
+  else (no)
+|Local Peering Agent|
+    :Disband or re-arrange arrangement;
+  endif
+else (no)
+|Local Peering Agent|
+endif
+stop
+
+@enduml

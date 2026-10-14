@@ -1,0 +1,67 @@
+@startuml
+title Agent communication and multicast group management
+skinparam swimlaneWrapTitleWidth 150
+
+|Sending Agent|
+start
+:Choose communication type;
+if (Communication type?) then (join/leave multicast)
+|Sending Agent|
+  :Choose encryption option;
+  if (Message encrypted?) then (yes)
+|Sending Agent|
+    :Send notify to join/leave group;
+|Organization|
+    :Receive notify;
+    :Decrypt message;
+  else (no)
+|Sending Agent|
+    :Send notify to join/leave group;
+|Organization|
+    :Receive notify;
+  endif
+else
+|Sending Agent|
+if (Communication type?) then (unicast)
+|Sending Agent|
+  :Choose encryption option;
+  if (Message encrypted?) then (yes)
+|Sending Agent|
+    :Send unicast message;
+|Receiving Agent|
+    :Receive message;
+    :Decrypt message;
+  else (no)
+|Sending Agent|
+    :Send unicast message;
+|Receiving Agent|
+    :Receive message;
+  endif
+else
+|Sending Agent|
+if (Communication type?) then (multicast)
+|Sending Agent|
+  :Choose encryption option;
+  if (Message encrypted?) then (yes)
+|Sending Agent|
+    :Send multicast message;
+|Receiving Agent|
+    :Receive message;
+    :Decrypt message;
+  else (no)
+|Sending Agent|
+    :Send multicast message;
+|Receiving Agent|
+    :Receive message;
+  endif
+else (broadcast)
+|Sending Agent|
+  :Send broadcast message;
+|Receiving Agent|
+  :Receive message;
+endif
+endif
+endif
+stop
+
+@enduml

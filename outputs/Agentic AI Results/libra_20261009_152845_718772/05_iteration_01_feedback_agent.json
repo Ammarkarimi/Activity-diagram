@@ -1,0 +1,99 @@
+{
+  "prioritized_defects": [
+    {
+      "id": "D-CF-DELETE-BRANCH",
+      "category": "CONTROL_FLOW",
+      "severity": "HIGH",
+      "description": "The delete/change job branch does not preserve the distinction between canceling a job and merely changing a job parameter: the 'change requested' path still removes the job from the queue, updates cluster status, and revises scheduling decisions exactly like cancellation.",
+      "node_ids": [
+        "N16",
+        "N17",
+        "N18",
+        "N19",
+        "N20",
+        "N21",
+        "N22",
+        "N23"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R56",
+        "R58",
+        "R60",
+        "R61",
+        "R62",
+        "R63"
+      ],
+      "evidence": "Requirements R56 and R58 allow changing a job parameter only under specific circumstances, while R55/R60/R61/R62 describe cancellation/removal/update/revision. The diagram routes the 'yes' path of 'Change requested?' directly to N17-N19, i.e. remove/update/revise, which semantically collapses change into cancellation and can delete the job even when only a parameter change is intended.",
+      "suggested_action": "Separate the change-parameter path from the cancel-job path. Only remove the job for cancellation; for permitted parameter changes, update the job record/constraints and then revise scheduling decisions only if the specification requires it."
+    },
+    {
+      "id": "D-MISS-JOB-END-UPDATE",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "The diagram covers cluster-status updates after scheduling and after delete/change, but it does not represent the required update when a job ends and is removed from the cluster.",
+      "node_ids": [
+        "N40"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R88"
+      ],
+      "evidence": "R88 explicitly states that Libra updates the cluster status when a job ends and is removed from the cluster. The diagram's update activity N40 is tied to scheduling, not to job completion/end, and there is no execution-completion path leading to a status update.",
+      "suggested_action": "Add the job-completion/end path that triggers the cluster-status update when execution finishes and the job is removed from the cluster."
+    },
+    {
+      "id": "D-GRAN-DUP-N18",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "The 'update cluster status' step is drawn twice in the delete/change job flow and once again in the submit flow, creating duplicated semantics for one shared update action.",
+      "node_ids": [
+        "N18",
+        "N22",
+        "N40"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R61",
+        "R87",
+        "R88",
+        "R89",
+        "R90",
+        "R91"
+      ],
+      "evidence": "Requirements R61/R87/R88 describe cluster status updates as a single action triggered by job deletion, job scheduling, or job end. The diagram shows separate occurrences at N18, N22, and N40 instead of sharing the common update action once.",
+      "suggested_action": "Model the cluster-status update once and route both delete/change branches and the scheduling/update path through that shared activity, or explicitly branch into distinct semantically necessary updates only if they differ."
+    },
+    {
+      "id": "D-GRAN-DUP-N19",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "The 'revise scheduling decisions' step is drawn twice in the delete/change job flow, duplicating one required post-removal action across both branches.",
+      "node_ids": [
+        "N19",
+        "N23"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R62"
+      ],
+      "evidence": "Requirement R62 requires revising scheduling decisions after job removal/update. The diagram repeats that same action in both the change-requested and cancel branches.",
+      "suggested_action": "Place the revision step after the branches rejoin so it is performed once for both outcomes."
+    },
+    {
+      "id": "D-GRAN-DUP-N17",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'remove job from queue' is drawn 2 times (N17, N21).",
+      "node_ids": [
+        "N17",
+        "N21"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    }
+  ],
+  "final_recommendation": "Prioritize the control-flow defect first, then the missing required job-end update, then the duplicated shared-action granularity issues."
+}

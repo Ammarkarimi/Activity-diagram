@@ -1,0 +1,65 @@
+@startuml
+title Torrent and Video Stream Search
+skinparam swimlaneWrapTitleWidth 150
+
+|Development Team|
+start
+:Update torrent site database;
+:Update video site databases;
+|User|
+:Tick torrent search box;
+:Tick video host box;
+:Tick video link box;
+:Enter search term;
+:Start search;
+|Program|
+if (Search type selected?) then (torrent)
+|Program|
+  :Query torrent websites;
+|Torrent Websites|
+  :Send torrent results;
+|Program|
+  :Display torrent results;
+  if (Any torrent results?) then (yes)
+|Program|
+  else (no)
+|Program|
+    :Display no results message;
+    stop
+  endif
+|User|
+  :Sort torrent results;
+  :Show next torrent page;
+else
+|Program|
+if (Search type selected?) then (video hosting)
+|Program|
+  :Query video hosting sites;
+|Video Hosting Websites|
+  :Send hosting results;
+|Program|
+  :Display hosting results;
+else (video link)
+|Program|
+  :Query video link sites;
+|Video Link Websites|
+  :Send link results;
+|Program|
+  :Display link results;
+endif
+endif
+:Display video results;
+if (Any video results?) then (yes)
+|Program|
+else (no)
+|Program|
+  :Display no results message;
+  stop
+endif
+|User|
+:Filter websites;
+:Sort video results;
+:Show next video page;
+stop
+
+@enduml

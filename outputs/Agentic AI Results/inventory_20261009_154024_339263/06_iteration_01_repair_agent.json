@@ -1,0 +1,1277 @@
+{
+  "changed": true,
+  "repair_type": "OUTLINE",
+  "changes": [
+    "Added N62 to trace R11: Add department inventory asset.",
+    "Added N63 to trace R12: Add related inventory assets.",
+    "Added N64 to trace R13: Add all inventory assets."
+  ],
+  "rationale": "Outline edited for the selected defects.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Start application",
+        "lane": "User",
+        "requirement_ids": [
+          "R99"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Enter credentials",
+        "lane": "User",
+        "requirement_ids": [
+          "R23",
+          "R100"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Login",
+        "lane": "User",
+        "requirement_ids": [
+          "R23"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "decision",
+        "label": "Authenticated?",
+        "lane": "Authentication system",
+        "requirement_ids": [
+          "R102",
+          "R75",
+          "R90",
+          "R30",
+          "R47",
+          "R16",
+          "R23"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Log on main page",
+        "lane": "User",
+        "requirement_ids": [
+          "R102"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "action",
+        "label": "Display error message",
+        "lane": "Authentication system",
+        "requirement_ids": [
+          "R101"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "final",
+        "label": "End",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Search for asset",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R31",
+          "R38"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "decision",
+        "label": "Asset found?",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R38"
+        ]
+      },
+      {
+        "id": "N11",
+        "type": "action",
+        "label": "Edit asset",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R32",
+          "R34",
+          "R6",
+          "R7",
+          "R8"
+        ]
+      },
+      {
+        "id": "N12",
+        "type": "action",
+        "label": "Modify asset properties",
+        "lane": "User",
+        "requirement_ids": [
+          "R39"
+        ]
+      },
+      {
+        "id": "N13",
+        "type": "action",
+        "label": "Display error message",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R38"
+        ]
+      },
+      {
+        "id": "N14",
+        "type": "final",
+        "label": "End",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N15",
+        "type": "decision",
+        "label": "Sufficient privileges?",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R37",
+          "R36",
+          "R6",
+          "R7",
+          "R8",
+          "R34"
+        ]
+      },
+      {
+        "id": "N16",
+        "type": "action",
+        "label": "Display error message",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R37",
+          "R36"
+        ]
+      },
+      {
+        "id": "N17",
+        "type": "final",
+        "label": "End",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N18",
+        "type": "action",
+        "label": "Start new asset",
+        "lane": "User",
+        "requirement_ids": [
+          "R40"
+        ]
+      },
+      {
+        "id": "N19",
+        "type": "action",
+        "label": "Select asset type",
+        "lane": "User",
+        "requirement_ids": [
+          "R41"
+        ]
+      },
+      {
+        "id": "N20",
+        "type": "decision",
+        "label": "Type exists?",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R45"
+        ]
+      },
+      {
+        "id": "N21",
+        "type": "action",
+        "label": "Select asset location",
+        "lane": "User",
+        "requirement_ids": [
+          "R42"
+        ]
+      },
+      {
+        "id": "N22",
+        "type": "action",
+        "label": "Select owner",
+        "lane": "User",
+        "requirement_ids": [
+          "R43"
+        ]
+      },
+      {
+        "id": "N23",
+        "type": "action",
+        "label": "Fill asset properties",
+        "lane": "User",
+        "requirement_ids": [
+          "R44"
+        ]
+      },
+      {
+        "id": "N24",
+        "type": "action",
+        "label": "Update database",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R46",
+          "R1"
+        ]
+      },
+      {
+        "id": "N25",
+        "type": "action",
+        "label": "Send exception request",
+        "lane": "User",
+        "requirement_ids": [
+          "R45",
+          "R18"
+        ]
+      },
+      {
+        "id": "N26",
+        "type": "action",
+        "label": "Create new space",
+        "lane": "User",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "N27",
+        "type": "action",
+        "label": "Modify floor structure",
+        "lane": "User",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "N20_M",
+        "type": "merge",
+        "label": "Merge",
+        "lane": "Inventory system",
+        "requirement_ids": []
+      },
+      {
+        "id": "N28",
+        "type": "action",
+        "label": "Select request form",
+        "lane": "User",
+        "requirement_ids": [
+          "R48",
+          "R51"
+        ]
+      },
+      {
+        "id": "N29",
+        "type": "decision",
+        "label": "Request form type?",
+        "lane": "User",
+        "requirement_ids": [
+          "R48",
+          "R51",
+          "R52",
+          "R53",
+          "R50",
+          "R49"
+        ]
+      },
+      {
+        "id": "N30",
+        "type": "action",
+        "label": "Type request text",
+        "lane": "User",
+        "requirement_ids": [
+          "R49"
+        ]
+      },
+      {
+        "id": "N31",
+        "type": "action",
+        "label": "Submit request",
+        "lane": "User",
+        "requirement_ids": [
+          "R50"
+        ]
+      },
+      {
+        "id": "N32",
+        "type": "action",
+        "label": "Enter asset details",
+        "lane": "User",
+        "requirement_ids": [
+          "R52",
+          "R53"
+        ]
+      },
+      {
+        "id": "N33",
+        "type": "action",
+        "label": "Submit request",
+        "lane": "User",
+        "requirement_ids": [
+          "R50"
+        ]
+      },
+      {
+        "id": "N29_M",
+        "type": "merge",
+        "label": "Merge",
+        "lane": "User",
+        "requirement_ids": []
+      },
+      {
+        "id": "N34",
+        "type": "action",
+        "label": "Create request",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R15",
+          "R16",
+          "R21"
+        ]
+      },
+      {
+        "id": "N35",
+        "type": "action",
+        "label": "Check returned asset",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R17"
+        ]
+      },
+      {
+        "id": "N36",
+        "type": "decision",
+        "label": "Asset state?",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R78",
+          "R79"
+        ]
+      },
+      {
+        "id": "N37",
+        "type": "action",
+        "label": "Update inventory",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R17",
+          "R22"
+        ]
+      },
+      {
+        "id": "N38",
+        "type": "action",
+        "label": "Update inventory",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R17",
+          "R22"
+        ]
+      },
+      {
+        "id": "N36_M",
+        "type": "merge",
+        "label": "Merge",
+        "lane": "Inventory system",
+        "requirement_ids": []
+      },
+      {
+        "id": "N39",
+        "type": "action",
+        "label": "Display pending request list",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R19"
+        ]
+      },
+      {
+        "id": "N40",
+        "type": "action",
+        "label": "Approve request",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R19"
+        ]
+      },
+      {
+        "id": "N41",
+        "type": "action",
+        "label": "Notify user by email",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R19",
+          "R21"
+        ]
+      },
+      {
+        "id": "N42",
+        "type": "action",
+        "label": "Change permissions",
+        "lane": "User",
+        "requirement_ids": [
+          "R93",
+          "R25"
+        ]
+      },
+      {
+        "id": "N43",
+        "type": "action",
+        "label": "Select user",
+        "lane": "User",
+        "requirement_ids": [
+          "R25"
+        ]
+      },
+      {
+        "id": "N44",
+        "type": "action",
+        "label": "Modify permissions",
+        "lane": "User",
+        "requirement_ids": [
+          "R25"
+        ]
+      },
+      {
+        "id": "N45",
+        "type": "decision",
+        "label": "Within granted permissions?",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R26"
+        ]
+      },
+      {
+        "id": "N46",
+        "type": "action",
+        "label": "Assign inventory administrator role",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R26"
+        ]
+      },
+      {
+        "id": "N47",
+        "type": "action",
+        "label": "Display error message",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R26"
+        ]
+      },
+      {
+        "id": "N48",
+        "type": "final",
+        "label": "End",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N49",
+        "type": "action",
+        "label": "Display report types",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R109",
+          "R27",
+          "R28",
+          "R29"
+        ]
+      },
+      {
+        "id": "N50",
+        "type": "action",
+        "label": "Display report",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R27",
+          "R28",
+          "R29",
+          "R109"
+        ]
+      },
+      {
+        "id": "N51",
+        "type": "action",
+        "label": "Filter report",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R109"
+        ]
+      },
+      {
+        "id": "N52",
+        "type": "action",
+        "label": "Sort report",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R109"
+        ]
+      },
+      {
+        "id": "N53",
+        "type": "decision",
+        "label": "Transfer type?",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R1",
+          "R2",
+          "R3",
+          "R4",
+          "R5"
+        ]
+      },
+      {
+        "id": "N54",
+        "type": "action",
+        "label": "Update database directly",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "id": "N55",
+        "type": "decision",
+        "label": "Higher level group?",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "N56",
+        "type": "action",
+        "label": "Approve transfer",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "N57",
+        "type": "action",
+        "label": "Approve by DA and faculty",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "N55_M",
+        "type": "merge",
+        "label": "Merge",
+        "lane": "Inventory system",
+        "requirement_ids": []
+      },
+      {
+        "id": "N58",
+        "type": "action",
+        "label": "Create transfer request",
+        "lane": "User",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "N59",
+        "type": "action",
+        "label": "Approve transfer request",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "N60",
+        "type": "action",
+        "label": "Approve transfer",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "N53_M",
+        "type": "merge",
+        "label": "Merge",
+        "lane": "Inventory system",
+        "requirement_ids": []
+      },
+      {
+        "id": "N61",
+        "type": "action",
+        "label": "Create exception request",
+        "lane": "User",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "N62",
+        "type": "action",
+        "label": "Add department inventory asset",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "id": "N63",
+        "type": "action",
+        "label": "Add related inventory assets",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R12"
+        ]
+      },
+      {
+        "id": "N64",
+        "type": "action",
+        "label": "Add all inventory assets",
+        "lane": "Inventory system",
+        "requirement_ids": [
+          "R13"
+        ]
+      },
+      {
+        "id": "N_END",
+        "type": "final",
+        "label": "End",
+        "lane": null,
+        "requirement_ids": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E5",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": []
+      },
+      {
+        "id": "E6",
+        "source": "N5",
+        "target": "N7",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": []
+      },
+      {
+        "id": "E7",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E8",
+        "source": "N6",
+        "target": "N9",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E9",
+        "source": "N9",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E10",
+        "source": "N10",
+        "target": "N11",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": []
+      },
+      {
+        "id": "E11",
+        "source": "N11",
+        "target": "N12",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E12",
+        "source": "N10",
+        "target": "N13",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": []
+      },
+      {
+        "id": "E13",
+        "source": "N13",
+        "target": "N14",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E14",
+        "source": "N12",
+        "target": "N15",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E15",
+        "source": "N15",
+        "target": "N16",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": []
+      },
+      {
+        "id": "E16",
+        "source": "N16",
+        "target": "N17",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E17",
+        "source": "N15",
+        "target": "N18",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": []
+      },
+      {
+        "id": "E18",
+        "source": "N18",
+        "target": "N19",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E19",
+        "source": "N19",
+        "target": "N20",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E20",
+        "source": "N20",
+        "target": "N21",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": []
+      },
+      {
+        "id": "E21",
+        "source": "N21",
+        "target": "N22",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E22",
+        "source": "N22",
+        "target": "N23",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E23",
+        "source": "N23",
+        "target": "N24",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E24",
+        "source": "N20",
+        "target": "N25",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": []
+      },
+      {
+        "id": "E25",
+        "source": "N25",
+        "target": "N26",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E26",
+        "source": "N26",
+        "target": "N27",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E27",
+        "source": "N24",
+        "target": "N20_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E28",
+        "source": "N27",
+        "target": "N20_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E29",
+        "source": "N20_M",
+        "target": "N28",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E30",
+        "source": "N28",
+        "target": "N29",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E31",
+        "source": "N29",
+        "target": "N30",
+        "type": "control",
+        "guard": "basic",
+        "requirement_ids": []
+      },
+      {
+        "id": "E32",
+        "source": "N30",
+        "target": "N31",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E33",
+        "source": "N29",
+        "target": "N32",
+        "type": "control",
+        "guard": "advanced",
+        "requirement_ids": []
+      },
+      {
+        "id": "E34",
+        "source": "N32",
+        "target": "N33",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E35",
+        "source": "N31",
+        "target": "N29_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E36",
+        "source": "N33",
+        "target": "N29_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E37",
+        "source": "N29_M",
+        "target": "N34",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E38",
+        "source": "N34",
+        "target": "N35",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E39",
+        "source": "N35",
+        "target": "N36",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E40",
+        "source": "N36",
+        "target": "N37",
+        "type": "control",
+        "guard": "available",
+        "requirement_ids": []
+      },
+      {
+        "id": "E41",
+        "source": "N36",
+        "target": "N38",
+        "type": "control",
+        "guard": "damaged",
+        "requirement_ids": []
+      },
+      {
+        "id": "E42",
+        "source": "N37",
+        "target": "N36_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E43",
+        "source": "N38",
+        "target": "N36_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E44",
+        "source": "N36_M",
+        "target": "N39",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E45",
+        "source": "N39",
+        "target": "N40",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E46",
+        "source": "N40",
+        "target": "N41",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E47",
+        "source": "N41",
+        "target": "N42",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E48",
+        "source": "N42",
+        "target": "N43",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E49",
+        "source": "N43",
+        "target": "N44",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E50",
+        "source": "N44",
+        "target": "N45",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E51",
+        "source": "N45",
+        "target": "N46",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": []
+      },
+      {
+        "id": "E52",
+        "source": "N45",
+        "target": "N47",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": []
+      },
+      {
+        "id": "E53",
+        "source": "N47",
+        "target": "N48",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E54",
+        "source": "N46",
+        "target": "N49",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E55",
+        "source": "N49",
+        "target": "N50",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E56",
+        "source": "N50",
+        "target": "N51",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E57",
+        "source": "N51",
+        "target": "N52",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E58",
+        "source": "N52",
+        "target": "N53",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E59",
+        "source": "N53",
+        "target": "N54",
+        "type": "control",
+        "guard": "same department",
+        "requirement_ids": []
+      },
+      {
+        "id": "E60",
+        "source": "N53",
+        "target": "N55",
+        "type": "control",
+        "guard": "inter department",
+        "requirement_ids": []
+      },
+      {
+        "id": "E61",
+        "source": "N55",
+        "target": "N56",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": []
+      },
+      {
+        "id": "E62",
+        "source": "N55",
+        "target": "N57",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": []
+      },
+      {
+        "id": "E63",
+        "source": "N56",
+        "target": "N55_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E64",
+        "source": "N57",
+        "target": "N55_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E65",
+        "source": "N53",
+        "target": "N58",
+        "type": "control",
+        "guard": "inter faculty",
+        "requirement_ids": []
+      },
+      {
+        "id": "E66",
+        "source": "N58",
+        "target": "N59",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E67",
+        "source": "N53",
+        "target": "N60",
+        "type": "control",
+        "guard": "outside university",
+        "requirement_ids": []
+      },
+      {
+        "id": "E68",
+        "source": "N54",
+        "target": "N53_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E69",
+        "source": "N55_M",
+        "target": "N53_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E70",
+        "source": "N59",
+        "target": "N53_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E71",
+        "source": "N60",
+        "target": "N53_M",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E72",
+        "source": "N53_M",
+        "target": "N61",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E73",
+        "source": "N61",
+        "target": "N62",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E74",
+        "source": "N62",
+        "target": "N63",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E75",
+        "source": "N63",
+        "target": "N64",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "E76",
+        "source": "N64",
+        "target": "N_END",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": []
+      }
+    ],
+    "title": "Inventory system activities"
+  }
+}

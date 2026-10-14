@@ -1,0 +1,166 @@
+{
+  "prioritized_defects": [
+    {
+      "id": "D-COV-R65",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R65 is not represented semantically in the diagram: the creation of a new Service Registry instance that encapsulates local and delegated external CDN resources when a new peering arrangement is established is missing.",
+      "node_ids": [
+        "N28"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R65"
+      ],
+      "evidence": "R65 requires that when a new peering arrangement is established, an instance of the Service Registry is created that encapsulates all local and delegated external CDN resources. The current diagram has no action or decision in the Service Registry lane for this creation/encapsulation step; N28 establishes the peering arrangement but does not create or update the Service Registry instance.",
+      "suggested_action": "Add a Service Registry action after peering establishment to create/update the SR instance and encapsulate local and delegated external resources."
+    },
+    {
+      "id": "D-COV-R85",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R85 is not traced: the diagram does not show traffic-surge-triggered supply of local resource information to the Mediator.",
+      "node_ids": [
+        "N15"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R85"
+      ],
+      "evidence": "R85 requires that in the face of traffic surges, information on available local resources along with their IDs is supplied to the Mediator. N15 obtains registry information, but it is not conditioned on a traffic-surge path and does not explicitly supply the available local resources/IDs as required.",
+      "suggested_action": "Add a traffic-surge branch from the Web Server/service-registration flow to a Service Registry-to-Mediator supply action that explicitly outputs available local resources and IDs."
+    },
+    {
+      "id": "D-COV-R76",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R76 is not represented: periodic or threshold-based reporting of current bandwidth and resource usage from Web servers to the CDN gateway is missing.",
+      "node_ids": [
+        "N2",
+        "N15"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R76"
+      ],
+      "evidence": "R76 states that current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway in a periodic or threshold-based manner. The diagram has Web Server publication to the Service Registry (N2) and Mediator registry access (N15), but no reporting of bandwidth/resource usage to the gateway in periodic or threshold-based form.",
+      "suggested_action": "Add a Web Server-to-gateway reporting action with periodic/threshold-based trigger semantics for bandwidth and resource usage."
+    },
+    {
+      "id": "D-COV-R137",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R137 is not represented: malicious requests are identified and acted upon nowhere in the operational flow.",
+      "node_ids": [
+        "N10",
+        "N18",
+        "N25"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R103",
+        "R137"
+      ],
+      "evidence": "R137 requires malicious requests to be identified and acted upon. The diagram contains a flash-crowd/service-timeout branch and negotiation steps, but no action or decision for malicious-request detection or response.",
+      "suggested_action": "Add a malicious-request detection and handling branch in the relevant Web Server or Mediator flow."
+    },
+    {
+      "id": "D-COV-R103",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R103 is likewise absent: the diagram does not show malicious requests being detected and rejected.",
+      "node_ids": [
+        "N10",
+        "N18"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R103"
+      ],
+      "evidence": "R103 explicitly requires malicious requests to be detected and rejected. No node in the current diagram models that behavior; the closest decisions are flash-crowd and requirements-acceptable checks, which are different concerns.",
+      "suggested_action": "Introduce a Web Server or Mediator decision for malicious-request detection with a rejection branch."
+    },
+    {
+      "id": "D-COV-R77",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "Requirement R77 is missing: the diagram does not show gateways of participating CDNs exchanging aggregated load information.",
+      "node_ids": [
+        "N15",
+        "N25"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R77"
+      ],
+      "evidence": "R77 requires that gateways of participating CDNs communicate aggregated load information describing the load of their constituent servers. The diagram includes inter-PA interaction (N25), but it does not model exchange of aggregated load information between gateways as a distinct behavior.",
+      "suggested_action": "Add an inter-gateway load-information exchange action, or explicitly show the gateway role carrying aggregated load data."
+    },
+    {
+      "id": "D-COV-R78",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "Requirement R78 is not covered: request assignment/redirection at the DNS level and at local-cluster gateways is absent.",
+      "node_ids": [
+        "N33"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R78",
+        "R79",
+        "R80"
+      ],
+      "evidence": "R78 requires request assignment and redirection at multiple levels, including DNS, gateways to local clusters, and between servers in a cluster. The diagram only models redirection to an optimal peer at N33; it does not show DNS-based assignment or gateway-to-local-cluster redirection as required by the source behavior.",
+      "suggested_action": "Add DNS-level assignment and gateway-level redirection behaviors, or explicitly model these levels in the redirection flow."
+    },
+    {
+      "id": "D-COV-R79",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "Requirement R79 is not represented: updating DNS records regularly by peering agents for end-user assignment is missing.",
+      "node_ids": [
+        "N25",
+        "N33"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R79"
+      ],
+      "evidence": "R79 states that end-users can be assigned via DNS by the peering agents of participating CDNs updating their DNS records regularly. The diagram contains no DNS-record update action in the Local Peering Agent lane.",
+      "suggested_action": "Add a Local Peering Agent action to update DNS records regularly for end-user assignment."
+    },
+    {
+      "id": "D-COV-R52",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "Requirement R52 is not traced semantically: the SLA-allocator's enforcement of SLA terms is missing.",
+      "node_ids": [
+        "N35"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R52"
+      ],
+      "evidence": "R52 requires that the SLA-allocator ensures SLA terms are enforced. The diagram's policy deployment step (N35) and policy enforcement assist (N36) do not include any SLA-allocator action or explicit enforcement behavior.",
+      "suggested_action": "Add an SLA-allocator action or equivalent explicit enforcement step tied to SLA terms after peering becomes operational."
+    },
+    {
+      "id": "D-COV-R50",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "Requirement R50 is not represented: the policy agent determining which resources can be delegated and under what conditions delegation is permitted is missing.",
+      "node_ids": [
+        "N15",
+        "N31"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R50",
+        "R67"
+      ],
+      "evidence": "R50 requires the policy agent, in conjunction with the mediator, to determine delegation eligibility and conditions. The diagram includes policy information retrieval from the Policy Repository (N16) and protocol configuration (N31), but no policy-agent decision over delegable resources/conditions.",
+      "suggested_action": "Add a Local Peering Agent/Policy Agent decision or action for delegation eligibility and conditions before or during negotiation."
+    }
+  ],
+  "final_recommendation": "Prioritize the missing security-critical and operational-flow defects first (malicious request handling, service registry creation/update, traffic-surge reporting, and load reporting), then address the remaining medium-severity coverage gaps."
+}

@@ -1,0 +1,115 @@
+@startuml
+title Central Trading System activities
+skinparam swimlaneWrapTitleWidth 150
+
+|Central Trading System|
+start
+:Receive instructions;
+:Analyze instructions;
+:Divide instruction kinds;
+if (Instruction type?) then (buy)
+|Central Trading System|
+|Transaction User Interface|
+  :Give buy instruction;
+|Central Trading System|
+  :Save buy instruction;
+  if (Operations suspended?) then (yes)
+|Central Trading System|
+    :Handle suspended operations;
+    stop
+  else (no)
+|Central Trading System|
+    :Match instructions with same stock id;
+    if (Matched stock found?) then (yes)
+|Central Trading System|
+      :Make trade by matching;
+      :Modify matched instructions;
+    else (no)
+|Central Trading System|
+      :Handle no-match exception;
+      stop
+    endif
+  endif
+else
+|Central Trading System|
+if (Instruction type?) then (sell)
+|Central Trading System|
+|Transaction User Interface|
+  :Give sell instruction;
+|Central Trading System|
+  :Save sell instruction;
+  if (Operations suspended?) then (yes)
+|Central Trading System|
+    :Handle suspended operations;
+    stop
+  else (no)
+|Central Trading System|
+    :Match instructions with same stock id;
+    if (Matched stock found?) then (yes)
+|Central Trading System|
+      :Make trade by matching;
+      :Modify matched instructions;
+    else (no)
+|Central Trading System|
+      :Handle no-match exception;
+      stop
+    endif
+  endif
+else
+|Central Trading System|
+if (Instruction type?) then (cancel)
+|Central Trading System|
+|Transaction User Interface|
+  :Give cancel instruction;
+|Central Trading System|
+  :Save cancel instruction;
+  if (Operations suspended?) then (yes)
+|Central Trading System|
+    :Handle suspended operations;
+    stop
+  else (no)
+|Central Trading System|
+    if (Instruction already implemented?) then (yes)
+|Central Trading System|
+      stop
+    else (no)
+|Central Trading System|
+      if (Matching instruction found?) then (yes)
+|Central Trading System|
+        :Cancel correlative instruction;
+      else (no)
+|Central Trading System|
+        :Handle no-match exception;
+        stop
+      endif
+    endif
+  endif
+else
+|Central Trading System|
+if (Instruction type?) then (save trade information)
+|Central Trading System|
+  :Give out successful trade information;
+|Security Account Management|
+  :Save trade information;
+else (query trade information)
+|Central Trading System|
+|Trading Information Release|
+  :Send query;
+|Central Trading System|
+  if (Query valid?) then (yes)
+|Central Trading System|
+    :Implement query;
+    :Structuralize queried data;
+    :Send data to release;
+  else (no)
+|Central Trading System|
+    :Handle invalid query;
+    stop
+  endif
+endif
+endif
+endif
+endif
+stop
+
+@enduml

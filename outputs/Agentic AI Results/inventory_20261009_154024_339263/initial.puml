@@ -1,0 +1,130 @@
+@startuml
+title Inventory system activities
+skinparam swimlaneWrapTitleWidth 150
+
+|User|
+start
+:Start application;
+:Enter credentials;
+:Login;
+|Authentication system|
+if (Authenticated?) then (yes)
+|Authentication system|
+|User|
+  :Log on main page;
+else (no)
+|Authentication system|
+  :Display error message;
+  stop
+endif
+|Inventory system|
+:Search for asset;
+if (Asset found?) then (yes)
+|Inventory system|
+  :Edit asset;
+|User|
+  :Modify asset properties;
+else (no)
+|Inventory system|
+  :Display error message;
+  stop
+endif
+if (Sufficient privileges?) then (yes)
+|Inventory system|
+else (no)
+|Inventory system|
+  :Display error message;
+  stop
+endif
+|User|
+:Start new asset;
+:Select asset type;
+|Inventory system|
+if (Type exists?) then (yes)
+|Inventory system|
+|User|
+  :Select asset location;
+  :Select owner;
+  :Fill asset properties;
+|Inventory system|
+  :Update database;
+else (no)
+|Inventory system|
+|User|
+  :Send exception request;
+  :Create new space;
+  :Modify floor structure;
+endif
+:Select request form;
+if (Request form type?) then (basic)
+|User|
+  :Type request text;
+  :Submit request;
+else (advanced)
+|User|
+  :Enter asset details;
+  :Submit request;
+endif
+|Inventory system|
+:Create request;
+:Check returned asset;
+if (Asset state?) then (available)
+|Inventory system|
+  :Update inventory;
+else (damaged)
+|Inventory system|
+  :Update inventory;
+endif
+:Display pending request list;
+:Approve request;
+:Notify user by email;
+|User|
+:Change permissions;
+:Select user;
+:Modify permissions;
+|Inventory system|
+if (Within granted permissions?) then (yes)
+|Inventory system|
+  :Assign inventory administrator role;
+else (no)
+|Inventory system|
+  :Display error message;
+  stop
+endif
+:Display report types;
+:Display report;
+:Filter report;
+:Sort report;
+if (Transfer type?) then (same department)
+|Inventory system|
+  :Update database directly;
+else
+|Inventory system|
+if (Transfer type?) then (inter department)
+|Inventory system|
+  if (Higher level group?) then (yes)
+|Inventory system|
+    :Approve transfer;
+  else (no)
+|Inventory system|
+    :Approve by DA and faculty;
+  endif
+else
+|Inventory system|
+if (Transfer type?) then (inter faculty)
+|Inventory system|
+|User|
+  :Create transfer request;
+|Inventory system|
+  :Approve transfer request;
+else (outside university)
+|Inventory system|
+  :Approve transfer;
+endif
+endif
+endif
+|User|
+:Create exception request;
+stop
+
+@enduml

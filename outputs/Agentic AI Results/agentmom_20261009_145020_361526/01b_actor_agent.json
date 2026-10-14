@@ -1,0 +1,14 @@
+{
+  "actors": [
+    "Sending Agent",
+    "Receiving Agent",
+    "Organization"
+  ],
+  "proposed": [
+    "Sending Agent",
+    "Receiving Agent",
+    "Multicast Group",
+    "Organization",
+    "Local Network"
+  ]
+}

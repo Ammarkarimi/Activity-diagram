@@ -1,0 +1,387 @@
+{
+  "validation": {
+    "passed": false,
+    "score": 0.9245283018867925,
+    "defects": [
+      {
+        "id": "D-COV-R10",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R10 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R10"
+        ],
+        "evidence": "The scheduler allocates jobs based on the job parameters submitted by the user with the job.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R50",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R50 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R50"
+        ],
+        "evidence": "User Id and Password are required to ensure that only the appropriate user is able to see the job status.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R59",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R59 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R59"
+        ],
+        "evidence": "User Id and Password are required to ensure that only the appropriate user is able to delete or change the job.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R88",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R88 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R88"
+        ],
+        "evidence": "Libra updates the cluster status when a job ends and is removed from the cluster.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      }
+    ],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 4,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 4,
+      "TOTAL_NODES": 44,
+      "TOTAL_EDGES": 48,
+      "TOTAL_REQUIREMENTS": 99
+    },
+    "summary": "4 defect(s) detected. Structural score: 1.000. Coverage score: 0.925. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 0.925."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers the main scheduling flow and several use cases, but it still misses required authentication, cluster-open validation output, and explicit update-on-job-end behavior. It also introduces a few unsupported or mismapped behaviors around job acceptance and scheduling granularity.",
+    "semantic_score": 0.72,
+    "defects": [
+      {
+        "id": "D-COV-R50",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R50 is not modeled: the View Job Status flow does not require User Id and Password as an authentication condition.",
+        "node_ids": [
+          "N9",
+          "N10",
+          "N11",
+          "N12"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R50"
+        ],
+        "evidence": "R50 states that 'User Id and Password are required to ensure that only the appropriate user is able to see the job status.' The current View Job Status branch starts at N9 and proceeds directly to showing options, with no authentication step or guard.",
+        "suggested_action": "Insert an authentication check before showing job status options, and gate the View Job Status branch on successful User Id/Password validation."
+      },
+      {
+        "id": "D-COV-R59",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R59 is not modeled: the Delete/Change Job flow does not require User Id and Password as an authentication condition.",
+        "node_ids": [
+          "N13",
+          "N14",
+          "N17"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R59"
+        ],
+        "evidence": "R59 states that 'User Id and Password are required to ensure that only the appropriate user is able to delete or change the job.' The current delete/change branch has no login or authorization check before allowing delete or change actions.",
+        "suggested_action": "Add an authentication step before the delete/change decision and only allow the branch to proceed when the user is verified."
+      },
+      {
+        "id": "D-COV-R88",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R88 is not represented: the diagram does not model cluster-status update when a job ends and is removed from the cluster.",
+        "node_ids": [
+          "N36"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R88"
+        ],
+        "evidence": "R88 requires that Libra updates the cluster status 'when a job ends and is removed from the cluster.' The only cluster-status update shown is N36 during job scheduling; there is no end-of-job/removal trigger or corresponding update path.",
+        "suggested_action": "Add a termination/completion path from job execution to a cluster-status update action that is triggered when the job finishes and is removed."
+      },
+      {
+        "id": "D-CONTROL-R97-R99",
+        "category": "CONTROL_FLOW",
+        "severity": "MEDIUM",
+        "description": "The stride-scheduling loop is modeled without an explicit termination check tied to 'no jobs left to run on a queue', so the repeat-until condition is not semantically clear.",
+        "node_ids": [
+          "N37",
+          "N38",
+          "N39",
+          "N40"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R92",
+          "R95",
+          "R96",
+          "R97",
+          "R99"
+        ],
+        "evidence": "R99 says the loop is repeated until there are no jobs left to run on a queue. N37 is labeled as a loop, but the body nodes N38-N40 do not explicitly show the exit condition being tested after advancing pass, nor the 'no jobs left' termination criterion.",
+        "suggested_action": "Make the loop condition explicit as a repeat-until or while construct that exits when the queue is empty."
+      },
+      {
+        "id": "D-HALLUCINATION-N7",
+        "category": "HALLUCINATION",
+        "severity": "MEDIUM",
+        "description": "The submission gate at N7 conflates separate requirements and introduces 'submission allowed' as a single decision without separately modeling cluster openness, user validity, and the distinct submit-job interface adaptation path.",
+        "node_ids": [
+          "N7"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R43",
+          "R44",
+          "R36",
+          "R37",
+          "R45",
+          "R46",
+          "R47",
+          "R48"
+        ],
+        "evidence": "The requirements distinguish cluster-open validation (R43/R44) from the Accept/Reject Job function (R46), and also require SGE interface adaptation or alternate command-line submission support (R36/R37). N7 combines these into one decision labeled 'Submission allowed and user valid?' and does not represent the interface-adaptation aspect.",
+        "suggested_action": "Split submission handling into explicit cluster-open and user-validity checks, and represent the SGE interface adaptation or CLI alternative separately if it is part of the modeled scope."
+      }
+    ],
+    "strengths": [
+      "The main submit-job to scheduling pipeline is captured: receive, delegate, initialize, accept/reject, allocate tickets, choose host, select queue, dispatch, and update cluster status.",
+      "The stride-scheduling logic is present, including minimum-pass selection, quantum allotment, and pass advancement.",
+      "The diagram includes both view-job-status and delete/change-job branches, showing the major user-facing use cases."
+    ],
+    "missing_requirements": [
+      "R50: User Id and Password required for viewing job status.",
+      "R59: User Id and Password required for deleting or changing a job.",
+      "R88: Update cluster status when a job ends and is removed from the cluster.",
+      "R36/R37: Adapted SGE interface or CLI alternative for additional submission parameters."
+    ],
+    "unsupported_behaviors": [
+      "N7 merges cluster-open validation, user validity, and submission permission into one decision instead of modeling the requirements separately.",
+      "The diagram does not show the required submit-job interface adaptation/CLI alternative and instead proceeds as if all submission handling is internal to the scheduler path."
+    ]
+  },
+  "defects": [
+    {
+      "id": "D-COV-R10",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R10 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R10"
+      ],
+      "evidence": "The scheduler allocates jobs based on the job parameters submitted by the user with the job.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R50",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R50 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R50"
+      ],
+      "evidence": "User Id and Password are required to ensure that only the appropriate user is able to see the job status.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R59",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R59 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R59"
+      ],
+      "evidence": "User Id and Password are required to ensure that only the appropriate user is able to delete or change the job.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R88",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R88 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R88"
+      ],
+      "evidence": "Libra updates the cluster status when a job ends and is removed from the cluster.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-GRAN-DUP-N14",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'remove job from queue' is drawn 2 times (N14, N18).",
+      "node_ids": [
+        "N14",
+        "N18"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    },
+    {
+      "id": "D-GRAN-DUP-N15",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'update cluster status' is drawn 3 times (N15, N19, N36).",
+      "node_ids": [
+        "N15",
+        "N19",
+        "N36"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    },
+    {
+      "id": "D-GRAN-DUP-N16",
+      "category": "GRANULARITY",
+      "severity": "MEDIUM",
+      "description": "Step 'revise scheduling decisions' is drawn 2 times (N16, N20).",
+      "node_ids": [
+        "N16",
+        "N20"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "",
+      "suggested_action": "Draw a step shared by several branches once, before the decision or after the branches rejoin."
+    },
+    {
+      "id": "D-COV-R50",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R50 is not modeled: the View Job Status flow does not require User Id and Password as an authentication condition.",
+      "node_ids": [
+        "N9",
+        "N10",
+        "N11",
+        "N12"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R50"
+      ],
+      "evidence": "R50 states that 'User Id and Password are required to ensure that only the appropriate user is able to see the job status.' The current View Job Status branch starts at N9 and proceeds directly to showing options, with no authentication step or guard.",
+      "suggested_action": "Insert an authentication check before showing job status options, and gate the View Job Status branch on successful User Id/Password validation."
+    },
+    {
+      "id": "D-COV-R59",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R59 is not modeled: the Delete/Change Job flow does not require User Id and Password as an authentication condition.",
+      "node_ids": [
+        "N13",
+        "N14",
+        "N17"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R59"
+      ],
+      "evidence": "R59 states that 'User Id and Password are required to ensure that only the appropriate user is able to delete or change the job.' The current delete/change branch has no login or authorization check before allowing delete or change actions.",
+      "suggested_action": "Add an authentication step before the delete/change decision and only allow the branch to proceed when the user is verified."
+    },
+    {
+      "id": "D-COV-R88",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R88 is not represented: the diagram does not model cluster-status update when a job ends and is removed from the cluster.",
+      "node_ids": [
+        "N36"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R88"
+      ],
+      "evidence": "R88 requires that Libra updates the cluster status 'when a job ends and is removed from the cluster.' The only cluster-status update shown is N36 during job scheduling; there is no end-of-job/removal trigger or corresponding update path.",
+      "suggested_action": "Add a termination/completion path from job execution to a cluster-status update action that is triggered when the job finishes and is removed."
+    },
+    {
+      "id": "D-CONTROL-R97-R99",
+      "category": "CONTROL_FLOW",
+      "severity": "MEDIUM",
+      "description": "The stride-scheduling loop is modeled without an explicit termination check tied to 'no jobs left to run on a queue', so the repeat-until condition is not semantically clear.",
+      "node_ids": [
+        "N37",
+        "N38",
+        "N39",
+        "N40"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R92",
+        "R95",
+        "R96",
+        "R97",
+        "R99"
+      ],
+      "evidence": "R99 says the loop is repeated until there are no jobs left to run on a queue. N37 is labeled as a loop, but the body nodes N38-N40 do not explicitly show the exit condition being tested after advancing pass, nor the 'no jobs left' termination criterion.",
+      "suggested_action": "Make the loop condition explicit as a repeat-until or while construct that exits when the queue is empty."
+    },
+    {
+      "id": "D-HALLUCINATION-N7",
+      "category": "HALLUCINATION",
+      "severity": "MEDIUM",
+      "description": "The submission gate at N7 conflates separate requirements and introduces 'submission allowed' as a single decision without separately modeling cluster openness, user validity, and the distinct submit-job interface adaptation path.",
+      "node_ids": [
+        "N7"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R43",
+        "R44",
+        "R36",
+        "R37",
+        "R45",
+        "R46",
+        "R47",
+        "R48"
+      ],
+      "evidence": "The requirements distinguish cluster-open validation (R43/R44) from the Accept/Reject Job function (R46), and also require SGE interface adaptation or alternate command-line submission support (R36/R37). N7 combines these into one decision labeled 'Submission allowed and user valid?' and does not represent the interface-adaptation aspect.",
+      "suggested_action": "Split submission handling into explicit cluster-open and user-validity checks, and represent the SGE interface adaptation or CLI alternative separately if it is part of the modeled scope."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Libra scheduler activity diagram\nskinparam swimlaneWrapTitleWidth 150\n\n|Sun Grid Engine|\nstart\n:Receive submitted job;\n:Delegate job for scheduling;\n|Libra scheduler|\n:Communicate allocation decision;\n|Resource manager|\n:Dispatch job to workstation;\n|Libra scheduler|\n:Implement scheduling policy;\n|Sun Grid Engine|\nif (Submission allowed and user valid?) then (no)\n|Sun Grid Engine|\n  stop\nelse (yes)\n|Sun Grid Engine|\n|User|\n  if (Feature selected?) then (view job status)\n|User|\n|Libra scheduler|\n    :Show job options;\n    if (Options selected?) then (yes)\n|Libra scheduler|\n      :Process selected options;\n    else (no)\n|Libra scheduler|\n    endif\n  else\n|User|\n  if (Feature selected?) then (delete/change job)\n|User|\n    if (Change requested?) then (yes)\n|User|\n|Libra scheduler|\n      :Remove job from queue;\n      :Update cluster status;\n      :Revise scheduling decisions;\n    else (no)\n|User|\n|Libra scheduler|\n      :Cancel job;\n      :Remove job from queue;\n      :Update cluster status;\n      :Revise scheduling decisions;\n    endif\n  else (submit job)\n|User|\n|Libra scheduler|\n    :Receive job information;\n    :Prepare scheduler;\n    :Retrieve job details;\n    :Set cluster variables;\n    :Pass parameters to scheduling;\n    :Determine accept or reject;\n    if (Job accepted?) then (no)\n|Libra scheduler|\n      :Give suggested deadline or cost;\n      stop\n    else (yes)\n|Libra scheduler|\n      :Allocate tickets;\n      :Calculate stride and pass;\n      :Look at host loads;\n      :Choose least loaded host;\n      :Select appropriate queue;\n      :Send job to queue;\n      :Update cluster status;\n      while (As long as there are jobs in the queues?) is (no)\n        :Select minimum pass job;\n        :Allot quantum;\n        :Advance pass by stride;\n      endwhile (yes)\n|Libra scheduler|\n    endif\n  endif\n  endif\nendif\nstop\n\n@enduml"
+}
