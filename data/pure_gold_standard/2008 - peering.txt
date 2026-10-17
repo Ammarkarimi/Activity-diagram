@@ -1,0 +1,114 @@
+@startuml
+title CDN Peering
+|Web Server|
+start
+:Detect available local\nresources of CDN\n(CPU, storage, upload-download rate etc.);
+
+if (New resource?) then (yes)
+  :Register resource in SR\nwith new resource ID;\nIncrement resource ID counter;
+else (no)
+  :Update existing resource\ninformation in SR;
+endif
+:Publish resource and\nservice information;
+|Service Registry|
+:Register and update available local resources;
+|End User|
+:Send content request\nto CDN Web Server;
+
+|Web Server|
+
+:Receive content request;
+:Forward request via\nproprietary selection algorithm;
+
+if (Content available locally?) then (no)
+  :Replicate content on-demand\nfrom origin server;
+else (yes)
+endif
+:Serve content to End User;
+:Measure current load\non Web Server(s);
+if (Web hotspot / overload detected?) then (no)
+  :Continue normal\ncontent delivery;
+  stop
+else (yes)
+  :Send initiation request\nto trigger peering\nto Mediator;
+endif
+
+|Mediator|
+:Receive initiation request\nfrom Web Server;
+:Request resource and access\ninformation from Service Registry;
+|Service Registry|
+:Send resource and access\ninformation to mediator;
+|Mediator|
+:Request SLA and policy\ninformation from Policy Repository;
+|Policy Repository|
+:Send SLA and policy\ninformation to mediator;
+|Mediator|
+:Generate service requirements;
+
+if (Service requirements acceptable\nas per provider policy?) then (no)
+  :Reject user requests;
+  stop
+else (yes)
+  :Pass service requirements\nto local Peering Agent (PA);
+endif
+
+|Local Peering Agent|
+:Receive service requirements\nfrom Mediator;
+
+if (Any peering\npolicies exist?) then (yes)
+  :Return existing peering\npolicies;
+  :Establish long-term\npeering arrangement;
+else (no)
+  :Perform short-term\nresource negotiation;
+endif
+  :Interact with External PAs\nvia inter-PA communication protocol;
+  :Discover external resources\nfrom peer CDNs;
+  :Select CDNs to peer with and perform negotiation;
+
+while (Sufficient resources\nacquired from peers?) is (no)
+  :Mediator re-evaluates\nservice requirements;
+  :Send updated requirements\nto Local PA for re-negotiation;
+  :Perform re-negotiation\nwith peer CDNs;
+endwhile (yes)
+:Establish peering arrangement;
+:Advertise configuration information;
+
+fork
+  :Exchange content availability\nand load information\nwith External PAs;
+fork again
+  :Exchange accounting information\nwith peers for billing\nbased on negotiated relationships;
+end fork
+
+:Identify optimal peer\nto handle user requests;
+:Redirect request to\noptimal peer Web Server;
+|Policy Repository|
+:Assist in the deployment, administration \nand enforcement of functional policies;
+|Web Server|
+:Perform on-demand caching,\ncontent selection and routing;
+:Deliver content to End User\nbased on negotiated policies;
+:Report load information\nto CDN gateway periodically\nor on threshold basis;
+
+|Mediator|
+:Monitor peering arrangement\nand participating CDNs\n(agility and resilience);
+|Local Peering Agent|
+if (Termination condition holds?) then (no)
+  :Continue operational\nmanagement of\npeering arrangement;
+  stop
+else (yes)
+  if (Exceptional circumstance?\n(natural disaster, theft etc.)) then (yes)
+    :Bypass SLA conditions;\nNeither disband\nnor re-arrange;
+    stop
+  else (no)
+    if (Re-arrangement needed?) then (yes)
+      :Re-arrange\npeering arrangement\nwithin negotiated scope;
+      :Tune negotiated relationships\nwith reconsidered\nservice requirements;
+      stop
+    else (disband)
+      :Disband\npeering arrangement;
+      :Deregister resources\nand decrement\nresource ID counter;
+      stop
+    endif
+  endif
+endif
+
+@enduml

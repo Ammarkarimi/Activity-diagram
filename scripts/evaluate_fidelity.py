@@ -150,7 +150,7 @@ def score(plantuml: str, spec: str, behaviours: list[str], llm, votes: int) -> d
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--gold", default="Gold Standard Solutions")
+    parser.add_argument("--gold", default="data/pure_gold_standard")
     parser.add_argument("--generated", required=True)
     parser.add_argument("--specs", default="data/pure")
     parser.add_argument("--output", default="results/fidelity")

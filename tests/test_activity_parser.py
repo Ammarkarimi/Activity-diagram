@@ -8,7 +8,7 @@ from tests.test_long_document import _module_diagram
 
 
 def test_parses_gold_standards_into_valid_graphs():
-    for path in Path("Gold Standard Solutions").glob("*.txt"):
+    for path in Path("data/pure_gold_standard").glob("*.txt"):
         diagram = ActivityPlantUMLParser().parse(path.read_text(encoding="utf-8"))
         assert sum(n.type == NodeType.ACTION for n in diagram.nodes) >= 10, path
         assert sum(n.type == NodeType.INITIAL for n in diagram.nodes) == 1, path

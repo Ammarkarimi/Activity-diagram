@@ -1,0 +1,202 @@
+@startuml
+title UUIS - Activity Diagram
+skinparam swimlaneWidth 220
+skinparam activityFontSize 10
+scale 0.55
+|User / Inventory Admin|
+start
+
+:Enter Username & Password;
+
+|Authentication System|
+if (Credentials Valid?) then (yes)
+  :Authenticate User;
+  :Load User Role & Permissions;
+else (no)
+  :Display Authentication Error;
+  stop
+endif
+
+|User / Inventory Admin|
+:Access UUIS Main Menu;
+
+switch (Select Operation)
+
+case (Transfer Asset)
+  :Identify Asset & Target Location;
+  if (Transfer Scope?) then (Within Same Department)
+    :Update Database Directly;
+  elseif (Inter-Department Transfer) then (yes)
+    :Create Transfer Request;
+    |Department Admin|
+    :DA Approves Request;
+    |Faculty Admin|
+    :Faculty Admin Approves Request;
+    |User / Inventory Admin|
+    :Execute Transfer;
+    :Update Database;
+  elseif (Inter-Faculty Transfer) then (yes)
+    :Create Transfer Request;
+    |Faculty Admin|
+    if (Approved by Faculty or Higher?) then (yes)
+      :Execute Transfer;
+      :Update Database;
+    else (no)
+      :Reject & Notify User by Email;
+    endif
+    |User / Inventory Admin|
+    :Log Action in Audit Log;
+    stop
+
+  elseif (Transfer Outside University) then (yes)
+    :Create Transfer Request;
+    |University Admin|
+    if (Approved by University Group?) then (yes)
+      :Execute Transfer;
+      :Update Database;
+    else (no)
+      :Reject & Notify User by Email;
+    endif
+    |User / Inventory Admin|
+    :Log Action in Audit Log;
+    stop
+
+  endif
+
+case (Edit Asset)
+  |User / Inventory Admin|
+  :Search for Asset;
+  if (Asset Found?) then (yes)
+    if (User Authorised to Edit?) then (yes)
+      :Open Asset for Editing;
+      |User / Inventory Admin|
+      if (Modify Fields?) then (yes)
+        if (Bulk Entry?) then (yes)
+          :Upload Bulk Entry File;
+        else (no)
+          :Modify Asset Fields\n(except IDs);
+        endif
+        :Save Changes;
+        :Update Database;
+      else (no)
+        :Cancel Edit;
+      endif
+    else (no)
+      :Display Insufficient Privileges Error;
+    endif
+  else (no)
+    :Display Asset Not Found Error;
+  endif
+
+case (Add Inventory Asset)
+  |User / Inventory Admin|
+  :Initiate Add New Asset;
+  :Select Asset Type;
+  if (Asset Type Exists?) then (yes)
+    :Select Asset Location;
+    :Select Asset Owner;
+    if (Bulk Entry?) then (yes)
+      :Upload Bulk Entry File;
+    else (no)
+      :Fill Asset Properties;
+    endif
+    if (User Level?) then (DA / Inventory Admin)
+      :Asset Owned by Department;
+    elseif (Faculty Member) then (yes)
+      :Asset Added to Faculty\n& Related Departments;
+    elseif (University Admin) then (yes)
+      :Asset Added to\nEntire Inventory;
+    endif
+    :Update Database;
+  else (no)
+    :Send Exception Request to IT;
+    |IT Admin|
+    :Add New Asset Type\n& Common Properties;
+  endif
+
+case (Create Borrow / Reserve Request)
+  |User / Inventory Admin|
+  :Select Request Form\n(Basic / Advanced / Exception);
+  if (Asset Available?) then (yes)
+    :Fill Request Details\n(Asset, Location, Description);
+    :Submit Request;
+    :Request Status = Pending;
+    |Department Admin|
+    :Request Awaits Approval\nby Authorised Admin Level;
+  else (no)
+    :Display Asset Not Available Error;
+  endif
+
+case (Return Asset)
+  |User / Inventory Admin|
+  :Receive Returned Asset;
+  :Inspect Returned Asset;
+  if (Asset Condition?) then (Available)
+    :Set Asset Status = Available;
+  else (Damaged)
+    :Set Asset Status = Damaged;
+  endif
+  :Update Inventory;
+
+case (Create New Location)
+  |User / Inventory Admin|
+  :Submit Exception Request\nto IT for New Location;
+  |IT Admin|
+  :Receive Exception Request\nfrom Admin Level;
+  :Create New Space /\nModify Floor Structure;
+  :Update Location Database;
+
+case (Approve / Reject Request)
+  |Department Admin|
+  :Display Pending Request List\n(Filtered by Admin Privileges);
+  if (Request List Empty?) then (yes)
+    :No Requests to Process;
+  else (no)
+    :Select Request;
+    if (Decision?) then (Approve)
+      :Confirm Approval;
+      fork
+      :Add to Waiting for\nExecution List;
+      fork again
+      :Notify User by Email;
+      end merge
+      :Update Inventory When\nAsset is Received by User;
+    else (Reject)
+      :Confirm Rejection;
+      :Notify User by Email;
+    endif
+  endif
+
+case (Change Permissions)
+  |Department Admin|
+  :Select Target User;
+  :Select Modify User Permissions;
+  if (Permissions Exceed\nAdmin's Own Level?) then (yes)
+    :Display Error:\nInsufficient Privileges;
+  else (no)
+    :Assign Delegated Permissions;
+    :User Acquires Inventory\nAdministrator Role;
+    :Update Permission Database;
+  endif
+
+case (Generate Report)
+  |User / Inventory Admin|
+  :Select Report Type;
+  switch (Report Type)
+  case (Asset Report by Location)
+    :Generate Asset\nby Location Report;
+  case (Request Report)
+    :Generate Request Report;
+  case (User Permission Report)
+    :Generate User\nPermission Report;
+  endswitch
+  :Apply Filters & Sorting;
+  :Display Report;
+
+endswitch
+
+|User / Inventory Admin|
+:Log Action in Audit Log;
+stop
+
+@enduml

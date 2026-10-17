@@ -1,0 +1,73 @@
+@startuml
+
+|User|
+start
+:Enter credentials\n& job details;
+:Submit job via\nSGE interface / CLI;
+
+|SGE|
+:Receive job\nsubmission request;
+if (Cluster open for\nsubmissions?) then (no)
+  :Notify user:\nnot accepting jobs;
+  stop
+else (yes)
+  :Verify user\ncredentials;
+  if (User verified?) then (no)
+    :Notify user:\nauthentication failed;
+    stop
+  else (yes)
+    :Assign job id and Forward job info\nto Libra;
+  endif
+endif
+
+|Libra Scheduler|
+:Initialize job;\nParse & set job\nparameters;
+:Retrieve cluster info\n(load, node status,\npending jobs);
+:Analyze job feasibility\nbased on job details and cluster info;
+if (Job feasible within\ndeadline & budget?) then (no)
+  :Suggest revised\ndeadline or cost;
+  |User|
+  :Receive reject\n& suggestions;
+  stop
+else (yes)
+  |Libra Scheduler|
+  :Accept job;
+  :Calculate scheduling info;\n(tickets, stride, pass);
+  :Determine execution host;\n(least loaded node\n& appropriate queue);
+  :Dispatch job to\nexecution host queue;
+  :Update cluster status;\n(reserve resources,\nupdate queue & master host);
+
+  |User|
+  :View job status\n(progress & options);
+
+  |Libra Scheduler|
+  repeat
+    :Select job with\nminimum pass value;
+    :Allot CPU quantum\nto selected job;
+    :Advance job pass\nby its stride;
+    if (Tie in pass\nvalues?) then (yes)
+      :Apply FIFO\nordering;
+    else (no)
+    endif
+    :Execute job\non node;
+  repeat while (More jobs\nin queue?) is (yes) not (no)
+
+  :Job completes;\nRemove from queue;
+  :Update cluster status;\n(free resources,\nupdate node & master host);
+
+  |User|
+  if (User requests\ndelete / change job?) then (yes)
+    |SGE|
+    :Remove / modify\njob in queue;
+    |Libra Scheduler|
+    :Revise scheduling\ndecisions & resource\nallocation;
+    :Update cluster\nstatus;
+  else (no)
+  endif
+
+  |User|
+  :Job finished;\nReceive output;
+  stop
+endif
+
+@enduml

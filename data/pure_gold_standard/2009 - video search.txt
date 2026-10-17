@@ -1,0 +1,57 @@
+@startuml
+title Video Search Engine
+|User|
+start
+:Open application;
+:Enter search term;
+:Initiate search;
+if (search type?) then (torrent search)
+|System|
+  :Send queries to torrent websites in database;
+  :Collect results\n(seeds, peers, size,\ndate, link);
+  if (Results found?) then (no)
+    :Show "No results found"\nmessage;
+    stop
+  else (yes)
+    :Display results in Torrent tab;
+  endif
+else (video stream search)
+|System|
+  if(Which tick box ticked?) then (streaming host)
+  :Query video hosting sites in database;
+  else (streaming links)
+  :Query video link sites in database;
+  endif
+  :Collect results;
+  if (Results found?) then (no)
+    :Show "No results found"\nmessage;
+    stop
+  else (yes)
+    :Display results in Video Stream tab;
+  endif
+
+endif
+|User|
+  if (Want to sort results?) then (yes)
+    :Click column header\n(size / date / alphabetical);
+|System|
+    :Re-sort results;
+  else (no)
+    :Keep default order;
+  endif
+|User|
+  if (Want to filter results?) then (yes)
+|System|
+    :Remove unwanted / unselected results;
+  else (no)
+  endif
+|User|
+  if (Want to navigate pages?) then (yes)
+    :Click Next / Prev button;
+|System|
+    :Display next/prev page;
+  endif
+
+stop
+
+@enduml

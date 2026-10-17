@@ -34,7 +34,7 @@ load_dotenv()
 
 ROOT = Path(__file__).resolve().parent
 UI_OUTPUT_DIR = ROOT / "outputs" / "ui"
-EXAMPLE_DIRS = [ROOT / "data" / "examples", ROOT / "data" / "pure"]
+EXAMPLE_DIRS = [ROOT / "data" / "pure"]
 
 # Models offered in the selector. The backend uses the OpenAI Responses API,
 # so any OpenAI model with structured-output support works ("Custom" below).
@@ -544,7 +544,7 @@ else:
         sample_id = Path(name).stem
         text = examples[name].read_text(encoding="utf-8", errors="replace")
     else:
-        st.info("No examples found under data/.")
+        st.info("No examples found under data/pure.")
 
 if text.strip():
     tokens = estimate_tokens(text)

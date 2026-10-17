@@ -1,182 +1,57 @@
-# Activity Diagram Multi-Agent Research Framework
+# Generate–Verify–Repair: Multi-Agent UML Activity Diagram Generation
 
-A research-oriented Python prototype for generating UML Activity Diagrams from natural-language requirements using an OpenAI-backed multi-agent pipeline.
+This tool generates UML activity diagrams from natural-language requirements.
+Separate agents extract the requirements, plan the flow and build the diagram.
+The diagram is then checked by deterministic rules and by an LLM reviewer, and
+the defects found are repaired in a loop. A repair is kept only if
+re-verification shows the diagram did not get worse.
 
-## Research pipeline
+The repository contains the tool (command line and web UI), the six PURE
+specifications used in our evaluation, the reference (gold standard) diagrams
+for them, and the outputs of the runs reported in the paper.
 
-Requirement Agent
--> Planning Agent
--> Generator Agent
--> Deterministic Validator
--> Semantic Reviewer
--> Defect Classifier
--> Typed Repair Router
--> Regression Validation
--> final PlantUML + SVG/PNG (when PlantUML is available)
+## Repository layout
 
-The canonical artifact is a structured `ActivityDiagram` intermediate representation (IR). PlantUML is only a rendering/export format.
-
-## Agents
-
-| Agent | Role |
-|---|---|
-| Orchestrator | Owns pipeline state, routes every agent output, decides iterate / accept / rollback / stop, keeps the best candidate |
-| Requirement Agent | Splits the specification into atomic requirements R1..Rn (per chunk for long documents) |
-| Decomposition Agent | Long documents only: partitions requirements into modules (sub-activities) and the flow between them |
-| Planning Agent | Builds the ActivityPlan (nodes, edges, decisions, loops, forks, exceptions) |
-| Generator Agent | Turns the plan into the ActivityDiagram IR |
-| Validator (deterministic) | Structural, coverage, hallucination and PlantUML syntax checks |
-| Semantic Reviewer | LLM review of the diagram against the requirements, given the structural results |
-| Feedback Agent | Prioritizes all defects; can only reorder existing ones |
-| Repair Agent / Router | Repairs the selected defects (deterministic repairs first, LLM otherwise); the orchestrator re-validates and accepts only non-regressing repairs |
-
-## Long documents (20+ pages)
-
-Sending a whole 20-page SRS to every agent overflows context windows and
-degrades quality, so long inputs go through a hierarchical pipeline
-(`src/pipeline/hierarchical.py`):
-
-1. **Chunking** (`src/document/chunker.py`): section-aware split on headings
-   (Markdown, numbered `3.2.1`, ALL CAPS) and paragraphs, with a token budget
-   per chunk. Every chunk records its heading path and carries the tail of the
-   previous chunk as read-only context.
-2. **Chunked extraction**: the Requirement Agent runs per chunk, in parallel.
-   Results are consolidated into one global R1..Rn list: dependencies are
-   remapped and overlap duplicates removed. Section provenance is kept on
-   every requirement. A failing chunk is reported without aborting the run.
-3. **Decomposition**: the Decomposition Agent groups requirements into
-   cohesive modules (at most `--max-requirements-per-module` each) and
-   proposes module-to-module flow (sequence, conditional, or independent use
-   cases). The plan is then normalized deterministically: every requirement
-   lands in exactly one module, oversized modules are split, and dangling or
-   unreachable transitions are fixed. If the agent fails, or the requirement
-   list is too large for one prompt, requirements are grouped by section.
-4. **Per-module agent loop**: each module runs through the full
-   Planning -> Generator -> Validator -> Reviewer -> Feedback -> Repair loop,
-   in parallel. Each module sees only its own requirements and its entry/exit
-   context, so prompt size does not grow with document length.
-5. **Composition**: an **overview diagram** (one call-behaviour action per
-   module) and a **full diagram** with every module inlined. Normal module
-   ends continue to the next module. Final nodes labelled as failures
-   (rejected, cancelled, error, ...) remain terminal. Both diagrams are
-   validated and compiled to PlantUML.
-6. **Report**: global requirement coverage, per-module defects and metrics
-   in `report.md`.
-
-```bash
-# auto picks hierarchical mode when the input exceeds ~12000 tokens (about 20 pages)
-python -m scripts.run_pipeline --input data/pure/peering.txt
-python -m scripts.run_pipeline --input specs/srs.pdf --mode hierarchical \
-    --chunk-tokens 2500 --max-requirements-per-module 25 --max-workers 4
+```
+app.py                         Streamlit web interface
+src/                           the pipeline: agents, validation, repair, PlantUML generation
+scripts/                       command-line entry points (run, score, install PlantUML)
+tests/                         pytest test suite
+configs/                       validation rules, model list and token prices
+data/pure/                     input specifications (functional requirements from PURE)
+data/pure_gold_standard/       reference activity diagrams (PlantUML .txt + rendered .png)
+outputs/Agentic AI Results/    outputs of the evaluation runs reported in the paper
 ```
 
-Output folder `outputs/<id>_<timestamp>/`:
+### Input specifications (`data/pure/`)
 
-- `00_chunks.json`, `01_requirements.json`, `02_decomposition.json`
-- `modules/M*_*/`: every agent's intermediate output per module
-- `modules/M*.puml`: one diagram per module
-- `viewer.html`: open in a browser to browse every diagram with scrolling, zoom and pan
-- `overview.puml`, `full.puml` (+ SVG/PNG when PlantUML is available)
-- `parts/`: the full diagram cut into one diagram per module, each with its swimlanes and
-  "From Part N" / "Continue in Part N" links to the others
-- `*.invalid.puml`: a diagram that failed the PlantUML syntax check (the error is in `report.md`)
-- `03_final_state.json`, `report.md`
-
-Inputs may be `.txt`, `.md`, `.pdf` (`pypdf`) or `.docx` (`python-docx`).
-
-## Before a diagram is final
-
-A diagram is only finalised after these checks:
-
-- **Outline checks**: a stop inside a fork, two outcomes of a decision with
-  the same guard, and a loop or fork the outline's own analysis lists but
-  does not draw are blocking; a step drawn twice is reported.
-- **Stable comparison**: an unchanged candidate is not reviewed twice, repairs
-  stop when only LOW findings remain, and candidates are ranked by blocking,
-  then serious defects (reviewer scores only break ties).
-
-- **Blocking defects** (unreachable nodes, broken flow or termination, an action
-  with several exits, PlantUML errors, requirements not shown) get up to 3 extra
-  repair rounds after `--max-iterations`, and a candidate without them always
-  beats one with them. Structural defects no rule can fix go to the LLM repair
-  agent instead of stopping the loop.
-- **Coverage** only counts requirements traced to reachable nodes: an
-  unreachable node is never drawn.
-- **Decisions hidden in actions** (an action with several guarded exits) are
-  split into an action plus a decision automatically.
-- **PlantUML** must actually draw the diagram (a layout crash counts as an
-  error); if it cannot, the loops are redrawn as plain branches and checked
-  again.
-- **Swimlanes**: every branch starts in its decision's lane, multi-way
-  decisions with lanes are nested `if`/`else` (PlantUML drops arrows of
-  cross-lane `elseif` chains), and long lane titles wrap. Lane names are
-  matched to actors using the specification's own abbreviations
-  ("Peering Agent (PA)").
-
-`tools/plantuml.jar` is not in git: run `python -m scripts.install_plantuml`
-on every new checkout, otherwise diagrams cannot be checked (the CLI and the
-UI warn about this).
-
-## Planners
-
-`--planner outline` (default) plans the diagram as a block-structured outline
-(steps, if/else, while loops and forks, each step in its actor's lane), the
-way an expert writes an activity diagram. The outline is converted to the IR
-for validation and review, repaired by editing the outline, and drawn
-directly as PlantUML blocks, so the diagram never needs jumps between distant
-parts of the flow. `--planner graph` keeps the earlier
-Planning -> Generator -> Refinement agents.
-
-Specifications above ~2000 tokens are extracted chunk by chunk and merged by
-the Consolidation Agent (restatements and explanations are kept for
-traceability but not drawn) before one diagram is planned.
-
-## Output files (single mode)
-
-`outputs/<sample>.puml/.svg/.png` is the final diagram and
-`outputs/<sample>_before_repair.puml/.svg/.png` the diagram as first drawn,
-before validation and repair. `outputs/<sample>_state.json` holds the final
-state, including `metrics.before_repair` / `metrics.after_repair` (defects,
-blocking defects, coverage, quality). Every stage is kept in
-`outputs/<sample>_<timestamp>/`:
-
-| File | Content |
+| File | PURE document |
 |---|---|
-| `01_requirement_agent.json` | extracted requirements |
-| `01a_consolidation_agent.json` | restatements / details set aside (long specs) |
-| `01b_actor_agent.json` | swimlanes (chosen and proposed) |
-| `02_outline_agent.json` | the outline (outline planner) |
-| `02_planning_agent.json`, `03_generator_agent.json`, `03b_refinement_agent.json` | graph planner stages |
-| `initial.puml` | diagram before validation and repair |
-| `04_iteration_NN_validation.json`, `04_iteration_NN.puml` | validation, review, defects and PlantUML per iteration |
-| `05_iteration_NN_feedback_agent.json` | defect prioritisation |
-| `06_iteration_NN_repair_agent.json` | repair and its changes |
-| `07_iteration_NN_repaired_diagram.json`, `07_iteration_NN_repaired_outline.json` | repaired candidate |
-| `08_final_state.json`, `final.puml` | final state and diagram |
+| `agentmom.txt` | AgentMom (agent message communication) |
+| `central_trading.txt` | Central Trading System |
+| `inventory.txt` | Inventory (university asset management) |
+| `libra.txt` | Libra (cluster job scheduler) |
+| `peering.txt` | CDN Peering |
+| `video_search.txt` | Video Search |
 
-## Repair taxonomy
+Each file holds the functional requirements part of the PURE document as
+plain text. The PURE dataset is described in A. Ferrari, G. O. Spagnolo and
+S. Gnesi, "PURE: A Dataset of Public Requirements Documents", RE 2017.
 
-R1 Syntax
-R2 Structural / UML
-R3 Requirement Coverage
-R4 Semantic Alignment
-R5 Control Flow
-R6 Decision / Guard
-R7 Concurrency / Synchronization
-R8 Data / Object Flow
-R9 Exception / Event Flow
-R10 Termination / Liveness
-R11 Hallucination / Extraneous Behavior
-R12 Granularity / Abstraction
-R13 Layout / Visualization
+### Reference diagrams (`data/pure_gold_standard/`)
+
+One activity diagram per specification, written in PlantUML (`.txt`) with a
+rendered image (`.png`). The number in the file name is the PURE document
+year. The diagrams were drawn by the authors and reviewed by a software
+engineering expert.
 
 ## Requirements
 
-- Python 3.11+
+- Python 3.11 or newer
 - An OpenAI API key
-- Java and PlantUML (recommended): every diagram's syntax is checked by
-  PlantUML before it is accepted, and SVG/PNG images are rendered with it.
-  Without Java only built-in syntax checks run and no images are drawn.
+- Java 8 or newer (for PlantUML). Every diagram is syntax-checked and rendered
+  with PlantUML. Without Java only the built-in checks run and no images are
+  drawn.
 
 ## Setup
 
@@ -192,186 +67,180 @@ python -m venv .venv
 
 pip install -r requirements.txt
 
-# PlantUML: downloads tools/plantuml.jar (needs Java on PATH or JAVA_HOME)
+# downloads tools/plantuml.jar (not kept in git)
 python -m scripts.install_plantuml
 
-# API key and model
 cp .env.example .env        # Windows: copy .env.example .env
-# then edit .env and set OPENAI_API_KEY
 ```
 
-`.env` settings:
+Open `.env` and set your key:
 
-| Variable | Meaning | Default |
+| Variable | Meaning | Value used in the paper |
 |---|---|---|
-| `OPENAI_API_KEY` | OpenAI API key (required) | none |
+| `OPENAI_API_KEY` | OpenAI API key (required) | |
 | `OPENAI_MODEL` | model used by every agent | `gpt-5.4-mini` |
-| `OPENAI_TIMEOUT` | seconds per LLM call; raise it for long documents | `120` |
+| `OPENAI_TIMEOUT` | seconds allowed per LLM call | `300` |
 | `LOG_LEVEL` | `INFO` or `DEBUG` | `INFO` |
 
-The OpenAI integration uses the Responses API with JSON Schema structured
-outputs, so every agent returns a typed object.
+Check the installation (no API key needed):
 
-## Running the UI
+```bash
+python -m pytest
+```
+
+## Running the web interface
 
 ```bash
 streamlit run app.py
 ```
 
-Streamlit opens the app in the browser (by default http://localhost:8501).
-To keep it reachable only from your own machine, add
-`--server.address 127.0.0.1`.
+The app opens at http://localhost:8501. Add `--server.address 127.0.0.1` to
+keep it reachable only from your own machine.
 
-### Generate a diagram
+1. In the sidebar, choose the model, the pipeline mode (*Auto* is fine), the
+   planner (*Outline*, the default, was used in the paper) and the number of
+   repair iterations (default 3).
+2. Under *Requirements source*, pick one of the specifications in
+   `data/pure`, upload a `.txt`, `.md`, `.pdf` or `.docx` file, or paste text.
+3. Click **Generate activity diagram**. A short specification takes one to
+   three minutes.
 
-1. **Configuration** (left sidebar)
-   - *LLM model*: any OpenAI model with structured outputs (or *Custom…*).
-   - *Pipeline mode*: *Auto* picks *Single diagram* for normal
-     specifications and *Hierarchical* above about 12,000 tokens (about
-     20 pages).
-   - *Planner*: *Outline* (default) plans the diagram as nested
-     if/while/fork blocks; *Graph* uses the Planning → Generator agents.
-   - *Max repair iterations*: rounds of the verify-and-repair loop (default 3;
-     up to 3 more rounds run while blocking defects remain).
-2. **Requirements source**: upload a `.txt`, `.md`, `.pdf` or `.docx` file,
-   paste text, or pick an example (`data/examples`, `data/pure`). The preview
-   shows the word and token count and which mode will run.
-3. Click **Generate activity diagram**. The live log shows each agent at
-   work; a short specification takes one to three minutes.
+The results page has these tabs:
 
-### Read the results
+- **Diagram**: the final diagram and, if the loop changed it, the diagram
+  before repair. Both can be downloaded as SVG, PNG or PlantUML.
+- **Iterations**: the repair loop, one iteration at a time: the candidate
+  diagram (red: steps named by a defect sent to repair; green: steps changed by
+  the previous repair), the defects found, the repair and whether it was
+  accepted or rolled back, and the defects resolved since the previous
+  iteration.
+- **Requirements**: the extracted requirements with type and actors.
+- **PlantUML**: the diagram source.
+- **Usage**: tokens and cost per iteration and per agent.
 
-- **Summary**: requirements, coverage, quality score, nodes/edges, open
-  defects, runtime, tokens and cost.
-- **Diagram**: the final diagram (zoom with *Fit to width*), downloadable as
-  SVG, PNG or `.puml`. *Before repair* shows the diagram as first drawn; it is
-  listed only when the repair loop changed the diagram.
-- **Iterations**: one view per pass of the repair loop. The candidate
-  diagram (red: steps named by a defect sent to repair; green: steps the
-  previous repair added), the defects found (severity, blocking, sent to
-  repair), the repair and whether it was accepted or rolled back, and the
-  defects resolved since the previous iteration.
-- **Requirements**: the extracted requirements R1..Rn with type and actors.
-- **PlantUML**: the source of every diagram.
-- **Usage**: tokens and cost per iteration and per agent
-  (prices in `configs/pricing.json`).
-- **Download full output (.zip)**: every intermediate file of the run.
+A full run can also be downloaded as a `.zip`. Each UI run is stored in
+`outputs/ui/<name>_<timestamp>/`.
 
-### Open a finished run
+**Viewing the published results without an API key.** Choose *Saved run* as
+the requirements source, select a `*_state.json` file under
+`outputs/Agentic AI Results/` and click **Open run**. The run opens with all
+its iterations and no LLM call is made.
 
-Choose **Saved run** as the requirements source, pick a `*_state.json` file
-under `outputs/` and click **Open run**. The results open without calling
-the LLM, which is useful for demonstrations.
+## Reproducing the evaluation
 
-### Where the UI stores results
+### 1. Generate the diagrams
 
-Each UI run gets its own folder `outputs/ui/<name>_<timestamp>/`:
-
-| File | Content |
-|---|---|
-| `<name>.puml/.svg/.png` | final diagram |
-| `<name>_before_repair.puml/.svg/.png` | diagram before validation and repair |
-| `<name>_state.json` | final state, metrics, all candidates and repair history |
-| `<name>_input.txt`, `ui_run_config.json`, `pipeline.log` | input, settings and log |
-| `<name>_<timestamp>/` | every agent's output (see *Output files* above) |
-
-## Generating results from the command line
-
-One specification:
+Run the pipeline once per specification, with the settings used in the paper
+(outline planner, 3 repair iterations, `gpt-5.4-mini` in `.env`):
 
 ```bash
-python -m scripts.run_pipeline --input data/pure/agentmom.txt
-python -m scripts.run_pipeline --input data/pure/peering.txt --max-iterations 3 --planner outline
-python -m scripts.run_pipeline --input specs/srs.pdf --mode hierarchical
-```
-
-Options: `--model`, `--max-iterations`, `--planner {outline,graph}`,
-`--mode {auto,single,hierarchical}`, `--output-dir` (default `outputs`),
-`--sample-id`. The CLI prints the before/after-repair defect counts and
-writes the files listed under *Output files* above.
-
-Several runs of the three PURE specifications (LLM output varies between
-runs, so use at least three), each run in its own folder:
-
-```bash
-for run in 1 2 3; do
-  for spec in agentmom central_trading peering; do
-    python -m scripts.run_pipeline --input data/pure/$spec.txt --output-dir results/raw/run$run
-  done
+for spec in agentmom central_trading inventory libra peering video_search; do
+  python -m scripts.run_pipeline --input data/pure/$spec.txt --output-dir outputs/my_run
 done
 ```
 
-Score them against the gold-standard diagrams in `Gold Standard Solutions/`:
-copy the final diagrams into one folder named `<spec>_Run<N>.puml`
-(for example `agentmom_Run1.puml`), so runs of the same specification are
-averaged, then
+On Windows PowerShell:
 
-```bash
-python -m scripts.compare_with_gold --generated results/raw/scored --semantic --judge-model gpt-5.4
+```powershell
+foreach ($spec in "agentmom","central_trading","inventory","libra","peering","video_search") {
+  python -m scripts.run_pipeline --input "data/pure/$spec.txt" --output-dir outputs/my_run
+}
 ```
 
-To score the diagrams before repair, copy the `<spec>_before_repair.puml`
-files the same way and run the command again. See
-*Evaluating against the gold standards* below for both metrics.
+Each run costs between 0.05 and 0.26 USD and takes one to four minutes. LLM
+output varies between runs, so your diagrams will not be identical to ours.
 
-## Experiments
+`run_pipeline` options: `--model`, `--max-iterations` (default 3),
+`--planner {outline,graph}` (default `outline`),
+`--mode {auto,single,hierarchical}` (default `auto`), `--output-dir`
+(default `outputs`), `--sample-id`.
+
+### 2. What a run writes
+
+For a specification `<spec>`, the output folder contains:
+
+| File | Content |
+|---|---|
+| `<spec>.puml/.svg/.png` | final diagram (after the repair loop) |
+| `<spec>_before_repair.puml/.svg/.png` | diagram produced by generation alone |
+| `<spec>_state.json` | final state: requirements, all candidates, defects, repair history, metrics, tokens and cost |
+| `<spec>_<timestamp>/` | the output of every agent, listed below |
+
+| File in `<spec>_<timestamp>/` | Content |
+|---|---|
+| `01_requirement_agent.json` | extracted requirements |
+| `01a_consolidation_agent.json` | requirements set aside as restatements or context (long inputs) |
+| `01b_actor_agent.json` | swimlanes |
+| `02_outline_agent.json` | the activity plan |
+| `initial.puml` | diagram before verification |
+| `04_iteration_NN_validation.json`, `04_iteration_NN.puml` | rule and reviewer results, defects and diagram per iteration |
+| `05_iteration_NN_feedback_agent.json` | prioritised defects |
+| `06_iteration_NN_repair_agent.json` | repair and its change list |
+| `07_iteration_NN_repaired_outline.json` | repaired candidate |
+| `08_final_state.json`, `final.puml` | final state and diagram |
+
+The runs reported in the paper are in `outputs/Agentic AI Results/` in
+exactly this format.
+
+### 3. Compare with the reference diagrams
+
+The numbers in the paper come from a manual, node-by-node comparison of
+`<spec>_before_repair.puml` (generation only) and `<spec>.puml` (after repair)
+with the reference diagram in `data/pure_gold_standard/`, using four measures:
+
+| Measure | Definition |
+|---|---|
+| Structural correctness | well-formed elements / all elements (PlantUML delimiters, start/end, action and decision nodes) |
+| Semantic correctness | generated nodes matching a reference node / generated nodes |
+| Semantic completeness | reference nodes found in the generated diagram / reference nodes |
+| Swimlane identification | reference swimlanes found / reference swimlanes |
+
+For a quick automatic check, `compare_with_gold` matches the action labels of
+each `<spec>.puml` against the reference and reports recall, precision, F1
+and ordering agreement:
 
 ```bash
-python -m scripts.run_experiment --dataset data/examples/sample_dataset.jsonl --experiment direct_llm
-python -m scripts.run_experiment --dataset data/examples/sample_dataset.jsonl --experiment cot
-python -m scripts.run_experiment --dataset data/examples/sample_dataset.jsonl --experiment self_refine
-python -m scripts.run_experiment --dataset data/examples/sample_dataset.jsonl --experiment ladex
-python -m scripts.run_experiment --dataset data/examples/sample_dataset.jsonl --experiment multi_agent
+python -m scripts.compare_with_gold --generated outputs/my_run
+# optional: pair steps by meaning with an LLM judge
+python -m scripts.compare_with_gold --generated outputs/my_run --semantic --judge-model gpt-5.4
 ```
 
-Then:
+The tables are written to `results/gold_comparison/` (not tracked in git). Automatic matching is
+stricter than a human reader, so its scores are lower than the manual ones.
 
-```bash
-python -m scripts.calculate_metrics --results results/raw
-```
+## How the tool works
 
-## Evaluating against the gold standards
+| Agent | Kind | Input → output |
+|---|---|---|
+| Orchestrator | rules | pipeline state → next step; accept, roll back or stop |
+| Requirement Agent | LLM | specification → typed requirements R1…Rn |
+| Planning Agent | LLM | requirements, swimlanes → block-structured plan |
+| Generator | rules | plan → graph (intermediate representation) and PlantUML |
+| Validator | rules | graph, requirements → structural and coverage defects |
+| Semantic Reviewer | LLM | specification, graph, rule results → semantic defects |
+| Feedback Agent | LLM | all defects → prioritised defects |
+| Repair Agent | LLM | selected defects, plan → repaired plan, change list |
 
-Run the pipeline several times per sample (results vary from run to run),
-then score the outputs two ways:
+- Every diagram is held as a typed graph (the intermediate representation).
+  All checks run on this graph; PlantUML is generated from it for rendering
+  and a final syntax check.
+- Specifications longer than about 2,000 tokens are split at section
+  boundaries and extracted chunk by chunk in parallel.
+- Defects that make a diagram wrong (broken flow, invalid decisions or forks,
+  PlantUML errors, missing requirements) are *blocking*. The loop runs three
+  iterations by default plus up to three more while blocking defects remain,
+  and the best candidate becomes the final diagram.
+- Documents above about 12,000 tokens (roughly 20 pages) can run in
+  hierarchical mode (`--mode hierarchical`): requirements are grouped into
+  modules, each module runs the loop, and the module diagrams are composed
+  into an overview and a full diagram.
+- `--planner graph` uses an alternative graph planner with an LLM generator.
 
-```bash
-# 1. Similarity to the expert's diagram (the gold scores 1.0 by definition).
-#    Lexical label matching, plus --semantic: steps paired by meaning by an
-#    LLM judge (majority of 5 judgements). Use a stronger judge than the
-#    pipeline's model.
-python -m scripts.compare_with_gold --generated results/raw/<run> --semantic --judge-model gpt-5.5
+## Citation
 
-# 2. Fidelity to the SPECIFICATION, scoring gold and generated diagrams the
-#    same way: coverage of the behaviours the text states, share of steps
-#    the text does not support, and their harmonic mean.
-python -m scripts.evaluate_fidelity --generated results/raw/<run> --model gpt-5.5
-```
+If you use this tool or the reference diagrams, please cite our paper:
 
-Both write Markdown tables with mean ± std per sample. The behaviour list
-used by `evaluate_fidelity` is built once per specification (cached in
-`results/reference_behaviours/`) with an evaluation-only prompt, so every
-diagram is judged against the same list. Gold diagrams contain an expert's
-interpretation (steps from outside the given text, deliberate abstraction),
-so report both measures.
-
-## Data layout
-
-- `data/raw/` keeps original datasets untouched.
-- `data/processed/` stores extracted requirements/plans/graphs.
-- `data/gold/` stores expert gold diagrams, mappings, traces and annotations.
-- `results/` stores experiment outputs and metrics.
-
-## Important research note
-
-The included LADEX baseline is an *experimental reproduction scaffold*, not the authors' official implementation. For a paper, implement the exact published protocol from the LADEX paper and cite it directly.
-
-Likewise, PURE/PAGED source files are not bundled. Put licensed/allowed dataset files under `data/raw/`.
-
-## Suggested next research work
-
-1. Build the human gold Activity Diagram + Requirement Trace Matrix set from the selected PURE documents.
-2. Lock the evaluation protocol before comparing systems.
-3. Run direct LLM, planning-only, self-refine/LADEX-style, and full multi-agent baselines on the exact same inputs.
-4. Add ablations for planning, deterministic validation, semantic review, typed repair, and iterative repair.
-5. Report structural validity, requirement coverage, unsupported behavior, graph similarity, behavioral similarity, complexity, latency/cost, repair success, and expert ratings.
+A. Limkar, M. A. Karimi and S. Tiwari, "Generate–Verify–Repair: A
+Multi-Agent Framework for UML Activity Diagram Generation from Natural
+Language Requirements", Software Engineering Research Lab (SERL), DAU
+Gandhinagar.

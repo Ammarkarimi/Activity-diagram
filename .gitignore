@@ -6,8 +6,7 @@ __pycache__/
 # Only the published evaluation results are tracked
 outputs/*
 !outputs/Agentic AI Results/
-results/raw/
-results/logs/
+results/
 .DS_Store
 tools/*.jar
 tools/*.part

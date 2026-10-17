@@ -18,7 +18,7 @@ Metrics
 
 Usage:
     python -m scripts.compare_with_gold
-    python -m scripts.compare_with_gold --generated outputs --gold "Gold Standard Solutions"
+    python -m scripts.compare_with_gold --generated outputs --gold data/pure_gold_standard
 """
 from __future__ import annotations
 
@@ -161,7 +161,7 @@ def compare(gold: ActivityDiagram, generated: ActivityDiagram, threshold: float,
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--gold", default="Gold Standard Solutions")
+    parser.add_argument("--gold", default="data/pure_gold_standard")
     parser.add_argument("--generated", default="outputs")
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--output", default="results/gold_comparison")
