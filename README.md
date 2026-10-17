@@ -58,7 +58,6 @@ engineering expert.
 ```bash
 git clone https://github.com/Ammarkarimi/Activity-diagram.git
 cd Activity-diagram
-git checkout enhanced-activity-diagram
 
 python -m venv .venv
 # Windows (PowerShell):  .venv\Scripts\Activate.ps1
