@@ -27,6 +27,7 @@ from dotenv import load_dotenv
 from src.document.chunker import estimate_tokens
 from src.document.loader import load_document
 from src.generation.plantuml_tool import plantuml_command, run_plantuml
+from src.llm.openai_client import OpenAIClient
 from src.models.domain import PipelineState
 from src.reporting.iterations import ADDED, FLAGGED, iteration_views
 
@@ -35,6 +36,9 @@ load_dotenv()
 ROOT = Path(__file__).resolve().parent
 UI_OUTPUT_DIR = ROOT / "outputs" / "ui"
 EXAMPLE_DIRS = [ROOT / "data" / "pure"]
+# Folder searched for saved runs. A public deployment sets it to the published
+# results so that visitors never see each other's runs.
+SAVED_RUNS_DIR = ROOT / os.getenv("SAVED_RUNS_DIR", "outputs")
 
 # Models offered in the selector. The backend uses the OpenAI Responses API,
 # so any OpenAI model with structured-output support works ("Custom" below).
@@ -97,11 +101,13 @@ def _run_pipeline(job: dict) -> None:
     """Executed in a worker thread; writes results into ``job``."""
     try:
         text, mode, out = job["text"], job["mode"], job["out"]
+        llm = OpenAIClient(model=job["model"], api_key=job["api_key"])
         if mode == "hierarchical":
             from src.pipeline.hierarchical import HierarchicalPipeline
 
             state = HierarchicalPipeline(
                 model=job["model"],
+                llm=llm,
                 chunk_tokens=job["chunk_tokens"],
                 max_requirements_per_module=job["max_reqs"],
                 max_workers=job["max_workers"],
@@ -116,7 +122,7 @@ def _run_pipeline(job: dict) -> None:
         else:
             from src.pipeline.orchestrator import MultiAgentPipeline
 
-            state = MultiAgentPipeline(model=job["model"], planner=job["planner"]).run(
+            state = MultiAgentPipeline(model=job["model"], planner=job["planner"], llm=llm).run(
                 sample_id=job["sample_id"],
                 requirement_text=text,
                 max_iterations=job["max_iterations"],
@@ -246,8 +252,8 @@ def plantuml_svg(text: str) -> bytes | None:
 
 
 def saved_runs() -> dict[str, Path]:
-    """Label -> state file of every finished run under outputs/, newest first."""
-    root = ROOT / "outputs"
+    """Label -> state file of every finished run under SAVED_RUNS_DIR, newest first."""
+    root = SAVED_RUNS_DIR
     files = [p for p in root.rglob("*_state.json") if not p.name[:1].isdigit()] if root.exists() else []
     return {
         p.relative_to(ROOT).as_posix(): p
@@ -455,6 +461,14 @@ def report_markdown(job: dict) -> str | None:
 with st.sidebar:
     st.header("Configuration")
 
+    api_key = st.text_input(
+        "OpenAI API key",
+        type="password",
+        help="Used only for your own runs in this browser session; it is not stored.",
+    ).strip() or os.getenv("OPENAI_API_KEY", "")
+    if not api_key:
+        st.info("Enter an OpenAI API key to generate diagrams. Saved runs open without a key.")
+
     env_model = os.getenv("OPENAI_MODEL", MODELS[0])
     options = MODELS if env_model in MODELS else [env_model, *MODELS]
     choice = st.selectbox("LLM model", options + [CUSTOM_MODEL], index=options.index(env_model))
@@ -489,8 +503,6 @@ with st.sidebar:
         "Semantic Reviewer → Feedback → Repair → Regression check</div>",
         unsafe_allow_html=True,
     )
-    if not os.getenv("OPENAI_API_KEY"):
-        st.error("OPENAI_API_KEY is not set (add it to `.env`).")
     if plantuml_command() is None:
         st.warning(
             "PlantUML (Java + `tools/plantuml.jar`) not found: diagrams can't be checked or rendered. "
@@ -537,7 +549,7 @@ elif source == "Saved run":
             except Exception as exc:
                 st.error(f"Could not open the run: {exc}")
     else:
-        st.info("No finished runs found under outputs/.")
+        st.info(f"No finished runs found under {SAVED_RUNS_DIR.relative_to(ROOT).as_posix()}/.")
 else:
     if examples:
         name = st.selectbox("Example specification", list(examples))
@@ -553,7 +565,7 @@ if text.strip():
         st.text(text[:6000] + ("\n…" if len(text) > 6000 else ""))
 
 sample_id = re.sub(r"[^A-Za-z0-9_-]+", "_", sample_id).strip("_") or "requirements"
-can_run = bool(text.strip()) and bool(model) and bool(os.getenv("OPENAI_API_KEY"))
+can_run = bool(text.strip()) and bool(model) and bool(api_key)
 
 if source != "Saved run" and st.button("Generate activity diagram", type="primary", disabled=not can_run):
     tokens = estimate_tokens(text)
@@ -577,7 +589,9 @@ if source != "Saved run" and st.button("Generate activity diagram", type="primar
         json.dumps({k: (str(v) if isinstance(v, Path) else v) for k, v in job.items() if k != "text"}, indent=2),
         encoding="utf-8",
     )
+    job["api_key"] = api_key  # added after the config is written, so it never reaches disk
     run_with_progress(job)
+    job.pop("api_key", None)
     (out / "pipeline.log").write_text("\n".join(job.get("logs", [])), encoding="utf-8")
     st.session_state["job"] = job
     st.session_state.pop("zip", None)
@@ -613,9 +627,6 @@ if job:
         type="primary",
         width="stretch",
     )
-
-    for col, (label, value) in zip(st.columns(6), summary_metrics(job)):
-        col.metric(label, value)
 
     state = job["state"]
     diagrams = collect_diagrams(job)

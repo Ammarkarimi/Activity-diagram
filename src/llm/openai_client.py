@@ -17,9 +17,9 @@ T = TypeVar("T", bound=BaseModel)
 
 class OpenAIClient:
 
-    def __init__(self, model: str | None = None) -> None:
+    def __init__(self, model: str | None = None, api_key: str | None = None) -> None:
 
-        api_key = os.getenv("OPENAI_API_KEY")
+        api_key = api_key or os.getenv("OPENAI_API_KEY")
 
         if not api_key:
             raise RuntimeError(

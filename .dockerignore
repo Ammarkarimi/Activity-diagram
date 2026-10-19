@@ -1,0 +1,13 @@
+# Only what the web interface needs goes into the image.
+*
+!app.py
+!requirements.txt
+!pyproject.toml
+!.streamlit
+!src
+!scripts
+!configs
+!data
+!outputs/Agentic AI Results
+**/__pycache__
+**/*.pyc
