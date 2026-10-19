@@ -1,0 +1,4 @@
+default-jre-headless
+fontconfig
+fonts-dejavu-core
+libharfbuzz0b

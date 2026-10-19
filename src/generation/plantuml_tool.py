@@ -9,10 +9,13 @@ from __future__ import annotations
 import os
 import shutil
 import subprocess
+import urllib.request
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_JAR = PROJECT_ROOT / "tools" / "plantuml.jar"
+PLANTUML_VERSION = "1.2024.7"
+JAR_URL = "https://github.com/plantuml/plantuml/releases/download/v{version}/plantuml-{version}.jar"
 
 # PlantUML crops PNG output larger than this many pixels in either direction.
 # The pipeline raises the limit for its own renders, but editors and the
@@ -40,6 +43,23 @@ def plantuml_command() -> list[str] | None:
             return [java, "-Djava.awt.headless=true", "-jar", jar]
     exe = shutil.which("plantuml")
     return [exe] if exe else None
+
+
+def download_jar(version: str = PLANTUML_VERSION) -> Path:
+    """Download plantuml.jar into tools/ (it is not kept in git)."""
+    DEFAULT_JAR.parent.mkdir(parents=True, exist_ok=True)
+    partial = DEFAULT_JAR.with_suffix(".part")
+    urllib.request.urlretrieve(JAR_URL.format(version=version), partial)
+    partial.replace(DEFAULT_JAR)
+    return DEFAULT_JAR
+
+
+def ensure_plantuml() -> bool:
+    """Download the jar when Java is installed but PlantUML is not (hosted
+    deployments such as Streamlit Community Cloud). True when PlantUML runs."""
+    if plantuml_command() is None and _java() and not os.getenv("PLANTUML_JAR"):
+        download_jar()
+    return plantuml_command() is not None
 
 
 def run_plantuml(

@@ -7,25 +7,23 @@ Java must be installed ($JAVA_HOME or `java` on PATH).
 from __future__ import annotations
 
 import argparse
-import urllib.request
 
-from src.generation.plantuml_tool import DEFAULT_JAR, plantuml_command, run_plantuml
-
-URL = "https://github.com/plantuml/plantuml/releases/download/v{version}/plantuml-{version}.jar"
+from src.generation.plantuml_tool import (
+    JAR_URL,
+    PLANTUML_VERSION,
+    download_jar,
+    plantuml_command,
+    run_plantuml,
+)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--version", default="1.2024.7")
+    parser.add_argument("--version", default=PLANTUML_VERSION)
     args = parser.parse_args()
 
-    DEFAULT_JAR.parent.mkdir(parents=True, exist_ok=True)
-    url = URL.format(version=args.version)
-    print(f"Downloading {url}")
-    partial = DEFAULT_JAR.with_suffix(".part")
-    urllib.request.urlretrieve(url, partial)
-    partial.replace(DEFAULT_JAR)
-    print(f"Saved {DEFAULT_JAR}")
+    print(f"Downloading {JAR_URL.format(version=args.version)}")
+    print(f"Saved {download_jar(args.version)}")
 
     if plantuml_command() is None:
         print("Java not found: set JAVA_HOME or put java on PATH.")

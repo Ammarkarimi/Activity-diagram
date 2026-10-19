@@ -26,7 +26,7 @@ from dotenv import load_dotenv
 
 from src.document.chunker import estimate_tokens
 from src.document.loader import load_document
-from src.generation.plantuml_tool import plantuml_command, run_plantuml
+from src.generation.plantuml_tool import ensure_plantuml, plantuml_command, run_plantuml
 from src.llm.openai_client import OpenAIClient
 from src.models.domain import PipelineState
 from src.reporting.iterations import ADDED, FLAGGED, iteration_views
@@ -453,6 +453,19 @@ def report_markdown(job: dict) -> str | None:
         report = Path(job["state"].metrics["run_output_dir"]) / "report.md"
         return report.read_text(encoding="utf-8") if report.exists() else None
     return None
+
+
+@st.cache_resource(show_spinner="Setting up PlantUML…")
+def _plantuml_ready() -> bool:
+    """Fetch plantuml.jar once per server when Java is there but the jar is not."""
+    try:
+        return ensure_plantuml()
+    except Exception as exc:  # no network: the app still runs, without images
+        logging.getLogger(__name__).warning("PlantUML download failed: %s", exc)
+        return False
+
+
+_plantuml_ready()
 
 
 # ------------------------------------------------------------------
