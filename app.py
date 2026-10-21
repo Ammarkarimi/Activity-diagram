@@ -494,13 +494,9 @@ with st.sidebar:
         help="Hierarchical mode chunks long documents and generates one diagram per module "
         "before composing the full diagram.",
     )
-    planner = st.selectbox(
-        "Planner",
-        ["outline", "graph"],
-        format_func={"outline": "Outline (nested blocks)", "graph": "Graph (plan + generator)"}.get,
-        help="Outline plans, repairs and draws the diagram as nested if/while/fork blocks, "
-        "like an expert's diagram.",
-    )
+    # The UI always uses the outline planner; the graph planner stays available
+    # from the command line (scripts/run_pipeline.py --planner graph).
+    planner = "outline"
     max_iterations = st.slider("Max repair iterations", 0, 6, 3)
 
     with st.expander("Advanced (hierarchical)"):
@@ -512,7 +508,7 @@ with st.sidebar:
     st.divider()
     st.markdown(
         '<div class="pipeline"><b>Agent pipeline</b><br>'
-        "Requirement → Outline planner (or Planning → Generator) → Validator → "
+        "Requirement → Planner → Generator → Validator → "
         "Semantic Reviewer → Feedback → Repair → Regression check</div>",
         unsafe_allow_html=True,
     )
