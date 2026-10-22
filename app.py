@@ -494,9 +494,13 @@ with st.sidebar:
         help="Hierarchical mode chunks long documents and generates one diagram per module "
         "before composing the full diagram.",
     )
-    # The UI always uses the outline planner; the graph planner stays available
-    # from the command line (scripts/run_pipeline.py --planner graph).
-    planner = "outline"
+    planner = st.selectbox(
+        "Generator",
+        ["outline", "graph"],
+        format_func={"outline": "Deterministic Generator", "graph": "Agentic Generator"}.get,
+        help="Deterministic: the LLM plans nested if/while/fork blocks and code builds the diagram "
+        "from them. Agentic: an LLM generator draws the diagram from the plan.",
+    )
     max_iterations = st.slider("Max repair iterations", 0, 6, 3)
 
     with st.expander("Advanced (hierarchical)"):
