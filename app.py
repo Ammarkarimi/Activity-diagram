@@ -45,12 +45,6 @@ SAVED_RUNS_DIR = ROOT / os.getenv("SAVED_RUNS_DIR", "outputs")
 MODELS = ["gpt-5.4-mini", "gpt-5.4", "gpt-5.5", "gpt-4.1", "gpt-4o"]
 CUSTOM_MODEL = "Custom…"
 
-MODE_LABELS = {
-    "auto": "Auto (by document length)",
-    "single": "Single diagram",
-    "hierarchical": "Hierarchical (long documents)",
-}
-
 
 # ------------------------------------------------------------------
 # Page setup
@@ -487,13 +481,8 @@ with st.sidebar:
     choice = st.selectbox("LLM model", options + [CUSTOM_MODEL], index=options.index(env_model))
     model = st.text_input("Model name", placeholder="e.g. gpt-5.4-nano") if choice == CUSTOM_MODEL else choice
 
-    mode = st.selectbox(
-        "Pipeline mode",
-        list(MODE_LABELS),
-        format_func=MODE_LABELS.get,
-        help="Hierarchical mode chunks long documents and generates one diagram per module "
-        "before composing the full diagram.",
-    )
+    # Single diagram, or hierarchical for documents above the auto threshold.
+    mode = "auto"
     planner = st.selectbox(
         "Generator",
         ["outline", "graph"],
