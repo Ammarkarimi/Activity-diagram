@@ -494,9 +494,9 @@ with st.sidebar:
         help="Hierarchical mode chunks long documents and generates one diagram per module "
         "before composing the full diagram.",
     )
-    # The UI always uses the outline planner; the graph planner stays available
-    # from the command line (scripts/run_pipeline.py --planner graph).
-    planner = "outline"
+    # The UI always uses the graph planner (agentic generator); the outline
+    # planner stays available from the command line (scripts/run_pipeline.py).
+    planner = "graph"
     max_iterations = st.slider("Max repair iterations", 0, 6, 3)
 
     with st.expander("Advanced (hierarchical)"):
