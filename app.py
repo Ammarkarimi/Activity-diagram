@@ -45,6 +45,12 @@ SAVED_RUNS_DIR = ROOT / os.getenv("SAVED_RUNS_DIR", "outputs")
 MODELS = ["gpt-5.4-mini", "gpt-5.4", "gpt-5.5", "gpt-4.1", "gpt-4o"]
 CUSTOM_MODEL = "Custom…"
 
+MODE_LABELS = {
+    "auto": "Auto (by document length)",
+    "single": "Single diagram",
+    "hierarchical": "Hierarchical (long documents)",
+}
+
 
 # ------------------------------------------------------------------
 # Page setup
@@ -481,15 +487,16 @@ with st.sidebar:
     choice = st.selectbox("LLM model", options + [CUSTOM_MODEL], index=options.index(env_model))
     model = st.text_input("Model name", placeholder="e.g. gpt-5.4-nano") if choice == CUSTOM_MODEL else choice
 
-    # Single diagram, or hierarchical for documents above the auto threshold.
-    mode = "auto"
-    planner = st.selectbox(
-        "Generator",
-        ["outline", "graph"],
-        format_func={"outline": "Deterministic Generator", "graph": "Agentic Generator"}.get,
-        help="Deterministic: the LLM plans nested if/while/fork blocks and code builds the diagram "
-        "from them. Agentic: an LLM generator draws the diagram from the plan.",
+    mode = st.selectbox(
+        "Pipeline mode",
+        list(MODE_LABELS),
+        format_func=MODE_LABELS.get,
+        help="Hierarchical mode chunks long documents and generates one diagram per module "
+        "before composing the full diagram.",
     )
+    # The UI always uses the outline planner; the graph planner stays available
+    # from the command line (scripts/run_pipeline.py --planner graph).
+    planner = "outline"
     max_iterations = st.slider("Max repair iterations", 0, 6, 3)
 
     with st.expander("Advanced (hierarchical)"):
