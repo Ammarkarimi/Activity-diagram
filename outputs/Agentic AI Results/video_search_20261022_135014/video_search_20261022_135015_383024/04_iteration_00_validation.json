@@ -1,0 +1,213 @@
+{
+  "validation": {
+    "passed": false,
+    "score": 0.9487179487179487,
+    "defects": [
+      {
+        "id": "D-COV-R25",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R25 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R25"
+        ],
+        "evidence": "The user ticks the streaming host tick box.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R27",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R27 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R27"
+        ],
+        "evidence": "The user ticks the streaming links tick box.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      }
+    ],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 2,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 2,
+      "TOTAL_NODES": 34,
+      "TOTAL_EDGES": 37,
+      "TOTAL_REQUIREMENTS": 39
+    },
+    "summary": "2 defect(s) detected. Structural score: 1.000. Coverage score: 0.949. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 0.949."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers most required torrent and streaming search behaviors, including shared search bar, database updates, searching, results display, no-results handling, sorting, pagination, and streaming source selection. However, two user tick-box requirements remain directly unrepresented as distinct actions, and there is a semantic issue in the streaming branch where source-specific query behavior is collapsed into an unspecific combined flow, obscuring the required separate host/link query conditions.",
+    "semantic_score": 0.82,
+    "defects": [
+      {
+        "id": "D-COV-R25",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R25 is still not represented as a distinct diagram element: the user tick box for selecting streaming host search is not explicitly modeled as its own action.",
+        "node_ids": [],
+        "edge_ids": [
+          "E10",
+          "E21"
+        ],
+        "requirement_ids": [
+          "R25"
+        ],
+        "evidence": "R25 requires: \"The user ticks the streaming host tick box.\" The diagram only routes from the search-type decision to a combined streaming-query fork and includes a guard \"hosting selected\" on E21, but no separate node/action explicitly represents the user ticking the hosting tick box.",
+        "suggested_action": "Add an explicit user action node for ticking the streaming host tick box and connect it to the streaming selection flow before the query fork."
+      },
+      {
+        "id": "D-COV-R27",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R27 is still not represented as a distinct diagram element: the user tick box for selecting streaming link search is not explicitly modeled as its own action.",
+        "node_ids": [],
+        "edge_ids": [
+          "E10",
+          "E22"
+        ],
+        "requirement_ids": [
+          "R27"
+        ],
+        "evidence": "R27 requires: \"The user ticks the streaming links tick box.\" The diagram only routes from the search-type decision to a combined streaming-query fork and includes a guard \"link selected\" on E22, but no separate node/action explicitly represents the user ticking the links tick box.",
+        "suggested_action": "Add an explicit user action node for ticking the streaming links tick box and connect it to the streaming selection flow before the query fork."
+      },
+      {
+        "id": "D-COV-R26-R28",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "MEDIUM",
+        "description": "The streaming query behavior is modeled as a combined fork, but the required conditional query actions for hosting and link sites are not explicitly separated from the selection steps, making the dependence on R25/R27 less clear in the activity semantics.",
+        "node_ids": [
+          "N19",
+          "N20",
+          "N21"
+        ],
+        "edge_ids": [
+          "E10",
+          "E21",
+          "E22",
+          "E23",
+          "E24"
+        ],
+        "requirement_ids": [
+          "R26",
+          "R28",
+          "R25",
+          "R27"
+        ],
+        "evidence": "R26 and R28 each require that when a search is started, the system queries the respective site type based on the corresponding tick box selection. The current diagram uses N19 \"Query streaming sources\" as a fork to both N20 and N21, with guards \"hosting selected\" and \"link selected,\" but the actual user selection actions (R25, R27) are not separately modeled and the fork is triggered directly after the shared search-term entry flow.",
+        "suggested_action": "Model the host and link selections as explicit user actions and route the query actions from those selections so the conditions for R26 and R28 are unambiguous."
+      }
+    ],
+    "strengths": [
+      "Shared search bar is modeled once and linked to both torrent and streaming flows.",
+      "Torrent search includes querying, results display, no-results handling, sorting, and pagination.",
+      "Streaming search includes querying, results display for both hosting and link results, no-results handling, sorting, filtering, and pagination.",
+      "Database update actions for torrent and streaming sources are present in the development team lane."
+    ],
+    "missing_requirements": [],
+    "unsupported_behaviors": []
+  },
+  "defects": [
+    {
+      "id": "D-COV-R25",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R25 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R25"
+      ],
+      "evidence": "The user ticks the streaming host tick box.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R27",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R27 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R27"
+      ],
+      "evidence": "The user ticks the streaming links tick box.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R25",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R25 is still not represented as a distinct diagram element: the user tick box for selecting streaming host search is not explicitly modeled as its own action.",
+      "node_ids": [],
+      "edge_ids": [
+        "E10",
+        "E21"
+      ],
+      "requirement_ids": [
+        "R25"
+      ],
+      "evidence": "R25 requires: \"The user ticks the streaming host tick box.\" The diagram only routes from the search-type decision to a combined streaming-query fork and includes a guard \"hosting selected\" on E21, but no separate node/action explicitly represents the user ticking the hosting tick box.",
+      "suggested_action": "Add an explicit user action node for ticking the streaming host tick box and connect it to the streaming selection flow before the query fork."
+    },
+    {
+      "id": "D-COV-R27",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R27 is still not represented as a distinct diagram element: the user tick box for selecting streaming link search is not explicitly modeled as its own action.",
+      "node_ids": [],
+      "edge_ids": [
+        "E10",
+        "E22"
+      ],
+      "requirement_ids": [
+        "R27"
+      ],
+      "evidence": "R27 requires: \"The user ticks the streaming links tick box.\" The diagram only routes from the search-type decision to a combined streaming-query fork and includes a guard \"link selected\" on E22, but no separate node/action explicitly represents the user ticking the links tick box.",
+      "suggested_action": "Add an explicit user action node for ticking the streaming links tick box and connect it to the streaming selection flow before the query fork."
+    },
+    {
+      "id": "D-COV-R26-R28",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "The streaming query behavior is modeled as a combined fork, but the required conditional query actions for hosting and link sites are not explicitly separated from the selection steps, making the dependence on R25/R27 less clear in the activity semantics.",
+      "node_ids": [
+        "N19",
+        "N20",
+        "N21"
+      ],
+      "edge_ids": [
+        "E10",
+        "E21",
+        "E22",
+        "E23",
+        "E24"
+      ],
+      "requirement_ids": [
+        "R26",
+        "R28",
+        "R25",
+        "R27"
+      ],
+      "evidence": "R26 and R28 each require that when a search is started, the system queries the respective site type based on the corresponding tick box selection. The current diagram uses N19 \"Query streaming sources\" as a fork to both N20 and N21, with guards \"hosting selected\" and \"link selected,\" but the actual user selection actions (R25, R27) are not separately modeled and the fork is triggered directly after the shared search-term entry flow.",
+      "suggested_action": "Model the host and link selections as explicit user actions and route the query actions from those selections so the conditions for R26 and R28 are unambiguous."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Integrated search flow for torrent and streaming results with shared search bar, selectable sources, querying, display, sorting, filtering, pagination, and no-results handling.\nskinparam swimlaneWrapTitleWidth 150\n\n|Development Team|\nstart\n\n:Update torrent database;\n:Update streaming databases;\n|User|\n:Share search bar;\n:Choose torrent search;\n:Choose hosting search;\n:Choose link search;\n:Enter search term;\nif (Search type selected?) then (torrent selected)\n|User|\n|Program|\n:Send torrent query;\n:Send torrent results;\n:Display torrent results;\nif (Torrent results found?) then (no results)\n|Program|\n:Show no-results message;\nelse (results found)\n|Program|\nendif\n|User|\n:Sort torrent results;\n|Program|\n:Reorder torrent results;\n|User|\n:Next torrent page;\n|Program|\n:Display next torrent page;\nstop\nelse (hosting or link selected)\n|User|\n|Program|\nfork\n:Query hosting sites;\nfork again\n|Program|\n:Query link sites;\nend fork\n:Send streaming results;\n:Display hosting results;\n:Display link results;\nif (Streaming results found?) then (no results)\n|Program|\n:Show no-results message;\nelse (results found)\n|Program|\nendif\n|User|\n:Sort streaming results;\n|Program|\n:Reorder streaming results;\n|User|\n:Filter streaming websites;\n|Program|\n:Remove unselected websites;\n|User|\n:Next streaming page;\n|Program|\n:Display next streaming page;\nstop\nendif\n\n@enduml"
+}

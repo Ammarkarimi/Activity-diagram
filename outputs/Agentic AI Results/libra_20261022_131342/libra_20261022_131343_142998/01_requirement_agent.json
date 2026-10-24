@@ -1,0 +1,1550 @@
+{
+  "source": "2 chunks",
+  "errors": [],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Libra forms part of a larger system comprising the Sun Grid Engine cluster management system that runs on a Linux-based cluster.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "As mentioned earlier, Libra forms part of a larger system comprising the Sun Grid Engine cluster management system that runs on a Linux-based cluster.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R2",
+      "text": "SGE receives the jobs submitted by the user and delegates them to Libra for scheduling and placing on appropriate workstations or execution hosts.",
+      "type": "ACTION",
+      "actors": [
+        "SGE"
+      ],
+      "actions": [
+        "receives the jobs submitted by the user",
+        "delegates them to Libra for scheduling and placing on appropriate workstations or execution hosts"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "SGE is responsible for receiving the jobs submitted by the user and delegating them to Libra for scheduling and placing on appropriate workstations or execution hosts.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R3",
+      "text": "Libra communicates its decision regarding workstation allocation to the resource manager.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "communicates its decision regarding workstation allocation to the resource manager"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "Libra communicates its decision regarding workstation allocation to the resource manager, which then dispatches the job to the chosen workstation.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R4",
+      "text": "The resource manager dispatches the job to the chosen workstation after receiving Libra's workstation allocation decision.",
+      "type": "ACTION",
+      "actors": [
+        "resource manager"
+      ],
+      "actions": [
+        "dispatches the job to the chosen workstation"
+      ],
+      "conditions": [
+        "after receiving Libra's workstation allocation decision"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R3"
+      ],
+      "source_sentence": "Libra communicates its decision regarding workstation allocation to the resource manager, which then dispatches the job to the chosen workstation.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R5",
+      "text": "Once assignment to a workstation has occurred, Libra implements the scheduling policy on the jobs executing at the workstations.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "implements the scheduling policy on the jobs executing at the workstations"
+      ],
+      "conditions": [
+        "Once assignment to a workstation has occurred"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "Once assignment to a workstation has occurred, Libra is responsible for implementing the scheduling policy on the jobs executing at the workstations.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R6",
+      "text": "No modifications to the Linux kernel are required.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "No modifications to the Linux kernel are required.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R7",
+      "text": "The details of various interfaces have been provided in Section 3.9.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The details of various interfaces have been provided in Section 3.9.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R8",
+      "text": "The main purpose of the Libra scheduler is to maximize user utility.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The main purpose of the Libra scheduler is to maximize user utility.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R9",
+      "text": "Job details submitted by the user include job prioritization criteria: the allocated budget and the deadline required by the user.",
+      "type": "OTHER",
+      "actors": [
+        "user"
+      ],
+      "actions": [
+        "submit job details"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Thus, the job details submitted by the user will include job prioritization criteria: the allocated budget and the deadline required by the user, enabling the scheduler to maximize CPU utilization while remaining within the constraints imposed by the need to optimize QoS.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R10",
+      "text": "The scheduler uses the allocated budget and deadline to maximize CPU utilization while remaining within the constraints imposed by the need to optimize QoS.",
+      "type": "OTHER",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "uses the allocated budget and deadline to maximize CPU utilization while remaining within the constraints imposed by the need to optimize QoS"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R9"
+      ],
+      "source_sentence": "Thus, the job details submitted by the user will include job prioritization criteria: the allocated budget and the deadline required by the user, enabling the scheduler to maximize CPU utilization while remaining within the constraints imposed by the need to optimize QoS.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R11",
+      "text": "The scheduler allocates jobs based on the job parameters submitted by the user with the job.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "allocates jobs based on the job parameters submitted by the user with the job"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The scheduler will allocate jobs based on the job parameters, which are job specifications submitted by the user with the job, including:",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R12",
+      "text": "Job parameters include the location of the executable and input data sets, where standard output is to be placed, system type, maximum length of run, and whether the job is sequential or embarrassingly parallel.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R11"
+      ],
+      "source_sentence": "\u2022 Location of the executable and input data sets\n\n\u2022 Where standard output is to be placed\n\n\u2022 System type\n\n\u2022 Maximum length of run (execution time)\n\n\u2022 Whether the job is sequential or embarrassingly parallel",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R13",
+      "text": "Libra is QoS driven and aims to optimize resource utilization within user-imposed constraints.",
+      "type": "OTHER",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "is QoS driven",
+        "aims to optimize resource utilization within user-imposed constraints"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "However, the Libra scheduler will be QoS driven: it will aim to optimize resource utilization within user-imposed constraints: thus, user satisfaction is the primary concern, as opposed to maximizing CPU utilization.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R14",
+      "text": "User satisfaction is the primary concern, as opposed to maximizing CPU utilization.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "However, the Libra scheduler will be QoS driven: it will aim to optimize resource utilization within user-imposed constraints: thus, user satisfaction is the primary concern, as opposed to maximizing CPU utilization.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R15",
+      "text": "The two job parameters most relevant to scheduling decisions are the budget allocated by the user to the process and the deadline.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Thus, the two job parameters most relevant to the scheduling decisions will be:\n\n\u2022 Budget allocated by the user to the process\n\n\u2022 Deadline",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R16",
+      "text": "The scheduler enforces resource allocations according to user-centric priorities.",
+      "type": "OTHER",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "enforce resource allocations according to user-centric priorities"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Should be able to enforce resource allocations according to user-centric priorities",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R17",
+      "text": "The scheduler is dynamic, not static.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Should be dynamic, and not static, which is a necessary implication of the user- centric approach, so that users who need their jobs completed in emergency and are willing to pay a high price for it, are able to get their job done through dynamic reallocation of resources even if the job is submitted later than other jobs or the system is heavily loaded.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R18",
+      "text": "The scheduler changes resource limits, priorities, privileges and execution order of submitted jobs.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "changes resource limits, priorities, privileges and execution order of the submitted jobs"
+      ],
+      "conditions": [
+        "through dynamic reallocation of resources"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R16"
+      ],
+      "source_sentence": "Hence, the scheduler should be able to change resource limits, priorities, privileges and execution order of the submitted jobs.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R19",
+      "text": "The scheduler is scalable and its performance does not degrade with the addition of nodes and jobs to the cluster.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Should be scalable, which means that its performance should not degrade with the addition of nodes and jobs to the cluster",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R20",
+      "text": "The scheduler is configurable and allows scheduling policies to be modified to incorporate QoS parameters.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "allows scheduling policies to be modified to incorporate QoS parameters"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Should be configurable, and allow for various scheduling policies that can be modified to incorporate QoS parameters",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R21",
+      "text": "The scheduler is separable from the cluster management system.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Should be separable from the cluster management system",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R22",
+      "text": "The scheduler provides administrative security.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "provides administrative security"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Should provide administrative security",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R23",
+      "text": "The scheduler provides at least a basic level of job accounting to aid in scheduling policies.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "provides at least a basic level of job accounting to aid in scheduling policies"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Should provide at least a basic level of job accounting, to aid in scheduling policies",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R24",
+      "text": "The scheduler ideally provides a GUI for all components, such as for users to submit jobs and for administrators to oversee scheduling.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Should ideally provide a GUI for all components, such as for users to submit jobs and for administrators to oversee scheduling",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R25",
+      "text": "A market-based economic model for computational economy needs to be developed for the Libra scheduler.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A market-based economic model for computational economy needs to be developed for the Libra scheduler, which would be responsible for the pricing and allocation of resources according to user constraints.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R26",
+      "text": "The model is the bid-based proportional resource-sharing model.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The model is the bid-based proportional resource- sharing model, which will allocate computational time to jobs according to their share determined by the priority of their jobs according to deadline and budget considerations.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R27",
+      "text": "The model allocates computational time to jobs according to their share determined by the priority of their jobs according to deadline and budget considerations.",
+      "type": "ACTION",
+      "actors": [
+        "model"
+      ],
+      "actions": [
+        "allocates computational time to jobs according to their share determined by the priority of their jobs according to deadline and budget considerations"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The model is the bid-based proportional resource- sharing model, which will allocate computational time to jobs according to their share determined by the priority of their jobs according to deadline and budget considerations.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R28",
+      "text": "The proportional stride-scheduling algorithm is used to ensure that actual resource allocation reflects the overall job share.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "uses the proportional stride-scheduling algorithm to ensure that the actual resource allocation reflects the overall job share"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R27"
+      ],
+      "source_sentence": "To ensure that the actual resource allocation reflects the overall job share, the proportional stride-scheduling algorithm will be used.",
+      "section": "2.2 Product Functions",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R29",
+      "text": "The submit job feature deals with the end-user and may also be used by the administrator.",
+      "type": "OTHER",
+      "actors": [
+        "end-user",
+        "administrator"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This functional feature deals with the end-user (can also be used by the administrator) and is facilitated by the interface of the Sun Grid Engine cluster management system.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R30",
+      "text": "The submit job feature is facilitated by the interface of the Sun Grid Engine cluster management system and does not interface directly with the scheduler.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This functional feature deals with the end-user (can also be used by the administrator) and is facilitated by the interface of the Sun Grid Engine cluster management system. Hence, it is linked to the scheduler, but does not interface directly with the scheduler.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R31",
+      "text": "The SGE interface must be adapted to include additional submission parameters not already supported by SGE, or this may alternatively be done through a command-line interface.",
+      "type": "ACTION",
+      "actors": [
+        "SGE interface"
+      ],
+      "actions": [
+        "be adapted to include additional submission parameters not already supported by SGE"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "However, the SGE interface will need to be adapted to include additional submission parameters that a user needs to be submit, which are not already supported by SGE. This may alternately be done through a command-line interface.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R32",
+      "text": "User information includes relevant user data such as name and authentication id used to submit a job to the cluster.",
+      "type": "OTHER",
+      "actors": [
+        "user"
+      ],
+      "actions": [
+        "submit a job to the cluster"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "User Information \u2013 relevant user data such as name and authentication id that needs to be used to submit a job to the cluster.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R33",
+      "text": "Job information includes information about the job that the user wants to submit, as well as already pending jobs, to determine whether the cluster can accept more jobs and can cater to the particular user job.",
+      "type": "DATA",
+      "actors": [
+        "user"
+      ],
+      "actions": [
+        "submit job information"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Job Information \u2013 about the job that the user wants to submit, as well as already pending jobs, to determine whether the cluster can accept more jobs and can cater to the particular user job.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R34",
+      "text": "The job details are provided in the functional feature Initialize Job.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The job details are provided in the functional feature Initialize Job.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R35",
+      "text": "Cluster information includes cluster type, scheduling mechanism details, current load status, submission directions and criteria.",
+      "type": "DATA",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Cluster Information \u2013 Cluster Type and Scheduling mechanism details, Current Load\nStatus, Submission Directions and Criteria.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R36",
+      "text": "The cluster decides whether it is open for job submissions.",
+      "type": "DECISION",
+      "actors": [
+        "cluster"
+      ],
+      "actions": [
+        "decides whether it is open for job submissions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The cluster decides whether it is even open for job submissions, and whether the user that is trying to submit job is a valid user or not.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R37",
+      "text": "The cluster decides whether the user attempting to submit a job is a valid user.",
+      "type": "DECISION",
+      "actors": [
+        "cluster"
+      ],
+      "actions": [
+        "decides whether the user that is trying to submit job is a valid user or not"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R36"
+      ],
+      "source_sentence": "The cluster decides whether it is even open for job submissions, and whether the user that is trying to submit job is a valid user or not.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R38",
+      "text": "The submit job feature outputs whether the cluster is accepting submissions.",
+      "type": "DATA",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R36"
+      ],
+      "source_sentence": "Boolean \u2013 Whether the cluster is accepting submission or not. Boolean \u2013 User verified or not.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R39",
+      "text": "The submit job feature outputs whether the user is verified.",
+      "type": "DATA",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R37"
+      ],
+      "source_sentence": "Boolean \u2013 Whether the cluster is accepting submission or not. Boolean \u2013 User verified or not.",
+      "section": "3.1.1 Submit Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R40",
+      "text": "The view job status feature allows the user or administrator to view details about submitted jobs and the progress of job execution.",
+      "type": "ACTION",
+      "actors": [
+        "user",
+        "administrator"
+      ],
+      "actions": [
+        "view details about the job that have been submitted",
+        "view the progress of the execution of the job"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This feature will allow the user or administrator to view details about the job that have been submitted, and the progress of the execution of the job.",
+      "section": "3.1.2 View Job Status",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R41",
+      "text": "User Id and Password are required to ensure that only the appropriate user is able to see the job status.",
+      "type": "OTHER",
+      "actors": [
+        "user"
+      ],
+      "actions": [],
+      "conditions": [
+        "User Id and Password"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "User Id and Password \u2013 to ensure that only the appropriate user is able to see the job status",
+      "section": "3.1.2 View Job Status",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R42",
+      "text": "The system shows the user the available options about the submitted job and information about the progress of job execution.",
+      "type": "ACTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "show the user the available options about the submitted job",
+        "show information about the progress of job execution"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R40"
+      ],
+      "source_sentence": "Show the user the available options about the submitted job, and information about the progress of job execution.",
+      "section": "3.1.2 View Job Status",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R43",
+      "text": "The system processes selected options if choices are provided to the user to view different aspects of job information.",
+      "type": "OTHER",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "process selected options to view different aspects of job information"
+      ],
+      "conditions": [
+        "if choices are provided to the user"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R42"
+      ],
+      "source_sentence": "Process selected options if choices are provided to the user to view different aspects of job information.",
+      "section": "3.1.2 View Job Status",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R44",
+      "text": "The view job status feature outputs a user view of available options about jobs submitted by the user.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R42"
+      ],
+      "source_sentence": "User view of available options about jobs submitted by the user.",
+      "section": "3.1.2 View Job Status",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R45",
+      "text": "The delete/change job feature may be available to both the user and the administrator.",
+      "type": "OTHER",
+      "actors": [
+        "user",
+        "administrator"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This feature may be available to both the user and the administrator, to cancel a job or under specific circumstances, change a job parameter.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R46",
+      "text": "The feature allows cancellation of a job or, under specific circumstances, change of a job parameter.",
+      "type": "ACTION",
+      "actors": [
+        "user",
+        "administrator"
+      ],
+      "actions": [
+        "cancel a job",
+        "change a job parameter"
+      ],
+      "conditions": [
+        "under specific circumstances"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This feature may be available to both the user and the administrator, to cancel a job or under specific circumstances, change a job parameter.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R47",
+      "text": "Deadline and cost are crucial to job scheduling and would not normally be changeable.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Parameters such as deadline and cost are crucial to the job scheduling and would not normally be changeable.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R48",
+      "text": "If permitted, the user may specify a different output directory or a delayed deadline.",
+      "type": "CONDITION",
+      "actors": [
+        "user"
+      ],
+      "actions": [
+        "specify a different output directory",
+        "specify a delayed deadline"
+      ],
+      "conditions": [
+        "If permitted"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R46"
+      ],
+      "source_sentence": "However, if the user wishes to specify a different output directory or a delayed deadline, this may be permitted.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R49",
+      "text": "User Id and Password are required to ensure that only the appropriate user is able to delete or change the job.",
+      "type": "OTHER",
+      "actors": [
+        "user"
+      ],
+      "actions": [],
+      "conditions": [
+        "User Id and Password"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "User Id and Password \u2013 to ensure that only the appropriate user is able to delete/change the job.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R50",
+      "text": "The system removes the job from the queue and updates cluster status.",
+      "type": "ACTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "remove job from the queue",
+        "update cluster status"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R46"
+      ],
+      "source_sentence": "Remove job from the queue and update cluster status.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R51",
+      "text": "The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs.",
+      "type": "ACTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "revise scheduling decisions about resource allocation to pending jobs",
+        "revise scheduling decisions about submission of new jobs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R50"
+      ],
+      "source_sentence": "Revise scheduling decisions about resource allocation to pending jobs and submission of new jobs.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R52",
+      "text": "The delete/change job feature outputs updated cluster information and scheduling decisions such as CPU load, node status, queue length, quanta allocated to pending jobs, and revised expected finishing deadline of pending jobs.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R51"
+      ],
+      "source_sentence": "Updated cluster information and scheduling decision \u2013 CPU load, node status, queue length, quanta allocated to pending jobs, revised expected finishing deadline of pending jobs. These outputs are facilitated by the functionality of the Sun Grid Engine cluster management system, and are not independently produced by the Libra scheduler.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R53",
+      "text": "The updated cluster information and scheduling decisions are facilitated by the Sun Grid Engine cluster management system and are not independently produced by the Libra scheduler.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Updated cluster information and scheduling decision \u2013 CPU load, node status, queue length, quanta allocated to pending jobs, revised expected finishing deadline of pending jobs. These outputs are facilitated by the functionality of the Sun Grid Engine cluster management system, and are not independently produced by the Libra scheduler.",
+      "section": "3.1.3 Delete/Change Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R54",
+      "text": "The initialize job function prepares the scheduler for eventually scheduling and executing a job.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "prepares the scheduler for eventually scheduling and executing a job"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This is a main functional requirement that prepares the scheduler for eventually scheduling and executing a job.",
+      "section": "3.1.4 Initialize Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R55",
+      "text": "Libra performs initialize job once a job has been accepted by SGE, with information from the scheduler.",
+      "type": "OTHER",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "performs initialize job once a job has been accepted by SGE"
+      ],
+      "conditions": [
+        "with information from the scheduler"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R54"
+      ],
+      "source_sentence": "The Libra scheduler performs it once a job has been accepted by SGE, with information from the scheduler.",
+      "section": "3.1.4 Initialize Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R56",
+      "text": "The input to initialize job is the information submitted by the user about the job and the job id assigned by SGE.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The information submitted by the user about the job, as well as the job id assigned by\nSGE.",
+      "section": "3.1.4 Initialize Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R57",
+      "text": "Initialize job retrieves the job details.",
+      "type": "OTHER",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "retrieve the job details"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R55"
+      ],
+      "source_sentence": "Two processes are performed as part of this function: the details of the job are retrieved and then these details are set in variables that represent the state of the cluster and its queues.",
+      "section": "3.1.4 Initialize Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R58",
+      "text": "Initialize job sets the job details in variables that represent the state of the cluster and its queues.",
+      "type": "OTHER",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "set these details in variables that represent the state of the cluster and its queues"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R57"
+      ],
+      "source_sentence": "Two processes are performed as part of this function: the details of the job are retrieved and then these details are set in variables that represent the state of the cluster and its queues.",
+      "section": "3.1.4 Initialize Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R59",
+      "text": "The parsed parameters are passed on to the scheduling module where the job may be accepted or rejected.",
+      "type": "OTHER",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "pass the parsed parameters on to the scheduling module"
+      ],
+      "conditions": [
+        "where the job may be accepted or rejected"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R58"
+      ],
+      "source_sentence": "The parsed parameters are passed on to the scheduling module where the job may be accepted or rejected.",
+      "section": "3.1.4 Initialize Job",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R60",
+      "text": "The output comprises the set variables that represent job information submitted with a job.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "output the set variables that represent job information submitted with a job"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The output comprises the set variables that represent job information submitted with a job.",
+      "section": "3.1.4.4 Outputs",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R61",
+      "text": "The exact job details are output.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "output the exact job details"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R60"
+      ],
+      "source_sentence": "Hence, the exact job details are output: Job details \u2013 Job Id, Job type, Standalone Execution time, Location of executable and input data sets, System Type, Budget, Deadline.",
+      "section": "3.1.4.4 Outputs",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R62",
+      "text": "The scheduler determines whether the job can be accepted or rejected based on the job parameters.",
+      "type": "DECISION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "determine whether the job can be accepted or rejected"
+      ],
+      "conditions": [
+        "based on the job parameters"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R61"
+      ],
+      "source_sentence": "Based on the job parameters, the scheduler figures out a priority of the job that reflects the share of CPU time that it deserves and needs according to the specified criteria.",
+      "section": "3.1.5.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R63",
+      "text": "The scheduler figures out a priority of the job that reflects the share of CPU time that it deserves and needs according to the specified criteria.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "figure out a priority of the job"
+      ],
+      "conditions": [
+        "based on the job parameters"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R62"
+      ],
+      "source_sentence": "Based on the job parameters, the scheduler figures out a priority of the job that reflects the share of CPU time that it deserves and needs according to the specified criteria.",
+      "section": "3.1.5.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R64",
+      "text": "The scheduler determines whether the job can be finished by the requisite deadline, given the execution time of the job and the execution status of other pending jobs on various nodes.",
+      "type": "DECISION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "determine whether the job can be finished by the requisite deadline"
+      ],
+      "conditions": [
+        "given the execution time of the job",
+        "given the execution status of other pending jobs on various nodes"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R63"
+      ],
+      "source_sentence": "The scheduler determines whether the job can be finished by the requisite deadline, given the execution time of the job and the execution status of other pending jobs on various nodes.",
+      "section": "3.1.5.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R65",
+      "text": "The output includes a boolean value specifying whether the job has been accepted or rejected.",
+      "type": "DATA",
+      "actors": [],
+      "actions": [
+        "output a boolean value specifying whether the job has been accepted or rejected"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R64"
+      ],
+      "source_sentence": "The output includes a boolean value specifying whether the job has been accepted or rejected.",
+      "section": "3.1.5.4 Outputs",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R66",
+      "text": "A suggested deadline or cost is given to the user, as a precondition for the job to be accepted.",
+      "type": "OTHER",
+      "actors": [
+        "user"
+      ],
+      "actions": [
+        "give a suggested deadline or cost to the user"
+      ],
+      "conditions": [
+        "as a precondition for the job to be accepted"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R65"
+      ],
+      "source_sentence": "A suggested deadline or cost is given to the user, as a precondition for the job to be accepted.",
+      "section": "3.1.5.4 Outputs",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R67",
+      "text": "Allocate tickets to a job based on its budget and deadline and the budget and deadlines of all other jobs on the execution host under debate.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "allocate tickets to a job"
+      ],
+      "conditions": [
+        "based on its budget and deadline",
+        "based on the budget and deadlines of all other jobs on the execution host under debate"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R65"
+      ],
+      "source_sentence": "Allocate tickets to a job based on its budget and deadline and the budget and deadlines of all other jobs on the execution host under debate.",
+      "section": "3.1.6.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R68",
+      "text": "Calculate the stride and the pass of the job.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "calculate the stride and the pass of the job"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R67"
+      ],
+      "source_sentence": "Calculate the stride and the pass of the job, where the stride is simply the global stride constant divided by the tickets and the pass is initially just the stride.",
+      "section": "3.1.6.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R69",
+      "text": "The stride is the global stride constant divided by the tickets.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R68"
+      ],
+      "source_sentence": "Calculate the stride and the pass of the job, where the stride is simply the global stride constant divided by the tickets and the pass is initially just the stride.",
+      "section": "3.1.6.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R70",
+      "text": "The pass is initially just the stride.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R68"
+      ],
+      "source_sentence": "Calculate the stride and the pass of the job, where the stride is simply the global stride constant divided by the tickets and the pass is initially just the stride.",
+      "section": "3.1.6.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R71",
+      "text": "Libra first looks at the load on each of the hosts and sorts them in ascending order.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "look at the load on each of the hosts",
+        "sort them in ascending order"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R68"
+      ],
+      "source_sentence": "Libra first looks at the load on each of the hosts and sorts them in ascending order, choosing the host that is least loaded.",
+      "section": "3.1.7.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R72",
+      "text": "Libra chooses the host that is least loaded.",
+      "type": "DECISION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "choose the host that is least loaded"
+      ],
+      "conditions": [
+        "after sorting hosts in ascending order of load"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R71"
+      ],
+      "source_sentence": "Libra first looks at the load on each of the hosts and sorts them in ascending order, choosing the host that is least loaded.",
+      "section": "3.1.7.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R73",
+      "text": "Libra selects the appropriate queue based on whether the job is sequential or embarrassingly parallel, budget, etc.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "select the appropriate queue"
+      ],
+      "conditions": [
+        "based on whether the job is sequential or embarrassingly parallel",
+        "based on budget, etc."
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R72"
+      ],
+      "source_sentence": "It then selects the appropriate queue based on whether the job is sequential or embarrassingly parallel, budget, etc\u2026",
+      "section": "3.1.7.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R74",
+      "text": "The scheduler sends the job to the appropriate queue.",
+      "type": "ACTION",
+      "actors": [
+        "scheduler"
+      ],
+      "actions": [
+        "send the job to the appropriate queue"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R73"
+      ],
+      "source_sentence": "The scheduler sends the job to the appropriate queue and it joins the competition for resources.",
+      "section": "3.1.8.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R75",
+      "text": "The job joins the competition for resources.",
+      "type": "ACTION",
+      "actors": [
+        "job"
+      ],
+      "actions": [
+        "join the competition for resources"
+      ],
+      "conditions": [
+        "after the scheduler sends the job to the appropriate queue"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R74"
+      ],
+      "source_sentence": "The scheduler sends the job to the appropriate queue and it joins the competition for resources.",
+      "section": "3.1.8.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R76",
+      "text": "Every time a job is scheduled for execution on a host, Libra updates the cluster status.",
+      "type": "LOOP",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "update the cluster status"
+      ],
+      "conditions": [
+        "every time a job is scheduled for execution on a host"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R75"
+      ],
+      "source_sentence": "Every time a job is scheduled for execution on a host, this feature of Libra updates the cluster status.",
+      "section": "3.1.9.1 Introduction",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R77",
+      "text": "Libra also updates the cluster status when a job ends and is removed from the cluster.",
+      "type": "CONDITION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "update the cluster status"
+      ],
+      "conditions": [
+        "when a job ends and is removed from the cluster"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R76"
+      ],
+      "source_sentence": "This action is also performed when a job ends and is removed from the cluster.",
+      "section": "3.1.9.1 Introduction",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R78",
+      "text": "Libra reserves the amount of resources that will be required by the job on the node.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "reserve the amount of resources required by the job on the node"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R77"
+      ],
+      "source_sentence": "Libra first reserves the amount of resources that will be required by the job on the node.",
+      "section": "3.1.9.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R79",
+      "text": "Libra updates the execution host queue status.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "update the execution host queue status"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R78"
+      ],
+      "source_sentence": "It then updates the execution host queue status and sends that information about the additional load on the queue and node under consideration to the central information store on the master host.",
+      "section": "3.1.9.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R80",
+      "text": "Libra sends information about the additional load on the queue and node under consideration to the central information store on the master host.",
+      "type": "ACTION",
+      "actors": [
+        "Libra"
+      ],
+      "actions": [
+        "send information about the additional load on the queue and node under consideration to the central information store on the master host"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R79"
+      ],
+      "source_sentence": "It then updates the execution host queue status and sends that information about the additional load on the queue and node under consideration to the central information store on the master host.",
+      "section": "3.1.9.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R81",
+      "text": "As long as there are jobs in the queues, this feature is being run.",
+      "type": "LOOP",
+      "actors": [],
+      "actions": [
+        "run this feature"
+      ],
+      "conditions": [
+        "as long as there are jobs in the queues"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R80"
+      ],
+      "source_sentence": "As long as there are jobs in the queues, this feature is being run.",
+      "section": "3.1.10.1 Introduction",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R82",
+      "text": "It decides how to time-slice between all the jobs currently being executed.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "decide how to time-slice between all the jobs currently being executed"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R81"
+      ],
+      "source_sentence": "It essentially decides how to time-slice between all the jobs currently being executed.",
+      "section": "3.1.10.1 Introduction",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R83",
+      "text": "These scheduling decisions are made based on the stride-scheduling algorithm.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R82"
+      ],
+      "source_sentence": "These scheduling decisions are made based on the stride-scheduling algorithm.",
+      "section": "3.1.10.1 Introduction",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R84",
+      "text": "It looks at all the jobs on the cluster and selects the one with the minimum pass value.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "look at all the jobs on the cluster",
+        "select the one with the minimum pass value"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R82"
+      ],
+      "source_sentence": "It looks at all the jobs on the cluster and selects the one with the minimum pass value, and allots it a quantum.",
+      "section": "3.1.10.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R85",
+      "text": "It allots the selected job a quantum.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "allot the selected job a quantum"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R84"
+      ],
+      "source_sentence": "It looks at all the jobs on the cluster and selects the one with the minimum pass value, and allots it a quantum.",
+      "section": "3.1.10.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R86",
+      "text": "The pass of that job is then advanced by its stride.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "advance the pass of that job by its stride"
+      ],
+      "conditions": [
+        "after the selected job is allotted a quantum"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R85"
+      ],
+      "source_sentence": "The pass of that job is then advanced by its stride.",
+      "section": "3.1.10.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R87",
+      "text": "In case of a tie, the arbitrary FIFO job ordering is used.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [
+        "use the arbitrary FIFO job ordering"
+      ],
+      "conditions": [
+        "in case of a tie"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R84"
+      ],
+      "source_sentence": "In case of a tie, the arbitrary FIFO job ordering is used.",
+      "section": "3.1.10.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R88",
+      "text": "This loop is repeated until there are no jobs left to run on a queue.",
+      "type": "TERMINATION",
+      "actors": [],
+      "actions": [
+        "repeat the loop"
+      ],
+      "conditions": [
+        "until there are no jobs left to run on a queue"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R86"
+      ],
+      "source_sentence": "This loop is repeated until there are no jobs left to run on a queue.",
+      "section": "3.1.10.3 Processing",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R89",
+      "text": "Updated Cluster Information is output.",
+      "type": "DATA",
+      "actors": [],
+      "actions": [
+        "output updated cluster information"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R88"
+      ],
+      "source_sentence": "Updated Cluster Information - CPU Load, Node Status, Remaining Time of Pending Jobs, Available Memory",
+      "section": "3.1.10.4 Outputs",
+      "chunk_id": "C2"
+    }
+  ]
+}

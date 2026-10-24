@@ -1,0 +1,153 @@
+{
+  "validation": {
+    "passed": false,
+    "score": 0.98,
+    "defects": [
+      {
+        "id": "D-COV-R51",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R51 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R51"
+        ],
+        "evidence": "The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      }
+    ],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 1,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 1,
+      "TOTAL_NODES": 25,
+      "TOTAL_EDGES": 29,
+      "TOTAL_REQUIREMENTS": 89
+    },
+    "summary": "1 defect(s) detected. Structural score: 1.000. Coverage score: 0.980. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 0.980."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers most of the main scheduling flow, but it still has one clear requirement coverage gap and one semantic mismatch in the submission path. The rest is broadly aligned with the requirements, including the stride-scheduling loop and the SGE-mediated submission/dispatch split.",
+    "semantic_score": 0.86,
+    "defects": [
+      {
+        "id": "D-COV-R51",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R51 is still not represented in the diagram: the system must revise scheduling decisions about resource allocation to pending jobs and submission of new jobs after a delete/change operation, but no node or edge models this rescheduling effect.",
+        "node_ids": [
+          "N14",
+          "N22"
+        ],
+        "edge_ids": [
+          "E19",
+          "E20"
+        ],
+        "requirement_ids": [
+          "R51"
+        ],
+        "evidence": "R51 requires: 'The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs.' The diagram's delete/change branch updates cluster status (N14) and terminates (N22), but does not show any action that revises pending-job allocation or new-job submission decisions.",
+        "suggested_action": "Add a Libra/SGE scheduling-revision action after job removal/change, and connect it to the delete/change path so the diagram explicitly shows re-evaluation of pending jobs and submission handling."
+      },
+      {
+        "id": "D-HAL-R50",
+        "category": "HALLUCINATION",
+        "severity": "MEDIUM",
+        "description": "The diagram attaches cluster-status update behavior to the delete/change flow as if it were directly performed by Libra, but the requirement says these updated cluster-information outputs are facilitated by SGE and not independently produced by Libra. The current modeling blurs that distinction by keeping the update action in the Libra lane without showing the SGE-facilitated nature of the output.",
+        "node_ids": [
+          "N14"
+        ],
+        "edge_ids": [
+          "E19",
+          "E20"
+        ],
+        "requirement_ids": [
+          "R50",
+          "R52",
+          "R53"
+        ],
+        "evidence": "R52-R53 state that updated cluster information and scheduling decisions are 'facilitated by the functionality of the Sun Grid Engine cluster management system, and are not independently produced by the Libra scheduler.' The diagram places 'Update cluster status' in the Libra scheduler lane (N14) after the delete/change path, which is semantically stronger than the requirement supports.",
+        "suggested_action": "Reassign the output/update effect to the Sun Grid Engine cluster management system lane or explicitly model it as SGE-facilitated output generation rather than a direct Libra action."
+      }
+    ],
+    "strengths": [
+      "Correctly models the SGE-mediated submission path with validity checks before initialization.",
+      "Covers initialize job, accept/reject, ticket allocation, stride/pass calculation, host selection, queue selection, dispatch, cluster-status update, and the stride-scheduling execution loop.",
+      "Includes the FIFO tie-break branch required for equal pass values.",
+      "Represents the separation between job acceptance and later execution scheduling reasonably well."
+    ],
+    "missing_requirements": [
+      "R51: The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs."
+    ],
+    "unsupported_behaviors": [
+      "The delete/change path is modeled as a direct Libra 'Update cluster status' action without reflecting that the resulting updated cluster information and scheduling decisions are SGE-facilitated rather than independently produced by Libra."
+    ]
+  },
+  "defects": [
+    {
+      "id": "D-COV-R51",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R51 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R51"
+      ],
+      "evidence": "The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R51",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R51 is still not represented in the diagram: the system must revise scheduling decisions about resource allocation to pending jobs and submission of new jobs after a delete/change operation, but no node or edge models this rescheduling effect.",
+      "node_ids": [
+        "N14",
+        "N22"
+      ],
+      "edge_ids": [
+        "E19",
+        "E20"
+      ],
+      "requirement_ids": [
+        "R51"
+      ],
+      "evidence": "R51 requires: 'The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs.' The diagram's delete/change branch updates cluster status (N14) and terminates (N22), but does not show any action that revises pending-job allocation or new-job submission decisions.",
+      "suggested_action": "Add a Libra/SGE scheduling-revision action after job removal/change, and connect it to the delete/change path so the diagram explicitly shows re-evaluation of pending jobs and submission handling."
+    },
+    {
+      "id": "D-HAL-R50",
+      "category": "HALLUCINATION",
+      "severity": "MEDIUM",
+      "description": "The diagram attaches cluster-status update behavior to the delete/change flow as if it were directly performed by Libra, but the requirement says these updated cluster-information outputs are facilitated by SGE and not independently produced by Libra. The current modeling blurs that distinction by keeping the update action in the Libra lane without showing the SGE-facilitated nature of the output.",
+      "node_ids": [
+        "N14"
+      ],
+      "edge_ids": [
+        "E19",
+        "E20"
+      ],
+      "requirement_ids": [
+        "R50",
+        "R52",
+        "R53"
+      ],
+      "evidence": "R52-R53 state that updated cluster information and scheduling decisions are 'facilitated by the functionality of the Sun Grid Engine cluster management system, and are not independently produced by the Libra scheduler.' The diagram places 'Update cluster status' in the Libra scheduler lane (N14) after the delete/change path, which is semantically stronger than the requirement supports.",
+      "suggested_action": "Reassign the output/update effect to the Sun Grid Engine cluster management system lane or explicitly model it as SGE-facilitated output generation rather than a direct Libra action."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Libra Scheduler Activity Diagram\nskinparam swimlaneWrapTitleWidth 150\n\n|Sun Grid Engine cluster management system|\nstart\n\n:Receive job submission;\n:Adapt submission interface / command-line path;\n:Evaluate submission with pending jobs;\nif (Submission open?) then (open)\n|Sun Grid Engine cluster management system|\nif (User valid?) then (valid)\n|Sun Grid Engine cluster management system|\n|Libra scheduler|\n:Initialize job;\n:Check acceptance;\nif (Accept job?) then (accepted)\n|Libra scheduler|\n:Allocate tickets;\n:Calculate stride and pass;\n:Apply proportional stride scheduling;\n:Choose host;\n:Select queue;\n:Communicate allocation;\n|Sun Grid Engine cluster management system|\n:Dispatch job;\n|Libra scheduler|\n:Update cluster status;\nwhile (Jobs remain?) is (yes)\n:Time-slice jobs;\nif (Tie on pass?) then (yes)\n|Libra scheduler|\n:Apply FIFO ordering;\nelse (no)\n|Libra scheduler|\n:Select minimum-pass job;\nendif\n:Allot quantum;\n:Advance pass;\nendwhile (no)\n|Libra scheduler|\nstop\nelse (rejected)\n|Libra scheduler|\nstop\nendif\nelse (invalid)\n|Sun Grid Engine cluster management system|\nstop\nendif\nelse (closed)\n|Sun Grid Engine cluster management system|\nstop\nendif\n\n@enduml"
+}

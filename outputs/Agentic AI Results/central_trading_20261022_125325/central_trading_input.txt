@@ -1,0 +1,127 @@
+Functional Requirement
+
+1.1 Goals and objectives
+The central trading system (CTS) is to complete the trading of stock. It analyses the instructions that enter the central trading system and divides them into several kinds of instructions. System will make a match between them under specifically prescripts. Also central trading system provides some interfaces to send messages to other modules.
+1.2 System Context
+The CTS is just a subsystem of the whole stock trading system (STS) system. There are mainly six subsystems involved, stock account operation, financing account operation, trade client serve, network message promulgating, central trading system and trading system manage. Communications exist among these subsystems which complicates the relationships between subsystems. The CTS receive instructions from trade client serve. Then the CTS produce new messages which to be sent to network message promulgating after deal with the instructions from trade client serve. Also the system manager is authorization to access the information in CTS.
+1.3 Potential Users’ Specification
+There are mainly two kinds of users. The CTS provides the terminal users easy Operations that are confined to a series of mouse clicks and keyboard, which compared to other systems are really much simplified. However, for another user, things are different .the maintainers of this CTS must be familiar with java programming and the socket. When the system crashes down, they can find the cause and fix it. When new requirements should be supported, they can modify the program to make it fit. As the instruction is frequently operated in CTS such as fetch, deal with, repeal and so on, the CTS is heavily transferred. The program must take this into consideration. The maintainers of CTS should have good strategies to overcome crash of the system when overhead exceeds the capacity of it.
+
+Use case Scenarios
+
+Use-case: Buy stock
+Primary actor:	Transaction User Interface
+Goal in context: To fulfill the buy transaction
+Preconditions:	Customer has successfully logged into UI and submit the buy information
+Trigger	The ‘buy’ button on UI been clicked
+Scenario:
+1.   transaction user interface: give the buy instruction
+2.   central trading system: save the buy instruction
+3.   central  trading  system:  match  the  instructions  with  the same stock id
+4.   central trading system: make a trade by matching
+5.   central trading system: modify the information of matched instructions
+Exception:
+1.    all the operations have been suspended
+2.    some trade exceptions come up
+3.    no matched stock with the buy instruction
+Channel to actor: Via transaction user interface
+Secondary actors: Trading System Management
+Channels to secondary actors: Via central trading system interface
+Open issues: 
+1.    Should the trade information  return to Transaction  User
+Interface immediately when the deal is done?
+2.    Should  the  failure  of  trade  return  to  Transaction  User
+Interface the next day?
+3.    If exception happens, is exception log needed?
+4.    security issue
+
+Use-case: Sell stock
+Primary actor: Transaction User Interface
+Goal in context: To fulfill the sell transaction
+Preconditions: Customer has successfully logged into UI and submit the sell information
+Trigger: The ‘sell’ button on UI been clicked
+Scenario:
+1.   transaction user interface: give the sell instruction
+2.   central trading system: save the sell instruction
+3.   central  trading  system:  match  the  instructions  with  the same stock id
+4.   central trading system: make a trade by matching
+5.   central trading system: modify the information of matched instructions
+Exception:
+1.   all the operations have been suspended
+2.   some deal exceptions come up
+3.   no matched stock with the buy instruction
+Channel to actor: Via transaction user interface
+Secondary actors: Trading System Management
+Channels to secondary actors: Via central trading system interface
+Open issues:
+1.   Should  the trade information  return  to Transaction  User
+Interface immediately when the deal is done?
+2.   Should  the  failure  of  trade  return  to  Transaction  User
+Interface the next day?
+3.   If exception happens, is exception log needed?
+4.   security issue
+
+Use-case: Cancel trading instruction
+Primary actor:	Transaction User Interface
+Goal in context: To fulfill the cancel transaction
+Preconditions: Customer  has  successfully  logged  into  UI  and  submit  the cancel information
+Trigger: The ‘cancel’ button on UI been clicked
+Scenario:
+1.   transaction user interface: give the cancel instruction
+2.   central trading system: save the cancel instruction
+3.   central trading system: cancel the correlative instruction
+Exception:
+1.   all the operations have been suspended
+2.   the instruction concerned has been implemented
+3.   no matched instruction to be cancelled
+Channel to actor: Via transaction user interface
+Secondary actors: Trading System Management
+Channels to secondary actors: Via central trading system interface
+Open issues:
+1.    Is it necessary to return the status of cancel transaction?
+2.    If exception happens, is exception log needed?
+3.    security issue
+
+
+Use-case: Save trade information
+Primary actor: Security Account Management
+Goal in context: To save all successful trade information
+Preconditions:	The  correlative   trade  transactions   have  been   successfully conducted
+Trigger: Any trade transaction been conducted
+Scenario:
+1.   central  trading  system:   give  out  the  successful   trade information
+2.   security account management: save the trade information
+Exception:
+1.   all the operations have been suspended
+2.    no matched stock with the buy instruction
+Channel to actor: Via central trading system interface
+Secondary actors: Trading System Management
+Channels to secondary actors: Via central trading system interface
+Open issues:
+1.    If exception happens, is exception log needed?
+2.   Will  we  develop  a  media  (ie.  Web  page)  where  any customer can look up the latest trade records which have been saved?
+3.    security issue
+
+
+Use-case: Query trade information
+Primary actor:	Trading Information Release
+Goal in context: To   query   the   trading   information   which   needed   to   be statistically analyzed and released on a web site
+Preconditions: Central Trading System deal transactions well
+Trigger: Trading Information Release System send a query
+Scenario:
+1.   trading information release system: send a query
+2.   central trading system: implement the query
+3.   central trading system: structuralize the queried data
+4.   central trading system: send the data to release
+Exception:
+1.   all the operations have been suspended
+2.   the query is invalid
+3.    no matched data
+Channel to actor: Via central trading system interface
+Secondary actors: Trading System Management
+Channels to secondary actors: Via central trading system interface
+Open issues	
+1.    If exception happens, is exception log needed?
+2.    How frequent the release system is to send a query?
+3.    Do we need a warning if any query failed?
+4.    security issue

@@ -1,0 +1,161 @@
+{
+  "validation": {
+    "passed": true,
+    "score": 1.0,
+    "defects": [],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 0,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 0,
+      "TOTAL_NODES": 36,
+      "TOTAL_EDGES": 39,
+      "TOTAL_REQUIREMENTS": 39
+    },
+    "summary": "0 defect(s) detected. Structural score: 1.000. Coverage score: 1.000. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 1.000."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers most required search, query, display, sorting, filtering, pagination, and no-results behaviors, but it has one important semantic gap: the streaming search requirement explicitly calls for separate handling of video hosting and video link retrieval/display, while the diagram models them as parallel queries without clearly preserving the required split outputs in a way that distinguishes the two result types through the search flow. Also, the torrent search no-results branch appears to flow into sorting/pagination without showing a distinct termination or explicit return to the results flow after the message, which is acceptable if interpreted as continuation, but the diagram is ambiguous. Overall, the diagram is largely compliant with minor semantic ambiguity.",
+    "semantic_score": 0.88,
+    "defects": [
+      {
+        "id": "D1",
+        "category": "SEMANTIC",
+        "severity": "MEDIUM",
+        "description": "The streaming search flow does not clearly preserve the required distinction between video hosting results and video link results as separate outputs after querying. The requirements specify that hosting sites must retrieve and display full video name, length, date posted, and link, while link sites must retrieve and display show name and episode name; the diagram merges both branches through a generic send/display sequence and a shared no-results/sort/filter/pagination flow, which obscures the distinct result handling required by the specification.",
+        "node_ids": [
+          "N19",
+          "N20",
+          "N21",
+          "N22",
+          "N23",
+          "N24",
+          "N25",
+          "N26",
+          "N28",
+          "N29",
+          "N30",
+          "N31",
+          "N32",
+          "N33"
+        ],
+        "edge_ids": [
+          "E23",
+          "E24",
+          "E25",
+          "E26",
+          "E27",
+          "E28",
+          "E29",
+          "E30",
+          "E32",
+          "E33",
+          "E34",
+          "E35",
+          "E36",
+          "E37",
+          "E38",
+          "E39"
+        ],
+        "requirement_ids": [
+          "R12",
+          "R13",
+          "R14",
+          "R15",
+          "R16",
+          "R31",
+          "R32",
+          "R33",
+          "R34",
+          "R35",
+          "R36",
+          "R37",
+          "R38",
+          "R39"
+        ],
+        "evidence": "The requirements separate streaming behavior into two distinct retrieval/display contracts: R12 requires hosting sites to retrieve full video name, length, date posted, and a link; R13 requires link sites to retrieve show name, episode name, and a link. In the diagram, N19 forks to N20 and N21, but both merge at N22 and then proceed through a generic N23 'Send streaming results' and N26 'Streaming results found?' decision, followed by shared sort/filter/pagination actions. The individual display actions N24 and N25 occur, but the later control flow no longer distinguishes the two output types in a way that preserves their separate required semantics.",
+        "suggested_action": "Refactor the streaming branch so that hosting and link results remain explicitly separated through their respective display paths, with any shared operations applied only after the diagram has clearly represented the two required result structures. Ensure the flow makes it unambiguous which data fields are produced and shown by each source type."
+      }
+    ],
+    "strengths": [
+      "The shared search bar requirement is represented.",
+      "The torrent database update and streaming database update requirements are represented.",
+      "Torrent inclusion and streaming source selection tick boxes are represented.",
+      "Torrent query, display, sorting, pagination, and no-results behavior are modeled.",
+      "Streaming host/link tick boxes, querying, display, sorting, filtering, pagination, and no-results behavior are modeled."
+    ],
+    "missing_requirements": [],
+    "unsupported_behaviors": []
+  },
+  "defects": [
+    {
+      "id": "D1",
+      "category": "SEMANTIC",
+      "severity": "MEDIUM",
+      "description": "The streaming search flow does not clearly preserve the required distinction between video hosting results and video link results as separate outputs after querying. The requirements specify that hosting sites must retrieve and display full video name, length, date posted, and link, while link sites must retrieve and display show name and episode name; the diagram merges both branches through a generic send/display sequence and a shared no-results/sort/filter/pagination flow, which obscures the distinct result handling required by the specification.",
+      "node_ids": [
+        "N19",
+        "N20",
+        "N21",
+        "N22",
+        "N23",
+        "N24",
+        "N25",
+        "N26",
+        "N28",
+        "N29",
+        "N30",
+        "N31",
+        "N32",
+        "N33"
+      ],
+      "edge_ids": [
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E28",
+        "E29",
+        "E30",
+        "E32",
+        "E33",
+        "E34",
+        "E35",
+        "E36",
+        "E37",
+        "E38",
+        "E39"
+      ],
+      "requirement_ids": [
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R31",
+        "R32",
+        "R33",
+        "R34",
+        "R35",
+        "R36",
+        "R37",
+        "R38",
+        "R39"
+      ],
+      "evidence": "The requirements separate streaming behavior into two distinct retrieval/display contracts: R12 requires hosting sites to retrieve full video name, length, date posted, and a link; R13 requires link sites to retrieve show name, episode name, and a link. In the diagram, N19 forks to N20 and N21, but both merge at N22 and then proceed through a generic N23 'Send streaming results' and N26 'Streaming results found?' decision, followed by shared sort/filter/pagination actions. The individual display actions N24 and N25 occur, but the later control flow no longer distinguishes the two output types in a way that preserves their separate required semantics.",
+      "suggested_action": "Refactor the streaming branch so that hosting and link results remain explicitly separated through their respective display paths, with any shared operations applied only after the diagram has clearly represented the two required result structures. Ensure the flow makes it unambiguous which data fields are produced and shown by each source type."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Integrated search flow for torrent and streaming results with shared search bar, selectable sources, querying, display, sorting, filtering, pagination, and no-results handling.\nskinparam swimlaneWrapTitleWidth 150\n\n|Development Team|\nstart\n\n:Update torrent database;\n:Update streaming databases;\n|User|\n:Share search bar;\n:Choose torrent search;\n:Choose hosting search;\n:Choose link search;\n:Enter search term;\nif (Search type selected?) then (torrent selected)\n|User|\n|Program|\n:Send torrent query;\n:Send torrent results;\n:Display torrent results;\nif (Torrent results found?) then (no results)\n|Program|\n:Show no-results message;\nelse (results found)\n|Program|\nendif\n|User|\n:Sort torrent results;\n|Program|\n:Reorder torrent results;\n|User|\n:Next torrent page;\n|Program|\n:Display next torrent page;\nstop\nelse (streaming selected)\n|User|\n:Tick streaming host box;\n:Tick streaming links box;\n|Program|\nfork\n:Query hosting sites;\nfork again\n|Program|\n:Query link sites;\nend fork\n:Send streaming results;\n:Display hosting results;\n:Display link results;\nif (Streaming results found?) then (no results)\n|Program|\n:Show no-results message;\nelse (results found)\n|Program|\nendif\n|User|\n:Sort streaming results;\n|Program|\n:Reorder streaming results;\n|User|\n:Filter streaming websites;\n|Program|\n:Remove unselected websites;\n|User|\n:Next streaming page;\n|Program|\n:Display next streaming page;\nstop\nendif\n\n@enduml"
+}

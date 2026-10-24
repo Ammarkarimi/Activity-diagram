@@ -1,0 +1,2587 @@
+{
+  "objective": "CDN peering lifecycle from service registration through peering initiation, negotiation, resource discovery, operational management, and disband/re-arrangement",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Publish resource info",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R59",
+        "R66",
+        "R29",
+        "R41"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "decision",
+      "label": "New resource?",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R67",
+        "R69"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Register new resource",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R65",
+        "R67",
+        "R68"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "action",
+      "label": "Update resource record",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R60",
+        "R65",
+        "R69"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "decision",
+      "label": "Traffic surge?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R42",
+        "R70"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "action",
+      "label": "Supply local resources",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R42",
+        "R70"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "decision",
+      "label": "Resource failed?",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R72",
+        "R76"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Remove failed resource",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R72"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "action",
+      "label": "Detect hotspot",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R30",
+        "R86"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "decision",
+      "label": "Timeout or malicious?",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R88",
+        "R89",
+        "R91"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "action",
+      "label": "Cancel initiation request",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R88"
+      ]
+    },
+    {
+      "temp_id": "P13",
+      "node_type": "action",
+      "label": "Reject malicious request",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R89"
+      ]
+    },
+    {
+      "temp_id": "P14",
+      "node_type": "action",
+      "label": "Send initiation request",
+      "lane": "Web Server",
+      "requirement_ids": [
+        "R3",
+        "R83",
+        "R87",
+        "R92"
+      ]
+    },
+    {
+      "temp_id": "P15",
+      "node_type": "action",
+      "label": "Receive initiation request",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R79",
+        "R93",
+        "R98",
+        "R100"
+      ]
+    },
+    {
+      "temp_id": "P16",
+      "node_type": "action",
+      "label": "Get registry and policy data",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R7",
+        "R8",
+        "R101"
+      ]
+    },
+    {
+      "temp_id": "P17",
+      "node_type": "action",
+      "label": "Generate service requirements",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R9",
+        "R35",
+        "R97",
+        "R99",
+        "R102",
+        "R106"
+      ]
+    },
+    {
+      "temp_id": "P18",
+      "node_type": "decision",
+      "label": "Acceptable by policy?",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R103",
+        "R105",
+        "R107"
+      ]
+    },
+    {
+      "temp_id": "P19",
+      "node_type": "action",
+      "label": "Pass requirements to PA",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R11",
+        "R36",
+        "R97",
+        "R99",
+        "R108",
+        "R113",
+        "R115"
+      ]
+    },
+    {
+      "temp_id": "P20",
+      "node_type": "action",
+      "label": "Reject user requests",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R104",
+        "R105"
+      ]
+    },
+    {
+      "temp_id": "P21",
+      "node_type": "action",
+      "label": "Receive requirements",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R96",
+        "R113",
+        "R115"
+      ]
+    },
+    {
+      "temp_id": "P22",
+      "node_type": "decision",
+      "label": "Existing peering policies?",
+      "lane": "Policy Repository",
+      "requirement_ids": [
+        "R13",
+        "R46",
+        "R116",
+        "R124",
+        "R125"
+      ]
+    },
+    {
+      "temp_id": "P23",
+      "node_type": "action",
+      "label": "Return peering policies",
+      "lane": "Policy Repository",
+      "requirement_ids": [
+        "R46",
+        "R116",
+        "R124"
+      ]
+    },
+    {
+      "temp_id": "P24",
+      "node_type": "action",
+      "label": "Short-term negotiation",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R14",
+        "R117",
+        "R125"
+      ]
+    },
+    {
+      "temp_id": "P25",
+      "node_type": "action",
+      "label": "Discover external resources",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R12",
+        "R37",
+        "R48",
+        "R109",
+        "R112"
+      ]
+    },
+    {
+      "temp_id": "P26",
+      "node_type": "decision",
+      "label": "Sufficient resources?",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R19",
+        "R120",
+        "R121",
+        "R139"
+      ]
+    },
+    {
+      "temp_id": "P27",
+      "node_type": "action",
+      "label": "Re-evaluate requirements",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R121",
+        "R151"
+      ]
+    },
+    {
+      "temp_id": "P28",
+      "node_type": "action",
+      "label": "Renegotiate with peers",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R14",
+        "R23",
+        "R121",
+        "R151"
+      ]
+    },
+    {
+      "temp_id": "P29",
+      "node_type": "action",
+      "label": "Configure peering protocols",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R122"
+      ]
+    },
+    {
+      "temp_id": "P30",
+      "node_type": "action",
+      "label": "Establish peering arrangement",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R19",
+        "R21",
+        "R114",
+        "R120",
+        "R130",
+        "R138"
+      ]
+    },
+    {
+      "temp_id": "P31",
+      "node_type": "action",
+      "label": "Create SR instance",
+      "lane": "Service Registry",
+      "requirement_ids": [
+        "R43",
+        "R71"
+      ]
+    },
+    {
+      "temp_id": "P32",
+      "node_type": "action",
+      "label": "Virtualize policies",
+      "lane": "Policy Repository",
+      "requirement_ids": [
+        "R44",
+        "R45",
+        "R140",
+        "R150",
+        "R152"
+      ]
+    },
+    {
+      "temp_id": "P33",
+      "node_type": "fork",
+      "label": "Parallel operational setup",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R29",
+        "R33",
+        "R38",
+        "R132",
+        "R133",
+        "R135",
+        "R136",
+        "R137"
+      ]
+    },
+    {
+      "temp_id": "P34",
+      "node_type": "action",
+      "label": "Advertise configuration",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R15",
+        "R16",
+        "R132"
+      ]
+    },
+    {
+      "temp_id": "P35",
+      "node_type": "action",
+      "label": "Exchange load information",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R54",
+        "R55",
+        "R133"
+      ]
+    },
+    {
+      "temp_id": "P36",
+      "node_type": "action",
+      "label": "Redirect requests",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R38",
+        "R134",
+        "R56",
+        "R57"
+      ]
+    },
+    {
+      "temp_id": "P37",
+      "node_type": "action",
+      "label": "Exchange accounting data",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R22",
+        "R135"
+      ]
+    },
+    {
+      "temp_id": "P38",
+      "node_type": "action",
+      "label": "Deploy and enforce policies",
+      "lane": "Policy Repository",
+      "requirement_ids": [
+        "R20",
+        "R32",
+        "R33",
+        "R136",
+        "R140"
+      ]
+    },
+    {
+      "temp_id": "P39",
+      "node_type": "join",
+      "label": "Operational sync",
+      "lane": "Mediator",
+      "requirement_ids": [
+        "R21",
+        "R22",
+        "R131"
+      ]
+    },
+    {
+      "temp_id": "P40",
+      "node_type": "decision",
+      "label": "Refuse user requests?",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "temp_id": "P41",
+      "node_type": "final",
+      "label": "Peering ceases",
+      "lane": null,
+      "requirement_ids": [
+        "R137",
+        "R149"
+      ]
+    },
+    {
+      "temp_id": "P42",
+      "node_type": "decision",
+      "label": "Termination condition?",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R24",
+        "R144",
+        "R145",
+        "R147",
+        "R148"
+      ]
+    },
+    {
+      "temp_id": "P43",
+      "node_type": "decision",
+      "label": "Exceptional circumstances?",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R149"
+      ]
+    },
+    {
+      "temp_id": "P44",
+      "node_type": "action",
+      "label": "Disband or re-arrange",
+      "lane": "Local Peering Agent",
+      "requirement_ids": [
+        "R24",
+        "R146",
+        "R148",
+        "R150",
+        "R151",
+        "R152"
+      ]
+    },
+    {
+      "temp_id": "P45",
+      "node_type": "final",
+      "label": "End",
+      "lane": null,
+      "requirement_ids": []
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R59",
+        "R66",
+        "R29"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R65",
+        "R67",
+        "R69"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": "new resource",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R67",
+        "R68"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P5",
+      "guard": "existing resource",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R69"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R65",
+        "R70"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R65",
+        "R70"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R42",
+        "R70"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P8",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R42"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P8",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R42",
+        "R70",
+        "R76"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P9",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R72",
+        "R76"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P10",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R72"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P10",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R72"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P11",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R30",
+        "R86",
+        "R91"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P12",
+      "guard": "timeout",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R88"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P13",
+      "guard": "malicious request",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R89"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P14",
+      "guard": "normal hotspot",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R30",
+        "R83",
+        "R91",
+        "R92"
+      ]
+    },
+    {
+      "source": "P12",
+      "target": "P41",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R88"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P41",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R89"
+      ]
+    },
+    {
+      "source": "P14",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R83",
+        "R87"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P16",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R93",
+        "R97",
+        "R101"
+      ]
+    },
+    {
+      "source": "P16",
+      "target": "P17",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R9",
+        "R17",
+        "R35",
+        "R101",
+        "R102"
+      ]
+    },
+    {
+      "source": "P17",
+      "target": "P18",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R103",
+        "R105",
+        "R108"
+      ]
+    },
+    {
+      "source": "P18",
+      "target": "P19",
+      "guard": "acceptable",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R103",
+        "R108"
+      ]
+    },
+    {
+      "source": "P18",
+      "target": "P20",
+      "guard": "not acceptable",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R104",
+        "R105"
+      ]
+    },
+    {
+      "source": "P20",
+      "target": "P41",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R104",
+        "R105"
+      ]
+    },
+    {
+      "source": "P19",
+      "target": "P21",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R11",
+        "R96",
+        "R113",
+        "R115"
+      ]
+    },
+    {
+      "source": "P21",
+      "target": "P22",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R115",
+        "R116",
+        "R124",
+        "R125"
+      ]
+    },
+    {
+      "source": "P22",
+      "target": "P23",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R13",
+        "R46",
+        "R116",
+        "R124"
+      ]
+    },
+    {
+      "source": "P22",
+      "target": "P24",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R14",
+        "R117",
+        "R125"
+      ]
+    },
+    {
+      "source": "P23",
+      "target": "P25",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R46",
+        "R116",
+        "R124"
+      ]
+    },
+    {
+      "source": "P24",
+      "target": "P25",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R14",
+        "R117",
+        "R125"
+      ]
+    },
+    {
+      "source": "P25",
+      "target": "P26",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R12",
+        "R19",
+        "R120",
+        "R121"
+      ]
+    },
+    {
+      "source": "P26",
+      "target": "P30",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R19",
+        "R120",
+        "R139"
+      ]
+    },
+    {
+      "source": "P26",
+      "target": "P27",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R121",
+        "R151"
+      ]
+    },
+    {
+      "source": "P27",
+      "target": "P28",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R121",
+        "R151"
+      ]
+    },
+    {
+      "source": "P28",
+      "target": "P21",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R121",
+        "R151"
+      ]
+    },
+    {
+      "source": "P30",
+      "target": "P31",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R43",
+        "R71"
+      ]
+    },
+    {
+      "source": "P31",
+      "target": "P32",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R44",
+        "R45",
+        "R152"
+      ]
+    },
+    {
+      "source": "P32",
+      "target": "P33",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R140",
+        "R150",
+        "R152"
+      ]
+    },
+    {
+      "source": "P33",
+      "target": "P34",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R132"
+      ]
+    },
+    {
+      "source": "P33",
+      "target": "P35",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R54",
+        "R55",
+        "R133"
+      ]
+    },
+    {
+      "source": "P33",
+      "target": "P36",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R38",
+        "R134",
+        "R57"
+      ]
+    },
+    {
+      "source": "P33",
+      "target": "P37",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R22",
+        "R135"
+      ]
+    },
+    {
+      "source": "P33",
+      "target": "P38",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R20",
+        "R32",
+        "R136"
+      ]
+    },
+    {
+      "source": "P34",
+      "target": "P39",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R132"
+      ]
+    },
+    {
+      "source": "P35",
+      "target": "P39",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R133",
+        "R55"
+      ]
+    },
+    {
+      "source": "P36",
+      "target": "P39",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R134",
+        "R57"
+      ]
+    },
+    {
+      "source": "P37",
+      "target": "P39",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R22",
+        "R135"
+      ]
+    },
+    {
+      "source": "P38",
+      "target": "P39",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R136",
+        "R140"
+      ]
+    },
+    {
+      "source": "P39",
+      "target": "P40",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "source": "P40",
+      "target": "P41",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "source": "P40",
+      "target": "P42",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "source": "P42",
+      "target": "P43",
+      "guard": "termination condition holds",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R24",
+        "R144",
+        "R147",
+        "R148"
+      ]
+    },
+    {
+      "source": "P42",
+      "target": "P45",
+      "guard": "otherwise",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R24"
+      ]
+    },
+    {
+      "source": "P43",
+      "target": "P45",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R149"
+      ]
+    },
+    {
+      "source": "P43",
+      "target": "P44",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R146",
+        "R148"
+      ]
+    },
+    {
+      "source": "P44",
+      "target": "P45",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R146",
+        "R148",
+        "R149"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "new resource?",
+      "branch_ids": [
+        "P4",
+        "P5"
+      ],
+      "guards": [
+        "new resource",
+        "existing resource"
+      ]
+    },
+    {
+      "decision_id": "D2",
+      "condition": "traffic surge?",
+      "branch_ids": [
+        "P7",
+        "P8"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D3",
+      "condition": "resource failed?",
+      "branch_ids": [
+        "P9",
+        "P10"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D4",
+      "condition": "timeout or malicious?",
+      "branch_ids": [
+        "P12",
+        "P13",
+        "P14"
+      ],
+      "guards": [
+        "timeout",
+        "malicious request",
+        "normal hotspot"
+      ]
+    },
+    {
+      "decision_id": "D5",
+      "condition": "acceptable by policy?",
+      "branch_ids": [
+        "P19",
+        "P20"
+      ],
+      "guards": [
+        "acceptable",
+        "not acceptable"
+      ]
+    },
+    {
+      "decision_id": "D6",
+      "condition": "existing peering policies?",
+      "branch_ids": [
+        "P23",
+        "P24"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D7",
+      "condition": "sufficient resources?",
+      "branch_ids": [
+        "P30",
+        "P27"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D8",
+      "condition": "refuse user requests?",
+      "branch_ids": [
+        "P41",
+        "P42"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D9",
+      "condition": "termination condition?",
+      "branch_ids": [
+        "P43",
+        "P45"
+      ],
+      "guards": [
+        "termination condition holds",
+        "otherwise"
+      ]
+    },
+    {
+      "decision_id": "D10",
+      "condition": "exceptional circumstances?",
+      "branch_ids": [
+        "P45",
+        "P44"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [
+    {
+      "loop_id": "L1",
+      "condition": "negotiation insufficient",
+      "entry_node": "P25",
+      "body_nodes": [
+        "P26",
+        "P27",
+        "P28",
+        "P21",
+        "P22",
+        "P23",
+        "P24",
+        "P25"
+      ],
+      "exit_node": "P30",
+      "continue_guard": "no",
+      "exit_guard": "yes"
+    }
+  ],
+  "concurrency": [
+    {
+      "fork_id": "F1",
+      "branch_ids": [
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38"
+      ],
+      "join_id": "P39"
+    }
+  ],
+  "exceptions": [
+    {
+      "exception_id": "E1",
+      "trigger": "service timeout threshold",
+      "handler_node_id": "P12",
+      "requirement_ids": [
+        "R88"
+      ]
+    },
+    {
+      "exception_id": "E2",
+      "trigger": "malicious request",
+      "handler_node_id": "P13",
+      "requirement_ids": [
+        "R89",
+        "R123"
+      ]
+    },
+    {
+      "exception_id": "E3",
+      "trigger": "provider policy rejection",
+      "handler_node_id": "P20",
+      "requirement_ids": [
+        "R104",
+        "R105"
+      ]
+    },
+    {
+      "exception_id": "E4",
+      "trigger": "insufficient resources after negotiation",
+      "handler_node_id": "P27",
+      "requirement_ids": [
+        "R121",
+        "R151"
+      ]
+    },
+    {
+      "exception_id": "E5",
+      "trigger": "peer refuses user requests",
+      "handler_node_id": "P41",
+      "requirement_ids": [
+        "R137"
+      ]
+    },
+    {
+      "exception_id": "E6",
+      "trigger": "exceptional circumstances preventing SLA honor",
+      "handler_node_id": "P45",
+      "requirement_ids": [
+        "R149"
+      ]
+    }
+  ],
+  "decision_strategy": [
+    "Model mutually exclusive branches with explicit guards.",
+    "Use a single integrated lifecycle from registration through termination.",
+    "Represent retries as a loop with renegotiation body and successful exit when sufficient resources are acquired."
+  ],
+  "concurrency_strategy": [
+    "Use one fork for the established peering operational setup.",
+    "Perform configuration advertising, load exchange, request redirection, accounting exchange, and policy enforcement in parallel, then synchronize before refusal/termination checks."
+  ],
+  "exception_strategy": [
+    "Cancellation and rejection terminate immediately.",
+    "Policy rejection prevents passing service requirements to the Local Peering Agent.",
+    "Insufficient resources trigger reevaluation and renegotiation.",
+    "Operational refusal by a peer terminates the arrangement.",
+    "Exceptional circumstances bypass disband/re-arrangement and end the scenario."
+  ],
+  "termination_strategy": [
+    "Normal completion ends after operational management when no refusal or termination condition applies.",
+    "Failure and exceptional paths terminate at explicit final nodes.",
+    "Disband or re-arrangement ends at a final node after the Local Peering Agent acts."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [
+          "P10",
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11",
+          "P11->P14"
+        ],
+        "evidence": "Initialization request under exceptional circumstances with hotspot detection and sending to mediator.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [
+          "P10",
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11"
+        ],
+        "evidence": "Trigger condition considers expected and unexpected load increases.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R7",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15->P16"
+        ],
+        "evidence": "Mediator gets resource/access data from Service Registry.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R8",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15->P16"
+        ],
+        "evidence": "Mediator gets policies from Policy Repository.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R9",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [
+          "P16->P17"
+        ],
+        "evidence": "Mediator generates service requirements from current circumstance and SLA context.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R11",
+        "diagram_node_ids": [
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P18->P19"
+        ],
+        "evidence": "Mediator passes requirements to Local Peering Agent.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R12",
+        "diagram_node_ids": [
+          "P25"
+        ],
+        "diagram_edge_ids": [
+          "P21->P22",
+          "P22->P24",
+          "P24->P25"
+        ],
+        "evidence": "Local Peering Agent performs resource discovery and negotiation with peers.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R13",
+        "diagram_node_ids": [
+          "P22",
+          "P23"
+        ],
+        "diagram_edge_ids": [
+          "P21->P22",
+          "P22->P23"
+        ],
+        "evidence": "Existing long-term peering policies are returned.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R14",
+        "diagram_node_ids": [
+          "P24"
+        ],
+        "diagram_edge_ids": [
+          "P22->P24"
+        ],
+        "evidence": "Short-term negotiation branch.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R15",
+        "diagram_node_ids": [
+          "P29"
+        ],
+        "diagram_edge_ids": [
+          "P25->P26",
+          "P26->P30"
+        ],
+        "evidence": "Configure CDN peering protocols.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R16",
+        "diagram_node_ids": [
+          "P34"
+        ],
+        "diagram_edge_ids": [
+          "P33->P34"
+        ],
+        "evidence": "Advertising configurations through inter-PA communication.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R17",
+        "diagram_node_ids": [
+          "P29"
+        ],
+        "diagram_edge_ids": [
+          "P16->P17"
+        ],
+        "evidence": "Protocols support content availability exchange and redirection.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R18",
+        "diagram_node_ids": [
+          "P36"
+        ],
+        "diagram_edge_ids": [
+          "P33->P36"
+        ],
+        "evidence": "Request redirection depends on policies and algorithms.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R19",
+        "diagram_node_ids": [
+          "P26",
+          "P30"
+        ],
+        "diagram_edge_ids": [
+          "P25->P26",
+          "P26->P30"
+        ],
+        "evidence": "Sufficient resources lead to operational peering.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R20",
+        "diagram_node_ids": [
+          "P38"
+        ],
+        "diagram_edge_ids": [
+          "P33->P38"
+        ],
+        "evidence": "Functional policies are deployed and administered.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R21",
+        "diagram_node_ids": [
+          "P30"
+        ],
+        "diagram_edge_ids": [
+          "P26->P30"
+        ],
+        "evidence": "Participating parties cooperate after peering is established.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R22",
+        "diagram_node_ids": [
+          "P37"
+        ],
+        "diagram_edge_ids": [
+          "P33->P37"
+        ],
+        "evidence": "Accounting exchange and billing.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R23",
+        "diagram_node_ids": [
+          "P27",
+          "P28"
+        ],
+        "diagram_edge_ids": [
+          "P26->P27",
+          "P27->P28"
+        ],
+        "evidence": "No CDN interest triggers renegotiation.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R24",
+        "diagram_node_ids": [
+          "P42",
+          "P44"
+        ],
+        "diagram_edge_ids": [
+          "P42->P43",
+          "P43->P44"
+        ],
+        "evidence": "Termination conditions may lead to disband or re-arrangement.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R28",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11"
+        ],
+        "evidence": "Detecting and handling flash crowds.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R29",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "Web server replicates content on-demand and stores it.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R30",
+        "diagram_node_ids": [
+          "P10",
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11",
+          "P11->P14"
+        ],
+        "evidence": "Web server initiates trigger request on hotspot.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R31",
+        "diagram_node_ids": [
+          "P36"
+        ],
+        "diagram_edge_ids": [
+          "P33->P36"
+        ],
+        "evidence": "Delivery based on negotiated policies.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R32",
+        "diagram_node_ids": [
+          "P32"
+        ],
+        "diagram_edge_ids": [
+          "P31->P32"
+        ],
+        "evidence": "Policy agent with mediator determines delegation conditions.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R33",
+        "diagram_node_ids": [
+          "P32",
+          "P38"
+        ],
+        "diagram_edge_ids": [
+          "P31->P32",
+          "P33->P38"
+        ],
+        "evidence": "SLA-allocator provisioning/reservation and enforcement reflected in policy deployment/enforcement.",
+        "confidence": 0.86
+      },
+      {
+        "requirement_id": "R34",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "On-demand caching/content selection/routing summarized in content publication and delivery support.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R35",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [
+          "P16->P17"
+        ],
+        "evidence": "Mediator generates service requirements.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R36",
+        "diagram_node_ids": [
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P18->P19"
+        ],
+        "evidence": "Mediator passes service requirements to PA.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R37",
+        "diagram_node_ids": [
+          "P25"
+        ],
+        "diagram_edge_ids": [
+          "P19->P21",
+          "P21->P22"
+        ],
+        "evidence": "Mediator with local PA discovers external resources and negotiates.",
+        "confidence": 0.91
+      },
+      {
+        "requirement_id": "R38",
+        "diagram_node_ids": [
+          "P36"
+        ],
+        "diagram_edge_ids": [
+          "P33->P36"
+        ],
+        "evidence": "Mediator controls traffic redirection and replication policy after peering.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R40",
+        "diagram_node_ids": [
+          "P31"
+        ],
+        "diagram_edge_ids": [
+          "P30->P31"
+        ],
+        "evidence": "Service Registry encapsulates resource and service information.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R41",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "Service registration via Web Server publish action.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R42",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P6->P7"
+        ],
+        "evidence": "Service Registry supplies local resource info on traffic surges.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R43",
+        "diagram_node_ids": [
+          "P31"
+        ],
+        "diagram_edge_ids": [
+          "P30->P31"
+        ],
+        "evidence": "New SR instance created on peering arrangement.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R44",
+        "diagram_node_ids": [
+          "P32"
+        ],
+        "diagram_edge_ids": [
+          "P31->P32"
+        ],
+        "evidence": "Policy Repository virtualizes policies.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R45",
+        "diagram_node_ids": [
+          "P32"
+        ],
+        "diagram_edge_ids": [
+          "P31->P32"
+        ],
+        "evidence": "Policy Repository provides rules to mediator.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R46",
+        "diagram_node_ids": [
+          "P23"
+        ],
+        "diagram_edge_ids": [
+          "P22->P23"
+        ],
+        "evidence": "Existing peering policies returned for long-term arrangements.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R48",
+        "diagram_node_ids": [
+          "P25"
+        ],
+        "diagram_edge_ids": [
+          "P19->P21"
+        ],
+        "evidence": "PA is policy-driven discovery module.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R49",
+        "diagram_node_ids": [
+          "P25"
+        ],
+        "diagram_edge_ids": [
+          "P19->P21"
+        ],
+        "evidence": "PA exchanges policy/resource/service requirements with external PAs.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R52",
+        "diagram_node_ids": [
+          "P35"
+        ],
+        "diagram_edge_ids": [
+          "P33->P35"
+        ],
+        "evidence": "Cooperative pull-based content replication/load sharing.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R54",
+        "diagram_node_ids": [
+          "P35"
+        ],
+        "diagram_edge_ids": [
+          "P33->P35"
+        ],
+        "evidence": "Load distribution by measuring/disseminating load.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R55",
+        "diagram_node_ids": [
+          "P35"
+        ],
+        "diagram_edge_ids": [
+          "P33->P35"
+        ],
+        "evidence": "Gateways communicate aggregated load info.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R57",
+        "diagram_node_ids": [
+          "P36"
+        ],
+        "diagram_edge_ids": [
+          "P33->P36"
+        ],
+        "evidence": "End-users assigned via DNS and redirected at gateway.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R59",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "WS publishes resource and service info.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R61",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15->P16"
+        ],
+        "evidence": "Mediator collects up-to-date resource information from SR.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R62",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Service registration trigger has multiple cases.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R65",
+        "diagram_node_ids": [
+          "P4",
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P3->P4",
+          "P3->P5"
+        ],
+        "evidence": "Resources registered and updated in SR.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R66",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "Each CDN Web server publishes resource and service information.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R67",
+        "diagram_node_ids": [
+          "P3",
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3",
+          "P3->P4"
+        ],
+        "evidence": "New resource branch registers with new ID.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R68",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3->P4"
+        ],
+        "evidence": "Resource ID counter incremented.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R69",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P3->P5"
+        ],
+        "evidence": "Existing resource record updated.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R70",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P6->P7"
+        ],
+        "evidence": "Traffic surge branch supplies resource IDs to mediator.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R71",
+        "diagram_node_ids": [
+          "P31"
+        ],
+        "diagram_edge_ids": [
+          "P30->P31"
+        ],
+        "evidence": "SR instance encapsulates local and delegated external resources.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R72",
+        "diagram_node_ids": [
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P8->P9"
+        ],
+        "evidence": "Failed resource removed and counter decremented.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R79",
+        "diagram_node_ids": [
+          "P15"
+        ],
+        "diagram_edge_ids": [
+          "P14->P15"
+        ],
+        "evidence": "Mediator receives initiation request.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R80",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11"
+        ],
+        "evidence": "Primary CDN realizes it cannot handle workload on WSs.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R81",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11"
+        ],
+        "evidence": "Trigger considers expected/unexpected load increases.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R82",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11"
+        ],
+        "evidence": "Flash crowds create unanticipated load.",
+        "confidence": 0.91
+      },
+      {
+        "requirement_id": "R83",
+        "diagram_node_ids": [
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P11->P14"
+        ],
+        "evidence": "Initialization request sent to mediator.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R86",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11"
+        ],
+        "evidence": "Hotspot generated and provider unable to handle excess load.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R87",
+        "diagram_node_ids": [
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P11->P14"
+        ],
+        "evidence": "WS sends initialization request.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R88",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P11->P12"
+        ],
+        "evidence": "Service timeout cancels initiation request.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R89",
+        "diagram_node_ids": [
+          "P13"
+        ],
+        "diagram_edge_ids": [
+          "P11->P13"
+        ],
+        "evidence": "Malicious requests rejected.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R91",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P10->P11"
+        ],
+        "evidence": "Both anticipated and unanticipated traffic considered.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R93",
+        "diagram_node_ids": [
+          "P15"
+        ],
+        "diagram_edge_ids": [
+          "P14->P15"
+        ],
+        "evidence": "Mediator invokes negotiation on receipt.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R94",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15->P16"
+        ],
+        "evidence": "SR sends resource and access info.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R95",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15->P16"
+        ],
+        "evidence": "PR sends policy info.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R97",
+        "diagram_node_ids": [
+          "P17",
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P15->P16",
+          "P17->P18",
+          "P18->P19"
+        ],
+        "evidence": "Mediator generates requirements and passes them to PA.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R99",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [
+          "P16->P17"
+        ],
+        "evidence": "Service requirements generated and sent onward.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R100",
+        "diagram_node_ids": [
+          "P15"
+        ],
+        "diagram_edge_ids": [
+          "P14->P15"
+        ],
+        "evidence": "Mediator receives initialization request to activate peering.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R101",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15->P16"
+        ],
+        "evidence": "Mediator obtains resource/access from SR and policy from PR.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R102",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [
+          "P16->P17"
+        ],
+        "evidence": "Mediator generates service requirements.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R103",
+        "diagram_node_ids": [
+          "P18",
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P17->P18",
+          "P18->P19"
+        ],
+        "evidence": "Acceptable requirements are passed to PA.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R104",
+        "diagram_node_ids": [
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P18->P20"
+        ],
+        "evidence": "Reject user requests on policy failure.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R105",
+        "diagram_node_ids": [
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P18->P20"
+        ],
+        "evidence": "Service requirements not passed to PA if not acceptable.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R108",
+        "diagram_node_ids": [
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P17->P18",
+          "P18->P19"
+        ],
+        "evidence": "Mediator works with PA to establish negotiation.",
+        "confidence": 0.91
+      },
+      {
+        "requirement_id": "R113",
+        "diagram_node_ids": [
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P19->P21"
+        ],
+        "evidence": "Service requirements received by Local PA.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R114",
+        "diagram_node_ids": [
+          "P25",
+          "P30"
+        ],
+        "diagram_edge_ids": [
+          "P25->P26",
+          "P26->P30"
+        ],
+        "evidence": "Negotiation and peering arrangement established.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R115",
+        "diagram_node_ids": [
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P19->P21"
+        ],
+        "evidence": "Local PA receives service requirements from mediator.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R116",
+        "diagram_node_ids": [
+          "P22",
+          "P23"
+        ],
+        "diagram_edge_ids": [
+          "P21->P22",
+          "P22->P23"
+        ],
+        "evidence": "Existing policies returned for long-term arrangement.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R117",
+        "diagram_node_ids": [
+          "P24"
+        ],
+        "diagram_edge_ids": [
+          "P22->P24"
+        ],
+        "evidence": "Short-term negotiation when no policies exist.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R118",
+        "diagram_node_ids": [
+          "P25"
+        ],
+        "diagram_edge_ids": [
+          "P23->P25",
+          "P24->P25"
+        ],
+        "evidence": "Local PA and mediator interact with external PAs through protocol.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R119",
+        "diagram_node_ids": [
+          "P25"
+        ],
+        "diagram_edge_ids": [
+          "P23->P25",
+          "P24->P25"
+        ],
+        "evidence": "External resources discovered and negotiation performed with peers.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R120",
+        "diagram_node_ids": [
+          "P26",
+          "P30"
+        ],
+        "diagram_edge_ids": [
+          "P25->P26",
+          "P26->P30"
+        ],
+        "evidence": "Sufficient resources establish peering arrangement.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R121",
+        "diagram_node_ids": [
+          "P27",
+          "P28"
+        ],
+        "diagram_edge_ids": [
+          "P26->P27",
+          "P27->P28",
+          "P28->P21"
+        ],
+        "evidence": "Insufficient resources trigger reevaluation and renegotiation.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R123",
+        "diagram_node_ids": [
+          "P13"
+        ],
+        "diagram_edge_ids": [
+          "P11->P13"
+        ],
+        "evidence": "Malicious requests identified and acted upon.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R124",
+        "diagram_node_ids": [
+          "P22",
+          "P23"
+        ],
+        "diagram_edge_ids": [
+          "P21->P22",
+          "P22->P23"
+        ],
+        "evidence": "Existing policies for long-term peering.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R125",
+        "diagram_node_ids": [
+          "P24"
+        ],
+        "diagram_edge_ids": [
+          "P22->P24"
+        ],
+        "evidence": "Procedure for short-term negotiation.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R128",
+        "diagram_node_ids": [
+          "P38"
+        ],
+        "diagram_edge_ids": [
+          "P33->P38"
+        ],
+        "evidence": "PR assists in enforcing negotiated policies.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R130",
+        "diagram_node_ids": [
+          "P30"
+        ],
+        "diagram_edge_ids": [
+          "P26->P30"
+        ],
+        "evidence": "Peering arrangement established.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R132",
+        "diagram_node_ids": [
+          "P34"
+        ],
+        "diagram_edge_ids": [
+          "P33->P34"
+        ],
+        "evidence": "Advertise configuration information after peering established.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R133",
+        "diagram_node_ids": [
+          "P35"
+        ],
+        "diagram_edge_ids": [
+          "P33->P35"
+        ],
+        "evidence": "PAs exchange content availability and load information.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R134",
+        "diagram_node_ids": [
+          "P36"
+        ],
+        "diagram_edge_ids": [
+          "P33->P36"
+        ],
+        "evidence": "Request redirected to optimal peer's Web server.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R135",
+        "diagram_node_ids": [
+          "P37"
+        ],
+        "diagram_edge_ids": [
+          "P33->P37"
+        ],
+        "evidence": "PAs exchange accounting information for billing.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R136",
+        "diagram_node_ids": [
+          "P38"
+        ],
+        "diagram_edge_ids": [
+          "P33->P38"
+        ],
+        "evidence": "Policy repository assists deployment/admin/enforcement.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R137",
+        "diagram_node_ids": [
+          "P40",
+          "P41"
+        ],
+        "diagram_edge_ids": [
+          "P39->P40",
+          "P40->P41"
+        ],
+        "evidence": "Peer refusal causes peering arrangement to cease.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R138",
+        "diagram_node_ids": [
+          "P30"
+        ],
+        "diagram_edge_ids": [
+          "P26->P30"
+        ],
+        "evidence": "Negotiation established between selected CDN peers.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R139",
+        "diagram_node_ids": [
+          "P26"
+        ],
+        "diagram_edge_ids": [
+          "P25->P26"
+        ],
+        "evidence": "Primary CDN has acquired sufficient external resources.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R140",
+        "diagram_node_ids": [
+          "P32",
+          "P38"
+        ],
+        "diagram_edge_ids": [
+          "P31->P32",
+          "P33->P38"
+        ],
+        "evidence": "Functional policies identified and deployed.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R141",
+        "diagram_node_ids": [
+          "P39"
+        ],
+        "diagram_edge_ids": [
+          "P38->P39"
+        ],
+        "evidence": "Effective content delivery through SLA satisfaction implied by operational sync.",
+        "confidence": 0.85
+      },
+      {
+        "requirement_id": "R144",
+        "diagram_node_ids": [
+          "P42"
+        ],
+        "diagram_edge_ids": [
+          "P39->P40",
+          "P40->P42"
+        ],
+        "evidence": "Termination condition trigger.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R145",
+        "diagram_node_ids": [
+          "P42"
+        ],
+        "diagram_edge_ids": [
+          "P39->P40",
+          "P40->P42"
+        ],
+        "evidence": "Established peering arrangement precondition for termination branch.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R146",
+        "diagram_node_ids": [
+          "P44"
+        ],
+        "diagram_edge_ids": [
+          "P43->P44"
+        ],
+        "evidence": "Disband or re-arrange action.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R147",
+        "diagram_node_ids": [
+          "P42"
+        ],
+        "diagram_edge_ids": [
+          "P39->P40",
+          "P40->P42"
+        ],
+        "evidence": "Arrangement currently operating with cooperation.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R148",
+        "diagram_node_ids": [
+          "P44"
+        ],
+        "diagram_edge_ids": [
+          "P43->P44"
+        ],
+        "evidence": "Local PA disbands or re-arranges arrangement.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R149",
+        "diagram_node_ids": [
+          "P45"
+        ],
+        "diagram_edge_ids": [
+          "P43->P45"
+        ],
+        "evidence": "Exceptional circumstances bypass disband/re-arrange and end flow.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R150",
+        "diagram_node_ids": [
+          "P32",
+          "P44"
+        ],
+        "diagram_edge_ids": [
+          "P31->P32",
+          "P43->P44"
+        ],
+        "evidence": "Policies identifying consequences of SLA violation.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R151",
+        "diagram_node_ids": [
+          "P27",
+          "P28",
+          "P44"
+        ],
+        "diagram_edge_ids": [
+          "P26->P27",
+          "P27->P28",
+          "P43->P44"
+        ],
+        "evidence": "Policies for renegotiation and problem resolution.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R152",
+        "diagram_node_ids": [
+          "P32",
+          "P44"
+        ],
+        "diagram_edge_ids": [
+          "P31->P32",
+          "P43->P44"
+        ],
+        "evidence": "Administrative policies deployed for operations.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "prioritized_defects": [
+    {
+      "id": "D1",
+      "category": "SEMANTIC",
+      "severity": "MEDIUM",
+      "description": "The streaming search flow does not clearly preserve the required distinction between video hosting results and video link results as separate outputs after querying. The requirements specify that hosting sites must retrieve and display full video name, length, date posted, and link, while link sites must retrieve and display show name and episode name; the diagram merges both branches through a generic send/display sequence and a shared no-results/sort/filter/pagination flow, which obscures the distinct result handling required by the specification.",
+      "node_ids": [
+        "N19",
+        "N20",
+        "N21",
+        "N22",
+        "N23",
+        "N24",
+        "N25",
+        "N26",
+        "N28",
+        "N29",
+        "N30",
+        "N31",
+        "N32",
+        "N33"
+      ],
+      "edge_ids": [
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E28",
+        "E29",
+        "E30",
+        "E32",
+        "E33",
+        "E34",
+        "E35",
+        "E36",
+        "E37",
+        "E38",
+        "E39"
+      ],
+      "requirement_ids": [
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R31",
+        "R32",
+        "R33",
+        "R34",
+        "R35",
+        "R36",
+        "R37",
+        "R38",
+        "R39"
+      ],
+      "evidence": "The requirements separate streaming behavior into two distinct retrieval/display contracts: R12 requires hosting sites to retrieve full video name, length, date posted, and a link; R13 requires link sites to retrieve show name, episode name, and a link. In the diagram, N19 forks to N20 and N21, but both merge at N22 and then proceed through a generic N23 'Send streaming results' and N26 'Streaming results found?' decision, followed by shared sort/filter/pagination actions. The individual display actions N24 and N25 occur, but the later control flow no longer distinguishes the two output types in a way that preserves their separate required semantics.",
+      "suggested_action": "Refactor the streaming branch so that hosting and link results remain explicitly separated through their respective display paths, with any shared operations applied only after the diagram has clearly represented the two required result structures. Ensure the flow makes it unambiguous which data fields are produced and shown by each source type."
+    }
+  ],
+  "final_recommendation": "Address D1 in the next repair batch. It is a behavioral semantics issue that can confuse or collapse two required output contracts, so it should be resolved before lower-impact refinements."
+}

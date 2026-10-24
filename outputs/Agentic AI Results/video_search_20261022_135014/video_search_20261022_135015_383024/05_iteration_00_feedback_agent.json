@@ -1,0 +1,89 @@
+{
+  "prioritized_defects": [
+    {
+      "id": "D-COV-R25",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R25 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R25"
+      ],
+      "evidence": "The user ticks the streaming host tick box.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R27",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R27 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R27"
+      ],
+      "evidence": "The user ticks the streaming links tick box.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R25",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R25 is still not represented as a distinct diagram element: the user tick box for selecting streaming host search is not explicitly modeled as its own action.",
+      "node_ids": [],
+      "edge_ids": [
+        "E10",
+        "E21"
+      ],
+      "requirement_ids": [
+        "R25"
+      ],
+      "evidence": "R25 requires: \"The user ticks the streaming host tick box.\" The diagram only routes from the search-type decision to a combined streaming-query fork and includes a guard \"hosting selected\" on E21, but no separate node/action explicitly represents the user ticking the hosting tick box.",
+      "suggested_action": "Add an explicit user action node for ticking the streaming host tick box and connect it to the streaming selection flow before the query fork."
+    },
+    {
+      "id": "D-COV-R27",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R27 is still not represented as a distinct diagram element: the user tick box for selecting streaming link search is not explicitly modeled as its own action.",
+      "node_ids": [],
+      "edge_ids": [
+        "E10",
+        "E22"
+      ],
+      "requirement_ids": [
+        "R27"
+      ],
+      "evidence": "R27 requires: \"The user ticks the streaming links tick box.\" The diagram only routes from the search-type decision to a combined streaming-query fork and includes a guard \"link selected\" on E22, but no separate node/action explicitly represents the user ticking the links tick box.",
+      "suggested_action": "Add an explicit user action node for ticking the streaming links tick box and connect it to the streaming selection flow before the query fork."
+    },
+    {
+      "id": "D-COV-R26-R28",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "The streaming query behavior is modeled as a combined fork, but the required conditional query actions for hosting and link sites are not explicitly separated from the selection steps, making the dependence on R25/R27 less clear in the activity semantics.",
+      "node_ids": [
+        "N19",
+        "N20",
+        "N21"
+      ],
+      "edge_ids": [
+        "E10",
+        "E21",
+        "E22",
+        "E23",
+        "E24"
+      ],
+      "requirement_ids": [
+        "R26",
+        "R28",
+        "R25",
+        "R27"
+      ],
+      "evidence": "R26 and R28 each require that when a search is started, the system queries the respective site type based on the corresponding tick box selection. The current diagram uses N19 \"Query streaming sources\" as a fork to both N20 and N21, with guards \"hosting selected\" and \"link selected,\" but the actual user selection actions (R25, R27) are not separately modeled and the fork is triggered directly after the shared search-term entry flow.",
+      "suggested_action": "Model the host and link selections as explicit user actions and route the query actions from those selections so the conditions for R26 and R28 are unambiguous."
+    }
+  ],
+  "final_recommendation": "Prioritize the four HIGH-severity coverage defects first, with the two duplicated R25/R27 traceability issues ahead of the broader R26/R28 modeling ambiguity."
+}

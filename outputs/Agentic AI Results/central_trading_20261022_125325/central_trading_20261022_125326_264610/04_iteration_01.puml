@@ -1,0 +1,96 @@
+@startuml
+title Central Trading System Activity Diagram
+skinparam swimlaneWrapTitleWidth 150
+
+|Transaction User Interface|
+start
+
+if (Start) then (yes)
+|Transaction User Interface|
+if (Instruction type?) then (buy / sell / cancel / trade info / query)
+|Transaction User Interface|
+:Give instruction;
+|Central Trading System|
+if (Operation suspended?) then (yes)
+|Central Trading System|
+stop
+else (no)
+|Central Trading System|
+:Save instruction;
+:Match same stock id;
+if (Matched stock?) then (yes)
+|Central Trading System|
+:Make trade;
+:Modify matched instructions;
+stop
+else (no match / exception)
+|Central Trading System|
+stop
+endif
+endif
+else
+|Transaction User Interface|
+if (Instruction type?) then (cancel)
+|Transaction User Interface|
+|Central Trading System|
+:Cancel instruction;
+if (Instruction implemented?) then (implemented)
+|Central Trading System|
+stop
+else (no match / exception)
+|Central Trading System|
+stop
+endif
+else
+|Transaction User Interface|
+if (Instruction type?) then (trade info)
+|Transaction User Interface|
+|Central Trading System|
+:Give out trade information;
+|Security Account Management|
+:Save trade information;
+stop
+else
+|Transaction User Interface|
+if (Instruction type?) then (query)
+|Transaction User Interface|
+|Central Trading System|
+if (Query valid?) then (valid)
+|Central Trading System|
+:Implement query;
+:Structure queried data;
+:Send data to release;
+if (Data found?) then (yes)
+|Central Trading System|
+stop
+else (no match / exception)
+|Central Trading System|
+stop
+endif
+else (invalid)
+|Central Trading System|
+stop
+endif
+else (system manager access)
+|Transaction User Interface|
+|Trading System Management|
+if (System manager authorized?) then (authorized)
+|Trading System Management|
+:Access CTS information;
+stop
+else (not authorized)
+|Trading System Management|
+stop
+endif
+endif
+endif
+endif
+endif
+else (system crash)
+|Transaction User Interface|
+|Trading System Management|
+:Find cause and fix crash;
+stop
+endif
+
+@enduml

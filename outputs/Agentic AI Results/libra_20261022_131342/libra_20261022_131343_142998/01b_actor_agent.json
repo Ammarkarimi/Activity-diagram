@@ -1,0 +1,20 @@
+{
+  "actors": [
+    "User",
+    "Administrator",
+    "Sun Grid Engine cluster management system",
+    "Libra scheduler",
+    "Execution Host",
+    "Central Information Store",
+    "Master Host"
+  ],
+  "proposed": [
+    "User",
+    "Administrator",
+    "Sun Grid Engine (SGE) cluster management system",
+    "Libra scheduler",
+    "Execution Host",
+    "Central Information Store",
+    "Master Host"
+  ]
+}

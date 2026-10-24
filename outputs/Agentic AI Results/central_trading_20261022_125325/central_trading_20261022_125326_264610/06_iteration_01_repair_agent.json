@@ -1,0 +1,635 @@
+{
+  "changed": true,
+  "repair_type": "minimal_traceability_and_semantics_fix",
+  "changes": [
+    "Added a CTS action for supporting new requirements and connected it from the initial flow so R15 is traced and reachable.",
+    "Renamed the stock matching action to explicitly state prescribed matching rules, preserving the existing flow while covering R3 semantically.",
+    "Added a CTS action for providing interfaces to send messages to other modules and connected it after trade completion so R4 is traced and reachable."
+  ],
+  "rationale": "The defects were limited to missing traceability and one underspecified matching behavior. The repair keeps the overall structure intact, adds only the minimum needed actions, and preserves all existing valid behavior and IDs.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "id": "N2",
+        "type": "decision",
+        "label": "Instruction type?",
+        "lane": "Transaction User Interface",
+        "requirement_ids": [
+          "R19",
+          "R27",
+          "R35",
+          "R41",
+          "R45",
+          "R2",
+          "R8"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Give instruction",
+        "lane": "Transaction User Interface",
+        "requirement_ids": [
+          "R19",
+          "R27",
+          "R35"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "decision",
+        "label": "Operation suspended?",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R24",
+          "R32",
+          "R38",
+          "R43",
+          "R49"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Save instruction",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R20",
+          "R28",
+          "R36"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Match instructions under specifically prescripts by same stock id",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R21",
+          "R29",
+          "R3"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "decision",
+        "label": "Matched stock?",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R26",
+          "R34"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Make trade",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R22",
+          "R30"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "action",
+        "label": "Modify matched instructions",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R23",
+          "R31"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "final",
+        "label": "End",
+        "lane": null,
+        "requirement_ids": [
+          "R24",
+          "R25",
+          "R26",
+          "R32",
+          "R33",
+          "R34",
+          "R38",
+          "R39",
+          "R40",
+          "R43",
+          "R44",
+          "R49",
+          "R50",
+          "R51"
+        ]
+      },
+      {
+        "id": "N11",
+        "type": "decision",
+        "label": "Instruction implemented?",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R39",
+          "R40"
+        ]
+      },
+      {
+        "id": "N12",
+        "type": "action",
+        "label": "Cancel instruction",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R37"
+        ]
+      },
+      {
+        "id": "N13",
+        "type": "action",
+        "label": "Give out trade information",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R41",
+          "R4"
+        ]
+      },
+      {
+        "id": "N14",
+        "type": "action",
+        "label": "Save trade information",
+        "lane": "Security Account Management",
+        "requirement_ids": [
+          "R42"
+        ]
+      },
+      {
+        "id": "N15",
+        "type": "decision",
+        "label": "Query valid?",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R50"
+        ]
+      },
+      {
+        "id": "N16",
+        "type": "action",
+        "label": "Implement query",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R46"
+        ]
+      },
+      {
+        "id": "N17",
+        "type": "action",
+        "label": "Structure queried data",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R47"
+        ]
+      },
+      {
+        "id": "N18",
+        "type": "action",
+        "label": "Send data to release",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R48"
+        ]
+      },
+      {
+        "id": "N19",
+        "type": "decision",
+        "label": "Data found?",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R51"
+        ]
+      },
+      {
+        "id": "N20",
+        "type": "decision",
+        "label": "System manager authorized?",
+        "lane": "Trading System Management",
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "N21",
+        "type": "action",
+        "label": "Access CTS information",
+        "lane": "Trading System Management",
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "N22",
+        "type": "action",
+        "label": "Find cause and fix crash",
+        "lane": "Trading System Management",
+        "requirement_ids": [
+          "R14"
+        ]
+      },
+      {
+        "id": "N23",
+        "type": "action",
+        "label": "Support new requirements and modify program",
+        "lane": "Trading System Management",
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "id": "N24",
+        "type": "action",
+        "label": "Provide interfaces to send messages to other modules",
+        "lane": "Central Trading System",
+        "requirement_ids": [
+          "R4"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": "buy / sell / cancel / trade info / query",
+        "requirement_ids": [
+          "R19",
+          "R27",
+          "R35",
+          "R41",
+          "R45"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R24",
+          "R32",
+          "R38",
+          "R43",
+          "R49"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N10",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R24",
+          "R32",
+          "R38",
+          "R43",
+          "R49"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": "no",
+        "requirement_ids": [
+          "R20",
+          "R28",
+          "R36"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R20",
+          "R28",
+          "R36"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R21",
+          "R29",
+          "R3"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R22",
+          "R30"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N7",
+        "target": "N10",
+        "type": "control",
+        "guard": "no match / exception",
+        "requirement_ids": [
+          "R26",
+          "R34"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N8",
+        "target": "N9",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R23",
+          "R31"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N9",
+        "target": "N24",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "E12",
+        "source": "N24",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R4"
+        ]
+      },
+      {
+        "id": "E13",
+        "source": "N2",
+        "target": "N12",
+        "type": "control",
+        "guard": "cancel",
+        "requirement_ids": [
+          "R35",
+          "R37"
+        ]
+      },
+      {
+        "id": "E14",
+        "source": "N12",
+        "target": "N11",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R37",
+          "R39",
+          "R40"
+        ]
+      },
+      {
+        "id": "E15",
+        "source": "N11",
+        "target": "N10",
+        "type": "control",
+        "guard": "implemented",
+        "requirement_ids": [
+          "R39"
+        ]
+      },
+      {
+        "id": "E16",
+        "source": "N11",
+        "target": "N10",
+        "type": "control",
+        "guard": "no match / exception",
+        "requirement_ids": [
+          "R40"
+        ]
+      },
+      {
+        "id": "E17",
+        "source": "N2",
+        "target": "N13",
+        "type": "control",
+        "guard": "trade info",
+        "requirement_ids": [
+          "R41"
+        ]
+      },
+      {
+        "id": "E18",
+        "source": "N13",
+        "target": "N14",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R41",
+          "R42"
+        ]
+      },
+      {
+        "id": "E19",
+        "source": "N14",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R42"
+        ]
+      },
+      {
+        "id": "E20",
+        "source": "N2",
+        "target": "N15",
+        "type": "control",
+        "guard": "query",
+        "requirement_ids": [
+          "R45"
+        ]
+      },
+      {
+        "id": "E21",
+        "source": "N15",
+        "target": "N16",
+        "type": "control",
+        "guard": "valid",
+        "requirement_ids": [
+          "R46"
+        ]
+      },
+      {
+        "id": "E22",
+        "source": "N15",
+        "target": "N10",
+        "type": "control",
+        "guard": "invalid",
+        "requirement_ids": [
+          "R50"
+        ]
+      },
+      {
+        "id": "E23",
+        "source": "N16",
+        "target": "N17",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R46",
+          "R47"
+        ]
+      },
+      {
+        "id": "E24",
+        "source": "N17",
+        "target": "N18",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R47",
+          "R48"
+        ]
+      },
+      {
+        "id": "E25",
+        "source": "N18",
+        "target": "N19",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R48",
+          "R51"
+        ]
+      },
+      {
+        "id": "E26",
+        "source": "N19",
+        "target": "N10",
+        "type": "control",
+        "guard": "yes",
+        "requirement_ids": [
+          "R51"
+        ]
+      },
+      {
+        "id": "E27",
+        "source": "N19",
+        "target": "N10",
+        "type": "control",
+        "guard": "no match / exception",
+        "requirement_ids": [
+          "R51"
+        ]
+      },
+      {
+        "id": "E28",
+        "source": "N2",
+        "target": "N20",
+        "type": "control",
+        "guard": "system manager access",
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "E29",
+        "source": "N20",
+        "target": "N21",
+        "type": "control",
+        "guard": "authorized",
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "E30",
+        "source": "N20",
+        "target": "N10",
+        "type": "control",
+        "guard": "not authorized",
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "E31",
+        "source": "N21",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "E32",
+        "source": "N1",
+        "target": "N22",
+        "type": "control",
+        "guard": "system crash",
+        "requirement_ids": [
+          "R14"
+        ]
+      },
+      {
+        "id": "E33",
+        "source": "N22",
+        "target": "N23",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R15"
+        ]
+      },
+      {
+        "id": "E34",
+        "source": "N23",
+        "target": "N10",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R15"
+        ]
+      }
+    ],
+    "title": "Central Trading System Activity Diagram"
+  }
+}

@@ -1,0 +1,333 @@
+{
+  "validation": {
+    "passed": false,
+    "score": 0.92,
+    "defects": [
+      {
+        "id": "D-COV-R46",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R46 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R46"
+        ],
+        "evidence": "The feature allows cancellation of a job or, under specific circumstances, change of a job parameter.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R48",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R48 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R48"
+        ],
+        "evidence": "If permitted, the user may specify a different output directory or a delayed deadline.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R50",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R50 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R50"
+        ],
+        "evidence": "The system removes the job from the queue and updates cluster status.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R51",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R51 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R51"
+        ],
+        "evidence": "The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      }
+    ],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 4,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 4,
+      "TOTAL_NODES": 25,
+      "TOTAL_EDGES": 29,
+      "TOTAL_REQUIREMENTS": 89
+    },
+    "summary": "4 defect(s) detected. Structural score: 1.000. Coverage score: 0.920. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 0.920."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers the main Libra scheduling flow, but it still misses the entire delete/change job use case and some required output/interaction semantics. It also contains a few semantic mismatches around who performs acceptance checks and how the resource manager / SGE boundary is represented.",
+    "semantic_score": 0.78,
+    "defects": [
+      {
+        "id": "D-COV-R46",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The delete/change job capability is still not modeled anywhere in the activity diagram.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R46"
+        ],
+        "evidence": "R46 requires the feature to allow cancellation of a job or, under specific circumstances, changing a job parameter. No node or flow in the current diagram represents cancellation, job-parameter change, or the decision path for this use case.",
+        "suggested_action": "Add an activity/decision path for delete/change job, including the permitted cancellation/change branch."
+      },
+      {
+        "id": "D-COV-R48",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The permitted parameter-change subcase for delete/change job is not modeled.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R48"
+        ],
+        "evidence": "R48 requires that, if permitted, the user may specify a different output directory or a delayed deadline. The diagram has no node or branch for these permitted changes.",
+        "suggested_action": "Add a guarded branch for permitted changes and show the supported editable fields such as output directory or delayed deadline."
+      },
+      {
+        "id": "D-COV-R50",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The required queue-removal and cluster-status update behavior for delete/change job is missing.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R50"
+        ],
+        "evidence": "R50 states that the system removes the job from the queue and updates cluster status. The diagram only includes cluster-status updates for scheduling/execution, not for job deletion/change.",
+        "suggested_action": "Add a delete/change action sequence that removes the job from the queue and updates cluster status."
+      },
+      {
+        "id": "D-COV-R51",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The required revision of scheduling decisions after delete/change job is missing.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R51"
+        ],
+        "evidence": "R51 requires revising resource-allocation decisions for pending jobs and new submissions after a job is deleted/changed. No diagram element performs this revision in response to deletion/change.",
+        "suggested_action": "Add a post-delete/change scheduling-revision step affecting pending jobs and future submissions."
+      },
+      {
+        "id": "D-COV-R52",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "MEDIUM",
+        "description": "The delete/change job outputs are not represented.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R52"
+        ],
+        "evidence": "R52 requires updated cluster information and scheduling decisions such as CPU load, node status, queue length, quanta, and revised expected finishing deadlines. The diagram does not model these outputs for delete/change.",
+        "suggested_action": "Add the corresponding output/return information to the delete/change path, or connect it to the SGE-provided status update flow."
+      },
+      {
+        "id": "D-COV-R23",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "MEDIUM",
+        "description": "Basic job accounting is not represented in the diagram.",
+        "node_ids": [
+          "N14"
+        ],
+        "edge_ids": [
+          "E19",
+          "E20"
+        ],
+        "requirement_ids": [
+          "R23"
+        ],
+        "evidence": "R23 requires the scheduler to provide at least basic job accounting to aid scheduling policies. The current diagram has cluster-status updates, but no activity that records or maintains accounting information.",
+        "suggested_action": "Add an accounting-related action or annotate an existing update step to show job accounting data being recorded."
+      },
+      {
+        "id": "D-COV-R24",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "LOW",
+        "description": "The ideally provided GUI for users/administrators is not represented.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R24"
+        ],
+        "evidence": "R24 says the scheduler ideally provides a GUI for users and administrators. The diagram contains only submission/processing actions and no GUI-related interaction.",
+        "suggested_action": "If you want to model this optional feature, add a GUI interaction node; otherwise it can remain unmodeled because it is optional."
+      },
+      {
+        "id": "D-SEM-R3-R4",
+        "category": "SEMANTIC",
+        "severity": "MEDIUM",
+        "description": "The diagram collapses Libra's workstation allocation decision and the resource manager's dispatch into a single flow without clearly representing the resource manager actor that receives Libra's decision and performs dispatch.",
+        "node_ids": [
+          "N12",
+          "N13"
+        ],
+        "edge_ids": [
+          "E17",
+          "E18"
+        ],
+        "requirement_ids": [
+          "R3",
+          "R4"
+        ],
+        "evidence": "R3 requires Libra to communicate allocation to the resource manager, and R4 requires the resource manager to dispatch the job after receiving that decision. In the diagram, 'Communicate allocation' is in the Libra lane and 'Dispatch job' is in the SGE lane, but there is no explicit resource-manager lane or separate handoff semantics.",
+        "suggested_action": "Model the resource manager explicitly or otherwise make the communication/dispatch handoff semantically unambiguous."
+      }
+    ],
+    "strengths": [
+      "The main submit \u2192 initialize \u2192 accept/reject \u2192 schedule \u2192 allocate host/queue \u2192 dispatch \u2192 update status \u2192 execute loop is present.",
+      "The diagram includes the required stride-scheduling mechanics: tickets, stride/pass calculation, minimum-pass selection, quantum allotment, pass advancement, and FIFO tie handling.",
+      "Submission-open and user-valid checks are modeled as separate decisions.",
+      "The execution loop termination condition is represented with a loop/decision structure."
+    ],
+    "missing_requirements": [
+      "Delete/change job use case (R46, R48, R50, R51, R52).",
+      "Basic job accounting (R23).",
+      "Optional GUI interaction (R24)."
+    ],
+    "unsupported_behaviors": []
+  },
+  "defects": [
+    {
+      "id": "D-COV-R46",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R46 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R46"
+      ],
+      "evidence": "The feature allows cancellation of a job or, under specific circumstances, change of a job parameter.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R48",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R48 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R48"
+      ],
+      "evidence": "If permitted, the user may specify a different output directory or a delayed deadline.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R50",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R50 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R50"
+      ],
+      "evidence": "The system removes the job from the queue and updates cluster status.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R51",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R51 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R51"
+      ],
+      "evidence": "The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R52",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "The delete/change job outputs are not represented.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R52"
+      ],
+      "evidence": "R52 requires updated cluster information and scheduling decisions such as CPU load, node status, queue length, quanta, and revised expected finishing deadlines. The diagram does not model these outputs for delete/change.",
+      "suggested_action": "Add the corresponding output/return information to the delete/change path, or connect it to the SGE-provided status update flow."
+    },
+    {
+      "id": "D-COV-R23",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "MEDIUM",
+      "description": "Basic job accounting is not represented in the diagram.",
+      "node_ids": [
+        "N14"
+      ],
+      "edge_ids": [
+        "E19",
+        "E20"
+      ],
+      "requirement_ids": [
+        "R23"
+      ],
+      "evidence": "R23 requires the scheduler to provide at least basic job accounting to aid scheduling policies. The current diagram has cluster-status updates, but no activity that records or maintains accounting information.",
+      "suggested_action": "Add an accounting-related action or annotate an existing update step to show job accounting data being recorded."
+    },
+    {
+      "id": "D-COV-R24",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "LOW",
+      "description": "The ideally provided GUI for users/administrators is not represented.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R24"
+      ],
+      "evidence": "R24 says the scheduler ideally provides a GUI for users and administrators. The diagram contains only submission/processing actions and no GUI-related interaction.",
+      "suggested_action": "If you want to model this optional feature, add a GUI interaction node; otherwise it can remain unmodeled because it is optional."
+    },
+    {
+      "id": "D-SEM-R3-R4",
+      "category": "SEMANTIC",
+      "severity": "MEDIUM",
+      "description": "The diagram collapses Libra's workstation allocation decision and the resource manager's dispatch into a single flow without clearly representing the resource manager actor that receives Libra's decision and performs dispatch.",
+      "node_ids": [
+        "N12",
+        "N13"
+      ],
+      "edge_ids": [
+        "E17",
+        "E18"
+      ],
+      "requirement_ids": [
+        "R3",
+        "R4"
+      ],
+      "evidence": "R3 requires Libra to communicate allocation to the resource manager, and R4 requires the resource manager to dispatch the job after receiving that decision. In the diagram, 'Communicate allocation' is in the Libra lane and 'Dispatch job' is in the SGE lane, but there is no explicit resource-manager lane or separate handoff semantics.",
+      "suggested_action": "Model the resource manager explicitly or otherwise make the communication/dispatch handoff semantically unambiguous."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Libra Scheduler Activity Diagram\nskinparam swimlaneWrapTitleWidth 150\n\n|Sun Grid Engine cluster management system|\nstart\n\n:Receive job submission;\n:Adapt submission interface / command-line path;\n:Evaluate submission with pending jobs;\nif (Submission open?) then (open)\n|Sun Grid Engine cluster management system|\nif (User valid?) then (valid)\n|Sun Grid Engine cluster management system|\n|Libra scheduler|\n:Initialize job;\n:Check acceptance;\nif (Accept job?) then (accepted)\n|Libra scheduler|\n:Allocate tickets;\n:Calculate stride and pass;\n:Apply proportional stride scheduling;\n:Choose host;\n:Select queue;\n:Communicate allocation;\n|Sun Grid Engine cluster management system|\n:Dispatch job;\n|Libra scheduler|\n:Update cluster status;\nwhile (Jobs remain?) is (yes)\n:Time-slice jobs;\nif (Tie on pass?) then (yes)\n|Libra scheduler|\n:Apply FIFO ordering;\nelse (no)\n|Libra scheduler|\n:Select minimum-pass job;\nendif\n:Allot quantum;\n:Advance pass;\nendwhile (no)\n|Libra scheduler|\nstop\nelse (rejected)\n|Libra scheduler|\nstop\nendif\nelse (invalid)\n|Sun Grid Engine cluster management system|\nstop\nendif\nelse (closed)\n|Sun Grid Engine cluster management system|\nstop\nendif\n\n@enduml"
+}

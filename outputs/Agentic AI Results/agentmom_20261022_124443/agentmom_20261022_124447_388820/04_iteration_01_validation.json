@@ -1,0 +1,193 @@
+{
+  "validation": {
+    "passed": false,
+    "score": 0.9,
+    "defects": [
+      {
+        "id": "D-STRUCT-003",
+        "category": "STRUCTURAL",
+        "severity": "CRITICAL",
+        "description": "Unreachable diagram nodes.",
+        "node_ids": [
+          "N13",
+          "N15"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [],
+        "evidence": "['N13', 'N15']",
+        "suggested_action": "Connect all diagram nodes to the main workflow."
+      },
+      {
+        "id": "D-COV-R13",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R13 is only traced to unreachable elements, so it is not shown.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R13"
+        ],
+        "evidence": "Another agent receives message.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R17",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R17 is only traced to unreachable elements, so it is not shown.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R17"
+        ],
+        "evidence": "Other agents in the group receive message.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      }
+    ],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 2,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 2,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 3,
+      "TOTAL_NODES": 18,
+      "TOTAL_EDGES": 22,
+      "TOTAL_REQUIREMENTS": 20
+    },
+    "summary": "3 defect(s) detected. Structural score: 0.975. Coverage score: 0.900. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 0.900."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers the required communication modes, optional encryption, and multicast join/leave flow, but it still contains two requirement-carrying receive actions that are not connected to the executable flow. Those requirements remain effectively unsupported in the current diagram despite being present as nodes.",
+    "semantic_score": 0.86,
+    "defects": [
+      {
+        "id": "D-COV-R13",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R13 is still not shown in the executable flow because the 'Receive message' action for unicast is unreachable from the main path.",
+        "node_ids": [
+          "N13"
+        ],
+        "edge_ids": [
+          "E20"
+        ],
+        "requirement_ids": [
+          "R13"
+        ],
+        "evidence": "R13 requires 'Another agent receives message.' The diagram contains N13 ('Receive message') and E20 to the final node, but no incoming edge from the unicast send path or any other executable path. As a result, the unicast receive step never occurs in the modeled workflow.",
+        "suggested_action": "Connect the unicast send path to N13 before termination, so the receive step is part of the executed unicast scenario."
+      },
+      {
+        "id": "D-COV-R17",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R17 is still not shown in the executable flow because the 'Receive message' action for multicast is unreachable from the main path.",
+        "node_ids": [
+          "N15"
+        ],
+        "edge_ids": [
+          "E21"
+        ],
+        "requirement_ids": [
+          "R17"
+        ],
+        "evidence": "R17 requires 'Other agents in the group receive message.' The diagram contains N15 ('Receive message') and E21 to the final node, but no incoming edge from the multicast send path or any other executable path. Therefore the multicast receive step is not actually modeled as occurring.",
+        "suggested_action": "Connect the multicast send path to N15 before termination, so the group receive step is part of the executed multicast scenario."
+      }
+    ],
+    "strengths": [
+      "The diagram correctly models choice among unicast, multicast, and broadcast communication.",
+      "Optional encryption is represented with separate encrypted and not-encrypted paths.",
+      "Multicast join/leave behavior is included, with distinct join and leave actions.",
+      "Broadcast sending and receiving are represented in the flow."
+    ],
+    "missing_requirements": [],
+    "unsupported_behaviors": []
+  },
+  "defects": [
+    {
+      "id": "D-STRUCT-003",
+      "category": "STRUCTURAL",
+      "severity": "CRITICAL",
+      "description": "Unreachable diagram nodes.",
+      "node_ids": [
+        "N13",
+        "N15"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "['N13', 'N15']",
+      "suggested_action": "Connect all diagram nodes to the main workflow."
+    },
+    {
+      "id": "D-COV-R13",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R13 is only traced to unreachable elements, so it is not shown.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R13"
+      ],
+      "evidence": "Another agent receives message.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R17",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R17 is only traced to unreachable elements, so it is not shown.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R17"
+      ],
+      "evidence": "Other agents in the group receive message.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R13",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R13 is still not shown in the executable flow because the 'Receive message' action for unicast is unreachable from the main path.",
+      "node_ids": [
+        "N13"
+      ],
+      "edge_ids": [
+        "E20"
+      ],
+      "requirement_ids": [
+        "R13"
+      ],
+      "evidence": "R13 requires 'Another agent receives message.' The diagram contains N13 ('Receive message') and E20 to the final node, but no incoming edge from the unicast send path or any other executable path. As a result, the unicast receive step never occurs in the modeled workflow.",
+      "suggested_action": "Connect the unicast send path to N13 before termination, so the receive step is part of the executed unicast scenario."
+    },
+    {
+      "id": "D-COV-R17",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R17 is still not shown in the executable flow because the 'Receive message' action for multicast is unreachable from the main path.",
+      "node_ids": [
+        "N15"
+      ],
+      "edge_ids": [
+        "E21"
+      ],
+      "requirement_ids": [
+        "R17"
+      ],
+      "evidence": "R17 requires 'Other agents in the group receive message.' The diagram contains N15 ('Receive message') and E21 to the final node, but no incoming edge from the multicast send path or any other executable path. Therefore the multicast receive step is not actually modeled as occurring.",
+      "suggested_action": "Connect the multicast send path to N15 before termination, so the group receive step is part of the executed multicast scenario."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Integrated communication activity for choosing unicast, multicast, or broadcast, optionally encrypting messages, and sending/receiving notifications, unicast, multicast, and broadcast messages with multicast join/leave support.\nskinparam swimlaneWrapTitleWidth 150\n\n|Sending Agent|\nstart\n\nif (Choose mode?) then (unicast)\n|Sending Agent|\n:Send unicast message;\n(A)\nif (Encrypt message?) then (encrypted)\n|Sending Agent|\n:Encrypt message;\nelse (not encrypted)\n|Sending Agent|\nendif\n:Send notify;\nif (Join or leave?) then (join)\n|Sending Agent|\n:Join multicast group;\nelse (leave)\n|Sending Agent|\n:Leave multicast group;\nendif\n|Receiving Agent|\n:Receive notify;\nif (Decrypt message?) then (encrypted)\n|Receiving Agent|\n:Decrypt message;\nstop\nelse (not encrypted)\n|Receiving Agent|\nstop\nendif\nelse\n|Sending Agent|\nif (Choose mode?) then (multicast)\n|Sending Agent|\n:Send multicast message;\n(A)\ndetach\nelse (broadcast)\n|Sending Agent|\n:Send broadcast message;\n|Receiving Agent|\n:Receive message;\nstop\nendif\nendif\n\n@enduml"
+}

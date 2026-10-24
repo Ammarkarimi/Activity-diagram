@@ -1,0 +1,124 @@
+@startuml
+title CDN peering lifecycle from service registration through peering initiation, negotiation, resource discovery, operational management, and disband/re-arrangement
+skinparam swimlaneWrapTitleWidth 150
+
+|Web Server|
+start
+
+:Publish resource info;
+|Service Registry|
+if (New resource?) then (new resource)
+|Service Registry|
+:Register resource;
+else (existing resource)
+|Service Registry|
+:Update resource;
+endif
+|Mediator|
+if (Traffic surge?) then (yes)
+|Mediator|
+|Service Registry|
+:Supply resources;
+else (no)
+|Mediator|
+endif
+|Service Registry|
+if (Resource failed?) then (yes)
+|Service Registry|
+:Remove failed resource;
+else (no)
+|Service Registry|
+endif
+|Web Server|
+:Detect hotspot;
+if (Timeout or malicious?) then (timeout)
+|Web Server|
+:Cancel request;
+stop
+else
+|Web Server|
+if (Timeout or malicious?) then (malicious request)
+|Web Server|
+:Reject request;
+stop
+else (normal hotspot)
+|Web Server|
+:Send request;
+|Mediator|
+:Receive request;
+:Get registry and policy data;
+:Generate requirements;
+if (Acceptable by policy?) then (acceptable)
+|Mediator|
+:Pass requirements;
+repeat
+|Local Peering Agent|
+:Receive requirements;
+|Policy Repository|
+if (Existing peering policies?) then (yes)
+|Policy Repository|
+:Return policies;
+else (no)
+|Policy Repository|
+|Local Peering Agent|
+:Negotiate short term;
+endif
+:Discover external resources;
+backward:Re-evaluate requirements / Renegotiate;
+repeat while (Sufficient resources?) is (no) not (yes)
+:Establish peering;
+|Service Registry|
+:Create SR instance;
+|Policy Repository|
+:Virtualize policies;
+|Mediator|
+fork
+|Local Peering Agent|
+:Advertise configuration;
+fork again
+|Mediator|
+|Local Peering Agent|
+:Exchange load information;
+fork again
+|Mediator|
+:Redirect requests;
+fork again
+|Mediator|
+|Local Peering Agent|
+:Exchange accounting;
+fork again
+|Mediator|
+|Policy Repository|
+:Deploy policies;
+end fork
+|Mediator|
+|Local Peering Agent|
+if (Refuse user requests?) then (yes)
+|Local Peering Agent|
+stop
+else (no)
+|Local Peering Agent|
+endif
+if (Terminate or re-arrange?) then (termination condition holds)
+|Local Peering Agent|
+if (Exceptional circumstances?) then (yes)
+|Local Peering Agent|
+stop
+else (no)
+|Local Peering Agent|
+:Disband or re-arrange;
+stop
+endif
+else (otherwise)
+|Local Peering Agent|
+stop
+endif
+else (not acceptable)
+|Mediator|
+:Reject user requests;
+stop
+endif
+endif
+endif
+
+@enduml

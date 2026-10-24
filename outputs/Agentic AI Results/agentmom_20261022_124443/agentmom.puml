@@ -1,0 +1,66 @@
+@startuml
+title Integrated communication activity for choosing unicast, multicast, or broadcast, optionally encrypting messages, and sending/receiving notifications, unicast, multicast, and broadcast messages with multicast join/leave support.
+skinparam swimlaneWrapTitleWidth 150
+
+|Sending Agent|
+start
+
+if (Choose mode?) then (unicast)
+|Sending Agent|
+:Send unicast message;
+fork
+(A)
+if (Encrypt message?) then (encrypted)
+|Sending Agent|
+:Encrypt message;
+else (not encrypted)
+|Sending Agent|
+endif
+:Send notify;
+if (Join or leave?) then (join)
+|Sending Agent|
+:Join multicast group;
+else (leave)
+|Sending Agent|
+:Leave multicast group;
+endif
+|Receiving Agent|
+:Receive notify;
+if (Decrypt message?) then (encrypted)
+|Receiving Agent|
+:Decrypt message;
+stop
+else (not encrypted)
+|Receiving Agent|
+stop
+endif
+fork again
+|Sending Agent|
+|Receiving Agent|
+:Receive message;
+stop
+end fork
+else
+|Sending Agent|
+if (Choose mode?) then (multicast)
+|Sending Agent|
+:Send multicast message;
+fork
+(A)
+detach
+fork again
+|Sending Agent|
+|Receiving Agent|
+:Receive message;
+stop
+end fork
+else (broadcast)
+|Sending Agent|
+:Send broadcast message;
+|Receiving Agent|
+:Receive message;
+stop
+endif
+endif
+
+@enduml

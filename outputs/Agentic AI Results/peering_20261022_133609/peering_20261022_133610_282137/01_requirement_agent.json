@@ -1,0 +1,2725 @@
+{
+  "source": "3 chunks",
+  "errors": [],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "A CDN\u2019s reach and scale is limited by its ability to handle peak load, cost of equipment, scalable infrastructure, and/or demand for the increased coverage of its infrastructure.",
+      "type": "OTHER",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A CDN\u2019s reach and scale is limited by its ability to handle peak load, cost of equipment, scalable infrastructure, and/or demand for the increased coverage of its infrastructure.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R2",
+      "text": "Peering allows a particular CDN to achieve larger scale/reach through resource sharing with other CDN(s).",
+      "type": "OTHER",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Peering allows a particular CDN to achieve larger scale/reach through resource sharing with other CDN(s).",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R3",
+      "text": "Peering is triggered by an initialization request sent to the mediator under exceptional circumstances, e.g. flash crowds, when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs).",
+      "type": "ACTION",
+      "actors": [
+        "CDN",
+        "mediator"
+      ],
+      "actions": [
+        "sent to the mediator"
+      ],
+      "conditions": [
+        "under exceptional circumstances",
+        "e.g. flash crowds",
+        "when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs)"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Peering is triggered by an initialization request sent to the mediator under exceptional circumstances, e.g. flash crowds, when the (primary) CDN realizes that it cannot handle a part of the workload on its Web Servers (WSs).",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R4",
+      "text": "The triggering condition must consider the expected and unexpected load increases in the initiating CDN.",
+      "type": "OTHER",
+      "actors": [
+        "initiating CDN"
+      ],
+      "actions": [],
+      "conditions": [
+        "the expected and unexpected load increases in the initiating CDN"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R3"
+      ],
+      "source_sentence": "The triggering condition must consider the expected and unexpected load increases in the initiating CDN.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R5",
+      "text": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship.",
+      "type": "ACTION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [
+        "leads to the creation of a negotiated relationship"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R6",
+      "text": "The negotiated relationship must specify the interactions among entities including service administration, coordination and disband (or re-arrangement) of internetworked CDNs.",
+      "type": "OTHER",
+      "actors": [
+        "negotiated relationship"
+      ],
+      "actions": [
+        "specify the interactions among entities"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R5"
+      ],
+      "source_sentence": "Thus, negotiated relationships must specify the interactions among entities including service administration, coordination and disband (or re-arrangement) of internetworked CDNs.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R7",
+      "text": "The mediator instance obtains the resource and access information from the Service Registry (SR).",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance"
+      ],
+      "actions": [
+        "obtains the resource and access information from the Service Registry (SR)"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "In the CDN peering architecture, the mediator instance obtains the resource and access information from the Service Registry (SR), whilst SLAs and other policies from the Policy Repository (PR).",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R8",
+      "text": "The mediator instance obtains SLAs and other policies from the Policy Repository (PR).",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance"
+      ],
+      "actions": [
+        "obtains SLAs and other policies from the Policy Repository (PR)"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R7"
+      ],
+      "source_sentence": "In the CDN peering architecture, the mediator instance obtains the resource and access information from the Service Registry (SR), whilst SLAs and other policies from the Policy Repository (PR).",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R9",
+      "text": "The mediator instance on the primary CDN\u2019s behalf generates its service requirements based on the current circumstance and SLA requirements of its customer(s).",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance"
+      ],
+      "actions": [
+        "generates its service requirements"
+      ],
+      "conditions": [
+        "based on the current circumstance and SLA requirements of its customer(s)"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R7",
+        "R8"
+      ],
+      "source_sentence": "The mediator instance on the primary CDN\u2019s behalf generates its service requirements based on the current circumstance and SLA requirements of its customer(s).",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R10",
+      "text": "Divergent policies are allowed that specify the information that can be shared during interaction through providing a certain level of visibility to preserve privacy.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Therefore, divergent policies are allowed that specify the information that can be shared during interaction through providing a certain level of visibility to preserve privacy.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R11",
+      "text": "The mediator instance passes the service requirements to the local PA to discover external resources from peers.",
+      "type": "ACTION",
+      "actors": [
+        "mediator instance",
+        "local PA"
+      ],
+      "actions": [
+        "passes the service requirements to the local PA",
+        "discover external resources from peers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R9"
+      ],
+      "source_sentence": "The mediator instance passes the service requirements to the local PA to discover external resources from peers.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R12",
+      "text": "The PA performs the resource discovery process through predicting performance of the peers and working around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "performs the resource discovery process",
+        "predicting performance of the peers",
+        "working around issues of separate administration and limited information sharing among enlisted CDNs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R11"
+      ],
+      "source_sentence": "The PA performs the resource discovery process through predicting performance of the peers, working around issues of separate administration and limited information sharing among enlisted CDNs.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R13",
+      "text": "If there are any preexisting peering arrangements for a long term scenario, then these will be returned at this point.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [
+        "will be returned at this point"
+      ],
+      "conditions": [
+        "there are any preexisting peering arrangements for a long term scenario"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R12"
+      ],
+      "source_sentence": "If there are any preexisting peering arrangements (for a long term scenario) then these will be returned at this point.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R14",
+      "text": "Otherwise, the PA carries out short term negotiations with the Peering Agent (PA) identified peering targets.",
+      "type": "ACTION",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "carries out short term negotiations with the Peering Agent (PA) identified peering targets"
+      ],
+      "conditions": [
+        "Otherwise"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "Otherwise, it carries out short term negotiations with the Peering Agent (PA) identified peering targets.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R15",
+      "text": "The next step is to configure the CDN peering protocols at the conduit of the respective CDNs in order to technically support the terms and policies implicitly specified through the negotiated relationships.",
+      "type": "ACTION",
+      "actors": [
+        "respective CDNs"
+      ],
+      "actions": [
+        "configure the CDN peering protocols at the conduit of the respective CDNs"
+      ],
+      "conditions": [
+        "in order to technically support the terms and policies implicitly specified through the negotiated relationships"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R14"
+      ],
+      "source_sentence": "The next step is to configure the \u2018CDN peering\u2019 protocols at the conduit of the respective CDNs in order to technically support the terms and policies implicitly specified through the negotiated relationships.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R16",
+      "text": "This step includes advertising the configurations of enlisted CDNs through inter-PA communication.",
+      "type": "OTHER",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [
+        "advertising the configurations of enlisted CDNs through inter-PA communication"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R15"
+      ],
+      "source_sentence": "This step includes advertising the configurations (topology aspects, geographical proximity, capability, performance, etc.) of enlisted CDNs through inter-PA communication.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R17",
+      "text": "On establishment of a peering arrangement, these protocols also allow participating CDNs to exchange information regarding the content availability and assists to redirect requests to an optimal peer.",
+      "type": "OTHER",
+      "actors": [
+        "participating CDNs"
+      ],
+      "actions": [
+        "exchange information regarding the content availability",
+        "redirect requests to an optimal peer"
+      ],
+      "conditions": [
+        "on establishment of a peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R15"
+      ],
+      "source_sentence": "On establishment of a peering arrangement, these protocols also allow participating CDNs to exchange information regarding the content availability and assists to redirect requests to an optimal peer.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R18",
+      "text": "Request-redirection in a peering arrangement depends on the content distribution and request-routing policies associated with the content as well as the specific algorithms and methods used for directing these requests.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "the content distribution and request-routing policies associated with the content",
+        "the specific algorithms and methods used for directing these requests"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R17"
+      ],
+      "source_sentence": "Request-redirection in a peering arrangement depends on the content distribution and request-routing policies (specified in the CDN peering protocols) associated with the content as well as the specific algorithms and methods used for directing these requests.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R19",
+      "text": "When the primary CDN acquires sufficient resources from the peers to meet its SLA with the customer, the new peering arrangement becomes operational.",
+      "type": "CONDITION",
+      "actors": [
+        "primary CDN",
+        "peers"
+      ],
+      "actions": [
+        "becomes operational"
+      ],
+      "conditions": [
+        "the primary CDN acquires sufficient resources from the peers to meet its SLA with the customer"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R17"
+      ],
+      "source_sentence": "When the primary CDN acquires sufficient resources from the peers to meet its SLA with the customer, the new peering arrangement becomes operational.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R20",
+      "text": "Necessary functional policies are deployed and administered in an effective way.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "deployed and administered in an effective way"
+      ],
+      "conditions": [
+        "necessary functional policies"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "Hence, necessary functional policies are deployed and administered in an effective way.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R21",
+      "text": "Once a peering arrangement is established, all participating parties cooperate in the execution of common goal(s).",
+      "type": "ACTION",
+      "actors": [
+        "participating parties"
+      ],
+      "actions": [
+        "cooperate in the execution of common goal(s)"
+      ],
+      "conditions": [
+        "once a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R20"
+      ],
+      "source_sentence": "Once a peering arrangement is established, all participating parties cooperate in the execution of common goal(s).",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R22",
+      "text": "Peering enables the CDNs to exchange accounting information to perform billing based on the negotiated relationships.",
+      "type": "OTHER",
+      "actors": [
+        "CDNs"
+      ],
+      "actions": [
+        "exchange accounting information",
+        "perform billing"
+      ],
+      "conditions": [
+        "based on the negotiated relationships"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R21"
+      ],
+      "source_sentence": "Peering also enables the CDNs to exchange accounting information to perform billing based on the negotiated relationships.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R23",
+      "text": "If no CDN is interested in such peering, peering arrangement creation through re-negotiation is resumed by tuning the negotiated relationships with reconsidered service requirements.",
+      "type": "EXCEPTION",
+      "actors": [
+        "CDN"
+      ],
+      "actions": [
+        "peering arrangement creation through re-negotiation is resumed",
+        "tuning the negotiated relationships with reconsidered service requirements"
+      ],
+      "conditions": [
+        "no CDN is interested in such peering"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R22"
+      ],
+      "source_sentence": "If no CDN is interested in such peering, peering arrangement creation through re-negotiation is resumed by tuning the negotiated relationships with reconsidered service requirements.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R24",
+      "text": "An existing peering arrangement may need to either disband or re-arrange itself within the scope of the negotiated relationships if the circumstances under which the arrangement was formed no longer hold, peering is no longer beneficial for the participating CDNs, an existing peering arrangement needs to be expanded further in order to deal with additional load, or participating CDNs are not meeting their agreed upon contributions.",
+      "type": "EXCEPTION",
+      "actors": [
+        "existing peering arrangement",
+        "participating CDNs"
+      ],
+      "actions": [
+        "disband",
+        "re-arrange itself",
+        "be expanded further"
+      ],
+      "conditions": [
+        "within the scope of the negotiated relationships",
+        "the circumstances under which the arrangement was formed no longer hold",
+        "peering is no longer beneficial for the participating CDNs",
+        "an existing peering arrangement needs to be expanded further in order to deal with additional load",
+        "participating CDNs are not meeting their agreed upon contributions"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "An existing peering arrangement may need to either disband or re-arrange itself (within the scope of the negotiated relationships) if any of the following conditions hold: (a) the circumstances under which the arrangement was formed no longer hold; (b) peering is no longer beneficial for the participating CDNs; (c) an existing peering arrangement needs to be expanded further in order to deal with additional load; or (d) participating CDNs are not meeting their agreed upon contributions.",
+      "section": "2.1 Product Perspective",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R25",
+      "text": "The software infrastructure enabling peering between CDNs can be featured with the following major goals.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The software infrastructure enabling peering between CDNs can be featured with the following major\ngoals:",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R26",
+      "text": "Development and validation of peering and manage the complexity of content delivery across Web servers of multiple CDNs that scale across the globe.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Development and validation of peering and manage the complexity of content delivery across Web servers of multiple CDNs that scale across the globe.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R27",
+      "text": "Decrease cost of Web access, increase QoS through reduced latency, reduce server load, and bandwidth consumption (by a particular CDN server), thus improving the performance of content delivery.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Decrease cost of Web access, increase QoS through reduced latency, reduce server load, and bandwidth consumption (by a particular CDN server), thus improving the performance of content delivery.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R28",
+      "text": "Assists an existing CDN to alleviate congestions by detecting and handling short-term load spikes (i.e. flash crowds) effectively.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "assists an existing CDN",
+        "alleviate congestions",
+        "detecting and handling short-term load spikes effectively"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Assists an existing CDN to alleviate congestions by detecting and handling short-term load spikes (i.e. flash crowds) effectively.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R29",
+      "text": "A Web server replicates content on-demand from the origin server and stores it for future use.",
+      "type": "ACTION",
+      "actors": [
+        "Web server"
+      ],
+      "actions": [
+        "replicates content on-demand from the origin server",
+        "stores it for future use"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A Web server replicates content on-demand from the origin server and stores it for future use.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R30",
+      "text": "In the event of Web hotspot, it initiates request to trigger peering.",
+      "type": "ACTION",
+      "actors": [
+        "Web server"
+      ],
+      "actions": [
+        "initiates request to trigger peering"
+      ],
+      "conditions": [
+        "In the event of Web hotspot"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "In the event of Web hotspot, it initiates request to trigger peering.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R31",
+      "text": "The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs.",
+      "type": "ACTION",
+      "actors": [
+        "Web services host"
+      ],
+      "actions": [
+        "ensures the delivery of content to end-users"
+      ],
+      "conditions": [
+        "based on the negotiated policies with other CDNs"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R32",
+      "text": "The policy agent is responsible (in conjunction with the mediator) for determining which resources can be delegated and under what conditions (policies) delegation is permitted.",
+      "type": "ACTION",
+      "actors": [
+        "policy agent",
+        "mediator"
+      ],
+      "actions": [
+        "determining which resources can be delegated",
+        "determining under what conditions delegation is permitted"
+      ],
+      "conditions": [
+        "in conjunction with the mediator"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The policy agent is responsible (in conjunction with the mediator) for determining which resources can be delegated and under what conditions (policies) delegation is permitted.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R33",
+      "text": "The SLA-allocator performs the provisioning and reservation of Web server\u2019s resources (e.g. CPU, bandwidth, storage etc.) to satisfy both local and delegated SLAs, and ensures that the terms of the SLAs are enforced.",
+      "type": "ACTION",
+      "actors": [
+        "SLA-allocator"
+      ],
+      "actions": [
+        "performs the provisioning of Web server\u2019s resources",
+        "performs the reservation of Web server\u2019s resources",
+        "ensures that the terms of the SLAs are enforced"
+      ],
+      "conditions": [
+        "to satisfy both local and delegated SLAs"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The SLA-allocator performs the provisioning and reservation of Web server\u2019s resources (e.g. CPU, bandwidth, storage etc.) to satisfy both local and delegated SLAs, and ensures that the terms of the SLAs are enforced.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R34",
+      "text": "The Web servers\u2019 underlying algorithms perform on-demand caching, content selection, and routing between servers.",
+      "type": "ACTION",
+      "actors": [
+        "Web servers\u2019 underlying algorithms"
+      ],
+      "actions": [
+        "perform on-demand caching",
+        "perform content selection",
+        "perform routing between servers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Web servers\u2019 underlying algorithms perform on-demand caching, content selection, and routing between servers.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R35",
+      "text": "It generates service requirements as the basis for negotiated relationships.",
+      "type": "OTHER",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "generates service requirements"
+      ],
+      "conditions": [
+        "as the basis for negotiated relationships"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It generates service requirements as the basis for negotiated relationships.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R36",
+      "text": "It passes the service requirements to the PA.",
+      "type": "OTHER",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "passes the service requirements to the PA"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R35"
+      ],
+      "source_sentence": "It passes the service requirements to the PA.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R37",
+      "text": "It works in conjunction with its local PA to discover external resources and to negotiate with other CDNs.",
+      "type": "OTHER",
+      "actors": [
+        "Mediator",
+        "local PA"
+      ],
+      "actions": [
+        "discover external resources",
+        "negotiate with other CDNs"
+      ],
+      "conditions": [
+        "in conjunction with its local PA"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R36"
+      ],
+      "source_sentence": "It works in conjunction with its local PA to discover external resources and to negotiate with other CDNs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R38",
+      "text": "Once a peering arrangement is established, it controls what portion of the Web traffic (i.e. end-user requests) is redirected to the Web servers of the peering CDNs, which content is replicated there, how the replication decision is taken, and which replication policies are being used.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "controls what portion of the Web traffic is redirected to the Web servers of the peering CDNs",
+        "controls which content is replicated there",
+        "controls how the replication decision is taken",
+        "controls which replication policies are being used"
+      ],
+      "conditions": [
+        "Once a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R37"
+      ],
+      "source_sentence": "Once a peering arrangement is established, it controls what portion of the Web traffic (i.e. end-user requests) is redirected to the Web servers of the peering CDNs, which content is replicated there, how the replication decision is taken, and which replication policies are being used.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R39",
+      "text": "It ensures that the participating entities are able to adapt to changing circumstances (agility) and are able to achieve their objectives in a dynamic and uncertain environment (resilience).",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It ensures that the participating entities are able to adapt to changing circumstances (agility) and are able to achieve their objectives in a dynamic and uncertain environment (resilience)",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R40",
+      "text": "It encapsulates the resource and service information for each CDN.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "encapsulates the resource and service information for each CDN"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It encapsulates the resource and service information for each CDN.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R41",
+      "text": "It helps in discovering local resources through enabling the Web servers of CDN providers to register and publish their resource, service and policy details.",
+      "type": "ACTION",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "helps in discovering local resources",
+        "enables the Web servers of CDN providers to register and publish their resource, service and policy details"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R40"
+      ],
+      "source_sentence": "It helps in discovering local resources through enabling the Web servers of CDN providers to register and publish their resource, service and policy details.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R42",
+      "text": "In the face of traffic surges, it supplies any necessary local resource information to the mediator.",
+      "type": "OTHER",
+      "actors": [
+        "Service Registry"
+      ],
+      "actions": [
+        "supplies any necessary local resource information to the mediator"
+      ],
+      "conditions": [
+        "In the face of traffic surges"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R41"
+      ],
+      "source_sentence": "In the face of traffic surges, it supplies any necessary local resource information to the mediator.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R43",
+      "text": "When a new peering arrangement is established, an instance of the service registry is created that encapsulates all local and delegated external CDN resources.",
+      "type": "ACTION",
+      "actors": [
+        "service registry"
+      ],
+      "actions": [
+        "creates an instance of the service registry that encapsulates all local and delegated external CDN resources"
+      ],
+      "conditions": [
+        "When a new peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R42"
+      ],
+      "source_sentence": "When a new peering arrangement is established, an instance of the service registry is created that encapsulates all local and delegated external CDN resources.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R44",
+      "text": "It virtualizes all of the policies within a peering arrangement including PWS, P M , and P Peering (i.e. Web server-specific policies, mediator policies, peering policies), along with any delegated policies for resources as a result of the peering arrangement.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Repository"
+      ],
+      "actions": [
+        "virtualizes all of the policies within a peering arrangement"
+      ],
+      "conditions": [
+        "including PWS, P M , and P Peering (i.e. Web server-specific policies, mediator policies, peering policies), along with any delegated policies for resources as a result of the peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It virtualizes all of the policies within a peering arrangement including PWS, P M , and P Peering (i.e. Web server-specific policies, mediator policies, peering policies), along with any delegated policies for resources as a result of the peering arrangement.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R45",
+      "text": "It provides a set of rules to the mediator to administer, manage, and control access to the resources in a peering arrangement.",
+      "type": "ACTION",
+      "actors": [
+        "Policy Repository"
+      ],
+      "actions": [
+        "provides a set of rules to the mediator",
+        "administer resources in a peering arrangement",
+        "manage resources in a peering arrangement",
+        "control access to the resources in a peering arrangement"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R44"
+      ],
+      "source_sentence": "It provides a set of rules to the mediator to administer, manage, and control access to the resources in a peering arrangement.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R46",
+      "text": "It returns existing peering policies to the PA during the establishment of long-term peering arrangements.",
+      "type": "OTHER",
+      "actors": [
+        "Policy Repository"
+      ],
+      "actions": [
+        "returns existing peering policies to the PA"
+      ],
+      "conditions": [
+        "during the establishment of long-term peering arrangements"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R45"
+      ],
+      "source_sentence": "It returns existing peering policies to the PA during the establishment of long-term peering arrangements.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R47",
+      "text": "A Peering Agent carries out the following major functions,",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A Peering Agent carries out the following major functions,",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R48",
+      "text": "It acts as a policy-driven resource discovery module for establishing negotiations.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent"
+      ],
+      "actions": [
+        "acts as a policy-driven resource discovery module for establishing negotiations"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It acts as a policy-driven resource discovery module for establishing negotiations.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R49",
+      "text": "It exchanges policy, resource information, and service requirements with external PAs.",
+      "type": "ACTION",
+      "actors": [
+        "Peering Agent"
+      ],
+      "actions": [
+        "exchanges policy information with external PAs",
+        "exchanges resource information with external PAs",
+        "exchanges service requirements with external PAs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R48"
+      ],
+      "source_sentence": "It exchanges policy, resource information, and service requirements with external PAs.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R50",
+      "text": "It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them.",
+      "type": "OTHER",
+      "actors": [
+        "Peering Agent",
+        "Mediator"
+      ],
+      "actions": [
+        "is used as a conduit by the mediator to establish negotiations with PAs of other peers",
+        "is used as a conduit by the mediator to acquire resources from them"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R49"
+      ],
+      "source_sentence": "It is used as a conduit by the mediator to establish negotiations with PAs of other peers and to acquire resources from them.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R51",
+      "text": "The operations performed by the components of the CDN peering is driven by semi-autonomous logic that ensures content is served reliably through content replication, request-routing and redirection whilst maintaining constant awareness of the health (e.g. load information) of participants.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The operations performed by the components of the CDN peering is driven by semi-autonomous logic that ensures content is served reliably through content replication, request-routing and redirection whilst maintaining constant awareness of the health (e.g. load information) of participants.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R52",
+      "text": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data.",
+      "type": "ACTION",
+      "actors": [
+        "participating CDNs"
+      ],
+      "actions": [
+        "perform content replication using a cooperative pull-based approach",
+        "assist each others in serving data"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R53",
+      "text": "Thus, content replication is featured through extending it to participating servers from the peers in a given peering arrangement, subject to the available resources they contribute.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "subject to the available resources they contribute"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R52"
+      ],
+      "source_sentence": "Thus, content replication is featured through extending it to participating servers from the peers in a given peering arrangement, subject to the available resources they contribute.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R54",
+      "text": "Load distribution is performed by measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach, where current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway (i.e. mediator, PA and policy repository as a single conceptual entity) in a periodic or threshold-based manner.",
+      "type": "ACTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "measuring the load information",
+        "disseminating it within individual CDNs and amongst other CDNs",
+        "reporting current bandwidth and resource usage of web servers in a CDN to the CDN gateway"
+      ],
+      "conditions": [
+        "using a hierarchical approach",
+        "in a periodic or threshold-based manner"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R51"
+      ],
+      "source_sentence": "Load distribution is performed by measuring the load information and disseminating it within individual CDNs and amongst other CDNs using a hierarchical approach, where current bandwidth and resource usage of web servers in a CDN is reported to the CDN gateway (i.e. mediator, PA and policy repository as a single conceptual entity) in a periodic or threshold-based manner.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R55",
+      "text": "The gateways of participating CDNs then communicate aggregated load information describing the load of their constituent servers.",
+      "type": "OTHER",
+      "actors": [
+        "gateways of participating CDNs"
+      ],
+      "actions": [
+        "communicate aggregated load information describing the load of their constituent servers"
+      ],
+      "conditions": [
+        "then"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R54"
+      ],
+      "source_sentence": "The gateways of participating CDNs then communicate aggregated load information describing the load of their constituent servers.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R56",
+      "text": "Request assignment and redirection is performed at multiple levels \u2013 at the DNS, at the gateways to local clusters, and also (redirection) between servers in a cluster.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "at the DNS",
+        "at the gateways to local clusters",
+        "between servers in a cluster"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Request assignment and redirection is performed at multiple levels \u2013 at the DNS, at the gateways to local clusters, and also (redirection) between servers in a cluster.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R57",
+      "text": "Therefore, end-users can be assigned via DNS (by the peering agents of participating CDNs updating their DNS records regularly) and also via redirection at the CDN gateway when appropriate.",
+      "type": "ACTION",
+      "actors": [
+        "peering agents of participating CDNs",
+        "CDN gateway"
+      ],
+      "actions": [
+        "assign end-users via DNS",
+        "updating their DNS records regularly",
+        "redirect end-users at the CDN gateway when appropriate"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R56"
+      ],
+      "source_sentence": "Therefore, end-users can be assigned via DNS (by the peering agents of participating CDNs updating their DNS records regularly) and also via redirection at the CDN gateway when appropriate.",
+      "section": "2.2 Product Features",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R58",
+      "text": "This feature is associated with the registration of resource and service information of each CDN to its SR",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This feature is associated with the registration of resource and service information of each CDN to its SR",
+      "section": "3.1 Service Registration",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R59",
+      "text": "WS: Publishes its resource and service information to the SR.",
+      "type": "ACTION",
+      "actors": [
+        "WS"
+      ],
+      "actions": [
+        "publishes its resource and service information to the SR"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "WS: Publishes its resource and service information to the SR.",
+      "section": "3.1.1 Actors",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R60",
+      "text": "SR: Registers available local resources at the CDN provider and updates them.",
+      "type": "OTHER",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "registers available local resources at the CDN provider",
+        "updates available local resources at the CDN provider"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R59"
+      ],
+      "source_sentence": "SR: Registers available local resources at the CDN provider and updates them.",
+      "section": "3.1.1 Actors",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R61",
+      "text": "Mediator: Collects up-to-date resource information from SR.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "collects up-to-date resource information from SR"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R60"
+      ],
+      "source_sentence": "Mediator: Collects up-to-date resource information from SR.",
+      "section": "3.1.1 Actors",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R62",
+      "text": "Service registration is triggered when either one  of the following occurs: (a) resources are  available   as  a  provider   starts  operating;   (b)  previously   registered   resource information needs to be updated; (c) available local resource information is required in the event of traffic surges; and (d) local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement.",
+      "type": "DECISION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "resources are available as a provider starts operating",
+        "previously registered resource information needs to be updated",
+        "available local resource information is required in the event of traffic surges",
+        "local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Service registration is triggered when either one  of the following occurs: (a) resources are  available   as  a  provider   starts  operating;   (b)  previously   registered   resource information needs to be updated; (c) available local resource information is required in the event of traffic surges; and (d) local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement.",
+      "section": "3.1.2 Trigger",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R63",
+      "text": "Available  local  resources  of a CDN  provider  are detected  along  with  their  service information  such  as CPU,  storage,  upload  and download  rate, etc.",
+      "type": "OTHER",
+      "actors": [
+        "CDN provider"
+      ],
+      "actions": [
+        "detect available local resources",
+        "detect their service information such as CPU, storage, upload and download rate"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Available  local  resources  of a CDN  provider  are detected  along  with  their  service information  such  as CPU,  storage,  upload  and download  rate, etc.",
+      "section": "3.1.3 Preconditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R64",
+      "text": "These  resources could be provisioned and reserved to satisfy SLAs.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R63"
+      ],
+      "source_sentence": "These  resources could be provisioned and reserved to satisfy SLAs.",
+      "section": "3.1.3 Preconditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R65",
+      "text": "Resources are registered in the service registry and being updated in a regular basis.",
+      "type": "ACTION",
+      "actors": [
+        "service registry"
+      ],
+      "actions": [
+        "register resources in the service registry",
+        "update resources in a regular basis"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R59",
+        "R60"
+      ],
+      "source_sentence": "Resources are registered in the service registry and being updated in a regular basis.",
+      "section": "3.1.4 Postconditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R66",
+      "text": "Each CDN Web server publishes resource and service information.",
+      "type": "OTHER",
+      "actors": [
+        "CDN Web server"
+      ],
+      "actions": [
+        "publishes resource and service information"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R59"
+      ],
+      "source_sentence": "1. Each CDN Web server publishes resource and service information.",
+      "section": "3.1.5 Stimulus/Response  Sequences",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R67",
+      "text": "If it is a new resource, its service information  is registered  in the SR with a new resource ID.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "If it is a new resource"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R66"
+      ],
+      "source_sentence": "2. If it is a new resource, its service information  is registered  in the SR with a new resource ID. Resource ID counter is incremented.",
+      "section": "3.1.5 Stimulus/Response  Sequences",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R68",
+      "text": "Resource ID counter is incremented.",
+      "type": "OTHER",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "increments resource ID counter"
+      ],
+      "conditions": [
+        "If it is a new resource"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R67"
+      ],
+      "source_sentence": "2. If it is a new resource, its service information  is registered  in the SR with a new resource ID. Resource ID counter is incremented.",
+      "section": "3.1.5 Stimulus/Response  Sequences",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R69",
+      "text": "Else, resource information in SR is updated in a regular basis.",
+      "type": "OTHER",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "updates resource information in SR in a regular basis"
+      ],
+      "conditions": [
+        "Else"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R67"
+      ],
+      "source_sentence": "3. Else, resource information in SR is updated in a regular basis.",
+      "section": "3.1.5 Stimulus/Response  Sequences",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R70",
+      "text": "In the face of traffic surges,  information  on available  local resources  along with their IDs is supplied to the Mediator.",
+      "type": "ACTION",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "supplies information on available local resources along with their IDs to the Mediator"
+      ],
+      "conditions": [
+        "In the face of traffic surges"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R69"
+      ],
+      "source_sentence": "4. In the face of traffic surges,  information  on available  local resources  along with their IDs is supplied to the Mediator.",
+      "section": "3.1.5 Stimulus/Response  Sequences",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R71",
+      "text": "Local  and  delegated  external  resource  information  is  encapsulated  in  the  SR instance in the established peering arrangement.",
+      "type": "OTHER",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "encapsulates local resource information in the SR instance",
+        "encapsulates delegated external resource information in the SR instance"
+      ],
+      "conditions": [
+        "in the established peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R70"
+      ],
+      "source_sentence": "5.  Local  and  delegated  external  resource  information  is  encapsulated  in  the  SR\ninstance in the established peering arrangement.",
+      "section": "3.1.5 Stimulus/Response  Sequences",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R72",
+      "text": "If a resource  fails, its service information  is removed  from SR and the resource  ID counter is decremented.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "remove its service information from SR",
+        "decrement the resource ID counter"
+      ],
+      "conditions": [
+        "If a resource fails"
+      ],
+      "exceptions": [
+        "resource failure"
+      ],
+      "dependencies": [
+        "R65"
+      ],
+      "source_sentence": "If a resource  fails, its service information  is removed  from SR and the resource  ID counter\nis decremented.",
+      "section": "3.1.6 Exceptions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R73",
+      "text": "The format for service information description is defined",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-1: The format for service information description is defined",
+      "section": "3.1.7 Functional Requirements",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R74",
+      "text": "The interaction protocol between Web Server-SR, SR-mediator is defined.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: The interaction protocol between Web Server-SR, SR-mediator is defined.",
+      "section": "3.1.7 Functional Requirements",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R75",
+      "text": "Resource provisioning, delegation and reservation policies are in place.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: Resource provisioning, delegation and reservation policies are in place.",
+      "section": "3.1.7 Functional Requirements",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R76",
+      "text": "There is an established norm that any resource failure will be reported",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-4: There is an established norm that any resource failure will be reported",
+      "section": "3.1.7 Functional Requirements",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R77",
+      "text": "This feature relates to the initialization of peering between CDNs.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This feature relates to the initialization  of peering between  CDNs.",
+      "section": "3.2 Request Initiation to Trigger Peering",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R78",
+      "text": "End-user: Requests for content.",
+      "type": "OTHER",
+      "actors": [
+        "End-user"
+      ],
+      "actions": [
+        "Requests for content"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "End-user: Requests for content.",
+      "section": "3.2.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R79",
+      "text": "Mediator: Receives initiation request from WS to trigger peering.",
+      "type": "OTHER",
+      "actors": [
+        "Mediator"
+      ],
+      "actions": [
+        "Receives initiation request from WS to trigger peering"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Mediator: Receives initiation request from WS to trigger peering.",
+      "section": "3.2.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R80",
+      "text": "It is invoked when a (primary) CDN realizes that it cannot handle a part of the workload on its WS(s).",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "realizes that it cannot handle a part of the workload on its WS(s)"
+      ],
+      "conditions": [
+        "a (primary) CDN realizes that it cannot handle a part of the workload on its WS(s)"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "It  is  invoked  when  a  (primary)  CDN  realizes  that  it  cannot  handle  a  part  of  the  workload   on   its   WS(s).",
+      "section": "3.2.2 Trigger",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R81",
+      "text": "The triggering condition considers the expected and unexpected load increases in the initiating (primary) CDN.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "the triggering condition considers the expected and unexpected load increases in the initiating (primary) CDN"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R80"
+      ],
+      "source_sentence": "The  triggering  condition  considers  the  expected   and   unexpected load increases in the initiating (primary) CDN.",
+      "section": "3.2.2 Trigger",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R82",
+      "text": "Exceptional circumstances such as flash crowds have occurred to place unanticipated load on CDN WSs.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Exceptional circumstances such as flash crowds have occurred to place unanticipated load on CDN WSs"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Exceptional circumstances  such as flash crowds have occurred to place unanticipated load on CDN WSs.",
+      "section": "3.2.3 Preconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R83",
+      "text": "An initialization request is sent to the mediator to trigger peering.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "sent to the mediator to trigger peering"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R80",
+        "R82"
+      ],
+      "source_sentence": "An initialization request is sent to the mediator to trigger peering.",
+      "section": "3.2.4 Postconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R84",
+      "text": "End users request for content from CDN WSs.",
+      "type": "OTHER",
+      "actors": [
+        "End users"
+      ],
+      "actions": [
+        "request for content from CDN WSs"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "End users request for content from CDN WSs.",
+      "section": "3.2.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R85",
+      "text": "Flash crowds occurred due to a sudden burst in traffic.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Flash crowds occurred due to a sudden burst in traffic"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R84"
+      ],
+      "source_sentence": "Flash crowds occurred due to a sudden burst in traffic.",
+      "section": "3.2.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R86",
+      "text": "Hotspot is generated and provider is unable to handle excess load on its WSs.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "Hotspot is generated"
+      ],
+      "conditions": [
+        "provider is unable to handle excess load on its WSs"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R85"
+      ],
+      "source_sentence": "Hotspot is generated and provider is unable to handle excess load on its WSs.",
+      "section": "3.2.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R87",
+      "text": "WS sends initialization request to the mediator to trigger peering.",
+      "type": "OTHER",
+      "actors": [
+        "WS"
+      ],
+      "actions": [
+        "sends initialization request to the mediator to trigger peering"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R86"
+      ],
+      "source_sentence": "WS sends initialization request to the mediator to trigger peering.",
+      "section": "3.2.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R88",
+      "text": "If the user requests experience service timeout (threshold), initiation request is cancelled.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "initiation request is cancelled"
+      ],
+      "conditions": [
+        "the user requests experience service timeout (threshold)"
+      ],
+      "exceptions": [
+        "initiation request is cancelled"
+      ],
+      "dependencies": [],
+      "source_sentence": "If  the  user  requests  experience   service  timeout  (threshold),   initiation  request  is  cancelled.",
+      "section": "3.2.6 Exceptions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R89",
+      "text": "Malicious requests are detected and rejected.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "detected",
+        "rejected"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "malicious requests are detected and rejected"
+      ],
+      "dependencies": [],
+      "source_sentence": "REQ-1: Malicious requests are detected and rejected.",
+      "section": "3.2.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R90",
+      "text": "Web servers have already replicated necessary content.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: Web servers have already replicated necessary content.",
+      "section": "3.2.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R91",
+      "text": "Both anticipated and unanticipated user requests (traffic) are considered.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Both anticipated and unanticipated user requests (traffic) are considered"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: Both anticipated and unanticipated user requests (traffic) are considered.",
+      "section": "3.2.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R92",
+      "text": "The format of the initiation request is defined.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-4: The format of the initiation request is defined.",
+      "section": "3.2.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R93",
+      "text": "On receipt of the initialization request to trigger peering, the mediator of the primary CDN invokes negotiation.",
+      "type": "ACTION",
+      "actors": [
+        "mediator of the primary CDN"
+      ],
+      "actions": [
+        "invokes negotiation"
+      ],
+      "conditions": [
+        "receipt of the initialization request to trigger peering"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R83"
+      ],
+      "source_sentence": "On receipt of the initialization request to trigger peering, the mediator of the primary CDN invokes negotiation.",
+      "section": "3.3",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R94",
+      "text": "SR: Sends resource and access information.",
+      "type": "OTHER",
+      "actors": [
+        "SR"
+      ],
+      "actions": [
+        "Sends resource and access information"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "SR: Sends resource and access information.",
+      "section": "3.3.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R95",
+      "text": "PR: Sends policy information for establishing negotiated relationships.",
+      "type": "OTHER",
+      "actors": [
+        "PR"
+      ],
+      "actions": [
+        "Sends policy information for establishing negotiated relationships"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "PR: Sends policy information for establishing negotiated relationships.",
+      "section": "3.3.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R96",
+      "text": "PA: Receives service requirements from the mediator.",
+      "type": "OTHER",
+      "actors": [
+        "PA"
+      ],
+      "actions": [
+        "Receives service requirements from the mediator"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "PA: Receives service requirements from the mediator.",
+      "section": "3.3.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R97",
+      "text": "Upon receiving the initialization request to trigger peering, the mediator generates service requirements and passes it to local PA.",
+      "type": "OTHER",
+      "actors": [
+        "mediator"
+      ],
+      "actions": [
+        "generates service requirements",
+        "passes it to local PA"
+      ],
+      "conditions": [
+        "Upon receiving the initialization request to trigger peering"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R93"
+      ],
+      "source_sentence": "Upon  receiving  the  initialization  request  to trigger  peering,  the  mediator  generates service requirements and passes it to local PA.",
+      "section": "3.3.2 Trigger",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R98",
+      "text": "Initialization request is received.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Initialization request is received"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R93"
+      ],
+      "source_sentence": "Initialization request is received.",
+      "section": "3.3.3 Preconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R99",
+      "text": "Service requirements are generated and they are sent to the local PA.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "generated",
+        "sent to the local PA"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R97"
+      ],
+      "source_sentence": "Service requirements are generated and they are sent to the local PA.",
+      "section": "3.3.4 Postconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R100",
+      "text": "An initialization request to activate peering is received by the mediator.",
+      "type": "OTHER",
+      "actors": [
+        "the mediator"
+      ],
+      "actions": [
+        "receives an initialization request to activate peering"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R98"
+      ],
+      "source_sentence": "An initialization request to activate peering is received by the mediator.",
+      "section": "3.3.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R101",
+      "text": "The mediator instance obtains resource and access information from the SR and policy information from PR to establish negotiation.",
+      "type": "OTHER",
+      "actors": [
+        "The mediator instance"
+      ],
+      "actions": [
+        "obtains resource and access information from the SR",
+        "obtains policy information from PR",
+        "establish negotiation"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R100"
+      ],
+      "source_sentence": "The mediator  instance  obtains  resource  and  access  information  from  the SR and policy information from PR to establish negotiation.",
+      "section": "3.3.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R102",
+      "text": "The mediator generates service requirements.",
+      "type": "OTHER",
+      "actors": [
+        "The mediator"
+      ],
+      "actions": [
+        "generates service requirements"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R101"
+      ],
+      "source_sentence": "The mediator generates service requirements.",
+      "section": "3.3.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R103",
+      "text": "If the service requirements are acceptable according to the provider\u2019s policy, mediator passes it to the local PA.",
+      "type": "DECISION",
+      "actors": [],
+      "actions": [
+        "mediator passes it to the local PA"
+      ],
+      "conditions": [
+        "the service requirements are acceptable according to the provider\u2019s policy"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R102"
+      ],
+      "source_sentence": "If  the  service  requirements  are  acceptable  according  to  the  provider\u2019s  policy, mediator passes it to the local PA.",
+      "section": "3.3.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R104",
+      "text": "Else, reject user requests.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "reject user requests"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "reject user requests"
+      ],
+      "dependencies": [
+        "R103"
+      ],
+      "source_sentence": "Else, reject user requests.",
+      "section": "3.3.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R105",
+      "text": "If the user requests can not be accepted according the provider policies, service requirements are not passed to the local PA.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "service requirements are not passed to the local PA"
+      ],
+      "conditions": [
+        "the user requests can not be accepted according the provider policies"
+      ],
+      "exceptions": [
+        "service requirements are not passed to the local PA"
+      ],
+      "dependencies": [],
+      "source_sentence": "If  the  user  requests  can  not  be  accepted  according  the  provider  policies,  service requirements are not passed to the local PA.",
+      "section": "3.3.6 Exceptions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R106",
+      "text": "The format of service requirements is defined.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-1: The format of service requirements is defined.",
+      "section": "3.3.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R107",
+      "text": "Mediator-SR, mediator-PR, mediator-PA interaction protocols are defined.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: Mediator-SR, mediator-PR, mediator-PA interaction protocols are defined.",
+      "section": "3.3.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R108",
+      "text": "Mediator works in conjunction with the PA to establish negotiation.",
+      "type": "ACTION",
+      "actors": [
+        "Mediator",
+        "PA"
+      ],
+      "actions": [
+        "works in conjunction with the PA to establish negotiation"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R102"
+      ],
+      "source_sentence": "REQ-3: Mediator works in conjunction with the PA to establish negotiation.",
+      "section": "3.3.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R109",
+      "text": "The PA of a given primary CDN negotiates with PAs of the peers to perform external resource discovery.",
+      "type": "OTHER",
+      "actors": [
+        "PA of a given primary CDN"
+      ],
+      "actions": [
+        "negotiates with PAs of the peers",
+        "perform external resource discovery"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The  PA  of a given  primary  CDN  negotiates  with  PAs  of  the peers  to perform  external  resource discovery.",
+      "section": "3.4",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R110",
+      "text": "External PA: Negotiates with the PA of the primary CDN.",
+      "type": "OTHER",
+      "actors": [
+        "External PA"
+      ],
+      "actions": [
+        "Negotiates with the PA of the primary CDN"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "External PA: Negotiates with the PA of the primary CDN.",
+      "section": "3.4.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R111",
+      "text": "PR: Receives negotiated policies from the local PA.",
+      "type": "OTHER",
+      "actors": [
+        "PR"
+      ],
+      "actions": [
+        "Receives negotiated policies from the local PA"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "PR: Receives negotiated policies from the local PA.",
+      "section": "3.4.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R112",
+      "text": "Local PA communicates with the PAs of peers to discover external resources.",
+      "type": "OTHER",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "communicates with the PAs of peers to discover external resources"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R109"
+      ],
+      "source_sentence": "Local PA communicates with the PAs of peers to discover external resources.",
+      "section": "3.4.2 Trigger",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R113",
+      "text": "Service requirements are received from the mediator.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Service requirements are received from the mediator"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R97"
+      ],
+      "source_sentence": "Service requirements are received from the mediator.",
+      "section": "3.4.3 Preconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R114",
+      "text": "Negotiation is performed and a peering arrangement is established through inter-PA communications.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "Negotiation is performed",
+        "a peering arrangement is established through inter-PA communications"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R112"
+      ],
+      "source_sentence": "Negotiation  is performed  and a peering arrangement  is established  through inter-PA communications.",
+      "section": "3.4.4 Postconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R115",
+      "text": "Local PA receives service requirements from the mediator.",
+      "type": "ACTION",
+      "actors": [
+        "Local PA"
+      ],
+      "actions": [
+        "receives service requirements from the mediator"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R113"
+      ],
+      "source_sentence": "Local PA receives service requirements from the mediator.",
+      "section": "3.4.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R116",
+      "text": "If any peering policies exist, they are returned to establish long-term peering arrangement.",
+      "type": "DECISION",
+      "actors": [],
+      "actions": [
+        "they are returned to establish long-term peering arrangement"
+      ],
+      "conditions": [
+        "any peering policies exist"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R115"
+      ],
+      "source_sentence": "If  any  peering  policies  exist,  they  are  returned  to  establish  long-term  peering arrangement.",
+      "section": "3.4.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R117",
+      "text": "Else, short-term negotiation is performed.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "short-term negotiation is performed"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "short-term negotiation is performed"
+      ],
+      "dependencies": [
+        "R116"
+      ],
+      "source_sentence": "Else, short-term negotiation is performed.",
+      "section": "3.4.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R118",
+      "text": "Local PA in conjunction with the mediator interacts with external PAs through inter-PA communication protocol.",
+      "type": "OTHER",
+      "actors": [
+        "Local PA",
+        "mediator"
+      ],
+      "actions": [
+        "interacts with external PAs through inter-PA communication protocol"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R115"
+      ],
+      "source_sentence": "Local  PA  in conjunction  with  the  mediator  interacts  with  external  PAs  through inter-PA communication protocol.",
+      "section": "3.4.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R119",
+      "text": "External resources are discovered and negotiation is performed with selected CDN peers.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "External resources are discovered",
+        "negotiation is performed with selected CDN peers"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R118"
+      ],
+      "source_sentence": "External resources are discovered and negotiation is performed with selected CDN peers.",
+      "section": "3.4.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R120",
+      "text": "If sufficient resources are acquired, a peering arrangement is established",
+      "type": "DECISION",
+      "actors": [],
+      "actions": [
+        "a peering arrangement is established"
+      ],
+      "conditions": [
+        "sufficient resources are acquired"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R119"
+      ],
+      "source_sentence": "If sufficient resources are acquired, a peering arrangement is established",
+      "section": "3.4.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R121",
+      "text": "Else, mediator re-evaluates service requirements and sends to the local PA to perform re-negotiation",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "mediator re-evaluates service requirements",
+        "sends to the local PA to perform re-negotiation"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "mediator re-evaluates service requirements and sends to the local PA to perform re-negotiation"
+      ],
+      "dependencies": [
+        "R120"
+      ],
+      "source_sentence": "Else,  mediator  re-evaluates  service  requirements  and  sends  to  the  local  PA  to perform re-negotiation",
+      "section": "3.4.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R122",
+      "text": "Interaction protocols between PAs are identified.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-1: Interaction protocols between PAs are identified.",
+      "section": "3.4.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R123",
+      "text": "Malicious requests are identified and acted upon.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "identified",
+        "acted upon"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "malicious requests are identified and acted upon"
+      ],
+      "dependencies": [],
+      "source_sentence": "REQ-2: Malicious requests are identified and acted upon.",
+      "section": "3.4.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R124",
+      "text": "There are existing policies for long-term peering arrangement.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: There are existing policies for long-term peering arrangement.",
+      "section": "3.4.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R125",
+      "text": "There is procedure to perform short-term negotiation.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-4: There is procedure to perform short-term negotiation.",
+      "section": "3.4.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R126",
+      "text": "This feature is responsible for the inter-CDN protocol configuration, resource initialization and for ensuring effective operations of the established peering arrangement.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "This feature is responsible  for the inter-CDN  protocol configuration,  resource initialization and for ensuring effective operations of the established peering arrangement.",
+      "section": "3.5",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R127",
+      "text": "External PA: Exchanges configurations and content availability information, and accepts requests to an optimal peer.",
+      "type": "OTHER",
+      "actors": [
+        "External PA"
+      ],
+      "actions": [
+        "Exchanges configurations and content availability information",
+        "accepts requests to an optimal peer"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "External PA: Exchanges configurations and content availability information, and accepts requests to an optimal peer.",
+      "section": "3.5.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R128",
+      "text": "PR: Assists in enforcing negotiated policies.",
+      "type": "OTHER",
+      "actors": [
+        "PR"
+      ],
+      "actions": [
+        "Assists in enforcing negotiated policies"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "PR: Assists in enforcing negotiated policies.",
+      "section": "3.5.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R129",
+      "text": "Once policies are negotiated and a peering arrangement is established, PAs interact each other in the execution of common goal(s).",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "policies are negotiated and a peering arrangement is established",
+        "PAs interact each other in the execution of common goal(s)"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Once policies  are negotiated  and a peering  arrangement  is established,  PAs interact each other in the execution of common goal(s).",
+      "section": "3.5.2 Trigger",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R130",
+      "text": "A peering arrangement is established.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "A peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R114"
+      ],
+      "source_sentence": "A peering arrangement is established.",
+      "section": "3.5.3 Preconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R131",
+      "text": "Necessary functions policies are deployed and administration for effective operations.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R129"
+      ],
+      "source_sentence": "Necessary functions policies are deployed and administration for effective operations.",
+      "section": "3.5.4 Postconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R132",
+      "text": "Once a peering arrangement is established, the initiating primary CDN through its local PA advertise configuration information to technically support the negotiated relationships between enlisted CDNs.",
+      "type": "OTHER",
+      "actors": [
+        "initiating primary CDN",
+        "local PA"
+      ],
+      "actions": [
+        "advertise configuration information to technically support the negotiated relationships between enlisted CDNs"
+      ],
+      "conditions": [
+        "Once a peering arrangement is established"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R130"
+      ],
+      "source_sentence": "Once a peering arrangement is established, the initiating primary CDN through its local PA advertise configuration information to technically support the negotiated relationships between enlisted CDNs.",
+      "section": "3.5.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R133",
+      "text": "PAs exchange content availability and load information to identify an optimal peer to handle user requests.",
+      "type": "ACTION",
+      "actors": [
+        "PAs"
+      ],
+      "actions": [
+        "exchange content availability and load information",
+        "identify an optimal peer to handle user requests"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R132"
+      ],
+      "source_sentence": "PAs exchange content availability and load information to identify an optimal peer to handle user requests.",
+      "section": "3.5.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R134",
+      "text": "Request is redirected to an optimal peer\u2019s Web server.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "redirected to an optimal peer\u2019s Web server"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R133"
+      ],
+      "source_sentence": "Request is redirected to an optimal peer\u2019s Web server.",
+      "section": "3.5.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R135",
+      "text": "PAs exchange accounting information to perform billing based on negotiated relationships.",
+      "type": "OTHER",
+      "actors": [
+        "PAs"
+      ],
+      "actions": [
+        "exchange accounting information",
+        "perform billing based on negotiated relationships"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R133"
+      ],
+      "source_sentence": "PAs exchange accounting information to perform billing based on negotiated relationships.",
+      "section": "3.5.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R136",
+      "text": "The policy repository instance in the established peering arrangement assists in the deployment, administration and enforcement of the functional policies.",
+      "type": "OTHER",
+      "actors": [
+        "The policy repository instance"
+      ],
+      "actions": [
+        "assists in the deployment",
+        "assists in the administration",
+        "assists in the enforcement of the functional policies"
+      ],
+      "conditions": [
+        "in the established peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R131"
+      ],
+      "source_sentence": "The policy repository instance in the established peering arrangement assists in the deployment, administration and enforcement of the functional policies.",
+      "section": "3.5.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R137",
+      "text": "If a peered CDN provider refuses to accept user requests, a given peering arrangement ceases.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "a given peering arrangement ceases"
+      ],
+      "conditions": [
+        "a peered CDN provider refuses to accept user requests"
+      ],
+      "exceptions": [
+        "a given peering arrangement ceases"
+      ],
+      "dependencies": [],
+      "source_sentence": "If a peered CDN provider refuses to accept user requests, a given peering arrangement ceases.",
+      "section": "3.5.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R138",
+      "text": "Negotiation is established between selected CDN peers.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-1: Negotiation is established between selected CDN peers.",
+      "section": "3.5.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R139",
+      "text": "Primary CDN has already acquired sufficient external resources.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: Primary CDN has already acquired sufficient external resources.",
+      "section": "3.5.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R140",
+      "text": "Functional policies are identified and deployed.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: Functional policies are identified and deployed.",
+      "section": "3.5.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R141",
+      "text": "Effective content delivery is ensured through SLA satisfaction.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-4: Effective content delivery is ensured through SLA satisfaction.",
+      "section": "3.5.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R142",
+      "text": "There could be circumstances under which a given peering arrangement may need to disband or re-arranges itself.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "There could be circumstances  under which a given peering arrangement  may need to disband or re- arranges itself.",
+      "section": "3.6",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R143",
+      "text": "External PA: Interactions with local PA of the primary CDN.",
+      "type": "OTHER",
+      "actors": [
+        "External PA"
+      ],
+      "actions": [
+        "Interactions with local PA of the primary CDN"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "External PA: Interactions with local PA of the primary CDN.",
+      "section": "3.6.1 Actors",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R144",
+      "text": "Any of the termination condition holds.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Any of the termination condition holds"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Any of the termination condition holds.",
+      "section": "3.6.2 Trigger",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R145",
+      "text": "There is an established peering arrangement.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "There is an established peering arrangement"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "There is an established peering arrangement.",
+      "section": "3.6.3 Preconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R146",
+      "text": "A given peering arrangement is disband or it is re-arranged.",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "disband",
+        "re-arranged"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R144",
+        "R145"
+      ],
+      "source_sentence": "A given peering arrangement is disband or it is re-arranged.",
+      "section": "3.6.4 Postconditions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R147",
+      "text": "A given peering arrangement is currently in operation and peers are cooperating for effective content delivery.",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "A given peering arrangement is currently in operation",
+        "peers are cooperating for effective content delivery"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "A given peering arrangement is currently in operation and peers are cooperating for effective content delivery.",
+      "section": "3.6.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R148",
+      "text": "If any of the termination condition holds, the local PA disbands or re-arranges the peering arrangement.",
+      "type": "DECISION",
+      "actors": [],
+      "actions": [
+        "the local PA disbands or re-arranges the peering arrangement"
+      ],
+      "conditions": [
+        "any of the termination condition holds"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R147"
+      ],
+      "source_sentence": "If any of the termination condition holds, the local PA disbands or re-arranges the peering arrangement.",
+      "section": "3.6.5 Stimulus/Response  Sequences",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R149",
+      "text": "If there are exceptional circumstances such as natural disaster, theft, etc. for which any peer is unable to honor the negotiated relationships, a given peering arrangement is not disband or re-arranged and SLA conditions are bypassed.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "a given peering arrangement is not disband or re-arranged",
+        "SLA conditions are bypassed"
+      ],
+      "conditions": [
+        "there are exceptional circumstances such as natural disaster, theft, etc.",
+        "any peer is unable to honor the negotiated relationships"
+      ],
+      "exceptions": [
+        "a given peering arrangement is not disband or re-arranged and SLA conditions are bypassed"
+      ],
+      "dependencies": [],
+      "source_sentence": "If there are exceptional circumstances such as natural disaster, theft, etc. for which any peer is unable to honor the negotiated relationships, a given peering arrangement is not disband or re-arranged and SLA conditions are bypassed.",
+      "section": "3.6.6 Exceptions",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R150",
+      "text": "Policies identifying the consequences of SLA violation are defined.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-1: Policies identifying the consequences of SLA violation are defined.",
+      "section": "3.6.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R151",
+      "text": "Policies are in place to perform renegotiation for problem resolution.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: Policies are in place to perform renegotiation for problem resolution.",
+      "section": "3.6.7 Functional Requirements",
+      "chunk_id": "C3"
+    },
+    {
+      "id": "R152",
+      "text": "Administrative policies are deployed for operations in a peering arrangement.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: Administrative policies are deployed for operations in a peering arrangement.",
+      "section": "3.6.7 Functional Requirements",
+      "chunk_id": "C3"
+    }
+  ]
+}

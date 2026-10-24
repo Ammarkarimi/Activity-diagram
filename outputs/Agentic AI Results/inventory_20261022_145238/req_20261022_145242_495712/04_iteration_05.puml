@@ -1,0 +1,220 @@
+@startuml
+title Refined Inventory Management Activity Diagram
+skinparam swimlaneWrapTitleWidth 150
+
+|Authentication system|
+start
+
+:Authenticate;
+|User|
+:Enter username and password;
+|Authentication system|
+if (Authenticated?) then (yes)
+|Authentication system|
+|User|
+:Open main page;
+while (Choose use case?) is (search)
+:Search asset;
+if (Search mode?) then (basic)
+|User|
+:Fill search field;
+else (advanced)
+|User|
+:Fill advanced fields;
+endif
+:Submit search;
+|Inventory system|
+if (Results found?) then (found)
+|Inventory system|
+:Display results;
+else (none)
+|Inventory system|
+:Display no-results message;
+stop
+endif
+endwhile
+|User|
+if (Choose use case?) then (edit)
+|User|
+:Edit asset;
+|Inventory system|
+if (Can edit?) then (yes)
+|Inventory system|
+else (no)
+|Inventory system|
+:Display error message;
+stop
+endif
+|User|
+:Modify properties;
+|Inventory system|
+:Update modified asset;
+stop
+else
+|User|
+if (Choose use case?) then (add asset)
+|User|
+:Start new asset;
+:Select asset type;
+|Inventory system|
+if (Role / type permitted?) then (department scope)
+|Inventory system|
+else
+|Inventory system|
+if (Role / type permitted?) then (type missing)
+|Inventory system|
+|User|
+:Send exception request;
+|Inventory system|
+:Receive exception request;
+:Create new space;
+:Modify floor structure;
+stop
+else
+|Inventory system|
+if (Role / type permitted?) then (faculty scope)
+|Inventory system|
+else (university scope)
+|Inventory system|
+endif
+endif
+endif
+|User|
+:Select asset location;
+:Select owner;
+:Fill asset properties;
+stop
+else
+|User|
+if (Choose use case?) then (request)
+|User|
+:Select request form;
+if (Form type?) then (basic)
+|User|
+:Enter basic request text;
+else
+|User|
+if (Form type?) then (advanced)
+|User|
+(A)
+:Enter advanced request;
+while (More assets?) is (yes)
+:Add another asset;
+endwhile (no)
+|User|
+else (exception)
+|User|
+(A)
+detach
+endif
+endif
+:Submit request;
+|Inventory system|
+if (Asset available?) then (yes)
+|Inventory system|
+else (no)
+|Inventory system|
+:Display borrow error;
+stop
+endif
+:Create pending request;
+(C)
+:Display pending requests;
+|User|
+:Select request;
+|Inventory system|
+if (Approve or reject?) then (approve)
+|Inventory system|
+:Confirm approval;
+else (reject)
+|Inventory system|
+:Confirm rejection;
+endif
+:Notify by email;
+:Add to execution list;
+(B)
+:Update inventory;
+stop
+else
+|User|
+if (Choose use case?) then (return)
+|User|
+:Start return;
+if (Asset state?) then (available)
+|User|
+:Set available;
+(B)
+detach
+else (damaged)
+|User|
+:Set damaged;
+(B)
+detach
+endif
+(B)
+detach
+else
+|User|
+if (Choose use case?) then (approve)
+|User|
+(C)
+detach
+else
+|User|
+if (Choose use case?) then (permissions)
+|User|
+:Change permissions;
+:Select user;
+|Inventory system|
+if (Within authority?) then (within authority)
+|Inventory system|
+:Grant permissions;
+stop
+else (exceeds authority)
+|Inventory system|
+:Display permission error;
+stop
+endif
+else
+|User|
+if (Choose use case?) then (report)
+|User|
+:Create report;
+if (Report type?) then (one of three)
+|User|
+|Inventory system|
+:Display report;
+stop
+endif
+else (transfer)
+|User|
+:Start transfer request;
+if (Transfer scope?) then (inter-faculty)
+|User|
+:Submit inter-faculty transfer request;
+else (outside university)
+|User|
+endif
+|Inventory system|
+if (External transfer?) then (no)
+|Inventory system|
+:Approve by faculty group or higher;
+stop
+else (yes)
+|Inventory system|
+:Approve by university group;
+stop
+endif
+endif
+endif
+endif
+endif
+endif
+endif
+endif
+else (no)
+|Authentication system|
+stop
+endif
+
+@enduml

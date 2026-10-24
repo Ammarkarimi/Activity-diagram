@@ -1,0 +1,3345 @@
+{
+  "objective": "Integrated inventory management activity covering authentication, search, edit/modify, add asset, create request, return asset, approve/reject requests, change permissions, create location exception handling, and report creation.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Authenticate user",
+      "lane": "Authentication system",
+      "requirement_ids": [
+        "R23",
+        "R112",
+        "R117",
+        "R118",
+        "R119",
+        "R52",
+        "R60",
+        "R92",
+        "R105",
+        "R126"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "decision",
+      "label": "Authenticated?",
+      "lane": "Authentication system",
+      "requirement_ids": [
+        "R115",
+        "R117",
+        "R118"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Log on main page",
+      "lane": "User",
+      "requirement_ids": [
+        "R116"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "decision",
+      "label": "Choose activity?",
+      "lane": "User",
+      "requirement_ids": [
+        "R30",
+        "R49",
+        "R53",
+        "R63",
+        "R66",
+        "R84",
+        "R93",
+        "R98",
+        "R106",
+        "R120",
+        "R127",
+        "R151"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "action",
+      "label": "Search asset",
+      "lane": "User",
+      "requirement_ids": [
+        "R30",
+        "R49",
+        "R120"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "decision",
+      "label": "Advanced search?",
+      "lane": "User",
+      "requirement_ids": [
+        "R120",
+        "R123"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "action",
+      "label": "Fill search field",
+      "lane": "User",
+      "requirement_ids": [
+        "R120"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Fill advanced fields",
+      "lane": "User",
+      "requirement_ids": [
+        "R124"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "action",
+      "label": "Submit search",
+      "lane": "User",
+      "requirement_ids": [
+        "R121"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "decision",
+      "label": "Results found?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R122",
+        "R125"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "action",
+      "label": "Display search results",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R122"
+      ]
+    },
+    {
+      "temp_id": "P13",
+      "node_type": "action",
+      "label": "Display no-results message",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R125"
+      ]
+    },
+    {
+      "temp_id": "P14",
+      "node_type": "action",
+      "label": "Open edit flow",
+      "lane": "User",
+      "requirement_ids": [
+        "R31",
+        "R34",
+        "R37",
+        "R41",
+        "R49",
+        "R53"
+      ]
+    },
+    {
+      "temp_id": "P15",
+      "node_type": "decision",
+      "label": "Can edit asset?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R6",
+        "R7",
+        "R8",
+        "R33",
+        "R38",
+        "R42",
+        "R51"
+      ]
+    },
+    {
+      "temp_id": "P16",
+      "node_type": "action",
+      "label": "Edit asset",
+      "lane": "User",
+      "requirement_ids": [
+        "R31",
+        "R34",
+        "R37",
+        "R41"
+      ]
+    },
+    {
+      "temp_id": "P17",
+      "node_type": "action",
+      "label": "Modify asset properties",
+      "lane": "User",
+      "requirement_ids": [
+        "R32",
+        "R35",
+        "R9",
+        "R10"
+      ]
+    },
+    {
+      "temp_id": "P18",
+      "node_type": "action",
+      "label": "Display privilege error",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R43",
+        "R50"
+      ]
+    },
+    {
+      "temp_id": "P19",
+      "node_type": "action",
+      "label": "Display asset-not-found error",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R46",
+        "R51"
+      ]
+    },
+    {
+      "temp_id": "P20",
+      "node_type": "action",
+      "label": "Display out-of-inventory error",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R39"
+      ]
+    },
+    {
+      "temp_id": "P21",
+      "node_type": "action",
+      "label": "Update modified asset",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R47",
+        "R59"
+      ]
+    },
+    {
+      "temp_id": "P22",
+      "node_type": "action",
+      "label": "Start new asset",
+      "lane": "User",
+      "requirement_ids": [
+        "R53"
+      ]
+    },
+    {
+      "temp_id": "P23",
+      "node_type": "action",
+      "label": "Select asset type",
+      "lane": "User",
+      "requirement_ids": [
+        "R54"
+      ]
+    },
+    {
+      "temp_id": "P24",
+      "node_type": "decision",
+      "label": "Type exists?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R58"
+      ]
+    },
+    {
+      "temp_id": "P25",
+      "node_type": "action",
+      "label": "Select asset location",
+      "lane": "User",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "temp_id": "P26",
+      "node_type": "action",
+      "label": "Select owner",
+      "lane": "User",
+      "requirement_ids": [
+        "R56"
+      ]
+    },
+    {
+      "temp_id": "P27",
+      "node_type": "action",
+      "label": "Fill asset properties",
+      "lane": "User",
+      "requirement_ids": [
+        "R57"
+      ]
+    },
+    {
+      "temp_id": "P28",
+      "node_type": "action",
+      "label": "Send type exception request",
+      "lane": "User",
+      "requirement_ids": [
+        "R58"
+      ]
+    },
+    {
+      "temp_id": "P29",
+      "node_type": "action",
+      "label": "Update database",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R59"
+      ]
+    },
+    {
+      "temp_id": "P30",
+      "node_type": "action",
+      "label": "Select request form",
+      "lane": "User",
+      "requirement_ids": [
+        "R63",
+        "R66",
+        "R84"
+      ]
+    },
+    {
+      "temp_id": "P31",
+      "node_type": "decision",
+      "label": "Request form type?",
+      "lane": "User",
+      "requirement_ids": [
+        "R61",
+        "R62",
+        "R63",
+        "R66",
+        "R84"
+      ]
+    },
+    {
+      "temp_id": "P32",
+      "node_type": "action",
+      "label": "Enter basic request",
+      "lane": "User",
+      "requirement_ids": [
+        "R64",
+        "R65"
+      ]
+    },
+    {
+      "temp_id": "P33",
+      "node_type": "action",
+      "label": "Enter advanced request",
+      "lane": "User",
+      "requirement_ids": [
+        "R67",
+        "R68",
+        "R85",
+        "R86"
+      ]
+    },
+    {
+      "temp_id": "P34",
+      "node_type": "fork",
+      "label": "Add more assets",
+      "lane": "User",
+      "requirement_ids": [
+        "R87"
+      ]
+    },
+    {
+      "temp_id": "P35",
+      "node_type": "join",
+      "label": "Finish asset list",
+      "lane": "User",
+      "requirement_ids": [
+        "R87"
+      ]
+    },
+    {
+      "temp_id": "P36",
+      "node_type": "action",
+      "label": "Submit request",
+      "lane": "User",
+      "requirement_ids": [
+        "R65",
+        "R88"
+      ]
+    },
+    {
+      "temp_id": "P37",
+      "node_type": "decision",
+      "label": "Asset available?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R90",
+        "R91"
+      ]
+    },
+    {
+      "temp_id": "P38",
+      "node_type": "action",
+      "label": "Display borrow error",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R91"
+      ]
+    },
+    {
+      "temp_id": "P39",
+      "node_type": "action",
+      "label": "Create pending request",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R16"
+      ]
+    },
+    {
+      "temp_id": "P40",
+      "node_type": "action",
+      "label": "Display pending requests",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R98",
+        "R99",
+        "R19"
+      ]
+    },
+    {
+      "temp_id": "P41",
+      "node_type": "action",
+      "label": "Select request",
+      "lane": "User",
+      "requirement_ids": [
+        "R100",
+        "R103"
+      ]
+    },
+    {
+      "temp_id": "P42",
+      "node_type": "decision",
+      "label": "Approve request?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R101",
+        "R104",
+        "R19"
+      ]
+    },
+    {
+      "temp_id": "P43",
+      "node_type": "action",
+      "label": "Confirm approval",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R101"
+      ]
+    },
+    {
+      "temp_id": "P44",
+      "node_type": "action",
+      "label": "Confirm rejection",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R104"
+      ]
+    },
+    {
+      "temp_id": "P45",
+      "node_type": "action",
+      "label": "Notify user by email",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R20",
+        "R102"
+      ]
+    },
+    {
+      "temp_id": "P46",
+      "node_type": "action",
+      "label": "Add to execution list",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R21"
+      ]
+    },
+    {
+      "temp_id": "P47",
+      "node_type": "action",
+      "label": "Update inventory",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R22",
+        "R96"
+      ]
+    },
+    {
+      "temp_id": "P48",
+      "node_type": "action",
+      "label": "Start return update",
+      "lane": "User",
+      "requirement_ids": [
+        "R93"
+      ]
+    },
+    {
+      "temp_id": "P49",
+      "node_type": "decision",
+      "label": "Asset state?",
+      "lane": "User",
+      "requirement_ids": [
+        "R94",
+        "R95"
+      ]
+    },
+    {
+      "temp_id": "P50",
+      "node_type": "action",
+      "label": "Set available",
+      "lane": "User",
+      "requirement_ids": [
+        "R94"
+      ]
+    },
+    {
+      "temp_id": "P51",
+      "node_type": "action",
+      "label": "Set damaged",
+      "lane": "User",
+      "requirement_ids": [
+        "R95"
+      ]
+    },
+    {
+      "temp_id": "P52",
+      "node_type": "action",
+      "label": "Receive exception request",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R18"
+      ]
+    },
+    {
+      "temp_id": "P53",
+      "node_type": "action",
+      "label": "Create new space",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R18"
+      ]
+    },
+    {
+      "temp_id": "P54",
+      "node_type": "action",
+      "label": "Modify floor structure",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R18"
+      ]
+    },
+    {
+      "temp_id": "P55",
+      "node_type": "action",
+      "label": "Change permissions",
+      "lane": "User",
+      "requirement_ids": [
+        "R106",
+        "R108",
+        "R109",
+        "R111",
+        "R145",
+        "R146"
+      ]
+    },
+    {
+      "temp_id": "P56",
+      "node_type": "action",
+      "label": "Select user",
+      "lane": "User",
+      "requirement_ids": [
+        "R107"
+      ]
+    },
+    {
+      "temp_id": "P57",
+      "node_type": "decision",
+      "label": "Within authority?",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R108",
+        "R109",
+        "R110",
+        "R111"
+      ]
+    },
+    {
+      "temp_id": "P58",
+      "node_type": "action",
+      "label": "Grant permissions",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R25",
+        "R111"
+      ]
+    },
+    {
+      "temp_id": "P59",
+      "node_type": "action",
+      "label": "Display permission error",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R110"
+      ]
+    },
+    {
+      "temp_id": "P60",
+      "node_type": "action",
+      "label": "Create report",
+      "lane": "User",
+      "requirement_ids": [
+        "R127",
+        "R150",
+        "R151",
+        "R153",
+        "R154",
+        "R155",
+        "R156"
+      ]
+    },
+    {
+      "temp_id": "P61",
+      "node_type": "decision",
+      "label": "Report type?",
+      "lane": "User",
+      "requirement_ids": [
+        "R154",
+        "R155",
+        "R156"
+      ]
+    },
+    {
+      "temp_id": "P62",
+      "node_type": "action",
+      "label": "Display report",
+      "lane": "Inventory system",
+      "requirement_ids": [
+        "R128",
+        "R152"
+      ]
+    },
+    {
+      "temp_id": "P63",
+      "node_type": "final",
+      "label": "End",
+      "lane": null,
+      "requirement_ids": []
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": []
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R23",
+        "R112",
+        "R117"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": "authenticated",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R115",
+        "R118"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P2",
+      "guard": "authentication failed",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R117"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R116"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": "search asset",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R30",
+        "R49",
+        "R120"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P14",
+      "guard": "edit asset",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R31",
+        "R34",
+        "R37",
+        "R41",
+        "R49"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P22",
+      "guard": "add asset",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R53"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P30",
+      "guard": "create request",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R63",
+        "R66",
+        "R84"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P48",
+      "guard": "return asset",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R93"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P40",
+      "guard": "approve request",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R98",
+        "R19"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P55",
+      "guard": "change permissions",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R106",
+        "R145"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P60",
+      "guard": "create report",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R127",
+        "R150",
+        "R151"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R120",
+        "R123"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P8",
+      "guard": "basic search",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R120"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P9",
+      "guard": "advanced search",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R123",
+        "R124"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P10",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R120"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P10",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R124"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P11",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R121"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P12",
+      "guard": "results found",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R122"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P13",
+      "guard": "no results",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R125"
+      ]
+    },
+    {
+      "source": "P14",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R31",
+        "R34",
+        "R37",
+        "R41"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P16",
+      "guard": "editable",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R6",
+        "R7",
+        "R8",
+        "R33"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P19",
+      "guard": "asset not found",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R45",
+        "R46",
+        "R51"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P20",
+      "guard": "out of inventory",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R38",
+        "R39"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P18",
+      "guard": "insufficient privileges",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R42",
+        "R43",
+        "R50"
+      ]
+    },
+    {
+      "source": "P16",
+      "target": "P17",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R32",
+        "R35",
+        "R9",
+        "R10"
+      ]
+    },
+    {
+      "source": "P17",
+      "target": "P21",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R47",
+        "R59"
+      ]
+    },
+    {
+      "source": "P22",
+      "target": "P23",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R53"
+      ]
+    },
+    {
+      "source": "P23",
+      "target": "P24",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R54",
+        "R58"
+      ]
+    },
+    {
+      "source": "P24",
+      "target": "P25",
+      "guard": "type exists",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "source": "P24",
+      "target": "P28",
+      "guard": "type missing",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R58"
+      ]
+    },
+    {
+      "source": "P25",
+      "target": "P26",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R55"
+      ]
+    },
+    {
+      "source": "P26",
+      "target": "P27",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R56"
+      ]
+    },
+    {
+      "source": "P27",
+      "target": "P29",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R57",
+        "R59"
+      ]
+    },
+    {
+      "source": "P28",
+      "target": "P63",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R58"
+      ]
+    },
+    {
+      "source": "P30",
+      "target": "P31",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R63",
+        "R66",
+        "R84"
+      ]
+    },
+    {
+      "source": "P31",
+      "target": "P32",
+      "guard": "basic form",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R61",
+        "R63",
+        "R64",
+        "R65"
+      ]
+    },
+    {
+      "source": "P31",
+      "target": "P33",
+      "guard": "advanced form",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R62",
+        "R66",
+        "R67",
+        "R68"
+      ]
+    },
+    {
+      "source": "P31",
+      "target": "P33",
+      "guard": "exception form",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R84",
+        "R85",
+        "R86"
+      ]
+    },
+    {
+      "source": "P32",
+      "target": "P36",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R65"
+      ]
+    },
+    {
+      "source": "P33",
+      "target": "P34",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R67",
+        "R68",
+        "R85",
+        "R86"
+      ]
+    },
+    {
+      "source": "P34",
+      "target": "P35",
+      "guard": "add another asset",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R87"
+      ]
+    },
+    {
+      "source": "P35",
+      "target": "P34",
+      "guard": "more assets",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R87"
+      ]
+    },
+    {
+      "source": "P35",
+      "target": "P36",
+      "guard": "done",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R87",
+        "R88"
+      ]
+    },
+    {
+      "source": "P36",
+      "target": "P37",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R65",
+        "R88",
+        "R90",
+        "R91"
+      ]
+    },
+    {
+      "source": "P37",
+      "target": "P39",
+      "guard": "available",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R16",
+        "R22"
+      ]
+    },
+    {
+      "source": "P37",
+      "target": "P38",
+      "guard": "not available",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R90",
+        "R91"
+      ]
+    },
+    {
+      "source": "P38",
+      "target": "P63",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R91"
+      ]
+    },
+    {
+      "source": "P39",
+      "target": "P40",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R16"
+      ]
+    },
+    {
+      "source": "P40",
+      "target": "P41",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R98",
+        "R99",
+        "R19"
+      ]
+    },
+    {
+      "source": "P41",
+      "target": "P42",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R100",
+        "R103"
+      ]
+    },
+    {
+      "source": "P42",
+      "target": "P43",
+      "guard": "approve",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R101"
+      ]
+    },
+    {
+      "source": "P42",
+      "target": "P44",
+      "guard": "reject",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R104"
+      ]
+    },
+    {
+      "source": "P43",
+      "target": "P45",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R20",
+        "R102"
+      ]
+    },
+    {
+      "source": "P44",
+      "target": "P45",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R20",
+        "R102"
+      ]
+    },
+    {
+      "source": "P45",
+      "target": "P46",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R21"
+      ]
+    },
+    {
+      "source": "P46",
+      "target": "P47",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R22"
+      ]
+    },
+    {
+      "source": "P47",
+      "target": "P63",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R22",
+        "R96"
+      ]
+    },
+    {
+      "source": "P48",
+      "target": "P49",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R93",
+        "R94",
+        "R95"
+      ]
+    },
+    {
+      "source": "P49",
+      "target": "P50",
+      "guard": "available",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R94"
+      ]
+    },
+    {
+      "source": "P49",
+      "target": "P51",
+      "guard": "damaged",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R95"
+      ]
+    },
+    {
+      "source": "P50",
+      "target": "P96",
+      "guard": "return processed",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R96"
+      ]
+    },
+    {
+      "source": "P51",
+      "target": "P96",
+      "guard": "return processed",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R96"
+      ]
+    },
+    {
+      "source": "P52",
+      "target": "P53",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R18"
+      ]
+    },
+    {
+      "source": "P53",
+      "target": "P54",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R18"
+      ]
+    },
+    {
+      "source": "P54",
+      "target": "P63",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R18"
+      ]
+    },
+    {
+      "source": "P55",
+      "target": "P56",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R106",
+        "R107"
+      ]
+    },
+    {
+      "source": "P56",
+      "target": "P57",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R107",
+        "R108",
+        "R109"
+      ]
+    },
+    {
+      "source": "P57",
+      "target": "P58",
+      "guard": "within authority",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R108",
+        "R111",
+        "R25"
+      ]
+    },
+    {
+      "source": "P57",
+      "target": "P59",
+      "guard": "exceeds authority",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R109",
+        "R110"
+      ]
+    },
+    {
+      "source": "P58",
+      "target": "P63",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R25",
+        "R111"
+      ]
+    },
+    {
+      "source": "P59",
+      "target": "P63",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R110"
+      ]
+    },
+    {
+      "source": "P60",
+      "target": "P61",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R127",
+        "R150",
+        "R151",
+        "R153",
+        "R154",
+        "R155",
+        "R156"
+      ]
+    },
+    {
+      "source": "P61",
+      "target": "P62",
+      "guard": "any report type",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R154",
+        "R155",
+        "R156"
+      ]
+    },
+    {
+      "source": "P62",
+      "target": "P63",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R128",
+        "R152"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "Authenticated?",
+      "branch_ids": [
+        "P4",
+        "P2"
+      ],
+      "guards": [
+        "authenticated",
+        "authentication failed"
+      ]
+    },
+    {
+      "decision_id": "D2",
+      "condition": "Choose activity?",
+      "branch_ids": [
+        "P6",
+        "P14",
+        "P22",
+        "P30",
+        "P48",
+        "P40",
+        "P55",
+        "P60"
+      ],
+      "guards": [
+        "search asset",
+        "edit asset",
+        "add asset",
+        "create request",
+        "return asset",
+        "approve request",
+        "change permissions",
+        "create report"
+      ]
+    },
+    {
+      "decision_id": "D3",
+      "condition": "Advanced search?",
+      "branch_ids": [
+        "P8",
+        "P9"
+      ],
+      "guards": [
+        "basic search",
+        "advanced search"
+      ]
+    },
+    {
+      "decision_id": "D4",
+      "condition": "Results found?",
+      "branch_ids": [
+        "P12",
+        "P13"
+      ],
+      "guards": [
+        "results found",
+        "no results"
+      ]
+    },
+    {
+      "decision_id": "D5",
+      "condition": "Can edit asset?",
+      "branch_ids": [
+        "P16",
+        "P19",
+        "P20",
+        "P18"
+      ],
+      "guards": [
+        "editable",
+        "asset not found",
+        "out of inventory",
+        "insufficient privileges"
+      ]
+    },
+    {
+      "decision_id": "D6",
+      "condition": "Type exists?",
+      "branch_ids": [
+        "P25",
+        "P28"
+      ],
+      "guards": [
+        "type exists",
+        "type missing"
+      ]
+    },
+    {
+      "decision_id": "D7",
+      "condition": "Request form type?",
+      "branch_ids": [
+        "P32",
+        "P33"
+      ],
+      "guards": [
+        "basic form",
+        "advanced form",
+        "exception form"
+      ]
+    },
+    {
+      "decision_id": "D8",
+      "condition": "Asset available?",
+      "branch_ids": [
+        "P39",
+        "P38"
+      ],
+      "guards": [
+        "available",
+        "not available"
+      ]
+    },
+    {
+      "decision_id": "D9",
+      "condition": "Approve request?",
+      "branch_ids": [
+        "P43",
+        "P44"
+      ],
+      "guards": [
+        "approve",
+        "reject"
+      ]
+    },
+    {
+      "decision_id": "D10",
+      "condition": "Asset state?",
+      "branch_ids": [
+        "P50",
+        "P51"
+      ],
+      "guards": [
+        "available",
+        "damaged"
+      ]
+    },
+    {
+      "decision_id": "D11",
+      "condition": "Within authority?",
+      "branch_ids": [
+        "P58",
+        "P59"
+      ],
+      "guards": [
+        "within authority",
+        "exceeds authority"
+      ]
+    },
+    {
+      "decision_id": "D12",
+      "condition": "Report type?",
+      "branch_ids": [
+        "P62"
+      ],
+      "guards": [
+        "any report type"
+      ]
+    }
+  ],
+  "loops": [
+    {
+      "loop_id": "L1",
+      "condition": "More assets to add?",
+      "entry_node": "P34",
+      "body_nodes": [
+        "P34"
+      ],
+      "exit_node": "P35",
+      "continue_guard": "add another asset",
+      "exit_guard": "done"
+    }
+  ],
+  "concurrency": [],
+  "exceptions": [
+    {
+      "exception_id": "E1",
+      "trigger": "Authentication fails",
+      "handler_node_id": "P2",
+      "requirement_ids": [
+        "R117"
+      ]
+    },
+    {
+      "exception_id": "E2",
+      "trigger": "No results are found",
+      "handler_node_id": "P13",
+      "requirement_ids": [
+        "R125"
+      ]
+    },
+    {
+      "exception_id": "E3",
+      "trigger": "Insufficient privileges",
+      "handler_node_id": "P18",
+      "requirement_ids": [
+        "R42",
+        "R43",
+        "R50"
+      ]
+    },
+    {
+      "exception_id": "E4",
+      "trigger": "Asset out of inventory",
+      "handler_node_id": "P20",
+      "requirement_ids": [
+        "R38",
+        "R39"
+      ]
+    },
+    {
+      "exception_id": "E5",
+      "trigger": "Asset not found",
+      "handler_node_id": "P19",
+      "requirement_ids": [
+        "R45",
+        "R46",
+        "R51"
+      ]
+    },
+    {
+      "exception_id": "E6",
+      "trigger": "Type does not exist in the list",
+      "handler_node_id": "P28",
+      "requirement_ids": [
+        "R58"
+      ]
+    },
+    {
+      "exception_id": "E7",
+      "trigger": "Asset not available to be borrowed",
+      "handler_node_id": "P38",
+      "requirement_ids": [
+        "R90",
+        "R91"
+      ]
+    },
+    {
+      "exception_id": "E8",
+      "trigger": "Administrator gives permissions more than allowed",
+      "handler_node_id": "P59",
+      "requirement_ids": [
+        "R109",
+        "R110"
+      ]
+    }
+  ],
+  "decision_strategy": [
+    "Model one integrated flow with a single top-level activity choice after authentication.",
+    "Use explicit mutually exclusive guards for each branch.",
+    "Use negative branches for validation and exception cases.",
+    "Rejoin after each non-terminating branch before continuing the common flow."
+  ],
+  "concurrency_strategy": [
+    "No behavioral requirements mandate parallel execution in the provided specification."
+  ],
+  "exception_strategy": [
+    "Authentication failure, search no-results, insufficient privileges, asset not found, asset out of inventory, missing asset type, unavailable asset, and permission overflow are modeled as explicit exception branches.",
+    "Exception branches either display an error and terminate or rejoin only where the specification continues afterward."
+  ],
+  "termination_strategy": [
+    "Normal completion terminates at the final node after successful update/notification/report flow.",
+    "Exception paths that explicitly end the scenario terminate at the final node after the error message.",
+    "Return/update and location-creation flows terminate after their specified system updates or exception handling."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R1",
+        "diagram_node_ids": [
+          "P21"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Direct database update behavior is represented by the successful modification/update path.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R2",
+        "diagram_node_ids": [
+          "P42",
+          "P58"
+        ],
+        "diagram_edge_ids": [
+          "P42",
+          "P43",
+          "P42",
+          "P44"
+        ],
+        "evidence": "Inter-department approval is represented by the approval decision and authority checks.",
+        "confidence": 0.73
+      },
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [
+          "P31"
+        ],
+        "diagram_edge_ids": [
+          "P31",
+          "P33"
+        ],
+        "evidence": "Authorized user request creation is covered by the request creation branch.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [
+          "P42"
+        ],
+        "diagram_edge_ids": [
+          "P42",
+          "P43",
+          "P42",
+          "P44"
+        ],
+        "evidence": "Faculty or higher-level approval is represented in the approval decision.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R5",
+        "diagram_node_ids": [
+          "P42"
+        ],
+        "diagram_edge_ids": [
+          "P42",
+          "P43"
+        ],
+        "evidence": "University-group approval is represented by the approval authority path.",
+        "confidence": 0.68
+      },
+      {
+        "requirement_id": "R6",
+        "diagram_node_ids": [
+          "P15",
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P16"
+        ],
+        "evidence": "Editable asset owned by department with authorization is represented in the edit decision.",
+        "confidence": 0.76
+      },
+      {
+        "requirement_id": "R7",
+        "diagram_node_ids": [
+          "P15",
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P16"
+        ],
+        "evidence": "Faculty-user edit permission is represented in the same edit branch.",
+        "confidence": 0.74
+      },
+      {
+        "requirement_id": "R8",
+        "diagram_node_ids": [
+          "P15",
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P16"
+        ],
+        "evidence": "University-user edit permission is represented in the same edit branch.",
+        "confidence": 0.74
+      },
+      {
+        "requirement_id": "R9",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Modify asset properties node captures editable fields except IDs.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R10",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Bulk entry file support is captured as part of modify asset properties.",
+        "confidence": 0.65
+      },
+      {
+        "requirement_id": "R11",
+        "diagram_node_ids": [
+          "P22"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Adding inventory assets by authorized DA/inventory member is represented by start-add asset path.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R12",
+        "diagram_node_ids": [
+          "P22"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Faculty inventory addition is covered by the add-asset path.",
+        "confidence": 0.66
+      },
+      {
+        "requirement_id": "R13",
+        "diagram_node_ids": [
+          "P22"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "University-group inventory addition is covered by the add-asset path.",
+        "confidence": 0.66
+      },
+      {
+        "requirement_id": "R14",
+        "diagram_node_ids": [
+          "P22"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Bulk-entry support is represented in the add-asset flow.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R15",
+        "diagram_node_ids": [
+          "P30",
+          "P31",
+          "P32",
+          "P33"
+        ],
+        "diagram_edge_ids": [
+          "P30",
+          "P31"
+        ],
+        "evidence": "Authorized user request creation is represented by the request form flow.",
+        "confidence": 0.78
+      },
+      {
+        "requirement_id": "R16",
+        "diagram_node_ids": [
+          "P39"
+        ],
+        "diagram_edge_ids": [
+          "P37",
+          "P39"
+        ],
+        "evidence": "Pending status after creation is represented by creating a pending request.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R17",
+        "diagram_node_ids": [
+          "P48",
+          "P49",
+          "P50",
+          "P51",
+          "P47"
+        ],
+        "diagram_edge_ids": [
+          "P48",
+          "P49",
+          "P50",
+          "P51"
+        ],
+        "evidence": "Return check and inventory update are represented in the return flow.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R18",
+        "diagram_node_ids": [
+          "P52",
+          "P53",
+          "P54"
+        ],
+        "diagram_edge_ids": [
+          "P52",
+          "P53",
+          "P54"
+        ],
+        "evidence": "IT exception-request handling for new space/floor structure is represented.",
+        "confidence": 0.82
+      },
+      {
+        "requirement_id": "R19",
+        "diagram_node_ids": [
+          "P40",
+          "P42"
+        ],
+        "diagram_edge_ids": [
+          "P40",
+          "P41",
+          "P41",
+          "P42"
+        ],
+        "evidence": "Display pending requests and approve by authorized level is represented.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R20",
+        "diagram_node_ids": [
+          "P45"
+        ],
+        "diagram_edge_ids": [
+          "P43",
+          "P45",
+          "P44",
+          "P45"
+        ],
+        "evidence": "Email notification upon treatment is represented by notify user by email.",
+        "confidence": 0.86
+      },
+      {
+        "requirement_id": "R21",
+        "diagram_node_ids": [
+          "P46"
+        ],
+        "diagram_edge_ids": [
+          "P45",
+          "P46"
+        ],
+        "evidence": "Waiting-for-execution list is represented by add to execution list.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R22",
+        "diagram_node_ids": [
+          "P47"
+        ],
+        "diagram_edge_ids": [
+          "P46",
+          "P47"
+        ],
+        "evidence": "Inventory update when asset is received is represented by update inventory.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R23",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P2",
+          "P3"
+        ],
+        "evidence": "Username/password authentication is represented by authenticate user.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R24",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Administrative-level working context is captured in authentication lane/context.",
+        "confidence": 0.45
+      },
+      {
+        "requirement_id": "R25",
+        "diagram_node_ids": [
+          "P58"
+        ],
+        "diagram_edge_ids": [
+          "P57",
+          "P58"
+        ],
+        "evidence": "Delegation and acquisition of inventory administrator role is represented in grant permissions.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R26",
+        "diagram_node_ids": [
+          "P60",
+          "P61",
+          "P62"
+        ],
+        "diagram_edge_ids": [
+          "P60",
+          "P61"
+        ],
+        "evidence": "Asset report by location is included in report creation.",
+        "confidence": 0.62
+      },
+      {
+        "requirement_id": "R27",
+        "diagram_node_ids": [
+          "P60",
+          "P61",
+          "P62"
+        ],
+        "diagram_edge_ids": [
+          "P60",
+          "P61"
+        ],
+        "evidence": "Request report is included in report creation.",
+        "confidence": 0.62
+      },
+      {
+        "requirement_id": "R28",
+        "diagram_node_ids": [
+          "P60",
+          "P61",
+          "P62"
+        ],
+        "diagram_edge_ids": [
+          "P60",
+          "P61"
+        ],
+        "evidence": "User permission report is included in report creation.",
+        "confidence": 0.62
+      },
+      {
+        "requirement_id": "R29",
+        "diagram_node_ids": [
+          "P2",
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2",
+          "P3"
+        ],
+        "evidence": "Modify use case pre-authentication is represented by the initial authenticate step.",
+        "confidence": 0.74
+      },
+      {
+        "requirement_id": "R30",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P6"
+        ],
+        "evidence": "Modify use case search start is represented by search asset.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R31",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P14",
+          "P15",
+          "P16"
+        ],
+        "evidence": "Edit asset step is represented directly.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R32",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [
+          "P16",
+          "P17"
+        ],
+        "evidence": "Modify asset properties is represented directly.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R33",
+        "diagram_node_ids": [
+          "P15"
+        ],
+        "diagram_edge_ids": [
+          "P14",
+          "P15"
+        ],
+        "evidence": "Alternate-course edit condition is represented in the edit decision.",
+        "confidence": 0.75
+      },
+      {
+        "requirement_id": "R34",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P14",
+          "P15",
+          "P16"
+        ],
+        "evidence": "Alternate edit action is represented.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R35",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [
+          "P16",
+          "P17"
+        ],
+        "evidence": "Alternate modify action is represented.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R36",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Exceptional-course search is represented by the search flow.",
+        "confidence": 0.45
+      },
+      {
+        "requirement_id": "R37",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P14",
+          "P15",
+          "P16"
+        ],
+        "evidence": "Exceptional-course edit is represented.",
+        "confidence": 0.66
+      },
+      {
+        "requirement_id": "R38",
+        "diagram_node_ids": [
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P20"
+        ],
+        "evidence": "Out-of-inventory condition is represented by exception branch.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R39",
+        "diagram_node_ids": [
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P20"
+        ],
+        "evidence": "Error message for cannot modify is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R40",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Exceptional-course search repeated in flow.",
+        "confidence": 0.4
+      },
+      {
+        "requirement_id": "R41",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P14",
+          "P15",
+          "P16"
+        ],
+        "evidence": "Exceptional-course edit repeated in flow.",
+        "confidence": 0.4
+      },
+      {
+        "requirement_id": "R42",
+        "diagram_node_ids": [
+          "P18"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P18"
+        ],
+        "evidence": "Insufficient privilege exception is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R43",
+        "diagram_node_ids": [
+          "P18"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P18"
+        ],
+        "evidence": "Error message for insufficient privileges is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R44",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Exceptional-course search repeated in flow.",
+        "confidence": 0.4
+      },
+      {
+        "requirement_id": "R45",
+        "diagram_node_ids": [
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P19"
+        ],
+        "evidence": "No asset found condition is represented.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R46",
+        "diagram_node_ids": [
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P19"
+        ],
+        "evidence": "No-asset-found error is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R47",
+        "diagram_node_ids": [
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P17",
+          "P21"
+        ],
+        "evidence": "System state change according to modification is represented as update modified asset.",
+        "confidence": 0.83
+      },
+      {
+        "requirement_id": "R48",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Edit-use-case pre-authentication is represented in common authentication start.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R49",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P6"
+        ],
+        "evidence": "Edit use-case starts with search asset.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R50",
+        "diagram_node_ids": [
+          "P18"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P18"
+        ],
+        "evidence": "Insufficient-privileges error in edit use case is represented.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R51",
+        "diagram_node_ids": [
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P15",
+          "P19"
+        ],
+        "evidence": "No-asset-found condition in edit use case is represented.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R52",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Add-new-asset pre-authentication is represented in common authentication start.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R53",
+        "diagram_node_ids": [
+          "P22"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P22"
+        ],
+        "evidence": "Add new asset begins when administrator starts a new asset.",
+        "confidence": 0.86
+      },
+      {
+        "requirement_id": "R54",
+        "diagram_node_ids": [
+          "P23"
+        ],
+        "diagram_edge_ids": [
+          "P22",
+          "P23"
+        ],
+        "evidence": "Select asset type is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R55",
+        "diagram_node_ids": [
+          "P25"
+        ],
+        "diagram_edge_ids": [
+          "P24",
+          "P25"
+        ],
+        "evidence": "Select asset location is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R56",
+        "diagram_node_ids": [
+          "P26"
+        ],
+        "diagram_edge_ids": [
+          "P25",
+          "P26"
+        ],
+        "evidence": "Select owner is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R57",
+        "diagram_node_ids": [
+          "P27"
+        ],
+        "diagram_edge_ids": [
+          "P26",
+          "P27"
+        ],
+        "evidence": "Fill all asset properties is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R58",
+        "diagram_node_ids": [
+          "P24",
+          "P28"
+        ],
+        "diagram_edge_ids": [
+          "P24",
+          "P28"
+        ],
+        "evidence": "Missing type exception and exception request to IT are represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R59",
+        "diagram_node_ids": [
+          "P29"
+        ],
+        "diagram_edge_ids": [
+          "P27",
+          "P29"
+        ],
+        "evidence": "Database update after adding asset is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R60",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Create-request pre-authentication is represented in common authentication start.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R61",
+        "diagram_node_ids": [
+          "P31"
+        ],
+        "diagram_edge_ids": [
+          "P31",
+          "P32"
+        ],
+        "evidence": "Level-0 basic-form restriction is represented in form-type decision.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R62",
+        "diagram_node_ids": [
+          "P31"
+        ],
+        "diagram_edge_ids": [
+          "P31",
+          "P33"
+        ],
+        "evidence": "Levels 1-3 search-facility capability is represented in advanced-form branch.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R63",
+        "diagram_node_ids": [
+          "P30"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P30"
+        ],
+        "evidence": "Basic request form selection is represented.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R64",
+        "diagram_node_ids": [
+          "P32"
+        ],
+        "diagram_edge_ids": [
+          "P32",
+          "P36"
+        ],
+        "evidence": "Basic request text entry is represented.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R65",
+        "diagram_node_ids": [
+          "P32",
+          "P36"
+        ],
+        "diagram_edge_ids": [
+          "P32",
+          "P36"
+        ],
+        "evidence": "Submit basic request is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R66",
+        "diagram_node_ids": [
+          "P30"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P30"
+        ],
+        "evidence": "Advanced request form selection is represented.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R67",
+        "diagram_node_ids": [
+          "P33"
+        ],
+        "diagram_edge_ids": [
+          "P33"
+        ],
+        "evidence": "Asset serial number and location entry is represented in advanced request.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R68",
+        "diagram_node_ids": [
+          "P33"
+        ],
+        "diagram_edge_ids": [
+          "P33"
+        ],
+        "evidence": "Operation description entry is represented in advanced request.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R69",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Hosting/server support is background context, not drawn.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R70",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Use-case name is metadata, not behavioral.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R71",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Use-case identifier is metadata, not behavioral.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R72",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Description text is context, not behavioral.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R73",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Initiation statement is absorbed into the first action node.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R74",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Presentation statement is context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R75",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Preconditions heading only.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R76",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Use-case name metadata.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R77",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Identifier metadata.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R78",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Description context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R79",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Initiation context absorbed in action.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R80",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Goal/context absorbed in add-asset path.",
+        "confidence": 0.5
+      },
+      {
+        "requirement_id": "R81",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Context for create-request use case.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R82",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Initiation context absorbed.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R83",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Presentation context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R84",
+        "diagram_node_ids": [
+          "P30"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Advanced request form selection is represented in request-form choice.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R85",
+        "diagram_node_ids": [
+          "P33"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Advanced request serial/location entry is represented.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R86",
+        "diagram_node_ids": [
+          "P33"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Advanced request description entry is represented.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R87",
+        "diagram_node_ids": [
+          "P34",
+          "P35"
+        ],
+        "diagram_edge_ids": [
+          "P34",
+          "P35",
+          "P35",
+          "P34"
+        ],
+        "evidence": "Repeatable add-another-asset behavior is modeled as a loop.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R88",
+        "diagram_node_ids": [
+          "P36"
+        ],
+        "diagram_edge_ids": [
+          "P35",
+          "P36"
+        ],
+        "evidence": "Advanced request submit is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R89",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Asset search for borrow exception is represented by search flow.",
+        "confidence": 0.5
+      },
+      {
+        "requirement_id": "R90",
+        "diagram_node_ids": [
+          "P37"
+        ],
+        "diagram_edge_ids": [
+          "P36",
+          "P37"
+        ],
+        "evidence": "Availability check is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R91",
+        "diagram_node_ids": [
+          "P38"
+        ],
+        "diagram_edge_ids": [
+          "P37",
+          "P38"
+        ],
+        "evidence": "Error message for unavailable asset is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R92",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Return-use-case pre-authentication is represented in common authentication start.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R93",
+        "diagram_node_ids": [
+          "P48"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P48"
+        ],
+        "evidence": "Return use case begins when inventory admin starts returning.",
+        "confidence": 0.86
+      },
+      {
+        "requirement_id": "R94",
+        "diagram_node_ids": [
+          "P50"
+        ],
+        "diagram_edge_ids": [
+          "P49",
+          "P50"
+        ],
+        "evidence": "Available state selection is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R95",
+        "diagram_node_ids": [
+          "P51"
+        ],
+        "diagram_edge_ids": [
+          "P49",
+          "P51"
+        ],
+        "evidence": "Damaged state selection is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R96",
+        "diagram_node_ids": [
+          "P47"
+        ],
+        "diagram_edge_ids": [
+          "P50",
+          "P47",
+          "P51",
+          "P47"
+        ],
+        "evidence": "Inventory updated postcondition is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R97",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Request list not empty is a precondition; no separate activity needed.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R98",
+        "diagram_node_ids": [
+          "P40"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P40"
+        ],
+        "evidence": "Display pending request list is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R99",
+        "diagram_node_ids": [
+          "P40"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Filter by privileges is represented in display pending requests.",
+        "confidence": 0.78
+      },
+      {
+        "requirement_id": "R100",
+        "diagram_node_ids": [
+          "P41"
+        ],
+        "diagram_edge_ids": [
+          "P40",
+          "P41"
+        ],
+        "evidence": "Select request to approve is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R101",
+        "diagram_node_ids": [
+          "P43"
+        ],
+        "diagram_edge_ids": [
+          "P42",
+          "P43"
+        ],
+        "evidence": "Approval confirmation is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R102",
+        "diagram_node_ids": [
+          "P45"
+        ],
+        "diagram_edge_ids": [
+          "P43",
+          "P45",
+          "P44",
+          "P45"
+        ],
+        "evidence": "Sending notes to users is represented by email notification.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R103",
+        "diagram_node_ids": [
+          "P41"
+        ],
+        "diagram_edge_ids": [
+          "P40",
+          "P41"
+        ],
+        "evidence": "Select request to reject is represented.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R104",
+        "diagram_node_ids": [
+          "P44"
+        ],
+        "diagram_edge_ids": [
+          "P42",
+          "P44"
+        ],
+        "evidence": "Rejection confirmation is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R105",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Admin authentication precondition is represented in common authentication start.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R106",
+        "diagram_node_ids": [
+          "P55"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P55"
+        ],
+        "evidence": "Change-permission use case start is represented.",
+        "confidence": 0.86
+      },
+      {
+        "requirement_id": "R107",
+        "diagram_node_ids": [
+          "P56"
+        ],
+        "diagram_edge_ids": [
+          "P55",
+          "P56"
+        ],
+        "evidence": "Select user is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R108",
+        "diagram_node_ids": [
+          "P57",
+          "P58"
+        ],
+        "diagram_edge_ids": [
+          "P56",
+          "P57",
+          "P57",
+          "P58"
+        ],
+        "evidence": "Modify permissions within authority is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R109",
+        "diagram_node_ids": [
+          "P57"
+        ],
+        "diagram_edge_ids": [
+          "P56",
+          "P57"
+        ],
+        "evidence": "Exceeding authority is represented as a decision outcome.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R110",
+        "diagram_node_ids": [
+          "P59"
+        ],
+        "diagram_edge_ids": [
+          "P57",
+          "P59"
+        ],
+        "evidence": "Error message for authority overflow is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R111",
+        "diagram_node_ids": [
+          "P58"
+        ],
+        "diagram_edge_ids": [
+          "P57",
+          "P58"
+        ],
+        "evidence": "Permissions changed postcondition is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R112",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Authentication use case start is represented.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R113",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Username/password entry is represented by authenticate user.",
+        "confidence": 0.65
+      },
+      {
+        "requirement_id": "R114",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Login press is included in authentication action.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R115",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2",
+          "P3"
+        ],
+        "evidence": "Authenticated condition is represented by decision outcome.",
+        "confidence": 0.88
+      },
+      {
+        "requirement_id": "R116",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3",
+          "P4"
+        ],
+        "evidence": "Log on main page is represented.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R117",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P3",
+          "P2"
+        ],
+        "evidence": "Authentication-failure path is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R118",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Authenticated precondition is represented in common authentication start.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R119",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Search authorization is represented as part of activity selection gate.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R120",
+        "diagram_node_ids": [
+          "P6",
+          "P8",
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P6",
+          "P6",
+          "P7",
+          "P7",
+          "P8",
+          "P8",
+          "P10"
+        ],
+        "evidence": "Basic search flow is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R121",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P8",
+          "P10",
+          "P9",
+          "P10"
+        ],
+        "evidence": "Submit search is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R122",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P11",
+          "P12"
+        ],
+        "evidence": "Search results display is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R123",
+        "diagram_node_ids": [
+          "P7",
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P7",
+          "P7",
+          "P9"
+        ],
+        "evidence": "Advanced search branch is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R124",
+        "diagram_node_ids": [
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P7",
+          "P9"
+        ],
+        "evidence": "Fill fields is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R125",
+        "diagram_node_ids": [
+          "P13"
+        ],
+        "diagram_edge_ids": [
+          "P11",
+          "P13"
+        ],
+        "evidence": "No-results exception is represented.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R126",
+        "diagram_node_ids": [
+          "P60"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Report authorization precondition is represented in report branch gate.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R127",
+        "diagram_node_ids": [
+          "P60"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P60"
+        ],
+        "evidence": "Create report start is represented.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R128",
+        "diagram_node_ids": [
+          "P62"
+        ],
+        "diagram_edge_ids": [
+          "P61",
+          "P62"
+        ],
+        "evidence": "General report display is represented.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R129",
+        "diagram_node_ids": [
+          "P62"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Filtering capability is represented as report interaction context.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R130",
+        "diagram_node_ids": [
+          "P62"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Sorting capability is represented as report interaction context.",
+        "confidence": 0.55
+      },
+      {
+        "requirement_id": "R131",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Malformed atomic item ignored as non-behavioral.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R132",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Use-case name metadata.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R133",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Use-case identifier metadata.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R134",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Description context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R135",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Initiation context absorbed.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R136",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Presentation context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R137",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Preconditions heading only.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R138",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Use-case heading only.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R139",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Hosting/server note is background context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R140",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Use-case name metadata.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R141",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Identifier metadata.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R142",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Description context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R143",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Goal context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R144",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Preconditions heading only.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R145",
+        "diagram_node_ids": [
+          "P55"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Permission-change description is represented by change permissions branch.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R146",
+        "diagram_node_ids": [
+          "P55"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P55"
+        ],
+        "evidence": "Administrator initiates use case is represented.",
+        "confidence": 0.76
+      },
+      {
+        "requirement_id": "R147",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Presentation context.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R148",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Use-case name metadata.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R149",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Identifier metadata.",
+        "confidence": 1.0
+      },
+      {
+        "requirement_id": "R150",
+        "diagram_node_ids": [
+          "P60"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Report creation description is represented.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R151",
+        "diagram_node_ids": [
+          "P60"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P60"
+        ],
+        "evidence": "User initiates report use case is represented.",
+        "confidence": 0.76
+      },
+      {
+        "requirement_id": "R152",
+        "diagram_node_ids": [
+          "P62"
+        ],
+        "diagram_edge_ids": [
+          "P60",
+          "P61",
+          "P62"
+        ],
+        "evidence": "System presents available reports via report display branch.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R153",
+        "diagram_node_ids": [
+          "P61"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Three report types are represented by the report-type decision.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R154",
+        "diagram_node_ids": [
+          "P61"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "User permission report option is represented by report-type decision.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R155",
+        "diagram_node_ids": [
+          "P61"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Request report option is represented by report-type decision.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R156",
+        "diagram_node_ids": [
+          "P61"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Assets-by-location report option is represented by report-type decision.",
+        "confidence": 0.72
+      }
+    ]
+  }
+}

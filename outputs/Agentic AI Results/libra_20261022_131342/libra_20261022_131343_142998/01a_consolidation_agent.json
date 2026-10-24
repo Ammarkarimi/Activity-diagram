@@ -1,0 +1,449 @@
+{
+  "verdicts": [
+    {
+      "id": "R1",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R2",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R3",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R4",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R5",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R6",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R7",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R8",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R9",
+      "kind": "DETAIL",
+      "belongs_to": "R11"
+    },
+    {
+      "id": "R10",
+      "kind": "DETAIL",
+      "belongs_to": "R11"
+    },
+    {
+      "id": "R11",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R12",
+      "kind": "DETAIL",
+      "belongs_to": "R11"
+    },
+    {
+      "id": "R13",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R14",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R15",
+      "kind": "DETAIL",
+      "belongs_to": "R11"
+    },
+    {
+      "id": "R16",
+      "kind": "DETAIL",
+      "belongs_to": "R11"
+    },
+    {
+      "id": "R17",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R18",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R19",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R20",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R21",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R22",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R23",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R24",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R25",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R26",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R27",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R28",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R29",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R30",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R31",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R32",
+      "kind": "DETAIL",
+      "belongs_to": "R11"
+    },
+    {
+      "id": "R33",
+      "kind": "DETAIL",
+      "belongs_to": "R36"
+    },
+    {
+      "id": "R34",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R35",
+      "kind": "DETAIL",
+      "belongs_to": "R36"
+    },
+    {
+      "id": "R36",
+      "kind": "DECISION",
+      "belongs_to": null
+    },
+    {
+      "id": "R37",
+      "kind": "DECISION",
+      "belongs_to": null
+    },
+    {
+      "id": "R38",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R39",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R40",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R41",
+      "kind": "DETAIL",
+      "belongs_to": "R40"
+    },
+    {
+      "id": "R42",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R43",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R44",
+      "kind": "DETAIL",
+      "belongs_to": "R40"
+    },
+    {
+      "id": "R45",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R46",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R47",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R48",
+      "kind": "CONDITION",
+      "belongs_to": "R46"
+    },
+    {
+      "id": "R49",
+      "kind": "DETAIL",
+      "belongs_to": "R46"
+    },
+    {
+      "id": "R50",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R51",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R52",
+      "kind": "DETAIL",
+      "belongs_to": "R46"
+    },
+    {
+      "id": "R53",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R54",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R55",
+      "kind": "DUPLICATE",
+      "belongs_to": "R54"
+    },
+    {
+      "id": "R56",
+      "kind": "DETAIL",
+      "belongs_to": "R54"
+    },
+    {
+      "id": "R57",
+      "kind": "DUPLICATE",
+      "belongs_to": "R54"
+    },
+    {
+      "id": "R58",
+      "kind": "DETAIL",
+      "belongs_to": "R54"
+    },
+    {
+      "id": "R59",
+      "kind": "DETAIL",
+      "belongs_to": "R54"
+    },
+    {
+      "id": "R60",
+      "kind": "DETAIL",
+      "belongs_to": "R54"
+    },
+    {
+      "id": "R61",
+      "kind": "DUPLICATE",
+      "belongs_to": "R57"
+    },
+    {
+      "id": "R62",
+      "kind": "DECISION",
+      "belongs_to": null
+    },
+    {
+      "id": "R63",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R64",
+      "kind": "DECISION",
+      "belongs_to": null
+    },
+    {
+      "id": "R65",
+      "kind": "DETAIL",
+      "belongs_to": "R62"
+    },
+    {
+      "id": "R66",
+      "kind": "CONDITION",
+      "belongs_to": "R62"
+    },
+    {
+      "id": "R67",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R68",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R69",
+      "kind": "DETAIL",
+      "belongs_to": "R68"
+    },
+    {
+      "id": "R70",
+      "kind": "DETAIL",
+      "belongs_to": "R68"
+    },
+    {
+      "id": "R71",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R72",
+      "kind": "DECISION",
+      "belongs_to": null
+    },
+    {
+      "id": "R73",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R74",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R75",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R76",
+      "kind": "LOOP",
+      "belongs_to": null
+    },
+    {
+      "id": "R77",
+      "kind": "CONDITION",
+      "belongs_to": "R76"
+    },
+    {
+      "id": "R78",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R79",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R80",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R81",
+      "kind": "LOOP",
+      "belongs_to": null
+    },
+    {
+      "id": "R82",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R83",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R84",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R85",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R86",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R87",
+      "kind": "DECISION",
+      "belongs_to": null
+    },
+    {
+      "id": "R88",
+      "kind": "TERMINATION",
+      "belongs_to": null
+    },
+    {
+      "id": "R89",
+      "kind": "DETAIL",
+      "belongs_to": "R76"
+    }
+  ]
+}

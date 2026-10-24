@@ -1,0 +1,782 @@
+{
+  "validation": {
+    "passed": false,
+    "score": 0.8405797101449275,
+    "defects": [
+      {
+        "id": "D-FLOW-001-N29",
+        "category": "CONTROL_FLOW",
+        "severity": "MEDIUM",
+        "description": "Action N29 is a dead end.",
+        "node_ids": [
+          "N29"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R15",
+          "R16",
+          "R17",
+          "R18",
+          "R122"
+        ],
+        "evidence": "Configure protocols",
+        "suggested_action": "Connect the action to its next workflow step or final node."
+      },
+      {
+        "id": "D-COV-R5",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R5 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R5"
+        ],
+        "evidence": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R28",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R28 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R28"
+        ],
+        "evidence": "Assists an existing CDN to alleviate congestions by detecting and handling short-term load spikes (i.e. flash crowds) effectively.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R31",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R31 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R31"
+        ],
+        "evidence": "The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R34",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R34 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R34"
+        ],
+        "evidence": "The Web servers\u2019 underlying algorithms perform on-demand caching, content selection, and routing between servers.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R40",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R40 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R40"
+        ],
+        "evidence": "It encapsulates the resource and service information for each CDN.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R49",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R49 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R49"
+        ],
+        "evidence": "It exchanges policy, resource information, and service requirements with external PAs.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R52",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R52 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R52"
+        ],
+        "evidence": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R61",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R61 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R61"
+        ],
+        "evidence": "Mediator: Collects up-to-date resource information from SR.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R62",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R62 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R62"
+        ],
+        "evidence": "Service registration is triggered when either one  of the following occurs: (a) resources are  available   as  a  provider   starts  operating;   (b)  previously   registered   resource information needs to be updated; (c) available local resource information is required in the event of traffic surges; and (d) local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R81",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R81 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R81"
+        ],
+        "evidence": "The triggering condition considers the expected and unexpected load increases in the initiating (primary) CDN.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R129",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R129 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R129"
+        ],
+        "evidence": "Once policies are negotiated and a peering arrangement is established, PAs interact each other in the execution of common goal(s).",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      }
+    ],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 0,
+      "STRUCT-004": 0,
+      "DECISION-001": 0,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 1,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 11,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 12,
+      "TOTAL_NODES": 47,
+      "TOTAL_EDGES": 60,
+      "TOTAL_REQUIREMENTS": 152
+    },
+    "summary": "12 defect(s) detected. Structural score: 0.991. Coverage score: 0.841. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 0.841."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers the main lifecycle flow, but several required behaviors are still missing or only partially represented, especially around mediator/service-registry interactions, negotiated relationship creation, and post-establishment operational features. There is also at least one dead-end control-flow issue with semantic impact.",
+    "semantic_score": 0.68,
+    "defects": [
+      {
+        "id": "D-FLOW-001-N29",
+        "category": "CONTROL_FLOW",
+        "severity": "MEDIUM",
+        "description": "Action N29 remains a dead-end: the configuration of CDN peering protocols is modeled, but no downstream control flow follows from it, so the required protocol-configuration step does not lead into the operational establishment path it should enable.",
+        "node_ids": [
+          "N29"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R15",
+          "R16",
+          "R17",
+          "R18",
+          "R122"
+        ],
+        "evidence": "R15-R18 require protocol configuration to support negotiated relationships and enable content availability exchange and request redirection. In the diagram, N29 'Configure protocols' has no outgoing edge, so the modeled configuration step cannot contribute to subsequent peering establishment or operational management.",
+        "suggested_action": "Connect N29 to the next required step in the workflow, typically the establishment/operational branch, so protocol configuration is not terminal."
+      },
+      {
+        "id": "D-COV-R5",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The creation of a negotiated relationship from the CDN\u2019s controlling interest to interconnect with other CDNs is not explicitly represented as a modeled action or decision in the diagram.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R5"
+        ],
+        "evidence": "R5 states that the controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship. The current diagram begins the negotiation-related flow at request reception and service-requirement generation, but it does not model the initiating decision/action that creates the negotiated relationship itself.",
+        "suggested_action": "Add a mediator/CDN action or decision explicitly representing creation of the negotiated relationship before resource discovery/negotiation starts."
+      },
+      {
+        "id": "D-COV-R28",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The overall goal of alleviating congestion by detecting and handling short-term load spikes is not explicitly modeled as a distinct behavior in the workflow.",
+        "node_ids": [
+          "N10",
+          "N11"
+        ],
+        "edge_ids": [
+          "E13",
+          "E16"
+        ],
+        "requirement_ids": [
+          "R28"
+        ],
+        "evidence": "R28 requires the feature to detect and handle short-term load spikes (flash crowds) effectively. The diagram models hotspot detection and request initiation, but it does not explicitly cover the handling of the spike itself as a goal-level behavior beyond triggering peering.",
+        "suggested_action": "If this requirement is intended to be traced, add a flow or action showing detection/handling of the short-term load spike as an explicit operational objective."
+      },
+      {
+        "id": "D-COV-R31",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The Web services host behavior that ensures delivery of content to end-users based on negotiated policies is not represented.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R31"
+        ],
+        "evidence": "R31 assigns to the Web services host the responsibility of ensuring content delivery to end-users based on negotiated policies. The diagram contains redirection and policy deployment steps, but no action in the Web Server lane represents the host enforcing delivery according to those policies.",
+        "suggested_action": "Add a Web Server action for policy-based content delivery, or connect an existing Web Server action to this requirement if intended."
+      },
+      {
+        "id": "D-COV-R34",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The Web servers\u2019 on-demand caching, content selection, and inter-server routing algorithms are not modeled.",
+        "node_ids": [
+          "N2",
+          "N36"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R34"
+        ],
+        "evidence": "R34 requires on-demand caching, content selection, and routing between servers. The current diagram has publication, redirection, and load exchange, but no action that captures the underlying server-side algorithms or their outcomes.",
+        "suggested_action": "Introduce a Web Server action covering caching/content selection/routing, or map an existing step to these behaviors if that was intended."
+      },
+      {
+        "id": "D-COV-R40",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The Service Registry\u2019s core role of encapsulating resource and service information for each CDN is not explicitly modeled.",
+        "node_ids": [
+          "N31"
+        ],
+        "edge_ids": [
+          "E40"
+        ],
+        "requirement_ids": [
+          "R40"
+        ],
+        "evidence": "R40 requires the Service Registry to encapsulate resource and service information for each CDN. N31 creates an SR instance for a peering arrangement, but that is not the same as the Service Registry acting as the repository for each CDN\u2019s resource/service information.",
+        "suggested_action": "Add or relabel a Service Registry action that explicitly encapsulates each CDN\u2019s resource and service information, not only creates an SR instance."
+      },
+      {
+        "id": "D-COV-R49",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The Peering Agent\u2019s exchange of policy, resource information, and service requirements with external PAs is not explicitly shown.",
+        "node_ids": [
+          "N25",
+          "N29"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R49"
+        ],
+        "evidence": "R49 requires the Peering Agent to exchange policy, resource information, and service requirements with external PAs. The diagram shows discovery and protocol configuration, but not the actual exchange of these three information types with external PAs.",
+        "suggested_action": "Add an inter-PA exchange step or annotate the discovery/negotiation step so the exchange of policy, resource information, and service requirements is explicit."
+      },
+      {
+        "id": "D-COV-R52",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Cooperative pull-based content replication among participating CDNs is not represented in the operational flow.",
+        "node_ids": [
+          "N34",
+          "N35",
+          "N36"
+        ],
+        "edge_ids": [
+          "E43",
+          "E44",
+          "E45"
+        ],
+        "requirement_ids": [
+          "R52"
+        ],
+        "evidence": "R52 requires content replication using a cooperative pull-based approach where participating CDNs assist each other in serving data. The diagram has advertisement, load exchange, redirect, and billing, but no action describing the replication mechanism itself.",
+        "suggested_action": "Add a content-replication action in the operational branch, linked to peering establishment and resource availability."
+      },
+      {
+        "id": "D-COV-R61",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The Mediator collecting up-to-date resource information from the Service Registry is not represented.",
+        "node_ids": [
+          "N6",
+          "N7"
+        ],
+        "edge_ids": [
+          "E7",
+          "E8"
+        ],
+        "requirement_ids": [
+          "R61"
+        ],
+        "evidence": "R61 states that the Mediator collects up-to-date resource information from SR. The diagram has a traffic-surge decision and SR supplying resources, but no Mediator action explicitly collecting or receiving the updated information from SR.",
+        "suggested_action": "Add a Mediator action to collect or receive updated resource information from the Service Registry, especially on the traffic-surge path."
+      },
+      {
+        "id": "D-COV-R62",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The service-registration trigger conditions are incomplete: the diagram does not represent all four trigger sources for service registration.",
+        "node_ids": [
+          "N3",
+          "N6",
+          "N8",
+          "N31"
+        ],
+        "edge_ids": [
+          "E2",
+          "E5",
+          "E6",
+          "E7",
+          "E8",
+          "E10",
+          "E11",
+          "E40"
+        ],
+        "requirement_ids": [
+          "R62"
+        ],
+        "evidence": "R62 requires service registration to be triggered by provider startup, update of previously registered information, traffic surges, and encapsulation in an SR instance for established peering. The diagram covers new/existing resource handling, traffic surge supply, and SR instance creation, but it does not explicitly model provider startup as a trigger condition for the service-registration flow.",
+        "suggested_action": "Add an explicit trigger/branch for provider startup or annotate the existing resource-publication entry so the startup condition is clearly covered."
+      },
+      {
+        "id": "D-COV-R81",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The initiation trigger does not explicitly capture the requirement that both expected and unexpected load increases are considered.",
+        "node_ids": [
+          "N10",
+          "N11"
+        ],
+        "edge_ids": [
+          "E13",
+          "E16"
+        ],
+        "requirement_ids": [
+          "R81"
+        ],
+        "evidence": "R81 says the triggering condition considers expected and unexpected load increases in the initiating CDN. The current hotspot/timeout/malicious decision structure does not explicitly model that the trigger evaluates both anticipated and unanticipated load growth.",
+        "suggested_action": "Add a decision or guard that explicitly distinguishes expected versus unexpected load increases in the peering initiation trigger."
+      },
+      {
+        "id": "D-COV-R129",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The trigger that once policies are negotiated and a peering arrangement is established, PAs interact to execute common goals is not explicitly represented as a distinct state/transition condition.",
+        "node_ids": [
+          "N30",
+          "N33"
+        ],
+        "edge_ids": [
+          "E40",
+          "E43",
+          "E44",
+          "E45",
+          "E46",
+          "E47"
+        ],
+        "requirement_ids": [
+          "R129"
+        ],
+        "evidence": "R129 requires that once policies are negotiated and peering is established, PAs interact in execution of common goals. The diagram proceeds to operational setup after establishment, but does not explicitly model the policy-negotiated condition that enables the PAs' cooperative interaction.",
+        "suggested_action": "Add a transition or guard making the 'policies negotiated and peering established' condition explicit before operational interaction begins."
+      }
+    ],
+    "strengths": [
+      "The diagram correctly includes the major lifecycle phases: registration, initiation, mediator negotiation, resource discovery, operational management, and disband/re-arrangement.",
+      "Negative paths are modeled for timeout, malicious request rejection, insufficient resources, and operational refusal/termination.",
+      "The SR, mediator, policy repository, and local peering agent are separated into distinct lanes, which matches the required actor responsibilities reasonably well.",
+      "The long-term vs short-term negotiation branch is present, and the disband/re-arrangement phase is also represented."
+    ],
+    "missing_requirements": [
+      "R5",
+      "R28",
+      "R31",
+      "R34",
+      "R40",
+      "R49",
+      "R52",
+      "R61",
+      "R62",
+      "R81",
+      "R129"
+    ],
+    "unsupported_behaviors": [
+      "No strong unsupported behavior beyond the modeled dead-end and some possibly over-broad routing from operational refusal to termination; these do not clearly contradict the requirements."
+    ]
+  },
+  "defects": [
+    {
+      "id": "D-FLOW-001-N29",
+      "category": "CONTROL_FLOW",
+      "severity": "MEDIUM",
+      "description": "Action N29 is a dead end.",
+      "node_ids": [
+        "N29"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R122"
+      ],
+      "evidence": "Configure protocols",
+      "suggested_action": "Connect the action to its next workflow step or final node."
+    },
+    {
+      "id": "D-COV-R5",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R5 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R5"
+      ],
+      "evidence": "The controlling interest of a CDN to interconnect with other CDNs leads to the creation of a negotiated relationship.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R28",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R28 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R28"
+      ],
+      "evidence": "Assists an existing CDN to alleviate congestions by detecting and handling short-term load spikes (i.e. flash crowds) effectively.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R31",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R31 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R31"
+      ],
+      "evidence": "The Web services host ensures the delivery of content to end-users based on the negotiated policies with other CDNs.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R34",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R34 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R34"
+      ],
+      "evidence": "The Web servers\u2019 underlying algorithms perform on-demand caching, content selection, and routing between servers.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R40",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R40 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R40"
+      ],
+      "evidence": "It encapsulates the resource and service information for each CDN.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R49",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R49 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R49"
+      ],
+      "evidence": "It exchanges policy, resource information, and service requirements with external PAs.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R52",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R52 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R52"
+      ],
+      "evidence": "Content replication is performed using a cooperative pull-based approach where participating CDNs assist each others in serving data.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R61",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R61 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R61"
+      ],
+      "evidence": "Mediator: Collects up-to-date resource information from SR.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R62",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R62 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R62"
+      ],
+      "evidence": "Service registration is triggered when either one  of the following occurs: (a) resources are  available   as  a  provider   starts  operating;   (b)  previously   registered   resource information needs to be updated; (c) available local resource information is required in the event of traffic surges; and (d) local and delegated external resource information is to be encapsulated in an SR instance included in an established peering arrangement.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R81",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R81 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R81"
+      ],
+      "evidence": "The triggering condition considers the expected and unexpected load increases in the initiating (primary) CDN.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R129",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R129 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R129"
+      ],
+      "evidence": "Once policies are negotiated and a peering arrangement is established, PAs interact each other in the execution of common goal(s).",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R28",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The overall goal of alleviating congestion by detecting and handling short-term load spikes is not explicitly modeled as a distinct behavior in the workflow.",
+      "node_ids": [
+        "N10",
+        "N11"
+      ],
+      "edge_ids": [
+        "E13",
+        "E16"
+      ],
+      "requirement_ids": [
+        "R28"
+      ],
+      "evidence": "R28 requires the feature to detect and handle short-term load spikes (flash crowds) effectively. The diagram models hotspot detection and request initiation, but it does not explicitly cover the handling of the spike itself as a goal-level behavior beyond triggering peering.",
+      "suggested_action": "If this requirement is intended to be traced, add a flow or action showing detection/handling of the short-term load spike as an explicit operational objective."
+    },
+    {
+      "id": "D-COV-R34",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The Web servers\u2019 on-demand caching, content selection, and inter-server routing algorithms are not modeled.",
+      "node_ids": [
+        "N2",
+        "N36"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R34"
+      ],
+      "evidence": "R34 requires on-demand caching, content selection, and routing between servers. The current diagram has publication, redirection, and load exchange, but no action that captures the underlying server-side algorithms or their outcomes.",
+      "suggested_action": "Introduce a Web Server action covering caching/content selection/routing, or map an existing step to these behaviors if that was intended."
+    },
+    {
+      "id": "D-COV-R40",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The Service Registry\u2019s core role of encapsulating resource and service information for each CDN is not explicitly modeled.",
+      "node_ids": [
+        "N31"
+      ],
+      "edge_ids": [
+        "E40"
+      ],
+      "requirement_ids": [
+        "R40"
+      ],
+      "evidence": "R40 requires the Service Registry to encapsulate resource and service information for each CDN. N31 creates an SR instance for a peering arrangement, but that is not the same as the Service Registry acting as the repository for each CDN\u2019s resource/service information.",
+      "suggested_action": "Add or relabel a Service Registry action that explicitly encapsulates each CDN\u2019s resource and service information, not only creates an SR instance."
+    },
+    {
+      "id": "D-COV-R49",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The Peering Agent\u2019s exchange of policy, resource information, and service requirements with external PAs is not explicitly shown.",
+      "node_ids": [
+        "N25",
+        "N29"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R49"
+      ],
+      "evidence": "R49 requires the Peering Agent to exchange policy, resource information, and service requirements with external PAs. The diagram shows discovery and protocol configuration, but not the actual exchange of these three information types with external PAs.",
+      "suggested_action": "Add an inter-PA exchange step or annotate the discovery/negotiation step so the exchange of policy, resource information, and service requirements is explicit."
+    },
+    {
+      "id": "D-COV-R52",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Cooperative pull-based content replication among participating CDNs is not represented in the operational flow.",
+      "node_ids": [
+        "N34",
+        "N35",
+        "N36"
+      ],
+      "edge_ids": [
+        "E43",
+        "E44",
+        "E45"
+      ],
+      "requirement_ids": [
+        "R52"
+      ],
+      "evidence": "R52 requires content replication using a cooperative pull-based approach where participating CDNs assist each other in serving data. The diagram has advertisement, load exchange, redirect, and billing, but no action describing the replication mechanism itself.",
+      "suggested_action": "Add a content-replication action in the operational branch, linked to peering establishment and resource availability."
+    },
+    {
+      "id": "D-COV-R61",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The Mediator collecting up-to-date resource information from the Service Registry is not represented.",
+      "node_ids": [
+        "N6",
+        "N7"
+      ],
+      "edge_ids": [
+        "E7",
+        "E8"
+      ],
+      "requirement_ids": [
+        "R61"
+      ],
+      "evidence": "R61 states that the Mediator collects up-to-date resource information from SR. The diagram has a traffic-surge decision and SR supplying resources, but no Mediator action explicitly collecting or receiving the updated information from SR.",
+      "suggested_action": "Add a Mediator action to collect or receive updated resource information from the Service Registry, especially on the traffic-surge path."
+    },
+    {
+      "id": "D-COV-R62",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The service-registration trigger conditions are incomplete: the diagram does not represent all four trigger sources for service registration.",
+      "node_ids": [
+        "N3",
+        "N6",
+        "N8",
+        "N31"
+      ],
+      "edge_ids": [
+        "E2",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E10",
+        "E11",
+        "E40"
+      ],
+      "requirement_ids": [
+        "R62"
+      ],
+      "evidence": "R62 requires service registration to be triggered by provider startup, update of previously registered information, traffic surges, and encapsulation in an SR instance for established peering. The diagram covers new/existing resource handling, traffic surge supply, and SR instance creation, but it does not explicitly model provider startup as a trigger condition for the service-registration flow.",
+      "suggested_action": "Add an explicit trigger/branch for provider startup or annotate the existing resource-publication entry so the startup condition is clearly covered."
+    },
+    {
+      "id": "D-COV-R81",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The initiation trigger does not explicitly capture the requirement that both expected and unexpected load increases are considered.",
+      "node_ids": [
+        "N10",
+        "N11"
+      ],
+      "edge_ids": [
+        "E13",
+        "E16"
+      ],
+      "requirement_ids": [
+        "R81"
+      ],
+      "evidence": "R81 says the triggering condition considers expected and unexpected load increases in the initiating CDN. The current hotspot/timeout/malicious decision structure does not explicitly model that the trigger evaluates both anticipated and unanticipated load growth.",
+      "suggested_action": "Add a decision or guard that explicitly distinguishes expected versus unexpected load increases in the peering initiation trigger."
+    },
+    {
+      "id": "D-COV-R129",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The trigger that once policies are negotiated and a peering arrangement is established, PAs interact to execute common goals is not explicitly represented as a distinct state/transition condition.",
+      "node_ids": [
+        "N30",
+        "N33"
+      ],
+      "edge_ids": [
+        "E40",
+        "E43",
+        "E44",
+        "E45",
+        "E46",
+        "E47"
+      ],
+      "requirement_ids": [
+        "R129"
+      ],
+      "evidence": "R129 requires that once policies are negotiated and peering is established, PAs interact in execution of common goals. The diagram proceeds to operational setup after establishment, but does not explicitly model the policy-negotiated condition that enables the PAs' cooperative interaction.",
+      "suggested_action": "Add a transition or guard making the 'policies negotiated and peering established' condition explicit before operational interaction begins."
+    }
+  ],
+  "plantuml": "@startuml\ntitle CDN peering lifecycle from service registration through peering initiation, negotiation, resource discovery, operational management, and disband/re-arrangement\nskinparam swimlaneWrapTitleWidth 150\n\n|Web Server|\nstart\n\n:Publish resource info;\n|Service Registry|\nif (New resource?) then (new resource)\n|Service Registry|\n:Register resource;\nelse (existing resource)\n|Service Registry|\n:Update resource;\nendif\n|Mediator|\nif (Traffic surge?) then (yes)\n|Mediator|\n|Service Registry|\n:Supply resources;\nelse (no)\n|Mediator|\nendif\n|Service Registry|\nif (Resource failed?) then (yes)\n|Service Registry|\n:Remove failed resource;\nelse (no)\n|Service Registry|\nendif\n|Web Server|\n:Detect hotspot;\nif (Timeout or malicious?) then (timeout)\n|Web Server|\n:Cancel request;\nstop\nelse\n|Web Server|\nif (Timeout or malicious?) then (malicious request)\n|Web Server|\n:Reject request;\nstop\nelse (normal hotspot)\n|Web Server|\n:Send request;\n|Mediator|\n:Receive request;\n:Get registry and policy data;\n:Generate requirements;\nif (Acceptable by policy?) then (acceptable)\n|Mediator|\n:Pass requirements;\n(A)\n|Local Peering Agent|\n:Receive requirements;\n|Policy Repository|\nif (Existing peering policies?) then (yes)\n|Policy Repository|\n:Return policies;\nelse (no)\n|Policy Repository|\n|Local Peering Agent|\n:Negotiate short term;\n:Discover external resources;\nendif\nif (Malicious request during discovery?) then (yes)\n|Local Peering Agent|\n:Identify and reject malicious request;\n:Configure protocols;\nelse (no)\n|Local Peering Agent|\nif (Sufficient resources?) then (yes)\n|Local Peering Agent|\n:Establish peering;\n|Service Registry|\n:Create SR instance;\n|Policy Repository|\n:Virtualize policies;\n|Mediator|\nfork\n|Local Peering Agent|\n:Advertise configuration;\nfork again\n|Mediator|\n|Local Peering Agent|\n:Exchange load information;\nfork again\n|Mediator|\n:Redirect requests;\nfork again\n|Mediator|\n|Local Peering Agent|\n:Exchange accounting;\nfork again\n|Mediator|\n|Policy Repository|\n:Deploy policies;\nend fork\n|Mediator|\n|Local Peering Agent|\nif (Refuse user requests?) then (yes)\n|Local Peering Agent|\nstop\nelse (no)\n|Local Peering Agent|\nendif\nif (Terminate or re-arrange?) then (termination condition holds)\n|Local Peering Agent|\nif (Exceptional circumstances?) then (yes)\n|Local Peering Agent|\nstop\nelse (no)\n|Local Peering Agent|\n:Disband or re-arrange;\nstop\nendif\nelse (otherwise)\n|Local Peering Agent|\nstop\nendif\nelse (no)\n|Local Peering Agent|\n|Mediator|\n:Re-evaluate requirements;\n|Local Peering Agent|\n:Renegotiate;\n(A)\ndetach\nendif\nendif\nelse (not acceptable)\n|Mediator|\n:Reject user requests;\nstop\nendif\nendif\nendif\n\n@enduml"
+}

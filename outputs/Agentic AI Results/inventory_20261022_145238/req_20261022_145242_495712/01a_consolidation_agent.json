@@ -1,0 +1,784 @@
+{
+  "verdicts": [
+    {
+      "id": "R1",
+      "kind": "DETAIL",
+      "belongs_to": "R11"
+    },
+    {
+      "id": "R2",
+      "kind": "DETAIL",
+      "belongs_to": "R3"
+    },
+    {
+      "id": "R3",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R4",
+      "kind": "DETAIL",
+      "belongs_to": "R3"
+    },
+    {
+      "id": "R5",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R6",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R7",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R8",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R9",
+      "kind": "DETAIL",
+      "belongs_to": "R31"
+    },
+    {
+      "id": "R10",
+      "kind": "DETAIL",
+      "belongs_to": "R84"
+    },
+    {
+      "id": "R11",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R12",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R13",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R14",
+      "kind": "DETAIL",
+      "belongs_to": "R12"
+    },
+    {
+      "id": "R15",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R16",
+      "kind": "DETAIL",
+      "belongs_to": "R15"
+    },
+    {
+      "id": "R17",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R18",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R19",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R20",
+      "kind": "DETAIL",
+      "belongs_to": "R19"
+    },
+    {
+      "id": "R21",
+      "kind": "DETAIL",
+      "belongs_to": "R15"
+    },
+    {
+      "id": "R22",
+      "kind": "DETAIL",
+      "belongs_to": "R17"
+    },
+    {
+      "id": "R23",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R24",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R25",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R26",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R27",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R28",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R29",
+      "kind": "DETAIL",
+      "belongs_to": "R30"
+    },
+    {
+      "id": "R30",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R31",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R32",
+      "kind": "DETAIL",
+      "belongs_to": "R31"
+    },
+    {
+      "id": "R33",
+      "kind": "DETAIL",
+      "belongs_to": "R34"
+    },
+    {
+      "id": "R34",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R35",
+      "kind": "DETAIL",
+      "belongs_to": "R34"
+    },
+    {
+      "id": "R36",
+      "kind": "DUPLICATE",
+      "belongs_to": "R30"
+    },
+    {
+      "id": "R37",
+      "kind": "DUPLICATE",
+      "belongs_to": "R31"
+    },
+    {
+      "id": "R38",
+      "kind": "CONDITION",
+      "belongs_to": "R37"
+    },
+    {
+      "id": "R39",
+      "kind": "EXCEPTION",
+      "belongs_to": "R37"
+    },
+    {
+      "id": "R40",
+      "kind": "DUPLICATE",
+      "belongs_to": "R30"
+    },
+    {
+      "id": "R41",
+      "kind": "DUPLICATE",
+      "belongs_to": "R31"
+    },
+    {
+      "id": "R42",
+      "kind": "CONDITION",
+      "belongs_to": "R41"
+    },
+    {
+      "id": "R43",
+      "kind": "EXCEPTION",
+      "belongs_to": "R41"
+    },
+    {
+      "id": "R44",
+      "kind": "DUPLICATE",
+      "belongs_to": "R30"
+    },
+    {
+      "id": "R45",
+      "kind": "CONDITION",
+      "belongs_to": "R44"
+    },
+    {
+      "id": "R46",
+      "kind": "EXCEPTION",
+      "belongs_to": "R44"
+    },
+    {
+      "id": "R47",
+      "kind": "TERMINATION",
+      "belongs_to": "R31"
+    },
+    {
+      "id": "R48",
+      "kind": "DETAIL",
+      "belongs_to": "R49"
+    },
+    {
+      "id": "R49",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R50",
+      "kind": "EXCEPTION",
+      "belongs_to": "R42"
+    },
+    {
+      "id": "R51",
+      "kind": "CONDITION",
+      "belongs_to": "R41"
+    },
+    {
+      "id": "R52",
+      "kind": "DETAIL",
+      "belongs_to": "R53"
+    },
+    {
+      "id": "R53",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R54",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R55",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R56",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R57",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R58",
+      "kind": "EXCEPTION",
+      "belongs_to": "R57"
+    },
+    {
+      "id": "R59",
+      "kind": "TERMINATION",
+      "belongs_to": "R53"
+    },
+    {
+      "id": "R60",
+      "kind": "DETAIL",
+      "belongs_to": "R63"
+    },
+    {
+      "id": "R61",
+      "kind": "DETAIL",
+      "belongs_to": "R63"
+    },
+    {
+      "id": "R62",
+      "kind": "DETAIL",
+      "belongs_to": "R66"
+    },
+    {
+      "id": "R63",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R64",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R65",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R66",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R67",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R68",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R69",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R70",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R71",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R72",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R73",
+      "kind": "DUPLICATE",
+      "belongs_to": "R49"
+    },
+    {
+      "id": "R74",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R75",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R76",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R77",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R78",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R79",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R80",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R81",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R82",
+      "kind": "DUPLICATE",
+      "belongs_to": "R63"
+    },
+    {
+      "id": "R83",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R84",
+      "kind": "DUPLICATE",
+      "belongs_to": "R66"
+    },
+    {
+      "id": "R85",
+      "kind": "DUPLICATE",
+      "belongs_to": "R67"
+    },
+    {
+      "id": "R86",
+      "kind": "DUPLICATE",
+      "belongs_to": "R68"
+    },
+    {
+      "id": "R87",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R88",
+      "kind": "DUPLICATE",
+      "belongs_to": "R65"
+    },
+    {
+      "id": "R89",
+      "kind": "DUPLICATE",
+      "belongs_to": "R30"
+    },
+    {
+      "id": "R90",
+      "kind": "CONDITION",
+      "belongs_to": "R89"
+    },
+    {
+      "id": "R91",
+      "kind": "EXCEPTION",
+      "belongs_to": "R89"
+    },
+    {
+      "id": "R92",
+      "kind": "DETAIL",
+      "belongs_to": "R93"
+    },
+    {
+      "id": "R93",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R94",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R95",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R96",
+      "kind": "DETAIL",
+      "belongs_to": "R93"
+    },
+    {
+      "id": "R97",
+      "kind": "CONDITION",
+      "belongs_to": "R98"
+    },
+    {
+      "id": "R98",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R99",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R100",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R101",
+      "kind": "CONDITION",
+      "belongs_to": "R100"
+    },
+    {
+      "id": "R102",
+      "kind": "DETAIL",
+      "belongs_to": "R100"
+    },
+    {
+      "id": "R103",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R104",
+      "kind": "CONDITION",
+      "belongs_to": "R103"
+    },
+    {
+      "id": "R105",
+      "kind": "DETAIL",
+      "belongs_to": "R106"
+    },
+    {
+      "id": "R106",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R107",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R108",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R109",
+      "kind": "EXCEPTION",
+      "belongs_to": "R108"
+    },
+    {
+      "id": "R110",
+      "kind": "EXCEPTION",
+      "belongs_to": "R109"
+    },
+    {
+      "id": "R111",
+      "kind": "TERMINATION",
+      "belongs_to": "R108"
+    },
+    {
+      "id": "R112",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R113",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R114",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R115",
+      "kind": "CONDITION",
+      "belongs_to": "R116"
+    },
+    {
+      "id": "R116",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R117",
+      "kind": "EXCEPTION",
+      "belongs_to": "R112"
+    },
+    {
+      "id": "R118",
+      "kind": "CONDITION",
+      "belongs_to": "R120"
+    },
+    {
+      "id": "R119",
+      "kind": "CONDITION",
+      "belongs_to": "R120"
+    },
+    {
+      "id": "R120",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R121",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R122",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R123",
+      "kind": "DUPLICATE",
+      "belongs_to": "R120"
+    },
+    {
+      "id": "R124",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R125",
+      "kind": "EXCEPTION",
+      "belongs_to": "R122"
+    },
+    {
+      "id": "R126",
+      "kind": "DETAIL",
+      "belongs_to": "R127"
+    },
+    {
+      "id": "R127",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R128",
+      "kind": "STEP",
+      "belongs_to": null
+    },
+    {
+      "id": "R129",
+      "kind": "DETAIL",
+      "belongs_to": "R128"
+    },
+    {
+      "id": "R130",
+      "kind": "DETAIL",
+      "belongs_to": "R128"
+    },
+    {
+      "id": "R131",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R132",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R133",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R134",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R135",
+      "kind": "DUPLICATE",
+      "belongs_to": "R93"
+    },
+    {
+      "id": "R136",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R137",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R138",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R139",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R140",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R141",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R142",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R143",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R144",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R145",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R146",
+      "kind": "DUPLICATE",
+      "belongs_to": "R106"
+    },
+    {
+      "id": "R147",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R148",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R149",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R150",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R151",
+      "kind": "DUPLICATE",
+      "belongs_to": "R127"
+    },
+    {
+      "id": "R152",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R153",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R154",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R155",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    },
+    {
+      "id": "R156",
+      "kind": "CONTEXT",
+      "belongs_to": null
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+13:50:15  MultiAgentPipeline  Running requirement agent...
+13:50:47  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:50:47  MultiAgentPipeline  Extracted 39 requirements.
+13:50:47  MultiAgentPipeline  Running actor agent...
+13:50:52  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:50:52  MultiAgentPipeline  Swimlanes: User, Development Team, Program, Torrent Websites, Video Hosting Sites, Video Link Sites
+13:50:52  MultiAgentPipeline  Running planning agent...
+13:51:44  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:51:45  MultiAgentPipeline  Planning completed: 34 nodes, 37 edges, 3 decisions, 0 loops, 1 concurrency blocks.
+13:51:45  MultiAgentPipeline  Running generator agent...
+13:51:53  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:51:53  MultiAgentPipeline  Generated diagram: 34 nodes, 37 edges.
+13:51:53  MultiAgentPipeline  Running refinement agent...
+13:52:04  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:52:04  MultiAgentPipeline  Refinement rejected (more structural defects): 7 changes.
+13:52:06  MultiAgentPipeline  Validation iteration 0
+13:52:08  MultiAgentPipeline  Running semantic reviewer...
+13:52:14  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:52:15  MultiAgentPipeline  Iteration 0 metrics: coverage=0.949, correctness=0.284, completeness=0.949, structural=0.949, unsupported=0.000, defects=5, quality=0.749
+13:52:15  MultiAgentPipeline  New best candidate selected at iteration 0 (quality=0.749, raw_score=0.000).
+13:52:15  MultiAgentPipeline  Running feedback agent...
+13:52:19  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:52:19  MultiAgentPipeline  Selected defects for repair: ['D-COV-R25', 'D-COV-R27', 'D-COV-R26-R28']
+13:52:32  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:52:34  MultiAgentPipeline  Running semantic reviewer...
+13:52:41  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:52:41  MultiAgentPipeline  Repair evaluation: quality 0.749 -> 0.960, defects 5 -> 1, fixed=5, introduced=1.
+13:52:41  MultiAgentPipeline  Repair accepted: FEWER_BLOCKING_DEFECTS
+13:52:41  MultiAgentPipeline  Validation iteration 1
+13:52:41  MultiAgentPipeline  Iteration 1 metrics: coverage=1.000, correctness=0.940, completeness=1.000, structural=1.000, unsupported=0.000, defects=1, quality=0.960
+13:52:41  MultiAgentPipeline  New best candidate selected at iteration 1 (quality=0.960, raw_score=74.000).
+13:52:41  MultiAgentPipeline  Running feedback agent...
+13:52:44  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:52:44  MultiAgentPipeline  Selected defects for repair: ['D1']
+13:52:57  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:52:59  MultiAgentPipeline  Running semantic reviewer...
+13:53:04  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:53:05  MultiAgentPipeline  Repair evaluation: quality 0.960 -> 0.869, defects 1 -> 2, fixed=1, introduced=2.
+13:53:05  MultiAgentPipeline  Repair rejected: DEFECT_COUNT_INCREASED
+13:53:05  MultiAgentPipeline  Continuing with the previous candidate to attempt another repair.
+13:53:05  MultiAgentPipeline  Validation iteration 2
+13:53:05  MultiAgentPipeline  Iteration 2 metrics: coverage=1.000, correctness=0.940, completeness=1.000, structural=1.000, unsupported=0.000, defects=1, quality=0.960
+13:53:05  MultiAgentPipeline  Running feedback agent...
+13:53:08  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:53:08  MultiAgentPipeline  Selected defects for repair: ['D1']
+13:53:22  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:53:24  MultiAgentPipeline  Running semantic reviewer...
+13:53:28  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:53:28  MultiAgentPipeline  Repair evaluation: quality 0.960 -> 0.951, defects 1 -> 2, fixed=1, introduced=2.
+13:53:28  MultiAgentPipeline  Repair rejected: DEFECT_COUNT_INCREASED
+13:53:28  MultiAgentPipeline  Continuing with the previous candidate to attempt another repair.
+13:53:28  MultiAgentPipeline  Validation iteration 3
+13:53:28  MultiAgentPipeline  Iteration 3 metrics: coverage=1.000, correctness=0.940, completeness=1.000, structural=1.000, unsupported=0.000, defects=1, quality=0.960
+13:53:28  MultiAgentPipeline  Maximum repair iterations reached.
+13:53:37  MultiAgentPipeline  Pipeline completed. Best iteration=1, remaining defects=1, quality=0.960.

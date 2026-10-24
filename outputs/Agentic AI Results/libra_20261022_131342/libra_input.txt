@@ -1,0 +1,227 @@
+Functional Requirements
+
+2.1 Product Perspective
+As mentioned earlier, Libra forms part of a larger system comprising the Sun Grid Engine cluster management system that runs on a Linux-based cluster. SGE is responsible for receiving the jobs submitted by the user and delegating them to Libra for scheduling and placing on appropriate workstations or execution hosts. Libra communicates its decision regarding workstation allocation to the resource manager, which then dispatches the job to the chosen workstation. Once assignment to a workstation has occurred, Libra is responsible for implementing the scheduling policy on the jobs executing at the workstations. No modifications to the Linux kernel are required. The details of various interfaces have been provided in Section 3.9.
+
+
+2.2 Product Functions
+The main purpose of the Libra scheduler is to maximize user utility. Thus the job details submitted by the user will include job prioritization criteria: the allocated budget and the deadline required by the user, enabling the scheduler to maximize CPU utilization while remaining within the constraints imposed by the need to optimize QoS.
+
+The scheduler will allocate jobs based on the job parameters, which are job specifications submitted by the user with the job, including:
+
+• Location of the executable and input data sets
+
+• Where standard output is to be placed
+
+• System type
+
+• Maximum length of run (execution time)
+
+• Whether the job is sequential or embarrassingly parallel
+ 
+However, the Libra scheduler will be QoS driven: it will aim to optimize resource utilization within user-imposed constraints: thus, user satisfaction is the primary concern, as opposed to maximizing CPU utilization. Thus, the two job parameters most relevant to the scheduling decisions will be:
+
+• Budget allocated by the user to the process
+
+• Deadline
+
+With support from the Sun Grid Engine, the Libra scheduler should embody the following features and functions:
+
+• Should be able to enforce resource allocations according to user-centric priorities
+
+•	Should be dynamic, and not static, which is a necessary implication of the user- centric approach, so that users who need their jobs completed in emergency and are willing to pay a high price for it, are able to get their job done through dynamic reallocation of resources even if the job is submitted later than other jobs or the system is heavily loaded. Hence, the scheduler should be able to change resource limits, priorities, privileges and execution order of the submitted jobs.
+
+•	Should be scalable, which means that its performance should not degrade with the addition of nodes and jobs to the cluster
+
+•	Should be configurable, and allow for various scheduling policies that can be modified to incorporate QoS parameters
+
+• Should be separable from the cluster management system
+
+• Should provide administrative security
+
+• Should provide at least a basic level of job accounting, to aid in scheduling policies
+
+•	Should ideally provide a GUI for all components, such as for users to submit jobs and for administrators to oversee scheduling
+
+
+A market-based economic model for computational economy needs to be developed for the Libra scheduler, which would be responsible for the pricing and allocation of resources according to user constraints. The model is the bid-based proportional resource- sharing model, which will allocate computational time to jobs according to their share determined by the priority of their jobs according to deadline and budget considerations. To ensure that the actual resource allocation reflects the overall job share, the proportional stride-scheduling algorithm will be used.
+
+
+Use case Scenarios
+
+3.1.1 Submit Job
+
+3.1.1.1 Introduction
+This functional feature deals with the end-user (can also be used by the administrator) and is facilitated by the interface of the Sun Grid Engine cluster management system. Hence, it is linked to the scheduler, but does not interface directly with the scheduler. However, the SGE interface will need to be adapted to include additional submission parameters that a user needs to be submit, which are not already supported by SGE. This may alternately be done through a command-line interface.
+
+3.1.1.2 Inputs
+User Information – relevant user data such as name and authentication id that needs to be used to submit a job to the cluster.
+
+Job Information – about the job that the user wants to submit, as well as already pending jobs, to determine whether the cluster can accept more jobs and can cater to the particular user job. The job details are provided in the functional feature Initialize Job.
+
+Cluster Information – Cluster Type and Scheduling mechanism details, Current Load
+Status, Submission Directions and Criteria.
+
+3.1.1.3 Processing
+The cluster decides whether it is even open for job submissions, and whether the user that is trying to submit job is a valid user or not. This decision is different from the Accept/Reject Job feature described later on, which deals with the situation when the cluster is open for job submissions, but will decide on whether to accept or reject a job based on job parameters such as budget provided and deadline specified.
+
+3.1.1.4 Outputs
+Boolean – Whether the cluster is accepting submission or not. Boolean – User verified or not.
+
+
+3.1.2 View Job Status
+
+3.1.2.1 Introduction
+This feature will allow the user or administrator to view details about the job that have been submitted, and the progress of the execution of the job.
+
+3.1.2.2 Inputs
+User Id and Password – to ensure that only the appropriate user is able to see the job status
+
+3.1.2.3 Processing
+Show the user the available options about the submitted job, and information about the progress of job execution. Process selected options if choices are provided to the user to view different aspects of job information.
+
+3.1.2.4 Outputs
+User view of available options about jobs submitted by the user.
+
+
+3.1.3 Delete/Change Job
+
+3.1.3.1 Introduction
+This feature may be available to both the user and the administrator, to cancel a job or under specific circumstances, change a job parameter. Parameters such as deadline and cost are crucial to the job scheduling and would not normally be changeable. However, if the user wishes to specify a different output directory or a delayed deadline, this may be permitted.
+
+3.1.3.2 Inputs
+User Id and Password – to ensure that only the appropriate user is able to delete/change the job.
+
+3.1.3.3 Processing
+Remove job from the queue and update cluster status. Revise scheduling decisions about resource allocation to pending jobs and submission of new jobs.
+
+3.1.3.4 Outputs
+Updated cluster information and scheduling decision – CPU load, node status, queue length, quanta allocated to pending jobs, revised expected finishing deadline of pending jobs. These outputs are facilitated by the functionality of the Sun Grid Engine cluster management system, and are not independently produced by the Libra scheduler.
+
+
+3.1.4 Initialize Job
+
+3.1.4.1 Introduction
+This is a main functional requirement that prepares the scheduler for eventually scheduling and executing a job. The Libra scheduler performs it once a job has been accepted by SGE, with information from the scheduler.
+
+3.1.4.2 Inputs
+The information submitted by the user about the job, as well as the job id assigned by
+SGE.
+ 
+
+
+3.1.4.3 Processing
+Two processes are performed as part of this function: the details of the job are retrieved and then these details are set in variables that represent the state of the cluster and its queues. The parsed parameters are passed on to the scheduling module where the job may be accepted or rejected.
+
+3.1.4.4 Outputs
+The output comprises the set variables that represent job information submitted with a job. Hence, the exact job details are output: Job details – Job Id, Job type, Standalone Execution time, Location of executable and input data sets, System Type, Budget, Deadline.
+
+
+3.1.5 Accept/Reject Job
+
+3.1.5.1 Introduction
+This is the function that is responsible for determining the possibility of satisfying the user, given his budget and deadline. Hence, the most important inputs are budget, deadline, and execution time, to determine whether the job can be accepted or not.
+
+3.1.5.2 Inputs
+Job details – Job Id, Job type, Standalone Execution time, Location of executable and input data sets, System Type, Budget, Deadline.
+
+Cluster information – CPU load, node status, remaining time of pending jobs
+
+3.1.5.3 Processing
+Based on the job parameters, the scheduler figures out a priority of the job that reflects the share of CPU time that it deserves and needs according to the specified criteria. The scheduler determines whether the job can be finished by the requisite deadline, given the execution time of the job and the execution status of other pending jobs on various nodes.
+
+3.1.5.4 Outputs
+The output includes a boolean value specifying whether the job has been accepted or rejected. A suggested deadline or cost is given to the user, as a precondition for the job to be accepted.
+
+
+3.1.6 Calculate Scheduling Information
+
+3.1.6.1 Introduction
+This is the feature of Libra that decides how the job will be scheduled based on its budget and deadline. It uses the Stride Scheduling Algorithm to enforce resource allocations (CPU cycles) proportional to a user’s budget and deadline. It is performed by Libra once it has decided that a job can be accommodated.
+
+3.1.6.2 Inputs
+Job details – Job Id, Job type, Standalone Execution time, Location of executable and
+ 
+
+
+input data sets, System Type, Budget, Deadline.
+
+3.1.6.3 Processing
+Allocate tickets to a job based on its budget and deadline and the budget and deadlines of all other jobs on the execution host under debate. Calculate the stride and the pass of the job, where the stride is simply the global stride constant divided by the tickets and the pass is initially just the stride.
+
+3.1.6.4 Outputs
+Scheduling information – the job’s tickets, stride and pass.
+
+
+3.1.7 Determine Execution Host
+
+3.1.7.1 Introduction
+This feature decides on which node and on which queue the job will be placed for
+execution. It is done on the basis of the job’s budget, execution time and deadline.
+
+3.1.7.2 Inputs
+Job details – Job Id, Job type, Standalone Execution time, Location of executable and input data sets, System Type, Budget, Deadline.
+
+Cluster Information - CPU Load, Node Status, Remaining Time of Pending Jobs, Available Memory
+
+3.1.7.3 Processing
+Libra first looks at the load on each of the hosts and sorts them in ascending order, choosing the host that is least loaded. This ensures that load balancing is taken care of. It then selects the appropriate queue based on whether the job is sequential or embarrassingly parallel, budget, etc…
+
+3.1.7.4 Outputs
+The chosen execution host and queue.
+
+
+3.1.8 Dispatch Job
+
+3.1.8.1 Introduction
+This feature takes the job and inserts it into the queue on the execution host that the scheduler had previously decided it is to be placed in. This is a separate feature since the job may be able to wait for a while before it is given CPU time, allowing other jobs to complete or be scheduled earlier if their deadlines are more urgent. Thus, the dispatcher decides when to actually send the job for execution.
+
+3.1.8.2 Inputs
+The chosen execution host and queue on which to place the job for execution.
+
+3.1.8.3 Processing
+The scheduler sends the job to the appropriate queue and it joins the competition for
+ 
+
+
+resources.
+
+3.1.8.4 Outputs
+The scheduled job in its appropriate host and queue.
+
+
+3.1.9 Update Cluster Status
+
+3.1.9.1 Introduction
+Every time a job is scheduled for execution on a host, this feature of Libra updates the cluster status. This action is also performed when a job ends and is removed from the cluster.
+
+3.1.9.2 Inputs
+Job details – Job Id, Job type, Standalone Execution time, Location of executable and input data sets, System Type, Budget, Deadline.
+
+Chosen execution host and queue.
+
+3.1.9.3 Processing
+Libra first reserves the amount of resources that will be required by the job on the node. It then updates the execution host queue status and sends that information about the additional load on the queue and node under consideration to the central information store on the master host.
+
+3.1.9.4 Outputs
+There is no output associated with this feature as it simply performs an update and does not send any results back. It is a trigger that is activated every time a job is scheduled or is deleted from an execution host.
+
+
+3.1.10 Execute Job
+
+3.1.10.1 Introduction
+As long as there are jobs in the queues, this feature is being run. It essentially decides how to time-slice between all the jobs currently being executed. These scheduling decisions are made based on the stride-scheduling algorithm.
+
+3.1.10.2 Inputs
+Scheduled Job – job details and the queue and node on which that job is scheduled to run.
+
+Scheduling Information – the job’s tickets, stride and pass.
+
+3.1.10.3 Processing
+It looks at all the jobs on the cluster and selects the one with the minimum pass value, and allots it a quantum. The pass of that job is then advanced by its stride. In case of a tie, the arbitrary FIFO job ordering is used. This loop is repeated until there are no jobs left to run on a queue.
+ 
+
+
+3.1.10.4 Outputs
+Updated Cluster Information - CPU Load, Node Status, Remaining Time of Pending
+Jobs, Available Memory

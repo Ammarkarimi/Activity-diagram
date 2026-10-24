@@ -1,0 +1,12 @@
+{
+  "actors": [
+    "User",
+    "Authentication system",
+    "Inventory system"
+  ],
+  "proposed": [
+    "User",
+    "Authentication system",
+    "Inventory system"
+  ]
+}

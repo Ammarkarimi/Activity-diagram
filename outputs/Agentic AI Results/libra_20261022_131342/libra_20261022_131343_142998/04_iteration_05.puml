@@ -1,0 +1,57 @@
+@startuml
+title Libra Scheduler Activity Diagram
+skinparam swimlaneWrapTitleWidth 150
+
+|Sun Grid Engine cluster management system|
+start
+
+:Receive job submission;
+:Adapt submission interface / command-line path;
+:Evaluate submission with pending jobs;
+if (Submission open?) then (open)
+|Sun Grid Engine cluster management system|
+if (User valid?) then (valid)
+|Sun Grid Engine cluster management system|
+|Libra scheduler|
+:Initialize job;
+:Check acceptance;
+if (Accept job?) then (accepted)
+|Libra scheduler|
+:Allocate tickets;
+:Calculate stride and pass;
+:Apply proportional stride scheduling;
+:Choose host;
+:Select queue;
+:Communicate allocation;
+|Sun Grid Engine cluster management system|
+:Dispatch job;
+|Libra scheduler|
+:Update cluster status;
+while (Jobs remain?) is (yes)
+:Time-slice jobs;
+if (Tie on pass?) then (yes)
+|Libra scheduler|
+:Apply FIFO ordering;
+else (no)
+|Libra scheduler|
+:Select minimum-pass job;
+endif
+:Allot quantum;
+:Advance pass;
+endwhile (no)
+|Libra scheduler|
+stop
+else (rejected)
+|Libra scheduler|
+stop
+endif
+else (invalid)
+|Sun Grid Engine cluster management system|
+stop
+endif
+else (closed)
+|Sun Grid Engine cluster management system|
+stop
+endif
+
+@enduml

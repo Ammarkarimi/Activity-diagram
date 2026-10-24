@@ -1,0 +1,767 @@
+{
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "The torrent search shall share the same search bar with the streaming search.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "share"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-1: Torrent search will share the same search bar with the streaming search.",
+      "section": "Functional Requirements > Torrent Search",
+      "chunk_id": "Torrent Search REQ-1"
+    },
+    {
+      "id": "R2",
+      "text": "The database of torrent sites can be updated via the internet.",
+      "type": "ACTION",
+      "actors": [
+        "Development team",
+        "System"
+      ],
+      "actions": [
+        "update"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: Database of torrent sites can be updated via the internet.",
+      "section": "Functional Requirements > Torrent Search",
+      "chunk_id": "Torrent Search REQ-2"
+    },
+    {
+      "id": "R3",
+      "text": "There shall be a tick box to allow the user to choose to include torrent searching in the search.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "choose",
+        "include"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: There will be a tick box to allow the user to choose to include torrent searching in the search.",
+      "section": "Functional Requirements > Torrent Search",
+      "chunk_id": "Torrent Search REQ-3"
+    },
+    {
+      "id": "R4",
+      "text": "A query shall retrieve the number of seeds and peers, size of the file, date posted, and a link to the webpage itself.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "retrieve"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R3"
+      ],
+      "source_sentence": "REQ-4: Query will retrieve the no. of seed and peers, size of the file, date posted and a link to the webpage itself.",
+      "section": "Functional Requirements > Torrent Search",
+      "chunk_id": "Torrent Search REQ-4"
+    },
+    {
+      "id": "R5",
+      "text": "If no results are found on a search, the system shall display the message \u201cNo results were found for this search.\u201d",
+      "type": "EXCEPTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "display"
+      ],
+      "conditions": [
+        "no results are found on a search"
+      ],
+      "exceptions": [
+        "no results are found"
+      ],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "REQ-5: If no results are found on a search it will display a message \u201cNo results were found for this search.\u201d",
+      "section": "Functional Requirements > Torrent Search",
+      "chunk_id": "Torrent Search REQ-5"
+    },
+    {
+      "id": "R6",
+      "text": "Results shall be arranged in size/date/alphabetical order by clicking on the column headers.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "arrange",
+        "click"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "REQ-6: Results will be arranged in size/date/alphabetical order by clicking on the column headers.",
+      "section": "Functional Requirements > Torrent Search",
+      "chunk_id": "Torrent Search REQ-6"
+    },
+    {
+      "id": "R7",
+      "text": "There shall be a page button for the user to navigate the results.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "navigate"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "REQ-7: There will be page button for the user to navigate the results.",
+      "section": "Functional Requirements > Torrent Search",
+      "chunk_id": "Torrent Search REQ-7"
+    },
+    {
+      "id": "R8",
+      "text": "The streaming search shall share the same search bar with the torrent search.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "share"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-1: Streaming search will share the same search bar with the torrent search.",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-1"
+    },
+    {
+      "id": "R9",
+      "text": "The database of video hosting and video linking sites can be updated via the internet.",
+      "type": "ACTION",
+      "actors": [
+        "Development team",
+        "System"
+      ],
+      "actions": [
+        "update"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-2: Database of video hosting and video linking sites can be updated via the internet.",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-2"
+    },
+    {
+      "id": "R10",
+      "text": "There shall be a tick box to allow the user to choose to include video host searching in the search.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "choose",
+        "include"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-3: There will be a tick box to allow the user to choose to include video host searching in the search.",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-3"
+    },
+    {
+      "id": "R11",
+      "text": "There shall be a tick box to allow the user to choose to include video link searching in the search.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "choose",
+        "include"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "REQ-4: There will be a tick box to allow the user to choose to include video link searching in the search.",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-4"
+    },
+    {
+      "id": "R12",
+      "text": "A query to video hosting sites shall retrieve the full video name, length, date posted, and a link to the video itself.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "retrieve"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R10"
+      ],
+      "source_sentence": "REQ-5: Query to video hosting sites will retrieve full video name, length, date posted and a link to the video itself.",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-5"
+    },
+    {
+      "id": "R13",
+      "text": "A query to video link sites shall retrieve the show\u2019s name, episode name, and a link to the webpage itself.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "retrieve"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R11"
+      ],
+      "source_sentence": "REQ-6: Query to video link sites will retrieve the show\u2019s name, episode name and a link to the webpage itself.",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-6"
+    },
+    {
+      "id": "R14",
+      "text": "If no results are found on a search, the system shall display the message \u201cNo results were found for this search.\u201d",
+      "type": "EXCEPTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "display"
+      ],
+      "conditions": [
+        "no results are found on a search"
+      ],
+      "exceptions": [
+        "no results are found"
+      ],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "source_sentence": "REQ-7: If no results are found on a search it will display a message \u201cNo results were found for this search.\u201d",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-7"
+    },
+    {
+      "id": "R15",
+      "text": "Results shall be arranged in length/date/alphabetical order by clicking on the column headers.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "arrange",
+        "click"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "source_sentence": "REQ-8: Results will be arranged in length/date/alphabetical order by clicking on the column headers.",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-8"
+    },
+    {
+      "id": "R16",
+      "text": "There shall be a page button for the user to navigate the results.",
+      "type": "ACTION",
+      "actors": [
+        "User",
+        "System"
+      ],
+      "actions": [
+        "navigate"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "source_sentence": "REQ-9: There will be page button for the user to navigate the results.",
+      "section": "Functional Requirements > Video Stream Search",
+      "chunk_id": "Video Stream Search REQ-9"
+    },
+    {
+      "id": "R17",
+      "text": "The user enters a search term and starts the search.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "enters",
+        "starts"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the torrent websites in its database based on the search term. Results for this query will then be sent to the torrent tab in the program where they will display information such as website, seeds, peers, size, date posted and a link for the webpage.",
+      "section": "Use case Scenarios > 3.1 Torrent Search > 3.1.2 Stimulus/Response Sequences",
+      "chunk_id": "3.1.2 Torrent Search"
+    },
+    {
+      "id": "R18",
+      "text": "The system sends queries to the torrent websites in its database based on the search term.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "sends"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R17",
+        "R3"
+      ],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the torrent websites in its database based on the search term. Results for this query will then be sent to the torrent tab in the program where they will display information such as website, seeds, peers, size, date posted and a link for the webpage.",
+      "section": "Use case Scenarios > 3.1 Torrent Search > 3.1.2 Stimulus/Response Sequences",
+      "chunk_id": "3.1.2 Torrent Search"
+    },
+    {
+      "id": "R19",
+      "text": "The system sends the query results to the torrent tab in the program.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "sends"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R18"
+      ],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the torrent websites in its database based on the search term. Results for this query will then be sent to the torrent tab in the program where they will display information such as website, seeds, peers, size, date posted and a link for the webpage.",
+      "section": "Use case Scenarios > 3.1 Torrent Search > 3.1.2 Stimulus/Response Sequences",
+      "chunk_id": "3.1.2 Torrent Search"
+    },
+    {
+      "id": "R20",
+      "text": "The torrent tab displays website, seeds, peers, size, date posted, and a link for the webpage.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "displays"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the torrent websites in its database based on the search term. Results for this query will then be sent to the torrent tab in the program where they will display information such as website, seeds, peers, size, date posted and a link for the webpage.",
+      "section": "Use case Scenarios > 3.1 Torrent Search > 3.1.2 Stimulus/Response Sequences",
+      "chunk_id": "3.1.2 Torrent Search"
+    },
+    {
+      "id": "R21",
+      "text": "The user sorts the search results by clicking once on a column header.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "sorts",
+        "clicking"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R20"
+      ],
+      "source_sentence": "User sorts the search results by clicking once on a column header \u2013 system sorts all results by descending/ascending order.",
+      "section": "Use case Scenarios > 3.1 Torrent Search > 3.1.2 Stimulus/Response Sequences",
+      "chunk_id": "3.1.2 Torrent Search"
+    },
+    {
+      "id": "R22",
+      "text": "The system sorts all results by descending/ascending order.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "sorts"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R21"
+      ],
+      "source_sentence": "User sorts the search results by clicking once on a column header \u2013 system sorts all results by descending/ascending order.",
+      "section": "Use case Scenarios > 3.1 Torrent Search > 3.1.2 Stimulus/Response Sequences",
+      "chunk_id": "3.1.2 Torrent Search"
+    },
+    {
+      "id": "R23",
+      "text": "The user clicks on the next page button.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "clicks"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R20"
+      ],
+      "source_sentence": "User clicks on next page button \u2013 system displays the next set of results for the search.",
+      "section": "Use case Scenarios > 3.1 Torrent Search > 3.1.2 Stimulus/Response Sequences",
+      "chunk_id": "3.1.2 Torrent Search"
+    },
+    {
+      "id": "R24",
+      "text": "The system displays the next set of results for the search.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "displays"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R23"
+      ],
+      "source_sentence": "User clicks on next page button \u2013 system displays the next set of results for the search.",
+      "section": "Use case Scenarios > 3.1 Torrent Search > 3.1.2 Stimulus/Response Sequences",
+      "chunk_id": "3.1.2 Torrent Search"
+    },
+    {
+      "id": "R25",
+      "text": "The user ticks the streaming host tick box.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "ticks"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "User ticks streaming host tick box \u2013 system will now query the video hosting sites in its database when a search is started. Hosting sites will include the actual videos on their servers, e.g. YouTube.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R26",
+      "text": "The system will query the video hosting sites in its database when a search is started.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "query"
+      ],
+      "conditions": [
+        "a search is started"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R25",
+        "R10"
+      ],
+      "source_sentence": "User ticks streaming host tick box \u2013 system will now query the video hosting sites in its database when a search is started. Hosting sites will include the actual videos on their servers, e.g. YouTube.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R27",
+      "text": "The user ticks the streaming links tick box.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "ticks"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "User ticks streaming links tick box \u2013 system will now query the video link sites in its database when a search is started. The link sites will include external video links to different video hosting sites, e.g. surfthechannel.com.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R28",
+      "text": "The system will query the video link sites in its database when a search is started.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "query"
+      ],
+      "conditions": [
+        "a search is started"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R27",
+        "R11"
+      ],
+      "source_sentence": "User ticks streaming links tick box \u2013 system will now query the video link sites in its database when a search is started. The link sites will include external video links to different video hosting sites, e.g. surfthechannel.com.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R29",
+      "text": "The user enters a search term and starts the search.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "enters",
+        "starts"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the video websites in its database based on the search term. Results for this query will then be sent to the video stream tab in the program. The hosting half of the tab displays the website, full video name, length and date posted. The link half of the tab displays the website and video name (e.g. combination of the show\u2019s name and the episode name).",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R30",
+      "text": "The system sends queries to the video websites in its database based on the search term.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "sends"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R29"
+      ],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the video websites in its database based on the search term. Results for this query will then be sent to the video stream tab in the program. The hosting half of the tab displays the website, full video name, length and date posted. The link half of the tab displays the website and video name (e.g. combination of the show\u2019s name and the episode name).",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R31",
+      "text": "The system sends the query results to the video stream tab in the program.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "sends"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R30"
+      ],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the video websites in its database based on the search term. Results for this query will then be sent to the video stream tab in the program. The hosting half of the tab displays the website, full video name, length and date posted. The link half of the tab displays the website and video name (e.g. combination of the show\u2019s name and the episode name).",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R32",
+      "text": "The hosting half of the tab displays the website, full video name, length, and date posted.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "displays"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R31"
+      ],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the video websites in its database based on the search term. Results for this query will then be sent to the video stream tab in the program. The hosting half of the tab displays the website, full video name, length and date posted. The link half of the tab displays the website and video name (e.g. combination of the show\u2019s name and the episode name).",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R33",
+      "text": "The link half of the tab displays the website and video name.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "displays"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R31"
+      ],
+      "source_sentence": "User enters search term and starts search \u2013 system sends queries to the video websites in its database based on the search term. Results for this query will then be sent to the video stream tab in the program. The hosting half of the tab displays the website, full video name, length and date posted. The link half of the tab displays the website and video name (e.g. combination of the show\u2019s name and the episode name).",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R34",
+      "text": "The user sorts the search results by clicking once on the column header.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "sorts",
+        "clicking"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R32",
+        "R33"
+      ],
+      "source_sentence": "User sorts the search results by clicking once on the column header \u2013 system sorts all results by descending/ascending order.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R35",
+      "text": "The system sorts all results by descending/ascending order.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "sorts"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R34"
+      ],
+      "source_sentence": "User sorts the search results by clicking once on the column header \u2013 system sorts all results by descending/ascending order.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R36",
+      "text": "The user filters websites they want to be shown in the results.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "filters"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R32",
+        "R33"
+      ],
+      "source_sentence": "User filters websites they want to be shown in the results \u2013 system removes unselected websites from the results.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R37",
+      "text": "The system removes unselected websites from the results.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "removes"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R36"
+      ],
+      "source_sentence": "User filters websites they want to be shown in the results \u2013 system removes unselected websites from the results.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R38",
+      "text": "The user clicks on the next page button.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "clicks"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R32",
+        "R33"
+      ],
+      "source_sentence": "User clicks on next page button \u2013 system displays the next set of results for the search.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    },
+    {
+      "id": "R39",
+      "text": "The system displays the next set of results for the search.",
+      "type": "ACTION",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "displays"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R38"
+      ],
+      "source_sentence": "User clicks on next page button \u2013 system displays the next set of results for the search.",
+      "section": "Use case Scenarios > 3.2 Video Stream Search > 3.2.2 Stimulus/Response Sequences",
+      "chunk_id": "3.2.2 Video Stream Search"
+    }
+  ],
+  "matrix": {
+    "items": []
+  }
+}

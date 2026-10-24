@@ -1,0 +1,849 @@
+{
+  "validation": {
+    "passed": false,
+    "score": 0.8918918918918919,
+    "defects": [
+      {
+        "id": "D-STRUCT-003",
+        "category": "STRUCTURAL",
+        "severity": "CRITICAL",
+        "description": "Unreachable diagram nodes.",
+        "node_ids": [
+          "N49",
+          "N50",
+          "N51"
+        ],
+        "edge_ids": [],
+        "requirement_ids": [],
+        "evidence": "['N49', 'N50', 'N51']",
+        "suggested_action": "Connect all diagram nodes to the main workflow."
+      },
+      {
+        "id": "D-DECISION-001-N58",
+        "category": "DECISION",
+        "severity": "HIGH",
+        "description": "Decision N58 has fewer than two outgoing branches.",
+        "node_ids": [
+          "N58"
+        ],
+        "edge_ids": [
+          "E77"
+        ],
+        "requirement_ids": [
+          "R154",
+          "R155",
+          "R156"
+        ],
+        "evidence": "1 outgoing edges.",
+        "suggested_action": "Add the required decision branches."
+      },
+      {
+        "id": "D-COV-R3",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R3 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R3"
+        ],
+        "evidence": "For inter-faculty transfers, an authorised user can make the request.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R5",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R5 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R5"
+        ],
+        "evidence": "Transfers outside the university should be approved by the university group.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R12",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R12 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R12"
+        ],
+        "evidence": "Any faculty member can add all related departments inventory.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R13",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R13 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R13"
+        ],
+        "evidence": "Any university group member can add all assets in the inventory.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R15",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R15 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R15"
+        ],
+        "evidence": "An authorised user can create a request to borrow an asset or reserve a location.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R17",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R17 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R17"
+        ],
+        "evidence": "An inventory user should check a returned asset and update the inventory.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R18",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R18 is only traced to unreachable elements, so it is not shown.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R18"
+        ],
+        "evidence": "IT group members can create a new space and modify floor structure when they receive an exception request from any administrative level.",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      },
+      {
+        "id": "D-COV-R97",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "Requirement R97 is not traced to any diagram element.",
+        "node_ids": [],
+        "edge_ids": [],
+        "requirement_ids": [
+          "R97"
+        ],
+        "evidence": "Request list not empty",
+        "suggested_action": "Add or connect a diagram element representing this requirement."
+      }
+    ],
+    "rule_counts": {
+      "STRUCT-001": 0,
+      "STRUCT-002": 0,
+      "STRUCT-003": 3,
+      "STRUCT-004": 0,
+      "DECISION-001": 1,
+      "DECISION-002": 0,
+      "DECISION-003": 0,
+      "FLOW-001": 0,
+      "FLOW-002": 0,
+      "CONCURRENCY-001": 0,
+      "TERM-001": 0,
+      "COVERAGE-001": 8,
+      "HALL-001": 0,
+      "TOTAL_DEFECTS": 10,
+      "TOTAL_NODES": 61,
+      "TOTAL_EDGES": 78,
+      "TOTAL_REQUIREMENTS": 156
+    },
+    "summary": "10 defect(s) detected. Structural score: 0.986. Coverage score: 0.892. Hallucination score: 1.000. Semantic score: 1.000. Overall score: 0.892."
+  },
+  "review": {
+    "overall_assessment": "The diagram covers many core use cases and main flows, but it still has several important semantic gaps and a few unsupported behaviors. The most significant issues are missing transfer approval behavior, missing use-case coverage for some required transfer/add/edit/request variants, and an incomplete report decision structure.",
+    "semantic_score": 0.62,
+    "defects": [
+      {
+        "id": "D-COV-R3",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The diagram does not represent the inter-faculty transfer request path required by R3.",
+        "node_ids": [
+          "N5"
+        ],
+        "edge_ids": [
+          "E7",
+          "E8",
+          "E9",
+          "E10",
+          "E11",
+          "E12",
+          "E13",
+          "E14"
+        ],
+        "requirement_ids": [
+          "R3"
+        ],
+        "evidence": "R3 requires that for inter-faculty transfers, an authorised user can make the request. The current use-case selection branches cover search, edit, add asset, request, return, approve, permissions, and report, but there is no dedicated transfer branch or any action/decision representing inter-faculty transfer request creation.",
+        "suggested_action": "Add a transfer request path that models an authorised user creating an inter-faculty transfer request."
+      },
+      {
+        "id": "D-COV-R5",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The diagram does not represent approval of transfers outside the university by the university group.",
+        "node_ids": [
+          "N5"
+        ],
+        "edge_ids": [
+          "E7",
+          "E8",
+          "E9",
+          "E10",
+          "E11",
+          "E12",
+          "E13",
+          "E14"
+        ],
+        "requirement_ids": [
+          "R5"
+        ],
+        "evidence": "R5 requires approval for transfers outside the university. The current diagram has no transfer-outside-university branch and no approval by a university group member.",
+        "suggested_action": "Add a transfer-outside-university branch with university-group approval."
+      },
+      {
+        "id": "D-COV-R12",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The diagram does not represent faculty members adding related-department inventory.",
+        "node_ids": [
+          "N19",
+          "N20",
+          "N21",
+          "N22",
+          "N23",
+          "N24"
+        ],
+        "edge_ids": [
+          "E31",
+          "E32",
+          "E33",
+          "E35",
+          "E36",
+          "E37"
+        ],
+        "requirement_ids": [
+          "R12"
+        ],
+        "evidence": "R12 requires that any faculty member can add all related departments inventory. The add-asset flow only models a generic administrator starting a new asset, selecting type/location/owner, and filling properties; it does not model a faculty-member path or related-department scope.",
+        "suggested_action": "Add a faculty-member add-inventory path or clearly connect the existing flow to this permission scope."
+      },
+      {
+        "id": "D-COV-R13",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The diagram does not represent university group members adding all assets in the inventory.",
+        "node_ids": [
+          "N19",
+          "N20",
+          "N21",
+          "N22",
+          "N23",
+          "N24"
+        ],
+        "edge_ids": [
+          "E31",
+          "E32",
+          "E33",
+          "E35",
+          "E36",
+          "E37"
+        ],
+        "requirement_ids": [
+          "R13"
+        ],
+        "evidence": "R13 requires that any university group member can add all assets in the inventory. The current add-asset flow has no branch or role check for university-group permissions.",
+        "suggested_action": "Add a university-group add-inventory branch or role condition."
+      },
+      {
+        "id": "D-COV-R15",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The diagram does not represent request creation by any authorised user to borrow an asset or reserve a location.",
+        "node_ids": [
+          "N27",
+          "N28",
+          "N29",
+          "N30",
+          "N31",
+          "N32",
+          "N33"
+        ],
+        "edge_ids": [
+          "E39",
+          "E40",
+          "E41",
+          "E42",
+          "E43",
+          "E44",
+          "E45",
+          "E46",
+          "E47"
+        ],
+        "requirement_ids": [
+          "R15"
+        ],
+        "evidence": "R15 is broader than the current create-request flow, which is modeled as a generic request form with basic/advanced variants, but does not capture the required borrow-asset or reserve-location request purpose explicitly.",
+        "suggested_action": "Add explicit request-purpose handling for borrow asset and reserve location."
+      },
+      {
+        "id": "D-COV-R17",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The returning-asset flow does not model an inventory user checking the returned asset and updating inventory.",
+        "node_ids": [
+          "N45",
+          "N46",
+          "N47",
+          "N48",
+          "N44"
+        ],
+        "edge_ids": [
+          "E62",
+          "E63",
+          "E64",
+          "E65",
+          "E66"
+        ],
+        "requirement_ids": [
+          "R17"
+        ],
+        "evidence": "R17 requires an inventory user to check the returned asset and update the inventory. The current flow only shows the Inventory Admin selecting asset state (available/damaged) and then updating inventory, without the inventory-user check step.",
+        "suggested_action": "Insert the inventory-user check activity before the state selection/update."
+      },
+      {
+        "id": "D-COV-R18",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The diagram does not represent the IT-group exception-request path that enables creating a new space and modifying floor structure.",
+        "node_ids": [
+          "N49",
+          "N50",
+          "N51"
+        ],
+        "edge_ids": [
+          "E67",
+          "E68",
+          "E69"
+        ],
+        "requirement_ids": [
+          "R18"
+        ],
+        "evidence": "R18 requires IT group members to create a new space and modify floor structure when they receive an exception request from any administrative level. The only nodes for this behavior are unreachable from the main workflow, so the required exception-driven path is not actually modeled as executable behavior.",
+        "suggested_action": "Connect the exception-request path into the workflow and model the administrative-level trigger."
+      },
+      {
+        "id": "D-COV-R97",
+        "category": "REQUIREMENT_COVERAGE",
+        "severity": "HIGH",
+        "description": "The approve-request flow omits the precondition that the request list is not empty.",
+        "node_ids": [
+          "N37"
+        ],
+        "edge_ids": [
+          "E53"
+        ],
+        "requirement_ids": [
+          "R97"
+        ],
+        "evidence": "R97 states that the request list is not empty. The diagram jumps directly into displaying pending requests without any guard or precondition check for an empty request list.",
+        "suggested_action": "Add a precondition or decision that prevents approval flow when the request list is empty."
+      },
+      {
+        "id": "D-DECISION-001-N58",
+        "category": "DECISION",
+        "severity": "HIGH",
+        "description": "The report-type decision does not provide a distinct branch for each of the three report types required by the specification.",
+        "node_ids": [
+          "N58"
+        ],
+        "edge_ids": [
+          "E77"
+        ],
+        "requirement_ids": [
+          "R154",
+          "R155",
+          "R156"
+        ],
+        "evidence": "The requirements list three available reports: User Permission Report, Request Report, and Assets By Location Report. N58 has only one outgoing edge labeled 'one of three', which does not model separate selectable outcomes for the three report types.",
+        "suggested_action": "Add three explicit outgoing branches from the report-type decision, one for each report type."
+      },
+      {
+        "id": "D-HALL-001",
+        "category": "HALLUCINATION",
+        "severity": "MEDIUM",
+        "description": "The diagram includes a report-generation path that is not supported by the requirements as modeled.",
+        "node_ids": [
+          "N57",
+          "N58",
+          "N59",
+          "N76"
+        ],
+        "edge_ids": [
+          "E76",
+          "E77",
+          "E78"
+        ],
+        "requirement_ids": [
+          "R26",
+          "R27",
+          "R28",
+          "R127",
+          "R150",
+          "R151",
+          "R153",
+          "R154",
+          "R155",
+          "R156"
+        ],
+        "evidence": "The requirements only specify that three reports are available and can be created. The diagram introduces a single generic 'Create report' and 'Display report' path without distinguishing the required report types or filtering/sorting behavior from the report use case text.",
+        "suggested_action": "Model the three report-specific paths explicitly or remove unsupported generic behavior if not intended."
+      },
+      {
+        "id": "D-HALL-002",
+        "category": "HALLUCINATION",
+        "severity": "MEDIUM",
+        "description": "The diagram contains a search-mode 'exception' branch that is not supported by the search use case requirements.",
+        "node_ids": [
+          "N28",
+          "N30"
+        ],
+        "edge_ids": [
+          "E42"
+        ],
+        "requirement_ids": [
+          "R84",
+          "R85",
+          "R86"
+        ],
+        "evidence": "The create-request use case defines basic, advanced, and exception-request forms, but the 'exception' outgoing branch from the request-form decision is routed into the same advanced-request path. That adds a behavior label not present in the requirements and conflates distinct forms.",
+        "suggested_action": "Either remove the extra branch label or map each form to its own required behavior."
+      }
+    ],
+    "strengths": [
+      "The diagram captures the main authentication flow, including success and failure.",
+      "The search use case is modeled with basic and advanced variants and a no-results exception.",
+      "The edit/modify flow includes successful modification and error handling for invalid edit conditions.",
+      "The approval flow includes approve/reject alternatives and notification/update steps.",
+      "The returning-asset flow includes both available and damaged outcomes.",
+      "The change-permissions flow includes an over-authority error path."
+    ],
+    "missing_requirements": [
+      "R3",
+      "R5",
+      "R12",
+      "R13",
+      "R15",
+      "R17",
+      "R18",
+      "R97"
+    ],
+    "unsupported_behaviors": [
+      "A report-generation path is modeled generically rather than as three explicit report types.",
+      "An 'exception' form branch is added in the request-form decision without a distinct requirement-backed behavior.",
+      "The report flow is not tied to the required report-specific outputs and behaviors."
+    ]
+  },
+  "defects": [
+    {
+      "id": "D-STRUCT-003",
+      "category": "STRUCTURAL",
+      "severity": "CRITICAL",
+      "description": "Unreachable diagram nodes.",
+      "node_ids": [
+        "N49",
+        "N50",
+        "N51"
+      ],
+      "edge_ids": [],
+      "requirement_ids": [],
+      "evidence": "['N49', 'N50', 'N51']",
+      "suggested_action": "Connect all diagram nodes to the main workflow."
+    },
+    {
+      "id": "D-DECISION-001-N58",
+      "category": "DECISION",
+      "severity": "HIGH",
+      "description": "Decision N58 has fewer than two outgoing branches.",
+      "node_ids": [
+        "N58"
+      ],
+      "edge_ids": [
+        "E77"
+      ],
+      "requirement_ids": [
+        "R154",
+        "R155",
+        "R156"
+      ],
+      "evidence": "1 outgoing edges.",
+      "suggested_action": "Add the required decision branches."
+    },
+    {
+      "id": "D-COV-R3",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R3 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R3"
+      ],
+      "evidence": "For inter-faculty transfers, an authorised user can make the request.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R5",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R5 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R5"
+      ],
+      "evidence": "Transfers outside the university should be approved by the university group.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R12",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R12 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R12"
+      ],
+      "evidence": "Any faculty member can add all related departments inventory.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R13",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R13 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R13"
+      ],
+      "evidence": "Any university group member can add all assets in the inventory.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R15",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R15 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R15"
+      ],
+      "evidence": "An authorised user can create a request to borrow an asset or reserve a location.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R17",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R17 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R17"
+      ],
+      "evidence": "An inventory user should check a returned asset and update the inventory.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R18",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R18 is only traced to unreachable elements, so it is not shown.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R18"
+      ],
+      "evidence": "IT group members can create a new space and modify floor structure when they receive an exception request from any administrative level.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R97",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R97 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R97"
+      ],
+      "evidence": "Request list not empty",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R3",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The diagram does not represent the inter-faculty transfer request path required by R3.",
+      "node_ids": [
+        "N5"
+      ],
+      "edge_ids": [
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14"
+      ],
+      "requirement_ids": [
+        "R3"
+      ],
+      "evidence": "R3 requires that for inter-faculty transfers, an authorised user can make the request. The current use-case selection branches cover search, edit, add asset, request, return, approve, permissions, and report, but there is no dedicated transfer branch or any action/decision representing inter-faculty transfer request creation.",
+      "suggested_action": "Add a transfer request path that models an authorised user creating an inter-faculty transfer request."
+    },
+    {
+      "id": "D-COV-R5",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The diagram does not represent approval of transfers outside the university by the university group.",
+      "node_ids": [
+        "N5"
+      ],
+      "edge_ids": [
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14"
+      ],
+      "requirement_ids": [
+        "R5"
+      ],
+      "evidence": "R5 requires approval for transfers outside the university. The current diagram has no transfer-outside-university branch and no approval by a university group member.",
+      "suggested_action": "Add a transfer-outside-university branch with university-group approval."
+    },
+    {
+      "id": "D-COV-R12",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The diagram does not represent faculty members adding related-department inventory.",
+      "node_ids": [
+        "N19",
+        "N20",
+        "N21",
+        "N22",
+        "N23",
+        "N24"
+      ],
+      "edge_ids": [
+        "E31",
+        "E32",
+        "E33",
+        "E35",
+        "E36",
+        "E37"
+      ],
+      "requirement_ids": [
+        "R12"
+      ],
+      "evidence": "R12 requires that any faculty member can add all related departments inventory. The add-asset flow only models a generic administrator starting a new asset, selecting type/location/owner, and filling properties; it does not model a faculty-member path or related-department scope.",
+      "suggested_action": "Add a faculty-member add-inventory path or clearly connect the existing flow to this permission scope."
+    },
+    {
+      "id": "D-COV-R13",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The diagram does not represent university group members adding all assets in the inventory.",
+      "node_ids": [
+        "N19",
+        "N20",
+        "N21",
+        "N22",
+        "N23",
+        "N24"
+      ],
+      "edge_ids": [
+        "E31",
+        "E32",
+        "E33",
+        "E35",
+        "E36",
+        "E37"
+      ],
+      "requirement_ids": [
+        "R13"
+      ],
+      "evidence": "R13 requires that any university group member can add all assets in the inventory. The current add-asset flow has no branch or role check for university-group permissions.",
+      "suggested_action": "Add a university-group add-inventory branch or role condition."
+    },
+    {
+      "id": "D-COV-R15",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The diagram does not represent request creation by any authorised user to borrow an asset or reserve a location.",
+      "node_ids": [
+        "N27",
+        "N28",
+        "N29",
+        "N30",
+        "N31",
+        "N32",
+        "N33"
+      ],
+      "edge_ids": [
+        "E39",
+        "E40",
+        "E41",
+        "E42",
+        "E43",
+        "E44",
+        "E45",
+        "E46",
+        "E47"
+      ],
+      "requirement_ids": [
+        "R15"
+      ],
+      "evidence": "R15 is broader than the current create-request flow, which is modeled as a generic request form with basic/advanced variants, but does not capture the required borrow-asset or reserve-location request purpose explicitly.",
+      "suggested_action": "Add explicit request-purpose handling for borrow asset and reserve location."
+    },
+    {
+      "id": "D-COV-R17",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The returning-asset flow does not model an inventory user checking the returned asset and updating inventory.",
+      "node_ids": [
+        "N45",
+        "N46",
+        "N47",
+        "N48",
+        "N44"
+      ],
+      "edge_ids": [
+        "E62",
+        "E63",
+        "E64",
+        "E65",
+        "E66"
+      ],
+      "requirement_ids": [
+        "R17"
+      ],
+      "evidence": "R17 requires an inventory user to check the returned asset and update the inventory. The current flow only shows the Inventory Admin selecting asset state (available/damaged) and then updating inventory, without the inventory-user check step.",
+      "suggested_action": "Insert the inventory-user check activity before the state selection/update."
+    },
+    {
+      "id": "D-COV-R18",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The diagram does not represent the IT-group exception-request path that enables creating a new space and modifying floor structure.",
+      "node_ids": [
+        "N49",
+        "N50",
+        "N51"
+      ],
+      "edge_ids": [
+        "E67",
+        "E68",
+        "E69"
+      ],
+      "requirement_ids": [
+        "R18"
+      ],
+      "evidence": "R18 requires IT group members to create a new space and modify floor structure when they receive an exception request from any administrative level. The only nodes for this behavior are unreachable from the main workflow, so the required exception-driven path is not actually modeled as executable behavior.",
+      "suggested_action": "Connect the exception-request path into the workflow and model the administrative-level trigger."
+    },
+    {
+      "id": "D-COV-R97",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "The approve-request flow omits the precondition that the request list is not empty.",
+      "node_ids": [
+        "N37"
+      ],
+      "edge_ids": [
+        "E53"
+      ],
+      "requirement_ids": [
+        "R97"
+      ],
+      "evidence": "R97 states that the request list is not empty. The diagram jumps directly into displaying pending requests without any guard or precondition check for an empty request list.",
+      "suggested_action": "Add a precondition or decision that prevents approval flow when the request list is empty."
+    },
+    {
+      "id": "D-HALL-001",
+      "category": "HALLUCINATION",
+      "severity": "MEDIUM",
+      "description": "The diagram includes a report-generation path that is not supported by the requirements as modeled.",
+      "node_ids": [
+        "N57",
+        "N58",
+        "N59",
+        "N76"
+      ],
+      "edge_ids": [
+        "E76",
+        "E77",
+        "E78"
+      ],
+      "requirement_ids": [
+        "R26",
+        "R27",
+        "R28",
+        "R127",
+        "R150",
+        "R151",
+        "R153",
+        "R154",
+        "R155",
+        "R156"
+      ],
+      "evidence": "The requirements only specify that three reports are available and can be created. The diagram introduces a single generic 'Create report' and 'Display report' path without distinguishing the required report types or filtering/sorting behavior from the report use case text.",
+      "suggested_action": "Model the three report-specific paths explicitly or remove unsupported generic behavior if not intended."
+    },
+    {
+      "id": "D-HALL-002",
+      "category": "HALLUCINATION",
+      "severity": "MEDIUM",
+      "description": "The diagram contains a search-mode 'exception' branch that is not supported by the search use case requirements.",
+      "node_ids": [
+        "N28",
+        "N30"
+      ],
+      "edge_ids": [
+        "E42"
+      ],
+      "requirement_ids": [
+        "R84",
+        "R85",
+        "R86"
+      ],
+      "evidence": "The create-request use case defines basic, advanced, and exception-request forms, but the 'exception' outgoing branch from the request-form decision is routed into the same advanced-request path. That adds a behavior label not present in the requirements and conflates distinct forms.",
+      "suggested_action": "Either remove the extra branch label or map each form to its own required behavior."
+    }
+  ],
+  "plantuml": "@startuml\ntitle Refined Inventory Management Activity Diagram\nskinparam swimlaneWrapTitleWidth 150\n\n|Authentication system|\nstart\n\n:Authenticate;\n|User|\n:Enter username and password;\n|Authentication system|\nif (Authenticated?) then (yes)\n|Authentication system|\n|User|\n:Open main page;\nwhile (Choose use case?) is (search)\n:Search asset;\nif (Search mode?) then (basic)\n|User|\n:Fill search field;\nelse (advanced)\n|User|\n:Fill advanced fields;\nendif\n:Submit search;\n|Inventory system|\nif (Results found?) then (found)\n|Inventory system|\n:Display results;\nelse (none)\n|Inventory system|\n:Display no-results message;\nstop\nendif\nendwhile\n|User|\nif (Choose use case?) then (edit)\n|User|\n:Edit asset;\n|Inventory system|\nif (Can edit?) then (yes)\n|Inventory system|\nelse (no)\n|Inventory system|\n:Display error message;\nstop\nendif\n|User|\n:Modify properties;\n|Inventory system|\n:Update modified asset;\nstop\nelse\n|User|\nif (Choose use case?) then (add asset)\n|User|\n:Start new asset;\n:Select asset type;\n|Inventory system|\nif (Type exists and role permitted?) then (yes)\n|Inventory system|\nelse (no)\n|Inventory system|\n|User|\n:Send exception request;\nstop\nendif\n:Select asset location;\n:Select owner;\n:Fill asset properties;\nstop\nelse\n|User|\nif (Choose use case?) then (request)\n|User|\n:Select request form;\nif (Form type?) then (basic)\n|User|\n:Enter basic request text;\nelse\n|User|\nif (Form type?) then (advanced)\n|User|\n(A)\n:Enter advanced request;\nwhile (More assets?) is (yes)\n:Add another asset;\nendwhile (no)\n|User|\nelse (exception)\n|User|\n(A)\ndetach\nendif\nendif\n:Submit request;\n|Inventory system|\nif (Asset available?) then (yes)\n|Inventory system|\nelse (no)\n|Inventory system|\n:Display borrow error;\nstop\nendif\n:Create pending request;\n(C)\n:Display pending requests;\n|User|\n:Select request;\n|Inventory system|\nif (Approve or reject?) then (approve)\n|Inventory system|\n:Confirm approval;\nelse (reject)\n|Inventory system|\n:Confirm rejection;\nendif\n:Notify by email;\n:Add to execution list;\n(B)\n:Update inventory;\nstop\nelse\n|User|\nif (Choose use case?) then (return)\n|User|\n:Start return;\nif (Asset state?) then (available)\n|User|\n:Set available;\n(B)\ndetach\nelse (damaged)\n|User|\n:Set damaged;\n(B)\ndetach\nendif\n(B)\ndetach\nelse\n|User|\nif (Choose use case?) then (approve)\n|User|\n(C)\ndetach\nelse\n|User|\nif (Choose use case?) then (permissions)\n|User|\n:Change permissions;\n:Select user;\n|Inventory system|\nif (Within authority?) then (within authority)\n|Inventory system|\n:Grant permissions;\nstop\nelse (exceeds authority)\n|Inventory system|\n:Display permission error;\nstop\nendif\nelse (report)\n|User|\n:Create report;\nif (Report type?) then (one of three)\n|User|\n|Inventory system|\n:Display report;\nstop\nendif\nendif\nendif\nendif\nendif\nendif\nendif\nelse (no)\n|Authentication system|\nstop\nendif\n\n@enduml"
+}

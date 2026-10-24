@@ -1,0 +1,487 @@
+Functional Requirements
+
+5. Functional requirements
+5.1. Transferring Assets
+5.1.1. Within the same department: data base can be updated directly without any request
+5.1.2. Inter departments: request must be approved by a DA group member and faculty group member unless it came from a higher level group
+5.1.3. Inter faculties transfer: request can be made by any authorised user and approved by faculty group or higher level
+5.1.4. Transfer outside university should be approved by the university group
+
+5.2. Editing Assets
+5.2.1. Any administrative level user or inventory user can edit an asset that belongs to its department; same thing for faculty user, or university user; in order to make modification if he is authorised to do it.
+
+5.3. Modifying assets
+5.3.1. all fields of an edited asset can be modified except Ids
+5.3.2. a bulk entry file can be used
+
+5.4. Adding inventory assets
+5.4.1. Any DA group member or authorised inventory group member asset is owned by the department
+5.4.2. Any faculty member can add all related departments inventory
+5.4.3. Any university group member can add all assets in the inventory
+5.4.4. A bulk entry can be used to add many assets
+
+5.5. Creating request to borrow an asset or a reserve a location
+5.5.1. request can be made by any authorised user
+5.5.2. After creation a request still pending waiting to be approved by an administrative level user according to that have this authority
+
+5.6. Retuning assets
+5.6.1. An inventory user should check returned asset and update inventory
+
+5.7. Creating a new location
+5.7.1. IT group members can create a new space and modify floor structure when they receive an exception request from any administrative level
+
+5.8. Approving requests
+5.8.1. Any administration level or authorised inventory group member can display all pending requests waiting for approval from this level and approve those requests
+5.8.2. When request is treated user is notified by email
+5.8.3. Request is added to the waiting for execution list
+5.8.4. Inventory is updated when user receive requested asset
+
+5.9. Authentication
+5.9.1. Authentication is made by user name and a password for all users
+5.9.2. administrative level working on administration computer
+
+5.10. Changing permission
+5.10.1. Any administrative level user can delegate another user to execute some or all his authorized actions. And this user acquires the role of inventory administrator
+
+5.11. Output reports
+5.11.1. Asset report by location
+5.11.2. Request report
+5.11.3. User permission user
+
+
+Use case Scenarios
+
+Name: Modify Use Case Identifier: MOD.UC Description
+The use case describes the modification that the Inventory Admin can do.
+Goal
+The Inventory Admin initiates the use case. The use case presents all the modification
+that can be done by the Inventory Admin.
+Preconditions
+1.   The Inventory Admin is authenticated
+
+Assumptions
+1.   We assume that use Knows the results of each operation there is no go back
+actions
+Basic Course
+1.   Use case begins when Inventory Admin start searching for an asset
+2.   Inventory Admin Edit the asset
+3.   Inventory Admin modify asset properties
+
+Alternate Course A:
+Condition: administrator or authorised inventory user is working on waiting for approval
+list or waiting for execution list
+1.   Inventory user or Admin Edit the asset
+2.   Inventory user or Admin modify asset properties
+
+Exceptional Course :
+1.
+1. Inventory Admin search for asset
+2. Inventory Admin edit asset
+3. Inventory Admin asset out of inventory
+4. Message error because asset cannot be modified
+2.
+1. Inventory Admin search for asset
+2. Inventory Admin edit asset
+3. Inventory Admin does not have sufficient privileges to edit asset
+4. Message error is displayed
+3.
+1. Inventory Admin search for asset
+2. no asset found
+3. Message error is displayed
+
+Post conditions
+1.   The system state change according to modification
+ 
+Actors
+Inventory Admin, Inventory system, Authentication system
+
+Included Use Cases
+1.   Search use case
+2.   Edit use case
+3.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: Edit Use Case 
+Identifier: EDT.UC Description
+The use case describes the edit operation that the Inventory Admin can do.
+Goal
+The Inventory Admin initiates the use case. The use case presents the edit done by the
+Inventory Admin.
+Preconditions
+1.   The Inventory Admin is authenticated
+
+Assumptions
+1.   We assume that use Knows the results of each operation there is no go back
+actions
+Basic Course
+1.   Use case begins when Inventory Admin start searching for an asset
+2.   Inventory Admin Edit the asset
+
+Alternate Course A:
+Condition: administrator or authorised inventory user is working on waiting for approval
+list or waiting for execution list
+1.   Inventory user or Admin Edit the asset
+
+Exceptional Course :
+
+1.
+1. Inventory Admin search for asset
+2. Inventory Admin edit asset
+3. Inventory Admin does not have sufficient privileges to edit asset
+4. Message error is displayed
+2.
+1. Inventory Admin search for asset
+2. no asset found
+3. Message error is displayed
+
+Post conditions
+1.   The system state change according to modification
+
+Actors
+Inventory Admin, Inventory system, Authentication system
+
+Included Use Cases
+1.   Search use case
+2.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: Add New Asset Use Case
+
+Identifier: ANI.UC
+Description
+The use case describes the operation of adding a new asset to the inventory.
+Goal
+The Inventory Admin initiates the use case. The use case presents how Inventory Admin
+can add new inventory asset.
+Preconditions
+1.   The Inventory Admin is authenticated
+
+Assumptions
+1.   We assume that use Knows the results of each operation there is no go back
+actions
+Basic Course
+1.   Use case begins when Administrator start a new asset
+2.   Administrator select asset type
+3.   Administrator select asset location
+4.   Administrator select owner
+5.   Administrator fill all asset properties
+
+Alternate Course A: None
+
+Exceptional Course:
+1.   Use case begins when Administrator start a new asset
+2.   Type does not exist in the list
+3.   Administrator send exception request to IT to add the new type and the common properties
+
+Post conditions
+1.   Data base is updated
+ 
+Actors
+Inventory Admin, Inventory system, Authentication system
+Included Use Cases
+1.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: Create request Use Case 
+Identifier: CRQ.UC Description
+The use case describes the activity of creating a new request that the User can do.
+Goal
+The User initiates the use case. The use case presents request process that can be done by
+User.
+Preconditions
+1.   The User is authenticated
+
+Assumptions
+1.   We assume that use Knows the results of each operation
+2.   Only basic request form is available for level 0
+3.   Requests forms provide search facilities to users levels 1, 2 and 3
+
+Basic Course
+1.   User select basic request form
+2.   User type a small request text specifying asset (s) location,..
+3.   User click on submit
+
+Alternate Course A:
+1.   User select advanced request form
+2.   User enter asset serial number and location
+3.   User enter small text describing operation to be done
+4.   User click on submit
+
+Alternate Course B:
+1.   User select advanced request form
+2.   User enter asset serial number and location
+3.   User enter small text describing operation to be done
+4.   User can add as many assets as he wants to the list by clicking add another asset button
+5.   User click on submit
+
+
+
+Alternate Course C:
+1.   User select exception request form
+2.   User enter a text message describing the exception that occurs
+3.   User click on submit
+
+Exceptional Course :
+1. User search for asset
+2. Asset not available to be borrowed
+3. Error Message is displayed
+
+Post conditions
+A new request is pending waiting approval
+Actors
+Inventory Admin, Inventory system, Authentication system
+
+Included Use Cases
+1.   Search use case
+2.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: Returning Asset 
+Identifier: RTI.UC Description
+The use case describes the returning asset update that the Inventory Admin can do.
+Goal
+The Inventory Admin initiates the use case. The use case presents all the updates to the
+inventory that can be done by the Inventory Admin.
+Preconditions
+1.   The Inventory Admin is authenticated
+
+Assumptions
+1.   We assume that use Knows the results of each operation there is no go back
+actions
+Basic Course
+1.   Use case begins when Inventory Admin start returning
+2.   Inventory Admin select asset state to available
+
+Alternate Course A: Condition:
+
+1.   Use case begins when Inventory Admin start returning
+2.   Inventory Admin select asset state to damaged
+
+Exceptional Course :
+
+
+
+Post conditions
+1.   The inventory system is updated
+
+Actors
+Inventory Admin, Inventory system, Authentication system
+ 
+Included Use Cases
+1.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: Approving Request 
+Identifier: APR.UC Description
+The use case describes the approving of requests that an Inventory Admin can do.
+Goal
+The Inventory Admin initiates the use case. The use case presents all the approval or
+denial of a user request that can be done by an Inventory Admin.
+Preconditions
+1.   The Inventory Admin is authenticated
+2.   Request list not empty
+
+Assumptions
+1.   We assume that use Knows the results of each operation
+
+Basic Course
+1.   Use case begins when Inventory Admin display pending request list
+2.   System display only requests that he has privileges to approve
+3.   Inventory Admin select request that he want to approve
+4.   Approve is confirmed
+5.   System send notes to users
+
+Alternate Course A: Condition:
+1.   Use case begins when Inventory Admin display pending request list
+2.   System display only requests that he has privileges to approve
+3.   Inventory Admin select request that he want to reject
+4.   rejection is confirmed
+5.   System send notes to users
+
+Exceptional Course : Post conditions
+2.   The Inventory system is updated
+
+Actors
+Inventory Admin, Inventory system, Authentication system
+ 
+Included Use Cases
+3.   Search use case
+4.   Edit use case
+5.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: change permissions Use Case
+Identifier: CHP.UC
+Description
+The  use  case  describes  the  modification  that  Department,  Facutly  or  University
+Admininistrator can do to a user permissions.
+Goal
+The administrator initiates the use case. The use case presents all change that can be done
+by the Admininistrators.
+Preconditions
+1.   The Administrator is authenticated
+
+Assumptions
+1.   We assume that use Knows the results of each operation
+2.   Administrator knows the role of each permission on the permission list
+3.   Administrator cannot assigne permissions more than he have
+
+
+Basic Course
+1.   Use case begins when Administrator press change permission
+2.   Administrator select user
+3.   Administrator modify permissions
+
+Alternate Course A: Condition: None
+
+Exceptional Course :
+1.
+1.   Administrator select user
+2.   Administrator modify permissions he give permissions more than he have
+3.   An error message is displayed
+
+Post conditions
+2.   The permissions of user are changed
+
+Actors
+Administrator, Inventory system, Authentication system
+
+
+Included Use Cases
+1.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: Authentication Use Case
+Identifier: ATH.UC
+Description
+The use case describes the authentication.
+Goal
+The User initiates the use case. The use case presents authentication operation
+Preconditions
+None
+Assumptions
+1.   We assume that use Knows the results of each operation
+Basic Course
+1.   Use case begins user starts the application
+2.   User write user name and password
+3.   User press login
+4.   User is authenticated
+5.   User log on to application main page
+
+Alternate Course A:
+1.   None
+
+Exceptional Course :
+1.
+1.   Use case begins user starts the application
+2.   User write user name and password
+3.   User press login
+4.   Authentication fails
+5.   An error message is displayed
+
+Post conditions
+User is authenticated
+Actors
+User, Authentication system
+
+Included Use Cases
+None
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: Search 
+Identifier: SRCH.UC Description
+The use case describes the search operation that only authorised users can do.
+Goal
+The User initiates the use case. The use case presents search and advanced search that can
+be done by the User.
+Preconditions
+1.   The User is authenticated
+2.   Search operation is authorised
+
+Assumptions
+1.   We assume that use Knows the results of each operation
+Basic Course
+1.   Use case begins when User start fill searching field
+2.   Press submit
+3.   Search results are displayed
+
+Alternate Course A:
+1.   Use case begins when User press advanced search
+2.   Fills fields
+3.   Press submit
+4.   Search results are displayed
+
+Exceptional Course :
+1.   Use case begins when User start fill searching field
+2.   Press submit
+3.   No results are found message is displayed
+
+Post conditions
+None
+
+Actors
+User, Inventory system, Authentication system
+
+Included Use Cases
+1.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations
+
+Name: Create Reports Use Case
+Identifier: REP.UC
+Description
+The use case describes the creation of reports that the User can do.
+Goal
+The User initiates the use case. The use case presents reports that can be created by the
+User. Three reports can be created Reports
+
+•          User Permission Report
+•          Request Report
+•          Assets By Location Report
+
+Preconditions
+1.   The User is authenticated
+2.   User is authorised to create reports
+
+Assumptions
+1.   We assume that use Knows the results of each operation
+
+Basic Course
+1.   Use case begins when User click on a report type
+2.   General report is displayed
+3.   Report can be filtered
+4.   Fields can be sorted
+
+Alternate Course A: None
+
+Exceptional Course :
+None
+
+Post conditions
+Report is generated
+
+Actors
+User, Inventory system, Authentication system
+
+Included Use Cases
+1.   Authentication use case
+
+Notes
+We suppose that Hosting system and servers support all the operations

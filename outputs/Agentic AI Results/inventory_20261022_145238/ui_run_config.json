@@ -1,0 +1,11 @@
+{
+  "sample_id": "req",
+  "model": "gpt-5.4-mini",
+  "mode": "single",
+  "max_iterations": 3,
+  "planner": "graph",
+  "chunk_tokens": 2500,
+  "max_reqs": 25,
+  "max_workers": 4,
+  "out": "D:\\Research\\Research Papers\\_Main\\Sem 5\\AD Agentic\\Activity-diagram\\outputs\\ui\\req_20261022_145238"
+}

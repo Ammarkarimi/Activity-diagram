@@ -1,0 +1,91 @@
+13:36:10  MultiAgentPipeline  Running requirement agent...
+13:36:21  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:36:31  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:36:34  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:36:42  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:36:42  MultiAgentPipeline  Consolidation set aside 50 restated or explanatory requirements.
+13:36:42  MultiAgentPipeline  Extracted 152 requirements.
+13:36:42  MultiAgentPipeline  Running actor agent...
+13:36:45  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:36:45  MultiAgentPipeline  Swimlanes: Web Server, Mediator, Service Registry, Policy Repository, Local Peering Agent
+13:36:45  MultiAgentPipeline  Running planning agent...
+13:37:18  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:37:18  MultiAgentPipeline  Planning completed: 45 nodes, 57 edges, 10 decisions, 1 loops, 1 concurrency blocks.
+13:37:18  MultiAgentPipeline  Running generator agent...
+13:37:31  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:37:31  MultiAgentPipeline  Generated diagram: 45 nodes, 57 edges.
+13:37:31  MultiAgentPipeline  Running refinement agent...
+13:37:45  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:37:46  MultiAgentPipeline  Refinement accepted (no coverage or structural loss): 7 changes.
+13:37:48  MultiAgentPipeline  Validation iteration 0
+13:37:50  MultiAgentPipeline  Running semantic reviewer...
+13:38:00  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:38:00  MultiAgentPipeline  Iteration 0 metrics: coverage=0.812, correctness=0.000, completeness=0.812, structural=0.812, unsupported=0.000, defects=25, quality=0.589
+13:38:00  MultiAgentPipeline  New best candidate selected at iteration 0 (quality=0.589, raw_score=0.000).
+13:38:00  MultiAgentPipeline  Running feedback agent...
+13:38:08  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:38:09  MultiAgentPipeline  Selected defects for repair: ['D-STRUCT-003', 'D-COV-R123', 'D-COV-R129']
+13:38:23  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:38:23  src.generation.ir_sanitizer  Removed 2 dangling edges.
+13:38:25  MultiAgentPipeline  Running semantic reviewer...
+13:38:45  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:38:45  MultiAgentPipeline  Repair evaluation: quality 0.589 -> 0.406, defects 25 -> 60, fixed=11, introduced=46.
+13:38:45  MultiAgentPipeline  Repair rejected: DEFECT_COUNT_INCREASED
+13:38:45  MultiAgentPipeline  Continuing with the previous candidate to attempt another repair.
+13:38:45  MultiAgentPipeline  Validation iteration 1
+13:38:45  MultiAgentPipeline  Iteration 1 metrics: coverage=0.812, correctness=0.000, completeness=0.812, structural=0.812, unsupported=0.000, defects=25, quality=0.589
+13:38:45  MultiAgentPipeline  Running feedback agent...
+13:38:56  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:38:56  MultiAgentPipeline  Selected defects for repair: ['D-STRUCT-003', 'D-FLOW-001-N29', 'D-COV-R123']
+13:39:09  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:39:11  MultiAgentPipeline  Running semantic reviewer...
+13:39:21  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:39:21  MultiAgentPipeline  Repair evaluation: quality 0.589 -> 0.604, defects 25 -> 21, fixed=13, introduced=9.
+13:39:21  MultiAgentPipeline  Repair accepted: FEWER_DEFECTS
+13:39:21  MultiAgentPipeline  Validation iteration 2
+13:39:21  MultiAgentPipeline  Iteration 2 metrics: coverage=0.841, correctness=0.000, completeness=0.841, structural=0.841, unsupported=0.024, defects=21, quality=0.604
+13:39:21  MultiAgentPipeline  New best candidate selected at iteration 2 (quality=0.604, raw_score=0.000).
+13:39:21  MultiAgentPipeline  Running feedback agent...
+13:39:26  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:39:26  MultiAgentPipeline  Selected defects for repair: ['D-FLOW-001-N29', 'D-COV-R129', 'D-COV-R34']
+13:39:39  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:39:41  MultiAgentPipeline  Running semantic reviewer...
+13:39:52  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:39:52  MultiAgentPipeline  Repair evaluation: quality 0.604 -> 0.624, defects 21 -> 19, fixed=11, introduced=9.
+13:39:52  MultiAgentPipeline  Repair accepted: FEWER_DEFECTS
+13:39:52  MultiAgentPipeline  Validation iteration 3
+13:39:52  MultiAgentPipeline  Iteration 3 metrics: coverage=0.870, correctness=0.000, completeness=0.870, structural=0.870, unsupported=0.000, defects=19, quality=0.624
+13:39:52  MultiAgentPipeline  New best candidate selected at iteration 3 (quality=0.624, raw_score=0.000).
+13:39:52  MultiAgentPipeline  Extra repair round 1 for blocking defects: ['D-FLOW-001-N29', 'D-COV-R5', 'D-COV-R28', 'D-COV-R31', 'D-COV-R40', 'D-COV-R49', 'D-COV-R52', 'D-COV-R61', 'D-COV-R62', 'D-COV-R81', 'D-COV-R5', 'D-COV-R28', 'D-COV-R31', 'D-COV-R40', 'D-COV-R49', 'D-COV-R52', 'D-COV-R61', 'D-COV-R62', 'D-COV-R81']
+13:39:52  MultiAgentPipeline  Selected defects for repair: ['D-FLOW-001-N29', 'D-COV-R28', 'D-COV-R28']
+13:40:08  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:40:10  MultiAgentPipeline  Running semantic reviewer...
+13:40:21  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:40:21  MultiAgentPipeline  Repair evaluation: quality 0.624 -> 0.629, defects 19 -> 16, fixed=10, introduced=7.
+13:40:21  MultiAgentPipeline  Repair accepted: FEWER_DEFECTS
+13:40:21  MultiAgentPipeline  Validation iteration 4
+13:40:21  MultiAgentPipeline  Iteration 4 metrics: coverage=0.884, correctness=0.000, completeness=0.884, structural=0.884, unsupported=0.048, defects=16, quality=0.629
+13:40:21  MultiAgentPipeline  New best candidate selected at iteration 4 (quality=0.629, raw_score=0.000).
+13:40:21  MultiAgentPipeline  Extra repair round 2 for blocking defects: ['D-COV-R5', 'D-COV-R31', 'D-COV-R40', 'D-COV-R49', 'D-COV-R52', 'D-COV-R61', 'D-COV-R62', 'D-COV-R81', 'D-COV-R31', 'D-COV-R40', 'D-COV-R49', 'D-COV-R52', 'D-COV-R61', 'D-COV-R62', 'D-COV-R81', 'D-COV-R83']
+13:40:21  MultiAgentPipeline  Selected defects for repair: ['D-COV-R31', 'D-COV-R31', 'D-COV-R40']
+13:40:36  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:40:39  MultiAgentPipeline  Running semantic reviewer...
+13:40:48  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:40:48  MultiAgentPipeline  Repair evaluation: quality 0.629 -> 0.649, defects 16 -> 14, fixed=10, introduced=8.
+13:40:48  MultiAgentPipeline  Repair accepted: FEWER_DEFECTS
+13:40:48  MultiAgentPipeline  Validation iteration 5
+13:40:48  MultiAgentPipeline  Iteration 5 metrics: coverage=0.913, correctness=0.000, completeness=0.913, structural=0.913, unsupported=0.023, defects=14, quality=0.649
+13:40:48  MultiAgentPipeline  New best candidate selected at iteration 5 (quality=0.649, raw_score=0.000).
+13:40:48  MultiAgentPipeline  Extra repair round 3 for blocking defects: ['D-COV-R5', 'D-COV-R49', 'D-COV-R52', 'D-COV-R61', 'D-COV-R62', 'D-COV-R81', 'D-COV-R49', 'D-COV-R52', 'D-COV-R61', 'D-COV-R62', 'D-COV-R81', 'D-COV-R87', 'D-COV-R123']
+13:40:48  MultiAgentPipeline  Selected defects for repair: ['D-COV-R49', 'D-COV-R49', 'D-COV-R5']
+13:41:04  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:41:06  MultiAgentPipeline  Running semantic reviewer...
+13:41:14  httpx  HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+13:41:14  MultiAgentPipeline  Repair evaluation: quality 0.649 -> 0.667, defects 14 -> 10, fixed=9, introduced=5.
+13:41:14  MultiAgentPipeline  Repair accepted: FEWER_DEFECTS
+13:41:14  MultiAgentPipeline  Validation iteration 6
+13:41:14  MultiAgentPipeline  Iteration 6 metrics: coverage=0.942, correctness=0.000, completeness=0.942, structural=0.942, unsupported=0.023, defects=10, quality=0.667
+13:41:14  MultiAgentPipeline  New best candidate selected at iteration 6 (quality=0.667, raw_score=0.000).
+13:41:14  MultiAgentPipeline  Blocking defects remain after 3 extra rounds: ['D-COV-R52', 'D-COV-R61', 'D-COV-R62', 'D-COV-R81', 'D-COV-R61', 'D-COV-R62', 'D-COV-R81', 'D-COV-R18', 'D-COV-R149']
+13:41:14  MultiAgentPipeline  Maximum repair iterations reached.
+13:41:24  MultiAgentPipeline  Pipeline completed. Best iteration=6, remaining defects=10, quality=0.667.

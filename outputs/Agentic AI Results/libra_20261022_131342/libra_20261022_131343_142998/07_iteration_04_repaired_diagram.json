@@ -1,0 +1,619 @@
+{
+  "nodes": [
+    {
+      "id": "N1",
+      "type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": [
+        "R2",
+        "R5",
+        "R29",
+        "R55",
+        "R76",
+        "R81"
+      ]
+    },
+    {
+      "id": "N2",
+      "type": "action",
+      "label": "Receive job submission",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R2"
+      ]
+    },
+    {
+      "id": "N23",
+      "type": "action",
+      "label": "Adapt submission interface / command-line path",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R31"
+      ]
+    },
+    {
+      "id": "N24",
+      "type": "action",
+      "label": "Evaluate submission with pending jobs",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R33",
+        "R35"
+      ]
+    },
+    {
+      "id": "N3",
+      "type": "decision",
+      "label": "Submission open?",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R36",
+        "R38"
+      ]
+    },
+    {
+      "id": "N4",
+      "type": "decision",
+      "label": "User valid?",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R37",
+        "R39"
+      ]
+    },
+    {
+      "id": "N5",
+      "type": "action",
+      "label": "Initialize job",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R11",
+        "R54",
+        "R55",
+        "R57",
+        "R58",
+        "R59",
+        "R60",
+        "R61",
+        "R40"
+      ]
+    },
+    {
+      "id": "N6",
+      "type": "action",
+      "label": "Check acceptance",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R18",
+        "R22",
+        "R23",
+        "R62",
+        "R63",
+        "R64",
+        "R65",
+        "R66",
+        "R46",
+        "R48",
+        "R50"
+      ]
+    },
+    {
+      "id": "N7",
+      "type": "decision",
+      "label": "Accept job?",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R62",
+        "R63",
+        "R64",
+        "R65",
+        "R66",
+        "R46",
+        "R48",
+        "R50"
+      ]
+    },
+    {
+      "id": "N8",
+      "type": "action",
+      "label": "Allocate tickets",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R27",
+        "R67"
+      ]
+    },
+    {
+      "id": "N9",
+      "type": "action",
+      "label": "Calculate stride and pass",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R20",
+        "R68",
+        "R69",
+        "R70"
+      ]
+    },
+    {
+      "id": "N25",
+      "type": "action",
+      "label": "Apply proportional stride scheduling",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R28"
+      ]
+    },
+    {
+      "id": "N10",
+      "type": "action",
+      "label": "Choose host",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R71",
+        "R72"
+      ]
+    },
+    {
+      "id": "N11",
+      "type": "action",
+      "label": "Select queue",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R73"
+      ]
+    },
+    {
+      "id": "N12",
+      "type": "action",
+      "label": "Communicate allocation",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R3"
+      ]
+    },
+    {
+      "id": "N13",
+      "type": "action",
+      "label": "Dispatch job",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R4",
+        "R74",
+        "R75"
+      ]
+    },
+    {
+      "id": "N14",
+      "type": "action",
+      "label": "Update cluster status",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R76",
+        "R77",
+        "R78",
+        "R79",
+        "R80",
+        "R50"
+      ]
+    },
+    {
+      "id": "N15",
+      "type": "decision",
+      "label": "Jobs remain?",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R81",
+        "R88"
+      ]
+    },
+    {
+      "id": "N16",
+      "type": "action",
+      "label": "Time-slice jobs",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R82",
+        "R83"
+      ]
+    },
+    {
+      "id": "N17",
+      "type": "decision",
+      "label": "Tie on pass?",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R84",
+        "R87"
+      ]
+    },
+    {
+      "id": "N18",
+      "type": "action",
+      "label": "Select minimum-pass job",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R84"
+      ]
+    },
+    {
+      "id": "N19",
+      "type": "action",
+      "label": "Apply FIFO ordering",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R87"
+      ]
+    },
+    {
+      "id": "N20",
+      "type": "action",
+      "label": "Allot quantum",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R85"
+      ]
+    },
+    {
+      "id": "N21",
+      "type": "action",
+      "label": "Advance pass",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R86"
+      ]
+    },
+    {
+      "id": "N22",
+      "type": "final",
+      "label": "End",
+      "lane": null,
+      "requirement_ids": [
+        "R88",
+        "R89",
+        "R42",
+        "R46",
+        "R48",
+        "R50"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "source": "N1",
+      "target": "N2",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R2"
+      ]
+    },
+    {
+      "id": "E2",
+      "source": "N2",
+      "target": "N23",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R31"
+      ]
+    },
+    {
+      "id": "E3",
+      "source": "N23",
+      "target": "N24",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R31"
+      ]
+    },
+    {
+      "id": "E4",
+      "source": "N24",
+      "target": "N3",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R33",
+        "R35",
+        "R36"
+      ]
+    },
+    {
+      "id": "E5",
+      "source": "N3",
+      "target": "N4",
+      "type": "control",
+      "guard": "open",
+      "requirement_ids": [
+        "R36",
+        "R38"
+      ]
+    },
+    {
+      "id": "E6",
+      "source": "N3",
+      "target": "N22",
+      "type": "control",
+      "guard": "closed",
+      "requirement_ids": [
+        "R38"
+      ]
+    },
+    {
+      "id": "E7",
+      "source": "N4",
+      "target": "N5",
+      "type": "control",
+      "guard": "valid",
+      "requirement_ids": [
+        "R37",
+        "R39",
+        "R55"
+      ]
+    },
+    {
+      "id": "E8",
+      "source": "N4",
+      "target": "N22",
+      "type": "control",
+      "guard": "invalid",
+      "requirement_ids": [
+        "R39"
+      ]
+    },
+    {
+      "id": "E9",
+      "source": "N5",
+      "target": "N6",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R11",
+        "R57",
+        "R58",
+        "R59",
+        "R60",
+        "R61",
+        "R40"
+      ]
+    },
+    {
+      "id": "E10",
+      "source": "N6",
+      "target": "N7",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R18",
+        "R62",
+        "R63",
+        "R64",
+        "R65",
+        "R66",
+        "R46",
+        "R48",
+        "R50"
+      ]
+    },
+    {
+      "id": "E11",
+      "source": "N7",
+      "target": "N8",
+      "type": "control",
+      "guard": "accepted",
+      "requirement_ids": [
+        "R65",
+        "R66"
+      ]
+    },
+    {
+      "id": "E12",
+      "source": "N7",
+      "target": "N22",
+      "type": "control",
+      "guard": "rejected",
+      "requirement_ids": [
+        "R65",
+        "R66"
+      ]
+    },
+    {
+      "id": "E13",
+      "source": "N8",
+      "target": "N9",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R67",
+        "R68"
+      ]
+    },
+    {
+      "id": "E14",
+      "source": "N9",
+      "target": "N25",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R28"
+      ]
+    },
+    {
+      "id": "E15",
+      "source": "N25",
+      "target": "N10",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R28",
+        "R71",
+        "R72"
+      ]
+    },
+    {
+      "id": "E16",
+      "source": "N10",
+      "target": "N11",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R73"
+      ]
+    },
+    {
+      "id": "E17",
+      "source": "N11",
+      "target": "N12",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R3"
+      ]
+    },
+    {
+      "id": "E18",
+      "source": "N12",
+      "target": "N13",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R4"
+      ]
+    },
+    {
+      "id": "E19",
+      "source": "N13",
+      "target": "N14",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R4",
+        "R74",
+        "R75",
+        "R76",
+        "R77",
+        "R78",
+        "R79",
+        "R80",
+        "R50"
+      ]
+    },
+    {
+      "id": "E20",
+      "source": "N14",
+      "target": "N15",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R76",
+        "R77",
+        "R88",
+        "R50"
+      ]
+    },
+    {
+      "id": "E21",
+      "source": "N15",
+      "target": "N16",
+      "type": "control",
+      "guard": "yes",
+      "requirement_ids": [
+        "R81",
+        "R88"
+      ]
+    },
+    {
+      "id": "E22",
+      "source": "N15",
+      "target": "N22",
+      "type": "control",
+      "guard": "no",
+      "requirement_ids": [
+        "R88",
+        "R89"
+      ]
+    },
+    {
+      "id": "E23",
+      "source": "N16",
+      "target": "N17",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R82",
+        "R83",
+        "R84"
+      ]
+    },
+    {
+      "id": "E24",
+      "source": "N17",
+      "target": "N19",
+      "type": "control",
+      "guard": "yes",
+      "requirement_ids": [
+        "R84",
+        "R87"
+      ]
+    },
+    {
+      "id": "E25",
+      "source": "N17",
+      "target": "N18",
+      "type": "control",
+      "guard": "no",
+      "requirement_ids": [
+        "R84",
+        "R87"
+      ]
+    },
+    {
+      "id": "E26",
+      "source": "N18",
+      "target": "N20",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R84",
+        "R85"
+      ]
+    },
+    {
+      "id": "E27",
+      "source": "N19",
+      "target": "N20",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R87"
+      ]
+    },
+    {
+      "id": "E28",
+      "source": "N20",
+      "target": "N21",
+      "type": "control",
+      "guard": null,
+      "requirement_ids": [
+        "R85",
+        "R86"
+      ]
+    },
+    {
+      "id": "E29",
+      "source": "N21",
+      "target": "N15",
+      "type": "control",
+      "guard": "continue",
+      "requirement_ids": [
+        "R86",
+        "R88"
+      ]
+    }
+  ],
+  "title": "Libra Scheduler Activity Diagram"
+}

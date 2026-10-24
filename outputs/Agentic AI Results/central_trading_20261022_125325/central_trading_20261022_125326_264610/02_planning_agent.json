@@ -1,0 +1,1251 @@
+{
+  "objective": "Central Trading System processes buy, sell, cancel, trade-saving, and query instructions, with suspension and data-validation exceptions, and interfaces to other modules.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": []
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "decision",
+      "label": "Instruction type?",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R2",
+        "R8",
+        "R19",
+        "R27",
+        "R35",
+        "R41",
+        "R45"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "action",
+      "label": "Give buy instruction",
+      "lane": "Transaction User Interface",
+      "requirement_ids": [
+        "R19"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "action",
+      "label": "Save buy instruction",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R20"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "action",
+      "label": "Match same stock id",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R21",
+        "R29"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "decision",
+      "label": "Matched stock found?",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R26",
+        "R34"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "action",
+      "label": "Make trade by matching",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R22",
+        "R30"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "action",
+      "label": "Modify matched instructions",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R23",
+        "R31"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Give sell instruction",
+      "lane": "Transaction User Interface",
+      "requirement_ids": [
+        "R27"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "action",
+      "label": "Save sell instruction",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R28"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "action",
+      "label": "Give cancel instruction",
+      "lane": "Transaction User Interface",
+      "requirement_ids": [
+        "R35"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "action",
+      "label": "Save cancel instruction",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R36"
+      ]
+    },
+    {
+      "temp_id": "P13",
+      "node_type": "action",
+      "label": "Cancel correlative instruction",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R37"
+      ]
+    },
+    {
+      "temp_id": "P14",
+      "node_type": "action",
+      "label": "Give successful trade information",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R41"
+      ]
+    },
+    {
+      "temp_id": "P15",
+      "node_type": "action",
+      "label": "Save trade information",
+      "lane": "Security Account Management",
+      "requirement_ids": [
+        "R42"
+      ]
+    },
+    {
+      "temp_id": "P16",
+      "node_type": "action",
+      "label": "Send query",
+      "lane": "Trading Information Release",
+      "requirement_ids": [
+        "R45"
+      ]
+    },
+    {
+      "temp_id": "P17",
+      "node_type": "action",
+      "label": "Implement query",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R46"
+      ]
+    },
+    {
+      "temp_id": "P18",
+      "node_type": "action",
+      "label": "Structure queried data",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R47"
+      ]
+    },
+    {
+      "temp_id": "P19",
+      "node_type": "action",
+      "label": "Send data to release",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R48"
+      ]
+    },
+    {
+      "temp_id": "P20",
+      "node_type": "action",
+      "label": "Receive suspended operation",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R24",
+        "R32",
+        "R38",
+        "R43",
+        "R49"
+      ]
+    },
+    {
+      "temp_id": "P21",
+      "node_type": "final",
+      "label": "End",
+      "lane": null,
+      "requirement_ids": [
+        "R24",
+        "R25",
+        "R26",
+        "R32",
+        "R33",
+        "R34",
+        "R38",
+        "R39",
+        "R40",
+        "R43",
+        "R44",
+        "R49",
+        "R50",
+        "R51"
+      ]
+    },
+    {
+      "temp_id": "P22",
+      "node_type": "decision",
+      "label": "Operations suspended?",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R24",
+        "R32",
+        "R38",
+        "R43",
+        "R49"
+      ]
+    },
+    {
+      "temp_id": "P23",
+      "node_type": "decision",
+      "label": "Query valid?",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R50"
+      ]
+    },
+    {
+      "temp_id": "P24",
+      "node_type": "decision",
+      "label": "Data found?",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R51"
+      ]
+    },
+    {
+      "temp_id": "P25",
+      "node_type": "decision",
+      "label": "Instruction implemented?",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R39"
+      ]
+    },
+    {
+      "temp_id": "P26",
+      "node_type": "decision",
+      "label": "Has matched instruction?",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R40"
+      ]
+    },
+    {
+      "temp_id": "P27",
+      "node_type": "action",
+      "label": "Load instruction to cancel",
+      "lane": "Central Trading System",
+      "requirement_ids": [
+        "R36",
+        "R37"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": []
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": "buy",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R19"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P9",
+      "guard": "sell",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R27"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P11",
+      "guard": "cancel",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R35"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P14",
+      "guard": "trade info",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R41"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P16",
+      "guard": "query",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R45"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P22",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R24"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R20",
+        "R21"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R21",
+        "R29"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R22",
+        "R30"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P21",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R26",
+        "R34"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P8",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R23",
+        "R31"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P22",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R32"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P5",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R28",
+        "R29"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P22",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R38"
+      ]
+    },
+    {
+      "source": "P12",
+      "target": "P27",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R36",
+        "R37"
+      ]
+    },
+    {
+      "source": "P27",
+      "target": "P13",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R37"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P21",
+      "guard": "implemented",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R39"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P26",
+      "guard": "not implemented",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R40"
+      ]
+    },
+    {
+      "source": "P14",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R41",
+        "R42"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P21",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": []
+    },
+    {
+      "source": "P16",
+      "target": "P22",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R49"
+      ]
+    },
+    {
+      "source": "P17",
+      "target": "P18",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R46",
+        "R47"
+      ]
+    },
+    {
+      "source": "P18",
+      "target": "P19",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R48"
+      ]
+    },
+    {
+      "source": "P19",
+      "target": "P21",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": []
+    },
+    {
+      "source": "P20",
+      "target": "P21",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R24",
+        "R32",
+        "R38",
+        "R43",
+        "R49"
+      ]
+    },
+    {
+      "source": "P22",
+      "target": "P4",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R20",
+        "R28"
+      ]
+    },
+    {
+      "source": "P22",
+      "target": "P20",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R24",
+        "R32",
+        "R38",
+        "R43",
+        "R49"
+      ]
+    },
+    {
+      "source": "P22",
+      "target": "P23",
+      "guard": "query path",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R49",
+        "R50",
+        "R51"
+      ]
+    },
+    {
+      "source": "P23",
+      "target": "P17",
+      "guard": "valid",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R46"
+      ]
+    },
+    {
+      "source": "P23",
+      "target": "P21",
+      "guard": "invalid",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R50"
+      ]
+    },
+    {
+      "source": "P18",
+      "target": "P24",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R47",
+        "R51"
+      ]
+    },
+    {
+      "source": "P24",
+      "target": "P19",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R48"
+      ]
+    },
+    {
+      "source": "P24",
+      "target": "P21",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R51"
+      ]
+    },
+    {
+      "source": "P25",
+      "target": "P21",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R39"
+      ]
+    },
+    {
+      "source": "P25",
+      "target": "P26",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R40"
+      ]
+    },
+    {
+      "source": "P26",
+      "target": "P21",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R40"
+      ]
+    },
+    {
+      "source": "P26",
+      "target": "P21",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R40"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "Instruction type?",
+      "branch_ids": [
+        "buy",
+        "sell",
+        "cancel",
+        "trade info",
+        "query"
+      ],
+      "guards": [
+        "buy",
+        "sell",
+        "cancel",
+        "trade info",
+        "query"
+      ]
+    },
+    {
+      "decision_id": "D2",
+      "condition": "Matched stock found?",
+      "branch_ids": [
+        "yes",
+        "no"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D3",
+      "condition": "Operations suspended?",
+      "branch_ids": [
+        "yes",
+        "no",
+        "query path"
+      ],
+      "guards": [
+        "yes",
+        "no",
+        "query path"
+      ]
+    },
+    {
+      "decision_id": "D4",
+      "condition": "Query valid?",
+      "branch_ids": [
+        "valid",
+        "invalid"
+      ],
+      "guards": [
+        "valid",
+        "invalid"
+      ]
+    },
+    {
+      "decision_id": "D5",
+      "condition": "Data found?",
+      "branch_ids": [
+        "yes",
+        "no"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D6",
+      "condition": "Instruction implemented?",
+      "branch_ids": [
+        "yes",
+        "no"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D7",
+      "condition": "Has matched instruction?",
+      "branch_ids": [
+        "yes",
+        "no"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [],
+  "concurrency": [],
+  "exceptions": [],
+  "decision_strategy": [
+    "Use one top-level decision to select the instruction type.",
+    "Use explicit yes/no decisions for match, suspension, query validity, data availability, and cancel implementation status.",
+    "Return all exception branches to the shared final node."
+  ],
+  "concurrency_strategy": [
+    "No concurrent behavior is specified in the requirements."
+  ],
+  "exception_strategy": [
+    "Model suspension as a shared decision branch to termination.",
+    "Model no-match, invalid-query, already-implemented, and no-data outcomes as explicit terminating branches.",
+    "Do not invent logging or notifications because they are open issues, not requirements."
+  ],
+  "termination_strategy": [
+    "Normal successful paths terminate at the shared final node.",
+    "Exception paths terminate at the shared final node after the specified handling or decision outcome.",
+    "All branches are reachable from the single initial node through the top-level instruction-type decision."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R1",
+        "diagram_node_ids": [
+          "P1",
+          "P2",
+          "P4",
+          "P5",
+          "P6",
+          "P7",
+          "P8",
+          "P9",
+          "P10",
+          "P12",
+          "P13",
+          "P14",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "Captured in the CTS main processing objective and the integrated processing flow.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R2",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "Instruction-type decision represents analysis and division into instruction kinds.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [
+          "P5",
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P5->P6"
+        ],
+        "evidence": "Matching under prescripts is represented by the matching step and the match-found decision.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Interface provisioning is reflected by the integrated flow with external module interactions.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R8",
+        "diagram_node_ids": [
+          "P3",
+          "P9",
+          "P11",
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P1->P2"
+        ],
+        "evidence": "CTS receives instructions from external UI/release actors via the corresponding inbound actions.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R9",
+        "diagram_node_ids": [
+          "P17",
+          "P18",
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P17->P18",
+          "P18->P19"
+        ],
+        "evidence": "CTS handles the query and produces/sends new data onward.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R10",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Authorization is captured as a contextual condition for management access, not drawn as a flow branch.",
+        "confidence": 0.58
+      },
+      {
+        "requirement_id": "R14",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Maintenance capability/background, not operational flow.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R15",
+        "diagram_node_ids": [],
+        "diagram_edge_ids": [],
+        "evidence": "Maintenance capability/background, not operational flow.",
+        "confidence": 0.2
+      },
+      {
+        "requirement_id": "R19",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2->P3"
+        ],
+        "evidence": "Buy instruction is given by the Transaction User Interface.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R20",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3->P22",
+          "P22->P4"
+        ],
+        "evidence": "CTS saves the buy instruction after the UI instruction arrives.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R21",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P4->P5"
+        ],
+        "evidence": "Matching same stock id is explicit processing after saving the buy instruction.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R22",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P6->P7"
+        ],
+        "evidence": "Make trade by matching is modeled as the successful match branch.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R23",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Post-trade modification step in buy flow.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R24",
+        "diagram_node_ids": [
+          "P20",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P3->P22",
+          "P22->P20",
+          "P20->P21"
+        ],
+        "evidence": "Suspended operations branch terminates the scenario.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R25",
+        "diagram_node_ids": [
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P6->P21"
+        ],
+        "evidence": "Trade exception outcome is represented as terminating no-match/error path.",
+        "confidence": 0.82
+      },
+      {
+        "requirement_id": "R26",
+        "diagram_node_ids": [
+          "P6",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P6->P21"
+        ],
+        "evidence": "No matched stock is the no-branch from match-found decision.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R27",
+        "diagram_node_ids": [
+          "P9"
+        ],
+        "diagram_edge_ids": [
+          "P2->P9"
+        ],
+        "evidence": "Sell instruction is given by the Transaction User Interface.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R28",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [
+          "P9->P22",
+          "P22->P4"
+        ],
+        "evidence": "CTS saves the sell instruction before matching.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R29",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P10->P5"
+        ],
+        "evidence": "Sell matching reuses the same stock-id matching step.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R30",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [
+          "P6->P7"
+        ],
+        "evidence": "Sell trade execution is modeled on the same successful match branch.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R31",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Sell flow ends with modifying matched instructions.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R32",
+        "diagram_node_ids": [
+          "P20",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P9->P22",
+          "P22->P20",
+          "P20->P21"
+        ],
+        "evidence": "Suspended operations branch terminates the sell scenario.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R33",
+        "diagram_node_ids": [
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P6->P21"
+        ],
+        "evidence": "Deal exceptions are covered by the terminating no-match/error path.",
+        "confidence": 0.82
+      },
+      {
+        "requirement_id": "R34",
+        "diagram_node_ids": [
+          "P6",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P6->P21"
+        ],
+        "evidence": "The stated no-match exception is modeled as the no branch.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R35",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P2->P11"
+        ],
+        "evidence": "Cancel instruction is given by the Transaction User Interface.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R36",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P11->P22",
+          "P22->P4"
+        ],
+        "evidence": "CTS saves cancel instruction after receipt.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R37",
+        "diagram_node_ids": [
+          "P13",
+          "P27"
+        ],
+        "diagram_edge_ids": [
+          "P12->P27",
+          "P27->P13"
+        ],
+        "evidence": "CTS cancels the correlative instruction after loading it.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R38",
+        "diagram_node_ids": [
+          "P20",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P11->P22",
+          "P22->P20",
+          "P20->P21"
+        ],
+        "evidence": "Suspended operations branch terminates cancel scenario.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R39",
+        "diagram_node_ids": [
+          "P25",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P13->P21",
+          "P25->P21"
+        ],
+        "evidence": "Implemented instruction outcome is a terminating exception branch.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R40",
+        "diagram_node_ids": [
+          "P26",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P13->P26",
+          "P26->P21"
+        ],
+        "evidence": "No matched instruction to cancel is a terminating no-match branch.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R41",
+        "diagram_node_ids": [
+          "P14"
+        ],
+        "diagram_edge_ids": [
+          "P2->P14"
+        ],
+        "evidence": "CTS gives out successful trade information.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R42",
+        "diagram_node_ids": [
+          "P15"
+        ],
+        "diagram_edge_ids": [
+          "P14->P15"
+        ],
+        "evidence": "Security Account Management saves trade information.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R43",
+        "diagram_node_ids": [
+          "P20",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P14->P15"
+        ],
+        "evidence": "Suspended operations is modeled as a shared termination condition for the save-trade flow.",
+        "confidence": 0.74
+      },
+      {
+        "requirement_id": "R44",
+        "diagram_node_ids": [
+          "P21"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "No matched stock exception is not naturally applicable to save-trade; only the modeled terminating exception handling is retained.",
+        "confidence": 0.35
+      },
+      {
+        "requirement_id": "R45",
+        "diagram_node_ids": [
+          "P16"
+        ],
+        "diagram_edge_ids": [
+          "P2->P16"
+        ],
+        "evidence": "Trading Information Release sends a query.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R46",
+        "diagram_node_ids": [
+          "P17"
+        ],
+        "diagram_edge_ids": [
+          "P23->P17"
+        ],
+        "evidence": "CTS implements the query.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R47",
+        "diagram_node_ids": [
+          "P18"
+        ],
+        "diagram_edge_ids": [
+          "P17->P18"
+        ],
+        "evidence": "CTS structurally formats the queried data.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R48",
+        "diagram_node_ids": [
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P18->P19"
+        ],
+        "evidence": "CTS sends the data to release.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R49",
+        "diagram_node_ids": [
+          "P20",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P16->P22",
+          "P22->P20",
+          "P20->P21"
+        ],
+        "evidence": "Suspended operations branch terminates query scenario.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R50",
+        "diagram_node_ids": [
+          "P23",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P22->P23",
+          "P23->P21"
+        ],
+        "evidence": "Invalid query is an explicit decision branch to termination.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R51",
+        "diagram_node_ids": [
+          "P24",
+          "P21"
+        ],
+        "diagram_edge_ids": [
+          "P18->P24",
+          "P24->P21"
+        ],
+        "evidence": "No matched data is modeled as the no branch after query processing.",
+        "confidence": 0.98
+      }
+    ]
+  }
+}

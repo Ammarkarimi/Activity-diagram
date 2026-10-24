@@ -1,0 +1,2858 @@
+{
+  "source": "2 chunks",
+  "errors": [],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Within the same department, the database can be updated directly without any request.",
+      "type": "OTHER",
+      "actors": [
+        "database"
+      ],
+      "actions": [
+        "be updated directly"
+      ],
+      "conditions": [
+        "within the same department"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "5.1.1. Within the same department: data base can be updated directly without any request",
+      "section": "5.1. Transferring Assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R2",
+      "text": "For inter-department transfers, the request must be approved by a DA group member and a faculty group member unless it came from a higher level group.",
+      "type": "OTHER",
+      "actors": [
+        "DA group member",
+        "faculty group member",
+        "higher level group"
+      ],
+      "actions": [
+        "be approved"
+      ],
+      "conditions": [
+        "inter departments",
+        "unless it came from a higher level group"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R1"
+      ],
+      "source_sentence": "5.1.2. Inter departments: request must be approved by a DA group member and faculty group member unless it came from a higher level group",
+      "section": "5.1. Transferring Assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R3",
+      "text": "For inter-faculty transfers, an authorised user can make the request.",
+      "type": "ACTION",
+      "actors": [
+        "authorised user"
+      ],
+      "actions": [
+        "make the request"
+      ],
+      "conditions": [
+        "inter faculties transfer"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R2"
+      ],
+      "source_sentence": "5.1.3. Inter faculties transfer: request can be made by any authorised user and approved by faculty group or higher level",
+      "section": "5.1. Transferring Assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R4",
+      "text": "For inter-faculty transfers, the request must be approved by the faculty group or a higher level group.",
+      "type": "OTHER",
+      "actors": [
+        "faculty group",
+        "higher level group"
+      ],
+      "actions": [
+        "be approved"
+      ],
+      "conditions": [
+        "inter faculties transfer"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R3"
+      ],
+      "source_sentence": "5.1.3. Inter faculties transfer: request can be made by any authorised user and approved by faculty group or higher level",
+      "section": "5.1. Transferring Assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R5",
+      "text": "Transfers outside the university should be approved by the university group.",
+      "type": "ACTION",
+      "actors": [
+        "university group"
+      ],
+      "actions": [
+        "approve"
+      ],
+      "conditions": [
+        "transfer outside university"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R4"
+      ],
+      "source_sentence": "5.1.4. Transfer outside university should be approved by the university group",
+      "section": "5.1. Transferring Assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R6",
+      "text": "Any administrative level user or inventory user can edit an asset that belongs to their department if they are authorised to do it.",
+      "type": "CONDITION",
+      "actors": [
+        "administrative level user",
+        "inventory user"
+      ],
+      "actions": [
+        "edit an asset"
+      ],
+      "conditions": [
+        "asset belongs to its department",
+        "if he is authorised to do it"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R5"
+      ],
+      "source_sentence": "5.2.1. Any administrative level user or inventory user can edit an asset that belongs to its department; same thing for faculty user, or university user; in order to make modification if he is authorised to do it.",
+      "section": "5.2. Editing Assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R7",
+      "text": "Any faculty user can edit an asset that belongs to their department if they are authorised to do it.",
+      "type": "CONDITION",
+      "actors": [
+        "faculty user"
+      ],
+      "actions": [
+        "edit an asset"
+      ],
+      "conditions": [
+        "asset belongs to its department",
+        "if he is authorised to do it"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R6"
+      ],
+      "source_sentence": "5.2.1. Any administrative level user or inventory user can edit an asset that belongs to its department; same thing for faculty user, or university user; in order to make modification if he is authorised to do it.",
+      "section": "5.2. Editing Assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R8",
+      "text": "Any university user can edit an asset that belongs to their department if they are authorised to do it.",
+      "type": "CONDITION",
+      "actors": [
+        "university user"
+      ],
+      "actions": [
+        "edit an asset"
+      ],
+      "conditions": [
+        "asset belongs to its department",
+        "if he is authorised to do it"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R7"
+      ],
+      "source_sentence": "5.2.1. Any administrative level user or inventory user can edit an asset that belongs to its department; same thing for faculty user, or university user; in order to make modification if he is authorised to do it.",
+      "section": "5.2. Editing Assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R9",
+      "text": "All fields of an edited asset can be modified except IDs.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "modify all fields"
+      ],
+      "conditions": [
+        "edited asset"
+      ],
+      "exceptions": [
+        "IDs cannot be modified"
+      ],
+      "dependencies": [
+        "R8"
+      ],
+      "source_sentence": "5.3.1. all fields of an edited asset can be modified except Ids",
+      "section": "5.3. Modifying assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R10",
+      "text": "A bulk entry file can be used.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R9"
+      ],
+      "source_sentence": "5.3.2. a bulk entry file can be used",
+      "section": "5.3. Modifying assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R11",
+      "text": "Any DA group member or authorised inventory group member can add inventory assets owned by the department.",
+      "type": "CONDITION",
+      "actors": [
+        "DA group member",
+        "authorised inventory group member"
+      ],
+      "actions": [
+        "add inventory assets"
+      ],
+      "conditions": [
+        "asset is owned by the department"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R10"
+      ],
+      "source_sentence": "5.4.1. Any DA group member or authorised inventory group member asset is owned by the department",
+      "section": "5.4. Adding inventory assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R12",
+      "text": "Any faculty member can add all related departments inventory.",
+      "type": "ACTION",
+      "actors": [
+        "faculty member"
+      ],
+      "actions": [
+        "add all related departments inventory"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R11"
+      ],
+      "source_sentence": "5.4.2. Any faculty member can add all related departments inventory",
+      "section": "5.4. Adding inventory assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R13",
+      "text": "Any university group member can add all assets in the inventory.",
+      "type": "ACTION",
+      "actors": [
+        "university group member"
+      ],
+      "actions": [
+        "add all assets in the inventory"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R12"
+      ],
+      "source_sentence": "5.4.3. Any university group member can add all assets in the inventory",
+      "section": "5.4. Adding inventory assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R14",
+      "text": "A bulk entry can be used to add many assets.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R13"
+      ],
+      "source_sentence": "5.4.4. A bulk entry can be used to add many assets",
+      "section": "5.4. Adding inventory assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R15",
+      "text": "An authorised user can create a request to borrow an asset or reserve a location.",
+      "type": "ACTION",
+      "actors": [
+        "authorised user"
+      ],
+      "actions": [
+        "create a request"
+      ],
+      "conditions": [
+        "to borrow an asset or reserve a location"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R14"
+      ],
+      "source_sentence": "5.5.1. request can be made by any authorised user",
+      "section": "5.5. Creating request to borrow an asset or a reserve a location",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R16",
+      "text": "After creation, the request remains pending and waiting to be approved by an administrative level user with the relevant authority.",
+      "type": "OTHER",
+      "actors": [
+        "administrative level user"
+      ],
+      "actions": [
+        "be approved"
+      ],
+      "conditions": [
+        "after creation",
+        "request remains pending",
+        "waiting to be approved by an administrative level user according to that have this authority"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R15"
+      ],
+      "source_sentence": "5.5.2. After creation a request still pending waiting to be approved by an administrative level user according to that have this authority",
+      "section": "5.5. Creating request to borrow an asset or a reserve a location",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R17",
+      "text": "An inventory user should check a returned asset and update the inventory.",
+      "type": "ACTION",
+      "actors": [
+        "inventory user"
+      ],
+      "actions": [
+        "check returned asset",
+        "update inventory"
+      ],
+      "conditions": [
+        "asset is returned"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R16"
+      ],
+      "source_sentence": "5.6.1. An inventory user should check returned asset and update inventory",
+      "section": "5.6. Retuning assets",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R18",
+      "text": "IT group members can create a new space and modify floor structure when they receive an exception request from any administrative level.",
+      "type": "CONDITION",
+      "actors": [
+        "IT group members",
+        "administrative level"
+      ],
+      "actions": [
+        "create a new space",
+        "modify floor structure",
+        "receive an exception request"
+      ],
+      "conditions": [
+        "when they receive an exception request from any administrative level"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R17"
+      ],
+      "source_sentence": "5.7.1. IT group members can create a new space and modify floor structure when they receive an exception request from any administrative level",
+      "section": "5.7. Creating a new location",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R19",
+      "text": "Any administration level or authorised inventory group member can display all pending requests waiting for approval from this level and approve those requests.",
+      "type": "ACTION",
+      "actors": [
+        "administration level",
+        "authorised inventory group member"
+      ],
+      "actions": [
+        "display all pending requests",
+        "approve those requests"
+      ],
+      "conditions": [
+        "waiting for approval from this level"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R18"
+      ],
+      "source_sentence": "5.8.1. Any administration level or authorised inventory group member can display all pending requests waiting for approval from this level and approve those requests",
+      "section": "5.8. Approving requests",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R20",
+      "text": "When a request is treated, the user is notified by email.",
+      "type": "OTHER",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "notify the user by email"
+      ],
+      "conditions": [
+        "when request is treated"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R19"
+      ],
+      "source_sentence": "5.8.2. When request is treated user is notified by email",
+      "section": "5.8. Approving requests",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R21",
+      "text": "The request is added to the waiting for execution list.",
+      "type": "OTHER",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "add the request"
+      ],
+      "conditions": [
+        "waiting for execution list"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R20"
+      ],
+      "source_sentence": "5.8.3. Request is added to the waiting for execution list",
+      "section": "5.8. Approving requests",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R22",
+      "text": "Inventory is updated when the user receives the requested asset.",
+      "type": "OTHER",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "update inventory"
+      ],
+      "conditions": [
+        "user receive requested asset"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R21"
+      ],
+      "source_sentence": "5.8.4. Inventory is updated when user receive requested asset",
+      "section": "5.8. Approving requests",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R23",
+      "text": "Authentication is made by user name and password for all users.",
+      "type": "ACTION",
+      "actors": [
+        "all users"
+      ],
+      "actions": [
+        "authenticate"
+      ],
+      "conditions": [
+        "using user name and a password"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R22"
+      ],
+      "source_sentence": "5.9.1. Authentication is made by user name and a password for all users",
+      "section": "5.9. Authentication",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R24",
+      "text": "Administrative level users work on administration computers.",
+      "type": "OTHER",
+      "actors": [
+        "administrative level users"
+      ],
+      "actions": [],
+      "conditions": [
+        "working on administration computer"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R23"
+      ],
+      "source_sentence": "5.9.2. administrative level working on administration computer",
+      "section": "5.9. Authentication",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R25",
+      "text": "Any administrative level user can delegate another user to execute some or all of their authorised actions, and the delegated user acquires the role of inventory administrator.",
+      "type": "ACTION",
+      "actors": [
+        "administrative level user"
+      ],
+      "actions": [
+        "delegate another user",
+        "grant the role of inventory administrator"
+      ],
+      "conditions": [
+        "to execute some or all of their authorized actions"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R24"
+      ],
+      "source_sentence": "5.10.1. Any administrative level user can delegate another user to execute some or all his authorized actions. And this user acquires the role of inventory administrator",
+      "section": "5.10. Changing permission",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R26",
+      "text": "Asset report by location is available.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R25"
+      ],
+      "source_sentence": "5.11.1. Asset report by location",
+      "section": "5.11. Output reports",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R27",
+      "text": "Request report is available.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R26"
+      ],
+      "source_sentence": "5.11.2. Request report",
+      "section": "5.11. Output reports",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R28",
+      "text": "User permission user report is available.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R27"
+      ],
+      "source_sentence": "5.11.3. User permission user",
+      "section": "5.11. Output reports",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R29",
+      "text": "The Inventory Admin must be authenticated before the modify use case starts.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "be authenticated"
+      ],
+      "conditions": [
+        "before the modify use case starts"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   The Inventory Admin is authenticated",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R30",
+      "text": "The modify use case begins when the Inventory Admin starts searching for an asset.",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "start searching for an asset"
+      ],
+      "conditions": [
+        "use case begins"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R29"
+      ],
+      "source_sentence": "1.   Use case begins when Inventory Admin start searching for an asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R31",
+      "text": "The Inventory Admin edits the asset.",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "edit the asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R30"
+      ],
+      "source_sentence": "2.   Inventory Admin Edit the asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R32",
+      "text": "The Inventory Admin modifies asset properties.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "modify asset properties"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R31"
+      ],
+      "source_sentence": "3.   Inventory Admin modify asset properties",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R33",
+      "text": "An administrator or authorised inventory user may edit an asset while working on the waiting for approval list or waiting for execution list.",
+      "type": "OTHER",
+      "actors": [
+        "administrator",
+        "authorised inventory user"
+      ],
+      "actions": [
+        "edit the asset"
+      ],
+      "conditions": [
+        "working on waiting for approval list or waiting for execution list"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R32"
+      ],
+      "source_sentence": "Condition: administrator or authorised inventory user is working on waiting for approval list or waiting for execution list",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R34",
+      "text": "The inventory user or administrator edits the asset in the alternate course.",
+      "type": "ACTION",
+      "actors": [
+        "inventory user",
+        "administrator"
+      ],
+      "actions": [
+        "edit the asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R33"
+      ],
+      "source_sentence": "1.   Inventory user or Admin Edit the asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R35",
+      "text": "The inventory user or administrator modifies asset properties in the alternate course.",
+      "type": "OTHER",
+      "actors": [
+        "inventory user",
+        "administrator"
+      ],
+      "actions": [
+        "modify asset properties"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R34"
+      ],
+      "source_sentence": "2.   Inventory user or Admin modify asset properties",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R36",
+      "text": "The inventory admin searches for an asset in exceptional course 1.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "search for an asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R35"
+      ],
+      "source_sentence": "1. Inventory Admin search for asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R37",
+      "text": "The inventory admin edits the asset in exceptional course 1.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "edit the asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R36"
+      ],
+      "source_sentence": "2. Inventory Admin edit asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R38",
+      "text": "The inventory admin finds that the asset is out of inventory.",
+      "type": "CONDITION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "find"
+      ],
+      "conditions": [
+        "asset out of inventory"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R37"
+      ],
+      "source_sentence": "3. Inventory Admin asset out of inventory",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R39",
+      "text": "An error message is displayed because the asset cannot be modified.",
+      "type": "EXCEPTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "display error message"
+      ],
+      "conditions": [
+        "asset cannot be modified"
+      ],
+      "exceptions": [
+        "asset out of inventory"
+      ],
+      "dependencies": [
+        "R38"
+      ],
+      "source_sentence": "4. Message error because asset cannot be modified",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R40",
+      "text": "The inventory admin searches for an asset in exceptional course 2.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "search for an asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R39"
+      ],
+      "source_sentence": "1. Inventory Admin search for asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R41",
+      "text": "The inventory admin edits the asset in exceptional course 2.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "edit the asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R40"
+      ],
+      "source_sentence": "2. Inventory Admin edit asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R42",
+      "text": "The inventory admin does not have sufficient privileges to edit the asset.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "edit the asset"
+      ],
+      "conditions": [
+        "insufficient privileges"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R41"
+      ],
+      "source_sentence": "3. Inventory Admin does not have sufficient privileges to edit asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R43",
+      "text": "An error message is displayed.",
+      "type": "EXCEPTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "display error message"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "insufficient privileges"
+      ],
+      "dependencies": [
+        "R42"
+      ],
+      "source_sentence": "4. Message error is displayed",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R44",
+      "text": "The inventory admin searches for an asset in exceptional course 3.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "search for an asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R43"
+      ],
+      "source_sentence": "1. Inventory Admin search for asset",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R45",
+      "text": "No asset is found in exceptional course 3.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "find asset"
+      ],
+      "conditions": [
+        "no asset found"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R44"
+      ],
+      "source_sentence": "2. no asset found",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R46",
+      "text": "An error message is displayed for the no-asset-found case.",
+      "type": "EXCEPTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "display error message"
+      ],
+      "conditions": [
+        "no asset found"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R45"
+      ],
+      "source_sentence": "3. Message error is displayed",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R47",
+      "text": "The system state changes according to the modification.",
+      "type": "TERMINATION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "change system state"
+      ],
+      "conditions": [
+        "according to modification"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R46"
+      ],
+      "source_sentence": "1.   The system state change according to modification",
+      "section": "Name: Modify Use Case Identifier: MOD.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R48",
+      "text": "The Inventory Admin must be authenticated before the edit use case starts.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "be authenticated"
+      ],
+      "conditions": [
+        "before the edit use case starts"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   The Inventory Admin is authenticated",
+      "section": "Name: Edit Use Case Identifier: EDT.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R49",
+      "text": "The edit use case begins when the Inventory Admin starts searching for an asset.",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "start searching for an asset"
+      ],
+      "conditions": [
+        "use case begins"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R48"
+      ],
+      "source_sentence": "1.   Use case begins when Inventory Admin start searching for an asset",
+      "section": "Name: Edit Use Case Identifier: EDT.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R50",
+      "text": "An error message is displayed for the insufficient-privileges case.",
+      "type": "EXCEPTION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "display error message"
+      ],
+      "conditions": [
+        "insufficient privileges"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R42"
+      ],
+      "source_sentence": "4. Message error is displayed",
+      "section": "Name: Edit Use Case Identifier: EDT.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R51",
+      "text": "No asset is found in exceptional course 2.",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "find asset"
+      ],
+      "conditions": [
+        "no asset found"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R40"
+      ],
+      "source_sentence": "2. no asset found",
+      "section": "Name: Edit Use Case Identifier: EDT.UC Description",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R52",
+      "text": "The Inventory Admin is authenticated before the add-new-asset use case starts.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "be authenticated"
+      ],
+      "conditions": [
+        "before the add-new-asset use case starts"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   The Inventory Admin is authenticated",
+      "section": "Name: Add New Asset Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R53",
+      "text": "The use case begins when the administrator starts a new asset.",
+      "type": "ACTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "start a new asset"
+      ],
+      "conditions": [
+        "use case begins"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R52"
+      ],
+      "source_sentence": "1.   Use case begins when Administrator start a new asset",
+      "section": "Name: Add New Asset Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R54",
+      "text": "The administrator selects the asset type.",
+      "type": "ACTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "select asset type"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R53"
+      ],
+      "source_sentence": "2.   Administrator select asset type",
+      "section": "Name: Add New Asset Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R55",
+      "text": "The administrator selects the asset location.",
+      "type": "ACTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "select asset location"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R54"
+      ],
+      "source_sentence": "3.   Administrator select asset location",
+      "section": "Name: Add New Asset Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R56",
+      "text": "The administrator selects the owner.",
+      "type": "ACTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "select owner"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R55"
+      ],
+      "source_sentence": "4.   Administrator select owner",
+      "section": "Name: Add New Asset Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R57",
+      "text": "The administrator fills all asset properties.",
+      "type": "ACTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "fill all asset properties"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R56"
+      ],
+      "source_sentence": "5.   Administrator fill all asset properties",
+      "section": "Name: Add New Asset Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R58",
+      "text": "If the asset type does not exist in the list, the administrator sends an exception request to IT to add the new type and the common properties.",
+      "type": "EXCEPTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "send exception request"
+      ],
+      "conditions": [
+        "type does not exist in the list"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R57"
+      ],
+      "source_sentence": "2.   Type does not exist in the list\n3.   Administrator send exception request to IT to add the new type and the common properties",
+      "section": "Name: Add New Asset Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R59",
+      "text": "The database is updated after adding a new asset.",
+      "type": "TERMINATION",
+      "actors": [
+        "system"
+      ],
+      "actions": [
+        "update database"
+      ],
+      "conditions": [
+        "after adding a new asset"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R58"
+      ],
+      "source_sentence": "1.   Data base is updated",
+      "section": "Name: Add New Asset Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R60",
+      "text": "The User is authenticated before the create-request use case starts.",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "be authenticated"
+      ],
+      "conditions": [
+        "before the create-request use case starts"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   The User is authenticated",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R61",
+      "text": "Only the basic request form is available for level 0 users.",
+      "type": "OTHER",
+      "actors": [
+        "level 0 users"
+      ],
+      "actions": [
+        "use basic request form"
+      ],
+      "conditions": [
+        "only basic request form is available"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R60"
+      ],
+      "source_sentence": "2.   Only basic request form is available for level 0",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R62",
+      "text": "Request forms provide search facilities to users at levels 1, 2, and 3.",
+      "type": "OTHER",
+      "actors": [
+        "request forms"
+      ],
+      "actions": [
+        "provide search facilities"
+      ],
+      "conditions": [
+        "users levels 1, 2 and 3"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R61"
+      ],
+      "source_sentence": "3.   Requests forms provide search facilities to users levels 1, 2 and 3",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R63",
+      "text": "The user selects the basic request form.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "select basic request form"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R62"
+      ],
+      "source_sentence": "1.   User select basic request form",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R64",
+      "text": "The user types a small request text specifying the asset location and other details.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "type a small request text"
+      ],
+      "conditions": [
+        "specifying asset(s) location"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R63"
+      ],
+      "source_sentence": "2.   User type a small request text specifying asset (s) location,..",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R65",
+      "text": "The user clicks submit.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "click on submit"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R64"
+      ],
+      "source_sentence": "3.   User click on submit",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R66",
+      "text": "The user selects the advanced request form.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "select advanced request form"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R65"
+      ],
+      "source_sentence": "1.   User select advanced request form",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R67",
+      "text": "The user enters the asset serial number and location.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "enter asset serial number and location"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R66"
+      ],
+      "source_sentence": "2.   User enter asset serial number and location",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R68",
+      "text": "The user enters a small text describing the operation to be done.",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "enter small text"
+      ],
+      "conditions": [
+        "describing operation to be done"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R67"
+      ],
+      "source_sentence": "3.   User enter small text describing operation to be done",
+      "section": "Name: Create request Use Case",
+      "chunk_id": "C1"
+    },
+    {
+      "id": "R69",
+      "text": "Hosting system and servers support all the operations.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "We suppose that Hosting system and servers support all the operations",
+      "section": "3. Authentication use case",
+      "chunk_id": "C1.26"
+    },
+    {
+      "id": "R70",
+      "text": "The use case is named \"Edit Use Case\".",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Name: Edit Use Case",
+      "section": "3. Authentication use case",
+      "chunk_id": "C1.26"
+    },
+    {
+      "id": "R71",
+      "text": "The use case identifier is EDT.UC.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Identifier: EDT.UC Description",
+      "section": "3. Authentication use case",
+      "chunk_id": "C1.26"
+    },
+    {
+      "id": "R72",
+      "text": "The use case describes the edit operation that the Inventory Admin can do.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "edit operation"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The use case describes the edit operation that the Inventory Admin can do.",
+      "section": "3. Authentication use case",
+      "chunk_id": "C1.26"
+    },
+    {
+      "id": "R73",
+      "text": "The Inventory Admin initiates the use case.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "initiates the use case"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Inventory Admin initiates the use case.",
+      "section": "3. Authentication use case",
+      "chunk_id": "C1.26"
+    },
+    {
+      "id": "R74",
+      "text": "The use case presents the edit done by the Inventory Admin.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "presents the edit done"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R73"
+      ],
+      "source_sentence": "The use case presents the edit done by the Inventory Admin.",
+      "section": "3. Authentication use case",
+      "chunk_id": "C1.26"
+    },
+    {
+      "id": "R75",
+      "text": "Preconditions",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Preconditions",
+      "section": "3. Authentication use case",
+      "chunk_id": "C1.26"
+    },
+    {
+      "id": "R76",
+      "text": "The use case is named \"Add New Asset Use Case\".",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Name: Add New Asset Use Case",
+      "section": "2. Authentication use case",
+      "chunk_id": "C1.35"
+    },
+    {
+      "id": "R77",
+      "text": "The use case identifier is ANI.UC.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Identifier: ANI.UC",
+      "section": "2. Authentication use case",
+      "chunk_id": "C1.35"
+    },
+    {
+      "id": "R78",
+      "text": "The use case describes the operation of adding a new asset to the inventory.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [
+        "adding a new asset to the inventory"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The use case describes the operation of adding a new asset to the inventory.",
+      "section": "2. Authentication use case",
+      "chunk_id": "C1.35"
+    },
+    {
+      "id": "R79",
+      "text": "The Inventory Admin initiates the use case.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "initiates the use case"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Inventory Admin initiates the use case.",
+      "section": "2. Authentication use case",
+      "chunk_id": "C1.35"
+    },
+    {
+      "id": "R80",
+      "text": "The use case presents how Inventory Admin can add new inventory asset.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "add new inventory asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R79"
+      ],
+      "source_sentence": "The use case presents how Inventory Admin\ncan add new inventory asset.",
+      "section": "2. Authentication use case",
+      "chunk_id": "C1.35"
+    },
+    {
+      "id": "R81",
+      "text": "The use case describes the activity of creating a new request that the User can do.",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "creating a new request"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The use case describes the activity of creating a new request that the User can do.",
+      "section": "1. Authentication use case",
+      "chunk_id": "C1.42"
+    },
+    {
+      "id": "R82",
+      "text": "The User initiates the use case.",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "initiates the use case"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The User initiates the use case.",
+      "section": "1. Authentication use case",
+      "chunk_id": "C1.42"
+    },
+    {
+      "id": "R83",
+      "text": "The use case presents request process that can be done by User.",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "presents request process"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The use case presents request process that can be done by User.",
+      "section": "1. Authentication use case",
+      "chunk_id": "C1.42"
+    },
+    {
+      "id": "R84",
+      "text": "User select advanced request form",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "select advanced request form"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   User select advanced request form",
+      "section": "1. User select advanced request form",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R85",
+      "text": "User enter asset serial number and location",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "enter asset serial number and location"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R84"
+      ],
+      "source_sentence": "2.   User enter asset serial number and location",
+      "section": "1. User select advanced request form",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R86",
+      "text": "User enter small text describing operation to be done",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "enter small text describing operation to be done"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R85"
+      ],
+      "source_sentence": "3.   User enter small text describing operation to be done",
+      "section": "1. User select advanced request form",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R87",
+      "text": "User can add as many assets as he wants to the list by clicking add another asset button",
+      "type": "LOOP",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "add another asset to the list by clicking add another asset button"
+      ],
+      "conditions": [
+        "as many assets as he wants"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R86"
+      ],
+      "source_sentence": "4.   User can add as many assets as he wants to the list by clicking add another asset button",
+      "section": "1. User select advanced request form",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R88",
+      "text": "User click on submit",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "click on submit"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R87"
+      ],
+      "source_sentence": "5.   User click on submit",
+      "section": "1. User select advanced request form",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R89",
+      "text": "User search for asset",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "search for asset"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1. User search for asset",
+      "section": "Exceptional Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R90",
+      "text": "Asset not available to be borrowed",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Asset not available to be borrowed"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R89"
+      ],
+      "source_sentence": "2. Asset not available to be borrowed",
+      "section": "Exceptional Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R91",
+      "text": "Error Message is displayed",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "display error message"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "Asset not available to be borrowed"
+      ],
+      "dependencies": [
+        "R90"
+      ],
+      "source_sentence": "3. Error Message is displayed",
+      "section": "Exceptional Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R92",
+      "text": "The Inventory Admin is authenticated",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [],
+      "conditions": [
+        "authenticated"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   The Inventory Admin is authenticated",
+      "section": "RTI.UC Description",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R93",
+      "text": "Use case begins when Inventory Admin start returning",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "start returning"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R92"
+      ],
+      "source_sentence": "1.   Use case begins when Inventory Admin start returning",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R94",
+      "text": "Inventory Admin select asset state to available",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "select asset state to available"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R93"
+      ],
+      "source_sentence": "2.   Inventory Admin select asset state to available",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R95",
+      "text": "Inventory Admin select asset state to damaged",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "select asset state to damaged"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R93"
+      ],
+      "source_sentence": "2.   Inventory Admin select asset state to damaged",
+      "section": "Alternate Course A: Condition:",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R96",
+      "text": "The inventory system is updated",
+      "type": "OTHER",
+      "actors": [
+        "Inventory system"
+      ],
+      "actions": [
+        "updated"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R94",
+        "R95"
+      ],
+      "source_sentence": "1.   The inventory system is updated",
+      "section": "Post conditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R97",
+      "text": "Request list not empty",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Request list not empty"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.   Request list not empty",
+      "section": "Preconditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R98",
+      "text": "Use case begins when Inventory Admin display pending request list",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "display pending request list"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R92",
+        "R97"
+      ],
+      "source_sentence": "1.   Use case begins when Inventory Admin display pending request list",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R99",
+      "text": "System display only requests that he has privileges to approve",
+      "type": "ACTION",
+      "actors": [
+        "Inventory system"
+      ],
+      "actions": [
+        "display only requests that he has privileges to approve"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R98"
+      ],
+      "source_sentence": "2.   System display only requests that he has privileges to approve",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R100",
+      "text": "Inventory Admin select request that he want to approve",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "select request that he want to approve"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R99"
+      ],
+      "source_sentence": "3.   Inventory Admin select request that he want to approve",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R101",
+      "text": "Approve is confirmed",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "confirm approval"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R100"
+      ],
+      "source_sentence": "4.   Approve is confirmed",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R102",
+      "text": "System send notes to users",
+      "type": "OTHER",
+      "actors": [
+        "Inventory system"
+      ],
+      "actions": [
+        "send notes to users"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R101"
+      ],
+      "source_sentence": "5.   System send notes to users",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R103",
+      "text": "Inventory Admin select request that he want to reject",
+      "type": "ACTION",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "select request that he want to reject"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R99"
+      ],
+      "source_sentence": "3.   Inventory Admin select request that he want to reject",
+      "section": "Alternate Course A: Condition:",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R104",
+      "text": "rejection is confirmed",
+      "type": "ACTION",
+      "actors": [],
+      "actions": [
+        "confirm rejection"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R103"
+      ],
+      "source_sentence": "4.   rejection is confirmed",
+      "section": "Alternate Course A: Condition:",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R105",
+      "text": "The Administrator is authenticated",
+      "type": "OTHER",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [],
+      "conditions": [
+        "authenticated"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   The Administrator is authenticated",
+      "section": "Preconditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R106",
+      "text": "Use case begins when Administrator press change permission",
+      "type": "ACTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "press change permission"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R105"
+      ],
+      "source_sentence": "1.   Use case begins when Administrator press change permission",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R107",
+      "text": "Administrator select user",
+      "type": "ACTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "select user"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R106"
+      ],
+      "source_sentence": "2.   Administrator select user",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R108",
+      "text": "Administrator modify permissions",
+      "type": "ACTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "modify permissions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R107"
+      ],
+      "source_sentence": "3.   Administrator modify permissions",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R109",
+      "text": "Administrator modify permissions he give permissions more than he have",
+      "type": "EXCEPTION",
+      "actors": [
+        "Administrator"
+      ],
+      "actions": [
+        "modify permissions"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "give permissions more than he have"
+      ],
+      "dependencies": [
+        "R107"
+      ],
+      "source_sentence": "2.   Administrator modify permissions he give permissions more than he have",
+      "section": "Exceptional Course :",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R110",
+      "text": "An error message is displayed",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "display error message"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "Administrator give permissions more than he have"
+      ],
+      "dependencies": [
+        "R109"
+      ],
+      "source_sentence": "3.   An error message is displayed",
+      "section": "Exceptional Course :",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R111",
+      "text": "The permissions of user are changed",
+      "type": "DATA",
+      "actors": [],
+      "actions": [
+        "changed"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R108"
+      ],
+      "source_sentence": "2.   The permissions of user are changed",
+      "section": "Post conditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R112",
+      "text": "Use case begins user starts the application",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "starts the application"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   Use case begins user starts the application",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R113",
+      "text": "User write user name and password",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "write user name and password"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R112"
+      ],
+      "source_sentence": "2.   User write user name and password",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R114",
+      "text": "User press login",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "press login"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R113"
+      ],
+      "source_sentence": "3.   User press login",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R115",
+      "text": "User is authenticated",
+      "type": "CONDITION",
+      "actors": [
+        "User"
+      ],
+      "actions": [],
+      "conditions": [
+        "authenticated"
+      ],
+      "exceptions": [],
+      "dependencies": [
+        "R114"
+      ],
+      "source_sentence": "4.   User is authenticated",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R116",
+      "text": "User log on to application main page",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "log on to application main page"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R115"
+      ],
+      "source_sentence": "5.   User log on to application main page",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R117",
+      "text": "Authentication fails",
+      "type": "EXCEPTION",
+      "actors": [
+        "Authentication system"
+      ],
+      "actions": [
+        "authenticate"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "Authentication fails"
+      ],
+      "dependencies": [
+        "R114"
+      ],
+      "source_sentence": "4.   Authentication fails",
+      "section": "Exceptional Course :",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R118",
+      "text": "The User is authenticated",
+      "type": "CONDITION",
+      "actors": [
+        "User"
+      ],
+      "actions": [],
+      "conditions": [
+        "authenticated"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "1.   The User is authenticated",
+      "section": "Preconditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R119",
+      "text": "Search operation is authorised",
+      "type": "CONDITION",
+      "actors": [],
+      "actions": [],
+      "conditions": [
+        "Search operation is authorised"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.   Search operation is authorised",
+      "section": "Preconditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R120",
+      "text": "Use case begins when User start fill searching field",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "start fill searching field"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R118",
+        "R119"
+      ],
+      "source_sentence": "1.   Use case begins when User start fill searching field",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R121",
+      "text": "Press submit",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "press submit"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R120"
+      ],
+      "source_sentence": "2.   Press submit",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R122",
+      "text": "Search results are displayed",
+      "type": "ACTION",
+      "actors": [
+        "Inventory system"
+      ],
+      "actions": [
+        "display search results"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R121"
+      ],
+      "source_sentence": "3.   Search results are displayed",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R123",
+      "text": "Use case begins when User press advanced search",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "press advanced search"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R118",
+        "R119"
+      ],
+      "source_sentence": "1.   Use case begins when User press advanced search",
+      "section": "Alternate Course A:",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R124",
+      "text": "Fills fields",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "fills fields"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R123"
+      ],
+      "source_sentence": "2.   Fills fields",
+      "section": "Alternate Course A:",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R125",
+      "text": "No results are found message is displayed",
+      "type": "EXCEPTION",
+      "actors": [],
+      "actions": [
+        "display no results message"
+      ],
+      "conditions": [],
+      "exceptions": [
+        "No results are found"
+      ],
+      "dependencies": [
+        "R121"
+      ],
+      "source_sentence": "3.   No results are found message is displayed",
+      "section": "Exceptional Course :",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R126",
+      "text": "User is authorised to create reports",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [],
+      "conditions": [
+        "authorised to create reports"
+      ],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "2.   User is authorised to create reports",
+      "section": "Preconditions",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R127",
+      "text": "Use case begins when User click on a report type",
+      "type": "ACTION",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "click on a report type"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R118",
+        "R126"
+      ],
+      "source_sentence": "1.   Use case begins when User click on a report type",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R128",
+      "text": "General report is displayed",
+      "type": "ACTION",
+      "actors": [
+        "Inventory system"
+      ],
+      "actions": [
+        "display general report"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R127"
+      ],
+      "source_sentence": "2.   General report is displayed",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R129",
+      "text": "Report can be filtered",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R128"
+      ],
+      "source_sentence": "3.   Report can be filtered",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R130",
+      "text": "Fields can be sorted",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R128"
+      ],
+      "source_sentence": "4.   Fields can be sorted",
+      "section": "Basic Course",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R131",
+      "text": "",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "",
+      "section": "1. User select advanced request form",
+      "chunk_id": "C2"
+    },
+    {
+      "id": "R132",
+      "text": "The use case is named Returning Asset.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Name: Returning Asset",
+      "section": "2. Authentication use case",
+      "chunk_id": "C2.8"
+    },
+    {
+      "id": "R133",
+      "text": "The use case identifier is RTI.UC.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Identifier: RTI.UC Description",
+      "section": "2. Authentication use case",
+      "chunk_id": "C2.8"
+    },
+    {
+      "id": "R134",
+      "text": "The use case describes the returning asset update that the Inventory Admin can do.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "returning asset update"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The use case describes the returning asset update that the Inventory Admin can do.",
+      "section": "2. Authentication use case",
+      "chunk_id": "C2.8"
+    },
+    {
+      "id": "R135",
+      "text": "The Inventory Admin initiates the use case.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [
+        "initiates the use case"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The Inventory Admin initiates the use case.",
+      "section": "2. Authentication use case",
+      "chunk_id": "C2.8"
+    },
+    {
+      "id": "R136",
+      "text": "The use case presents all the updates to the inventory that can be done by the Inventory Admin.",
+      "type": "OTHER",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "presents all the updates to the inventory that can be done by the Inventory Admin"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R135"
+      ],
+      "source_sentence": "The use case presents all the updates to the inventory that can be done by the Inventory Admin.",
+      "section": "2. Authentication use case",
+      "chunk_id": "C2.8"
+    },
+    {
+      "id": "R137",
+      "text": "Preconditions are specified for the use case.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Preconditions",
+      "section": "2. Authentication use case",
+      "chunk_id": "C2.8"
+    },
+    {
+      "id": "R138",
+      "text": "Authentication use case",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Authentication use case",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.11"
+    },
+    {
+      "id": "R139",
+      "text": "We suppose that Hosting system and servers support all the operations",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "We suppose that Hosting system and servers support all the operations",
+      "section": "Notes",
+      "chunk_id": "C2.11"
+    },
+    {
+      "id": "R140",
+      "text": "Name: Approving Request",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Name: Approving Request",
+      "section": "Name: Approving Request",
+      "chunk_id": "C2.11"
+    },
+    {
+      "id": "R141",
+      "text": "Identifier: APR.UC",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Identifier: APR.UC",
+      "section": "Identifier: APR.UC",
+      "chunk_id": "C2.11"
+    },
+    {
+      "id": "R142",
+      "text": "The use case describes the approving of requests that an Inventory Admin can do.",
+      "type": "OTHER",
+      "actors": [
+        "Inventory Admin"
+      ],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The use case describes the approving of requests that an Inventory Admin can do.",
+      "section": "Description",
+      "chunk_id": "C2.11"
+    },
+    {
+      "id": "R143",
+      "text": "The use case presents all the approval or denial of a user request that can be done by an Inventory Admin.",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The use case presents all the approval or denial of a user request that can be done by an Inventory Admin.",
+      "section": "Goal",
+      "chunk_id": "C2.11"
+    },
+    {
+      "id": "R144",
+      "text": "Preconditions",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Preconditions",
+      "section": "Preconditions",
+      "chunk_id": "C2.11"
+    },
+    {
+      "id": "R145",
+      "text": "The use case describes the modification that Department, Faculty or University Administrator can do to a user permissions.",
+      "type": "OTHER",
+      "actors": [
+        "Department Administrator",
+        "Faculty Administrator",
+        "University Administrator"
+      ],
+      "actions": [
+        "modify a user's permissions"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The  use  case  describes  the  modification  that  Department,  Facutly  or  University\nAdmininistrator can do to a user permissions.",
+      "section": "5. Authentication use case",
+      "chunk_id": "C2.20"
+    },
+    {
+      "id": "R146",
+      "text": "The administrator initiates the use case.",
+      "type": "OTHER",
+      "actors": [
+        "administrator"
+      ],
+      "actions": [
+        "initiate the use case"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "The administrator initiates the use case.",
+      "section": "5. Authentication use case",
+      "chunk_id": "C2.20"
+    },
+    {
+      "id": "R147",
+      "text": "The use case presents all change that can be done by the Admininistrators.",
+      "type": "OTHER",
+      "actors": [
+        "Administrators"
+      ],
+      "actions": [
+        "present all changes that can be done"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R146"
+      ],
+      "source_sentence": "The use case presents all change that can be done by the Admininistrators.",
+      "section": "5. Authentication use case",
+      "chunk_id": "C2.20"
+    },
+    {
+      "id": "R148",
+      "text": "Name: Create Reports Use Case",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Name: Create Reports Use Case",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    },
+    {
+      "id": "R149",
+      "text": "Identifier: REP.UC",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Identifier: REP.UC",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    },
+    {
+      "id": "R150",
+      "text": "The use case describes the creation of reports that the User can do.",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "create reports"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Description\nThe use case describes the creation of reports that the User can do.",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    },
+    {
+      "id": "R151",
+      "text": "The User initiates the use case.",
+      "type": "OTHER",
+      "actors": [
+        "User"
+      ],
+      "actions": [
+        "initiate the use case"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "Goal\nThe User initiates the use case. The use case presents reports that can be created by the\nUser. Three reports can be created Reports",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    },
+    {
+      "id": "R152",
+      "text": "The use case presents reports that can be created by the User.",
+      "type": "OTHER",
+      "actors": [
+        "System"
+      ],
+      "actions": [
+        "present reports that can be created by the User"
+      ],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R151"
+      ],
+      "source_sentence": "Goal\nThe User initiates the use case. The use case presents reports that can be created by the\nUser. Three reports can be created Reports",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    },
+    {
+      "id": "R153",
+      "text": "Three reports can be created",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [
+        "R152"
+      ],
+      "source_sentence": "Goal\nThe User initiates the use case. The use case presents reports that can be created by the\nUser. Three reports can be created Reports",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    },
+    {
+      "id": "R154",
+      "text": "User Permission Report",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "\u2022          User Permission Report",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    },
+    {
+      "id": "R155",
+      "text": "Request Report",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "\u2022          Request Report",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    },
+    {
+      "id": "R156",
+      "text": "Assets By Location Report",
+      "type": "OTHER",
+      "actors": [],
+      "actions": [],
+      "conditions": [],
+      "exceptions": [],
+      "dependencies": [],
+      "source_sentence": "\u2022          Assets By Location Report",
+      "section": "1. Authentication use case",
+      "chunk_id": "C2.41"
+    }
+  ]
+}

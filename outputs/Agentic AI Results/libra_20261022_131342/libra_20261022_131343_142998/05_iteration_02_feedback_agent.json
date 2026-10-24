@@ -1,0 +1,165 @@
+{
+  "prioritized_defects": [
+    {
+      "id": "D-COV-R31",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R31 is not represented: the SGE interface must be adapted to include additional submission parameters not already supported by SGE, or alternatively handled through a command-line interface.",
+      "node_ids": [
+        "N2"
+      ],
+      "edge_ids": [
+        "E1"
+      ],
+      "requirement_ids": [
+        "R31"
+      ],
+      "evidence": "R31 requires an adapted SGE interface or command-line interface to support extra submission parameters. The diagram shows only a generic receive-job submission step and does not model the interface adaptation.",
+      "suggested_action": "Add an action or decision in the SGE lane for adapting the submission interface or using a command-line path, and trace R31 to it."
+    },
+    {
+      "id": "D-COV-R33",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R33 is not represented: job information about the current and pending jobs used to determine whether the cluster can accept more jobs is missing from the modeled flow.",
+      "node_ids": [
+        "N2",
+        "N3",
+        "N4"
+      ],
+      "edge_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "requirement_ids": [
+        "R33"
+      ],
+      "evidence": "R33 specifies that job information includes details about already pending jobs to determine whether the cluster can accept more jobs and cater to the particular user job. The diagram\u2019s submission branch does not model pending-job information as an input or check.",
+      "suggested_action": "Model pending-job information as an input to submission acceptance or add an explicit step that uses it during submission evaluation."
+    },
+    {
+      "id": "D-COV-R35",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R35 is not represented: cluster information should include cluster type, scheduling mechanism details, current load status, submission directions and criteria.",
+      "node_ids": [
+        "N3",
+        "N4"
+      ],
+      "edge_ids": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "requirement_ids": [
+        "R35"
+      ],
+      "evidence": "R35 defines required cluster information for submission decisions. The diagram contains submission-open and user-valid decisions, but no node or edge that uses the specified cluster information set.",
+      "suggested_action": "Add traceable use of the required cluster information in the submission decision path, or include an explicit input/preparation step for it."
+    },
+    {
+      "id": "D-COV-R28",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R28 is not represented in the diagram: the proportional stride-scheduling algorithm is required to ensure actual resource allocation reflects overall job share, but the diagram only shows stride-style execution steps without explicitly linking them to this requirement.",
+      "node_ids": [
+        "N16",
+        "N18",
+        "N20",
+        "N21"
+      ],
+      "edge_ids": [
+        "E20",
+        "E23",
+        "E25",
+        "E26"
+      ],
+      "requirement_ids": [
+        "R28"
+      ],
+      "evidence": "R28 requires use of the proportional stride-scheduling algorithm to ensure that actual resource allocation reflects the overall job share. The diagram contains a generic time-slicing loop and pass/quantum updates, but no explicit node or edge tied to this requirement.",
+      "suggested_action": "Add a diagram element explicitly representing the proportional stride-scheduling algorithm and trace R28 to it."
+    },
+    {
+      "id": "D-COV-R40",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R40 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R40"
+      ],
+      "evidence": "The view job status feature allows the user or administrator to view details about submitted jobs and the progress of job execution.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R42",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R42 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R42"
+      ],
+      "evidence": "The system shows the user the available options about the submitted job and information about the progress of job execution.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R46",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R46 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R46"
+      ],
+      "evidence": "The feature allows cancellation of a job or, under specific circumstances, change of a job parameter.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R48",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R48 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R48"
+      ],
+      "evidence": "If permitted, the user may specify a different output directory or a delayed deadline.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R50",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R50 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R50"
+      ],
+      "evidence": "The system removes the job from the queue and updates cluster status.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    },
+    {
+      "id": "D-COV-R51",
+      "category": "REQUIREMENT_COVERAGE",
+      "severity": "HIGH",
+      "description": "Requirement R51 is not traced to any diagram element.",
+      "node_ids": [],
+      "edge_ids": [],
+      "requirement_ids": [
+        "R51"
+      ],
+      "evidence": "The system revises scheduling decisions about resource allocation to pending jobs and submission of new jobs.",
+      "suggested_action": "Add or connect a diagram element representing this requirement."
+    }
+  ],
+  "final_recommendation": "Prioritize the missing submission-interface and decision-flow coverage first (R31, R33, R35), then the scheduling-algorithm traceability (R28), followed by the remaining untraced requirements."
+}

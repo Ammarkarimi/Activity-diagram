@@ -1,0 +1,70 @@
+@startuml
+title Integrated search flow for torrent and streaming results with shared search bar, selectable sources, querying, display, sorting, filtering, pagination, and no-results handling.
+skinparam swimlaneWrapTitleWidth 150
+
+|Development Team|
+start
+
+:Update torrent database;
+:Update streaming databases;
+|User|
+:Share search bar;
+:Choose torrent search;
+:Choose hosting search;
+:Choose link search;
+:Enter search term;
+if (Search type selected?) then (torrent selected)
+|User|
+|Program|
+:Send torrent query;
+:Send torrent results;
+:Display torrent results;
+if (Torrent results found?) then (no results)
+|Program|
+:Show no-results message;
+else (results found)
+|Program|
+endif
+|User|
+:Sort torrent results;
+|Program|
+:Reorder torrent results;
+|User|
+:Next torrent page;
+|Program|
+:Display next torrent page;
+stop
+else (hosting or link selected)
+|User|
+|Program|
+fork
+:Query hosting sites;
+fork again
+|Program|
+:Query link sites;
+end fork
+:Send streaming results;
+:Display hosting results;
+:Display link results;
+if (Streaming results found?) then (no results)
+|Program|
+:Show no-results message;
+else (results found)
+|Program|
+endif
+|User|
+:Sort streaming results;
+|Program|
+:Reorder streaming results;
+|User|
+:Filter streaming websites;
+|Program|
+:Remove unselected websites;
+|User|
+:Next streaming page;
+|Program|
+:Display next streaming page;
+stop
+endif
+
+@enduml

@@ -1,0 +1,42 @@
+Functional Requirements
+
+2.2.1 Enable agents to broadcast a message to all the agents within the same local network.
+2.2.2 Enable agents to multicast a message to all the agents within the same multicast address.
+2.2.3 Enable agents to unicast a message to other agents within organization. 
+2.2.4 Allow agents to choose among unicast, multicast and broadcast communication.
+2.2.5 Allow agents to join and leave multicast group.
+2.2.6 Provide message encryption and decryption techniques for secured communication.
+2.2.7 Allow agents to choose to encrypt or not to encrypt message
+
+Use case Scenarios
+
+Use Case 1: Notify join/leave multicast group
+1. Message is encrypted or Message is not encrypted.
+2. An agent sends notify to join/leave multicast group.
+3. Message is decrypted only if Message is encrypted.
+For example, Agent_B and Agent_D belong to the same group, and then Agent_B
+wants to leave the group and Agent_A wants to join the group. In this situation, when reorganization occurs, Agent_A who is previously not part of the group may send notify message to join the group, and Agent_B who is previously part of the group, may send notify message to leave the group. For instance, Agent_B suffers a failure in one of its
+ 
+capabilities and does not want to receive any further message from the group. Agent_A who may have capability to substitute Agent_B is needed to be part of the group. This involves sending notify of join and leave the group.
+
+Use Case 2: Send/Receive Unicast
+1. Message is encrypted or Message is not encrypted.
+2. An agent sends unicast message to another agent.
+3. Another agent receives message.
+4. Message is decrypted only if Message is encrypted.
+In this situation, Agent_A wants to communicate with Agent_B. This direct communication can happen between any two agents within organization.
+
+Use Case 3: Send/Receive Multicast
+1. Message is encrypted or Message is not encrypted.
+2. An agent sends multicast message to the group (multicast address).
+3. Other agents in the group receive message.
+4. Message is decrypted only if Message is encrypted
+In this situation, Agent_A wants to send a message to everyone within the group,
+assuming that Agent_A, Agent_B and Agent_C subscribe to the same multicast address. This involves the multicast communication since other agents who do not belong to the group cannot receive this message. For instance, an agent may want to inform everyone in the group when the assigned tasks are completed. This is more effective than in unicast communication since only one copy is sent. Also, using bidding/market-based protocols fit well with this kind of communication. An agent may request a bid from other agents
+for doing some tasks.
+
+Use Case 4: Send/Receive Broadcast
+1. An agent sends message to everyone in the same local network
+2. Other agent in the same local network receive message
+In this situation, Agent_A wants to send a message to everyone within the same local
+network that agent A belongs to. This involves the broadcast communication since any agent in the same local network as Agent_A can receive this message. For instance, when a new agent who does not previously exist in that local network wants to announce the existence to other agents.

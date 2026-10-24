@@ -1,0 +1,1205 @@
+{
+  "objective": "Model Libra scheduler job submission, initialization, acceptance, scheduling, host selection, dispatch, status updates, execution, and related management interactions within the SGE-based cluster system.",
+  "nodes": [
+    {
+      "temp_id": "P1",
+      "node_type": "initial",
+      "label": "Start",
+      "lane": null,
+      "requirement_ids": [
+        "R2",
+        "R5",
+        "R29",
+        "R55",
+        "R76",
+        "R81"
+      ]
+    },
+    {
+      "temp_id": "P2",
+      "node_type": "action",
+      "label": "Receive job submission",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R2"
+      ]
+    },
+    {
+      "temp_id": "P3",
+      "node_type": "decision",
+      "label": "Submission open?",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R36",
+        "R38"
+      ]
+    },
+    {
+      "temp_id": "P4",
+      "node_type": "decision",
+      "label": "User valid?",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R37",
+        "R39"
+      ]
+    },
+    {
+      "temp_id": "P5",
+      "node_type": "action",
+      "label": "Initialize job",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R54",
+        "R55",
+        "R57",
+        "R58",
+        "R59",
+        "R60",
+        "R61"
+      ]
+    },
+    {
+      "temp_id": "P6",
+      "node_type": "decision",
+      "label": "Accept job?",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R62",
+        "R63",
+        "R64",
+        "R65",
+        "R66"
+      ]
+    },
+    {
+      "temp_id": "P7",
+      "node_type": "action",
+      "label": "Allocate tickets",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R67"
+      ]
+    },
+    {
+      "temp_id": "P8",
+      "node_type": "action",
+      "label": "Calculate stride and pass",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R68",
+        "R69",
+        "R70"
+      ]
+    },
+    {
+      "temp_id": "P9",
+      "node_type": "action",
+      "label": "Select least loaded host",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R71",
+        "R72"
+      ]
+    },
+    {
+      "temp_id": "P10",
+      "node_type": "action",
+      "label": "Select appropriate queue",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R73"
+      ]
+    },
+    {
+      "temp_id": "P11",
+      "node_type": "action",
+      "label": "Dispatch job to queue",
+      "lane": "Sun Grid Engine cluster management system",
+      "requirement_ids": [
+        "R4",
+        "R74",
+        "R75"
+      ]
+    },
+    {
+      "temp_id": "P12",
+      "node_type": "action",
+      "label": "Update cluster status",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R76",
+        "R77",
+        "R78",
+        "R79",
+        "R80"
+      ]
+    },
+    {
+      "temp_id": "P13",
+      "node_type": "decision",
+      "label": "Jobs remain?",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R81",
+        "R88"
+      ]
+    },
+    {
+      "temp_id": "P14",
+      "node_type": "action",
+      "label": "Time-slice running jobs",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R82",
+        "R83"
+      ]
+    },
+    {
+      "temp_id": "P15",
+      "node_type": "decision",
+      "label": "Tie on pass?",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R84",
+        "R87"
+      ]
+    },
+    {
+      "temp_id": "P16",
+      "node_type": "action",
+      "label": "Select minimum pass job",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R84"
+      ]
+    },
+    {
+      "temp_id": "P17",
+      "node_type": "action",
+      "label": "Apply FIFO ordering",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R87"
+      ]
+    },
+    {
+      "temp_id": "P18",
+      "node_type": "action",
+      "label": "Allot quantum",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R85"
+      ]
+    },
+    {
+      "temp_id": "P19",
+      "node_type": "action",
+      "label": "Advance pass",
+      "lane": "Libra scheduler",
+      "requirement_ids": [
+        "R86"
+      ]
+    },
+    {
+      "temp_id": "P20",
+      "node_type": "final",
+      "label": "End",
+      "lane": null,
+      "requirement_ids": [
+        "R88",
+        "R89",
+        "R3",
+        "R5"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "P1",
+      "target": "P2",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R2"
+      ]
+    },
+    {
+      "source": "P2",
+      "target": "P3",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R36"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P4",
+      "guard": "open",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R36",
+        "R38",
+        "R39"
+      ]
+    },
+    {
+      "source": "P3",
+      "target": "P20",
+      "guard": "closed",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R38"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P5",
+      "guard": "valid",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R37",
+        "R39",
+        "R55"
+      ]
+    },
+    {
+      "source": "P4",
+      "target": "P20",
+      "guard": "invalid",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R39"
+      ]
+    },
+    {
+      "source": "P5",
+      "target": "P6",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R59",
+        "R61",
+        "R62"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P7",
+      "guard": "accepted",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R62",
+        "R65",
+        "R66"
+      ]
+    },
+    {
+      "source": "P6",
+      "target": "P20",
+      "guard": "rejected",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R65",
+        "R66"
+      ]
+    },
+    {
+      "source": "P7",
+      "target": "P8",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R67",
+        "R68"
+      ]
+    },
+    {
+      "source": "P8",
+      "target": "P9",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R71",
+        "R72"
+      ]
+    },
+    {
+      "source": "P9",
+      "target": "P10",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R73"
+      ]
+    },
+    {
+      "source": "P10",
+      "target": "P11",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R4",
+        "R74",
+        "R75"
+      ]
+    },
+    {
+      "source": "P11",
+      "target": "P12",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R76",
+        "R77",
+        "R78",
+        "R79",
+        "R80"
+      ]
+    },
+    {
+      "source": "P12",
+      "target": "P13",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R76",
+        "R77",
+        "R88"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P14",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R81",
+        "R88"
+      ]
+    },
+    {
+      "source": "P13",
+      "target": "P20",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R88",
+        "R89"
+      ]
+    },
+    {
+      "source": "P14",
+      "target": "P15",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R82",
+        "R83",
+        "R84"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P17",
+      "guard": "yes",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R84",
+        "R87"
+      ]
+    },
+    {
+      "source": "P15",
+      "target": "P16",
+      "guard": "no",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R84",
+        "R87"
+      ]
+    },
+    {
+      "source": "P16",
+      "target": "P18",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R84",
+        "R85"
+      ]
+    },
+    {
+      "source": "P17",
+      "target": "P18",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R87"
+      ]
+    },
+    {
+      "source": "P18",
+      "target": "P19",
+      "guard": null,
+      "edge_type": "control",
+      "requirement_ids": [
+        "R85",
+        "R86"
+      ]
+    },
+    {
+      "source": "P19",
+      "target": "P13",
+      "guard": "continue",
+      "edge_type": "control",
+      "requirement_ids": [
+        "R86",
+        "R88"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "condition": "Is submission open?",
+      "branch_ids": [
+        "P4",
+        "P20"
+      ],
+      "guards": [
+        "open",
+        "closed"
+      ]
+    },
+    {
+      "decision_id": "D2",
+      "condition": "Is user valid?",
+      "branch_ids": [
+        "P5",
+        "P20"
+      ],
+      "guards": [
+        "valid",
+        "invalid"
+      ]
+    },
+    {
+      "decision_id": "D3",
+      "condition": "Accept job?",
+      "branch_ids": [
+        "P7",
+        "P20"
+      ],
+      "guards": [
+        "accepted",
+        "rejected"
+      ]
+    },
+    {
+      "decision_id": "D4",
+      "condition": "Are there jobs remaining?",
+      "branch_ids": [
+        "P14",
+        "P20"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "decision_id": "D5",
+      "condition": "Is there a tie on pass?",
+      "branch_ids": [
+        "P17",
+        "P16"
+      ],
+      "guards": [
+        "yes",
+        "no"
+      ]
+    }
+  ],
+  "loops": [
+    {
+      "loop_id": "L1",
+      "condition": "As long as there are jobs in the queues",
+      "entry_node": "P14",
+      "body_nodes": [
+        "P14",
+        "P15",
+        "P16",
+        "P17",
+        "P18",
+        "P19"
+      ],
+      "exit_node": "P20",
+      "continue_guard": "continue",
+      "exit_guard": "no"
+    }
+  ],
+  "concurrency": [],
+  "exceptions": [],
+  "decision_strategy": [
+    "Use a single submission gate for open/closed cluster acceptance.",
+    "Use a single user validation gate after submission-open check.",
+    "Use a single accept/reject decision driven by job parameters, budget, deadline, and execution feasibility.",
+    "Use a single loop for stride-based execution while jobs remain in queues.",
+    "Use FIFO ordering only when minimum pass ties occur."
+  ],
+  "concurrency_strategy": [
+    "No concurrent behavior is specified in the requirements."
+  ],
+  "exception_strategy": [
+    "Rejected submission, invalid user, and rejected job terminate the scenario without additional recovery behavior being specified."
+  ],
+  "termination_strategy": [
+    "Terminate when submission is closed or user is invalid.",
+    "Terminate when job is rejected.",
+    "Terminate after execution loop completes and no jobs remain."
+  ],
+  "traceability": {
+    "items": [
+      {
+        "requirement_id": "R2",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [
+          "P1",
+          "P2"
+        ],
+        "evidence": "SGE receives submitted jobs and delegates them to Libra.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R3",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P10",
+          "P11"
+        ],
+        "evidence": "Libra communicates workstation allocation decision to the resource manager through dispatch path context.",
+        "confidence": 0.74
+      },
+      {
+        "requirement_id": "R4",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P10",
+          "P11"
+        ],
+        "evidence": "Resource manager dispatches after receiving allocation decision; modeled via SGE dispatch action.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R5",
+        "diagram_node_ids": [
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P20"
+        ],
+        "evidence": "Libra implements scheduling policy after workstation assignment and during execution loop.",
+        "confidence": 0.8
+      },
+      {
+        "requirement_id": "R9",
+        "diagram_node_ids": [
+          "P5",
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Budget and deadline are inputs to initialization/acceptance.",
+        "confidence": 0.86
+      },
+      {
+        "requirement_id": "R10",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Acceptance uses budget and deadline within QoS constraints.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R11",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Scheduler allocates jobs based on user job parameters.",
+        "confidence": 0.84
+      },
+      {
+        "requirement_id": "R12",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Job parameter set is represented in initialization output and context.",
+        "confidence": 0.68
+      },
+      {
+        "requirement_id": "R13",
+        "diagram_node_ids": [
+          "P6",
+          "P7",
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "QoS-driven allocation and prioritization shown in accept and ticket calculation.",
+        "confidence": 0.83
+      },
+      {
+        "requirement_id": "R15",
+        "diagram_node_ids": [
+          "P6",
+          "P7"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Budget and deadline drive acceptance and ticket allocation.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R16",
+        "diagram_node_ids": [
+          "P7",
+          "P8",
+          "P12"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Resource allocation enforcement is reflected in ticketing, scheduling, and status update.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R18",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Dynamic reallocation can change execution-related scheduling state during updates.",
+        "confidence": 0.62
+      },
+      {
+        "requirement_id": "R20",
+        "diagram_node_ids": [
+          "P6",
+          "P7"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Configurable policies are represented by scheduling decision path.",
+        "confidence": 0.58
+      },
+      {
+        "requirement_id": "R22",
+        "diagram_node_ids": [
+          "P3",
+          "P4"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Administrative security implied by submission validation gates.",
+        "confidence": 0.54
+      },
+      {
+        "requirement_id": "R23",
+        "diagram_node_ids": [
+          "P12",
+          "P14"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Job accounting is supported through status updates and execution progression tracking.",
+        "confidence": 0.6
+      },
+      {
+        "requirement_id": "R27",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Proportional resource-sharing model is embodied in ticket allocation.",
+        "confidence": 0.85
+      },
+      {
+        "requirement_id": "R28",
+        "diagram_node_ids": [
+          "P14",
+          "P18",
+          "P19"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Stride scheduling used in execution loop to reflect job share.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R31",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Submission interface adaptation is captured at submission entry point.",
+        "confidence": 0.67
+      },
+      {
+        "requirement_id": "R33",
+        "diagram_node_ids": [
+          "P2",
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Job information is carried into initialization.",
+        "confidence": 0.75
+      },
+      {
+        "requirement_id": "R35",
+        "diagram_node_ids": [
+          "P2",
+          "P3"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Cluster information informs submission-open decision.",
+        "confidence": 0.7
+      },
+      {
+        "requirement_id": "R36",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P2",
+          "P3"
+        ],
+        "evidence": "Decision on whether cluster is open for submissions.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R37",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P3",
+          "P4"
+        ],
+        "evidence": "Decision on whether user is valid.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R38",
+        "diagram_node_ids": [
+          "P3"
+        ],
+        "diagram_edge_ids": [
+          "P3",
+          "P20"
+        ],
+        "evidence": "Boolean output accepting submissions or not.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R39",
+        "diagram_node_ids": [
+          "P4"
+        ],
+        "diagram_edge_ids": [
+          "P4",
+          "P20"
+        ],
+        "evidence": "Boolean output whether user is verified.",
+        "confidence": 0.93
+      },
+      {
+        "requirement_id": "R40",
+        "diagram_node_ids": [
+          "P2"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "View job status is a supported interaction context but not separately modeled in this integrated submission/scheduling flow.",
+        "confidence": 0.3
+      },
+      {
+        "requirement_id": "R42",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Shown options and progress are represented in job initialization/output context.",
+        "confidence": 0.4
+      },
+      {
+        "requirement_id": "R46",
+        "diagram_node_ids": [
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P20"
+        ],
+        "evidence": "Delete/change is represented only as a terminating alternative not expanded here.",
+        "confidence": 0.35
+      },
+      {
+        "requirement_id": "R50",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Queue removal and cluster status update represented in status update node.",
+        "confidence": 0.78
+      },
+      {
+        "requirement_id": "R51",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Revising scheduling decisions is part of status update/scheduling recalculation path.",
+        "confidence": 0.72
+      },
+      {
+        "requirement_id": "R54",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Initialize job prepares the scheduler for later scheduling.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R57",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Retrieve job details included in initialization action.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R58",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Set details in cluster/queue variables included in initialization action.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R59",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P6"
+        ],
+        "evidence": "Parsed parameters are passed to scheduling module leading to accept/reject.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R61",
+        "diagram_node_ids": [
+          "P5"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Exact job details are output as part of initialization node.",
+        "confidence": 0.94
+      },
+      {
+        "requirement_id": "R62",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P5",
+          "P6"
+        ],
+        "evidence": "Accept/reject decision node.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R63",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Priority calculation occurs in acceptance decision context.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R64",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Deadline feasibility checked within accept/reject decision.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R65",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P20"
+        ],
+        "evidence": "Boolean accepted/rejected output.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R66",
+        "diagram_node_ids": [
+          "P6"
+        ],
+        "diagram_edge_ids": [
+          "P6",
+          "P20"
+        ],
+        "evidence": "Suggested deadline/cost emitted on rejection branch.",
+        "confidence": 0.78
+      },
+      {
+        "requirement_id": "R67",
+        "diagram_node_ids": [
+          "P7"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Tickets allocated based on budget/deadline and competing jobs.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R68",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Stride and pass calculation action.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R69",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Stride formula captured in calculation node.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R70",
+        "diagram_node_ids": [
+          "P8"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Pass initialized to stride captured in calculation node.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R71",
+        "diagram_node_ids": [
+          "P9"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Load inspection and ascending sort represented in host selection.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R72",
+        "diagram_node_ids": [
+          "P9"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Least loaded host selection represented in host selection node.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R73",
+        "diagram_node_ids": [
+          "P10"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Queue selection based on job type and budget.",
+        "confidence": 0.92
+      },
+      {
+        "requirement_id": "R74",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [
+          "P10",
+          "P11"
+        ],
+        "evidence": "Scheduler sends job to queue.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R75",
+        "diagram_node_ids": [
+          "P11"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Job joins competition for resources after dispatch.",
+        "confidence": 0.95
+      },
+      {
+        "requirement_id": "R76",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [
+          "P11",
+          "P12"
+        ],
+        "evidence": "Status update occurs whenever job is scheduled for execution.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R77",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Status update also occurs when job ends and is removed.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R78",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Resource reservation included in status update.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R79",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Execution host queue status update included in status update.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R80",
+        "diagram_node_ids": [
+          "P12"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Information sent to central information store included in status update.",
+        "confidence": 0.96
+      },
+      {
+        "requirement_id": "R81",
+        "diagram_node_ids": [
+          "P13"
+        ],
+        "diagram_edge_ids": [
+          "P12",
+          "P13"
+        ],
+        "evidence": "Loop continues while jobs remain in queues.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R82",
+        "diagram_node_ids": [
+          "P14"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Time-slicing among running jobs represented in execution loop body.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R83",
+        "diagram_node_ids": [
+          "P14"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Stride-scheduling algorithm noted for time slicing.",
+        "confidence": 0.9
+      },
+      {
+        "requirement_id": "R84",
+        "diagram_node_ids": [
+          "P15",
+          "P16"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Minimum pass selection with tie handling decision.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R85",
+        "diagram_node_ids": [
+          "P18"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "Quantum allotment action.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R86",
+        "diagram_node_ids": [
+          "P19"
+        ],
+        "diagram_edge_ids": [
+          "P18",
+          "P19",
+          "P19",
+          "P13"
+        ],
+        "evidence": "Pass advanced by stride and loop continues.",
+        "confidence": 0.98
+      },
+      {
+        "requirement_id": "R87",
+        "diagram_node_ids": [
+          "P15",
+          "P17"
+        ],
+        "diagram_edge_ids": [],
+        "evidence": "FIFO ordering used on ties.",
+        "confidence": 0.97
+      },
+      {
+        "requirement_id": "R88",
+        "diagram_node_ids": [
+          "P13",
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P13",
+          "P20",
+          "P19",
+          "P13"
+        ],
+        "evidence": "Loop repeats until no jobs remain then ends.",
+        "confidence": 0.99
+      },
+      {
+        "requirement_id": "R89",
+        "diagram_node_ids": [
+          "P20"
+        ],
+        "diagram_edge_ids": [
+          "P13",
+          "P20"
+        ],
+        "evidence": "Updated cluster information output after execution loop ends.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

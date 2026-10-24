@@ -1,0 +1,81 @@
+Functional Requirements
+
+Torrent Search
+
+REQ-1: Torrent search will share the same search bar with the streaming search. REQ-2: Database of torrent sites can be updated via the internet.
+REQ-3: There will be a tick box to allow the user to choose to include torrent searching in the search.
+
+REQ-4: Query will retrieve the no. of seed and peers, size of the file, date posted and a link to the webpage itself.
+
+REQ-5: If no results are found on a search it will display a message “No results were found for this search.”
+
+REQ-6: Results will be arranged in size/date/alphabetical order by clicking on the column headers.
+
+REQ-7: There will be page button for the user to navigate the results.
+
+Video Stream Search
+
+REQ-1: Streaming search will share the same search bar with the torrent search. REQ-2: Database of video hosting and video linking sites can be updated via the
+internet.
+
+REQ-3: There will be a tick box to allow the user to choose to include video host searching in the search.
+ 
+REQ-4: There will be a tick box to allow the user to choose to include video link searching in the search.
+
+REQ-5: Query to video hosting sites will retrieve full video name, length, date posted and a link to the video itself.
+
+REQ-6: Query to video link sites will retrieve the show’s name, episode name and a link to the webpage itself.
+
+REQ-7: If no results are found on a search it will display a message “No results were found for this search.”
+
+REQ-8: Results will be arranged in length/date/alphabetical order by clicking on the column headers.
+
+REQ-9: There will be page button for the user to navigate the results.
+
+
+Use case Scenarios
+
+3.1 Torrent Search
+
+3.1.1 Description and Priority
+
+
+The user will give a search-term that will search through a database of compatible torrent websites that are added by the development team. The results of this search will be displayed as web links in a tab on the program’s main window. This is one of the main features of the software and therefore has a high priority for development.
+
+
+3.1.2 Stimulus/Response Sequences
+
+
+User ticks torrent tick box – system will now query the torrent websites in its database when a search is started.
+
+User enters search term and starts search – system sends queries to the torrent websites in its database based on the search term. Results for this query will then be sent to the torrent tab in the program where they will display information such as website, seeds, peers, size, date posted and a link for the webpage.
+
+User sorts the search results by clicking once on a column header – system sorts all results by descending/ascending order.
+
+User clicks on next page button – system displays the next set of results for the search.
+
+3.2 Video Stream Search
+
+
+3.2.1 Description and Priority
+
+
+This feature will search a term the user enters, through a database of compatible video streaming websites that are added by the development team. The video websites will range from sites that actually host video such as MegaVideo, YouTube, etc as well as websites that show links to videos hosted on other sites such as surfthechannel.com, alluc.org, etc. The results will be displayed in a tab on the programs main window. This tab will be split horizontally into two sections, the
+top half for the video hosting sites and the bottom half for the video link sites. This is another of the main features of the software and also has a higher priority for
+development.
+
+
+3.2.2 Stimulus/Response Sequences
+
+
+User ticks streaming host tick box – system will now query the video hosting sites in its database when a search is started. Hosting sites will include the actual videos on their servers, e.g. YouTube.
+
+User ticks streaming links tick box – system will now query the video link sites in its database when a search is started. The link sites will include external video links to different video hosting sites, e.g. surfthechannel.com.
+
+User enters search term and starts search – system sends queries to the video websites in its database based on the search term. Results for this query will then be sent to the video stream tab in the program. The hosting half of the tab displays the website, full video name, length and date posted. The link half of the tab displays the website and video name (e.g. combination of the show’s name and the episode name).
+
+User sorts the search results by clicking once on the column header – system sorts all results by descending/ascending order.
+
+User filters websites they want to be shown in the results – system removes unselected websites from the results.
+
+User clicks on next page button – system displays the next set of results for the search.

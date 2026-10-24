@@ -1,0 +1,824 @@
+{
+  "changed": true,
+  "repair_type": "minimal_structural_refinement",
+  "changes": [
+    "Refined the streaming branch to keep hosting and link result handling explicitly separate through their respective retrieval and display paths.",
+    "Removed the generic merged streaming result sequence and replaced it with a clearer structure that preserves distinct hosting vs. link outputs before any shared downstream operations.",
+    "Kept the torrent flow unchanged and preserved all requirement traceability on existing nodes and edges where possible."
+  ],
+  "rationale": "The supplied defect is limited to the streaming search semantics: hosting and link results must remain distinct from retrieval through display. The smallest safe repair is to restructure only the streaming portion so the two branches stay explicit and their required output fields are preserved, while leaving the torrent behavior intact and avoiding unrelated redesign.",
+  "diagram": {
+    "nodes": [
+      {
+        "id": "N1",
+        "type": "initial",
+        "label": "Start",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N2",
+        "type": "action",
+        "label": "Update torrent database",
+        "lane": "Development Team",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "N3",
+        "type": "action",
+        "label": "Update streaming databases",
+        "lane": "Development Team",
+        "requirement_ids": [
+          "R9"
+        ]
+      },
+      {
+        "id": "N4",
+        "type": "action",
+        "label": "Share search bar",
+        "lane": "User",
+        "requirement_ids": [
+          "R1",
+          "R8"
+        ]
+      },
+      {
+        "id": "N5",
+        "type": "action",
+        "label": "Choose torrent search",
+        "lane": "User",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "N6",
+        "type": "action",
+        "label": "Choose hosting search",
+        "lane": "User",
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "N7",
+        "type": "action",
+        "label": "Choose link search",
+        "lane": "User",
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "id": "N8",
+        "type": "action",
+        "label": "Enter search term",
+        "lane": "User",
+        "requirement_ids": [
+          "R17",
+          "R29"
+        ]
+      },
+      {
+        "id": "N9",
+        "type": "decision",
+        "label": "Search type selected?",
+        "lane": "User",
+        "requirement_ids": [
+          "R3",
+          "R10",
+          "R11"
+        ]
+      },
+      {
+        "id": "N10",
+        "type": "action",
+        "label": "Send torrent query",
+        "lane": "Program",
+        "requirement_ids": [
+          "R18"
+        ]
+      },
+      {
+        "id": "N11",
+        "type": "action",
+        "label": "Send torrent results",
+        "lane": "Program",
+        "requirement_ids": [
+          "R19"
+        ]
+      },
+      {
+        "id": "N12",
+        "type": "action",
+        "label": "Display torrent results",
+        "lane": "Program",
+        "requirement_ids": [
+          "R20",
+          "R4"
+        ]
+      },
+      {
+        "id": "N13",
+        "type": "decision",
+        "label": "Torrent results found?",
+        "lane": "Program",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "N14",
+        "type": "action",
+        "label": "Show no-results message",
+        "lane": "Program",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "N15",
+        "type": "action",
+        "label": "Sort torrent results",
+        "lane": "User",
+        "requirement_ids": [
+          "R21",
+          "R6"
+        ]
+      },
+      {
+        "id": "N16",
+        "type": "action",
+        "label": "Reorder torrent results",
+        "lane": "Program",
+        "requirement_ids": [
+          "R22",
+          "R6"
+        ]
+      },
+      {
+        "id": "N17",
+        "type": "action",
+        "label": "Next torrent page",
+        "lane": "User",
+        "requirement_ids": [
+          "R23",
+          "R7"
+        ]
+      },
+      {
+        "id": "N18",
+        "type": "action",
+        "label": "Display next torrent page",
+        "lane": "Program",
+        "requirement_ids": [
+          "R24",
+          "R7"
+        ]
+      },
+      {
+        "id": "N19",
+        "type": "fork",
+        "label": "Streaming query split",
+        "lane": "Program",
+        "requirement_ids": [
+          "R26",
+          "R28"
+        ]
+      },
+      {
+        "id": "N20",
+        "type": "action",
+        "label": "Query hosting sites",
+        "lane": "Program",
+        "requirement_ids": [
+          "R26",
+          "R12"
+        ]
+      },
+      {
+        "id": "N21",
+        "type": "action",
+        "label": "Query link sites",
+        "lane": "Program",
+        "requirement_ids": [
+          "R28",
+          "R13"
+        ]
+      },
+      {
+        "id": "N22",
+        "type": "join",
+        "label": "Merge streaming queries",
+        "lane": "Program",
+        "requirement_ids": [
+          "R26",
+          "R28"
+        ]
+      },
+      {
+        "id": "N23",
+        "type": "action",
+        "label": "Display hosting results: website, full video name, length, date posted, link",
+        "lane": "Program",
+        "requirement_ids": [
+          "R31",
+          "R32",
+          "R12"
+        ]
+      },
+      {
+        "id": "N24",
+        "type": "action",
+        "label": "Display link results: website, show name, episode name, link",
+        "lane": "Program",
+        "requirement_ids": [
+          "R31",
+          "R33",
+          "R13"
+        ]
+      },
+      {
+        "id": "N25",
+        "type": "decision",
+        "label": "Streaming results found?",
+        "lane": "Program",
+        "requirement_ids": [
+          "R14"
+        ]
+      },
+      {
+        "id": "N26",
+        "type": "action",
+        "label": "Show no-results message",
+        "lane": "Program",
+        "requirement_ids": [
+          "R14"
+        ]
+      },
+      {
+        "id": "N27",
+        "type": "action",
+        "label": "Sort hosting results",
+        "lane": "User",
+        "requirement_ids": [
+          "R34",
+          "R15"
+        ]
+      },
+      {
+        "id": "N28",
+        "type": "action",
+        "label": "Reorder hosting results",
+        "lane": "Program",
+        "requirement_ids": [
+          "R35",
+          "R15"
+        ]
+      },
+      {
+        "id": "N29",
+        "type": "action",
+        "label": "Sort link results",
+        "lane": "User",
+        "requirement_ids": [
+          "R34",
+          "R15"
+        ]
+      },
+      {
+        "id": "N30",
+        "type": "action",
+        "label": "Reorder link results",
+        "lane": "Program",
+        "requirement_ids": [
+          "R35",
+          "R15"
+        ]
+      },
+      {
+        "id": "N31",
+        "type": "action",
+        "label": "Filter streaming websites",
+        "lane": "User",
+        "requirement_ids": [
+          "R36"
+        ]
+      },
+      {
+        "id": "N32",
+        "type": "action",
+        "label": "Remove unselected websites",
+        "lane": "Program",
+        "requirement_ids": [
+          "R37"
+        ]
+      },
+      {
+        "id": "N33",
+        "type": "action",
+        "label": "Next streaming page",
+        "lane": "User",
+        "requirement_ids": [
+          "R38",
+          "R16"
+        ]
+      },
+      {
+        "id": "N34",
+        "type": "action",
+        "label": "Display next streaming page",
+        "lane": "Program",
+        "requirement_ids": [
+          "R39",
+          "R16"
+        ]
+      },
+      {
+        "id": "N35",
+        "type": "final",
+        "label": "End",
+        "lane": null,
+        "requirement_ids": []
+      },
+      {
+        "id": "N36",
+        "type": "action",
+        "label": "Tick streaming host box",
+        "lane": "User",
+        "requirement_ids": [
+          "R25"
+        ]
+      },
+      {
+        "id": "N37",
+        "type": "action",
+        "label": "Tick streaming links box",
+        "lane": "User",
+        "requirement_ids": [
+          "R27"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "source": "N1",
+        "target": "N2",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "id": "E2",
+        "source": "N2",
+        "target": "N3",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R9"
+        ]
+      },
+      {
+        "id": "E3",
+        "source": "N3",
+        "target": "N4",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R1",
+          "R8"
+        ]
+      },
+      {
+        "id": "E4",
+        "source": "N4",
+        "target": "N5",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "id": "E5",
+        "source": "N5",
+        "target": "N6",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R10"
+        ]
+      },
+      {
+        "id": "E6",
+        "source": "N6",
+        "target": "N7",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R11"
+        ]
+      },
+      {
+        "id": "E7",
+        "source": "N7",
+        "target": "N8",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R17",
+          "R29"
+        ]
+      },
+      {
+        "id": "E8",
+        "source": "N8",
+        "target": "N9",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R3",
+          "R10",
+          "R11"
+        ]
+      },
+      {
+        "id": "E9",
+        "source": "N9",
+        "target": "N10",
+        "type": "control",
+        "guard": "torrent selected",
+        "requirement_ids": [
+          "R3",
+          "R17",
+          "R18"
+        ]
+      },
+      {
+        "id": "E10",
+        "source": "N9",
+        "target": "N36",
+        "type": "control",
+        "guard": "streaming selected",
+        "requirement_ids": [
+          "R10",
+          "R11",
+          "R25",
+          "R27"
+        ]
+      },
+      {
+        "id": "E11",
+        "source": "N10",
+        "target": "N11",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R18",
+          "R19"
+        ]
+      },
+      {
+        "id": "E12",
+        "source": "N11",
+        "target": "N12",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R19",
+          "R20"
+        ]
+      },
+      {
+        "id": "E13",
+        "source": "N12",
+        "target": "N13",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R4",
+          "R5"
+        ]
+      },
+      {
+        "id": "E14",
+        "source": "N13",
+        "target": "N14",
+        "type": "control",
+        "guard": "no results",
+        "requirement_ids": [
+          "R5"
+        ]
+      },
+      {
+        "id": "E15",
+        "source": "N13",
+        "target": "N15",
+        "type": "control",
+        "guard": "results found",
+        "requirement_ids": [
+          "R4",
+          "R6",
+          "R7"
+        ]
+      },
+      {
+        "id": "E16",
+        "source": "N14",
+        "target": "N15",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R5",
+          "R6",
+          "R7"
+        ]
+      },
+      {
+        "id": "E17",
+        "source": "N15",
+        "target": "N16",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R21",
+          "R22"
+        ]
+      },
+      {
+        "id": "E18",
+        "source": "N16",
+        "target": "N17",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R22",
+          "R6"
+        ]
+      },
+      {
+        "id": "E19",
+        "source": "N17",
+        "target": "N18",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R23",
+          "R24"
+        ]
+      },
+      {
+        "id": "E20",
+        "source": "N18",
+        "target": "N35",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R24"
+        ]
+      },
+      {
+        "id": "E21",
+        "source": "N36",
+        "target": "N37",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R25"
+        ]
+      },
+      {
+        "id": "E22",
+        "source": "N37",
+        "target": "N19",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R27",
+          "R28"
+        ]
+      },
+      {
+        "id": "E23",
+        "source": "N19",
+        "target": "N20",
+        "type": "control",
+        "guard": "hosting selected",
+        "requirement_ids": [
+          "R10",
+          "R26",
+          "R12"
+        ]
+      },
+      {
+        "id": "E24",
+        "source": "N19",
+        "target": "N21",
+        "type": "control",
+        "guard": "link selected",
+        "requirement_ids": [
+          "R11",
+          "R28",
+          "R13"
+        ]
+      },
+      {
+        "id": "E25",
+        "source": "N20",
+        "target": "N22",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R26",
+          "R12"
+        ]
+      },
+      {
+        "id": "E26",
+        "source": "N21",
+        "target": "N22",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R28",
+          "R13"
+        ]
+      },
+      {
+        "id": "E27",
+        "source": "N22",
+        "target": "N23",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R31",
+          "R32",
+          "R12"
+        ]
+      },
+      {
+        "id": "E28",
+        "source": "N22",
+        "target": "N24",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R31",
+          "R33",
+          "R13"
+        ]
+      },
+      {
+        "id": "E29",
+        "source": "N23",
+        "target": "N25",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R12",
+          "R14"
+        ]
+      },
+      {
+        "id": "E30",
+        "source": "N24",
+        "target": "N25",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R13",
+          "R14"
+        ]
+      },
+      {
+        "id": "E31",
+        "source": "N25",
+        "target": "N26",
+        "type": "control",
+        "guard": "no results",
+        "requirement_ids": [
+          "R14"
+        ]
+      },
+      {
+        "id": "E32",
+        "source": "N25",
+        "target": "N27",
+        "type": "control",
+        "guard": "results found",
+        "requirement_ids": [
+          "R12",
+          "R13",
+          "R15",
+          "R16"
+        ]
+      },
+      {
+        "id": "E33",
+        "source": "N26",
+        "target": "N27",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R14",
+          "R15",
+          "R16"
+        ]
+      },
+      {
+        "id": "E34",
+        "source": "N27",
+        "target": "N28",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R34",
+          "R35"
+        ]
+      },
+      {
+        "id": "E35",
+        "source": "N28",
+        "target": "N29",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R35",
+          "R15"
+        ]
+      },
+      {
+        "id": "E36",
+        "source": "N29",
+        "target": "N30",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R34",
+          "R35"
+        ]
+      },
+      {
+        "id": "E37",
+        "source": "N30",
+        "target": "N31",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R35",
+          "R15"
+        ]
+      },
+      {
+        "id": "E38",
+        "source": "N31",
+        "target": "N32",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R36",
+          "R37"
+        ]
+      },
+      {
+        "id": "E39",
+        "source": "N32",
+        "target": "N33",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R37",
+          "R38",
+          "R39"
+        ]
+      },
+      {
+        "id": "E40",
+        "source": "N33",
+        "target": "N34",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R38",
+          "R39"
+        ]
+      },
+      {
+        "id": "E41",
+        "source": "N34",
+        "target": "N35",
+        "type": "control",
+        "guard": null,
+        "requirement_ids": [
+          "R39"
+        ]
+      }
+    ],
+    "title": "Integrated search flow for torrent and streaming results with shared search bar, selectable sources, querying, display, sorting, filtering, pagination, and no-results handling."
+  }
+}
